@@ -88,6 +88,24 @@
                      <em class="fas fa-user-circle"></em> Puestos
                   </a>
                </li>
+               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
+                  <a 
+                     class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
+                     v-on:click="toggleTabs(10)"
+                     v-bind:class="{'text-gray-600 bg-white': openTab !== 10, 'text-white bg-blue-500': openTab === 10}"
+                  >
+                     <em class="fas fa-user-circle"></em> Clientes
+                  </a>
+               </li>
+               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
+                  <a 
+                     class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
+                     v-on:click="toggleTabs(11)"
+                     v-bind:class="{'text-gray-600 bg-white': openTab !== 11, 'text-white bg-blue-500': openTab === 11}"
+                  >
+                     <em class="fas fa-user-circle"></em> Sedes
+                  </a>
+               </li>
             </ul>
             <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
             <div class="flex-auto">
@@ -119,6 +137,12 @@
                   <div v-bind:class="{'hidden': openTab !== 9, 'block': openTab === 9}">
                      <Ubicacion />
                   </div>
+                  <div v-bind:class="{'hidden': openTab !== 10, 'block': openTab === 10}">
+                     <Clientes />
+                  </div>
+                  <div v-bind:class="{'hidden': openTab !==11, 'block': openTab === 11}">
+                     <Sedes />
+                  </div>
                </div>
             </div>
             </div>
@@ -138,6 +162,8 @@ import Arl from './tabs/Arl.vue';
 import Subject from './tabs/Subject.vue';
 import TipoDocumento from './tabs/TipoDocumento.vue';
 import Ubicacion from './tabs/Ubicacion.vue';
+import Clientes from './tabs/Clientes';
+import Sedes from './tabs/Sedes';
 export default {
    name: "tabs",
    data() {
@@ -159,6 +185,6 @@ export default {
       }
    },
 
-   components: { Vehiculos, Conductores, Procedencias, Volquetas, Eps, Arl, Subject, TipoDocumento, Ubicacion }
+   components: { Vehiculos, Conductores, Procedencias, Volquetas, Eps, Arl, Subject, TipoDocumento, Ubicacion, Clientes, Sedes }
 }
 </script>
