@@ -14,6 +14,8 @@ use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\UbicacionController;
+use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\SedesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +96,11 @@ Route::get('pdf_recordMinuta', [ReportesController::class, 'pdf_recordMinuta']);
 Route::get('pdf_recordVehicle', [ReportesController::class, 'pdf_recordVehicle']);
 Route::get('pdf_recordVisitante', [ReportesController::class, 'pdf_recordVisitante']);
 
+Route::post('registerClients', [ClientsController::class, 'registerClients']);
+Route::get('getClients', [ClientsController::class, 'getClients']);
+
+Route::post('registerSede', [SedesController::class, 'registerSede']);
+Route::get('getSedes', [SedesController::class, 'getSedes']);
 Route::get('getUrlLogo', function () {
     return asset('img/logo.png') ;
 });
