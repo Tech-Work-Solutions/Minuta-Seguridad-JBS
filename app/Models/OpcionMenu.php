@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sede extends Model
+class OpcionMenu extends Model
 {
     use HasFactory;
 
+    protected $table = 'opciones_menu';
+
     protected $fillable = [
-        'nombre',
-        'telefono',
-        'client_id',
-        'direccion',
-        'estado',
+        'nombre',        
+        'estado'
     ];
 }

@@ -65,6 +65,39 @@
                 <p class="text-red-500 text-sm" v-if="submited && !$v.formData.email.required">Ingrese el email del cliente</p>
                 </div>
               </div>
+              <div class="w-full">                    
+                  <div class="relative w-full mb-3">
+                      <label
+                          class="block text-gray-600 text-sm font-semibold mb-2"
+                          htmlFor="grid-password"
+                      >
+                          Cliente:
+                      </label>
+                      <t-rich-select
+                      v-model="formData.client_id"
+                      :options="clients"
+                      placeholder="Seleccione una opción"
+                      @change="onChange"
+                      >
+                      </t-rich-select>
+                  </div>
+                  <p class="text-red-500 text-sm" v-if="submited && !$v.formData.client_id.required">Seleccione un cliente</p>                                      
+              </div>
+              <div class="w-full">
+                <div class="relative w-full mb-5">
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Permisos formularios:
+                  </label>
+                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <em class="fas fa-user"></em>
+                    </span>                      
+                  </div>                    
+                </div>
+              </div>
               <div class="w-full">
                 <div class="relative w-full mb-5">
                   <label
@@ -94,37 +127,7 @@
                     </span>                      
                   </div>                
                 </div>
-              </div>
-              <div class="w-full">
-                <div class="relative w-full mb-5">
-                  <label
-                    class="block text-gray-600 text-sm font-semibold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    Permisos menu:
-                  </label>
-                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                        <em class="fas fa-user"></em>
-                    </span>                      
-                  </div>                    
-                </div>
-              </div>
-              <div class="w-full">
-                <div class="relative w-full mb-5">
-                  <label
-                    class="block text-gray-600 text-sm font-semibold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    Permisos formularios:
-                  </label>
-                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                        <em class="fas fa-user"></em>
-                    </span>                      
-                  </div>                    
-                </div>
-              </div>
+              </div>              
               <div class="w-full">
                 <div class="relative w-full mb-5">
                   <label

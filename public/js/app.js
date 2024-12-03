@@ -11172,6 +11172,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -12284,23 +12287,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var sedes = this.sedes.filter(function (c) {
         return c.nombre.toUpperCase().includes(_this5.search.toUpperCase());
       });
-      console.log("entre");
 
       if (sedes.length > 0 && this.clients.length > 0) {
         console.log(sedes);
 
         var _loop = function _loop(index) {
           var element = sedes[index];
-          console.log("Client ID: ".concat(element.client_id)); // Buscar en el array de clients el objeto que tenga un ID coincidente
+          console.log("Cliente ID: ".concat(element.client_id));
 
           var client = _this5.clients.find(function (client) {
             return client.id === element.client_id;
-          }); // Si se encontró el cliente, agregar el nombre al objeto de sede
-
+          });
 
           if (client) {
-            console.log("Nombre del cliente: ".concat(client.nombre)); // Agregar el nombre al objeto de la sede
-
+            console.log("Nombre del cliente: ".concat(client.nombre));
             element.client = client.nombre;
           } else {
             console.log("Cliente con ID ".concat(element.client_id, " no encontrado."));
@@ -12312,7 +12312,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       }
 
-      return sedes; // Retornar el array modificado de sedes
+      return sedes;
     }
   },
   components: {
@@ -78106,15 +78106,57 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
+              _c("div", { staticClass: "w-full" }, [
+                _c(
+                  "div",
+                  { staticClass: "relative w-full mb-3" },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block text-gray-600 text-sm font-semibold mb-2",
+                        attrs: { htmlFor: "grid-password" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                      Cliente:\n                  "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("t-rich-select", {
+                      attrs: {
+                        options: _vm.clients,
+                        placeholder: "Seleccione una opción"
+                      },
+                      on: { change: _vm.onChange },
+                      model: {
+                        value: _vm.formData.client_id,
+                        callback: function($$v) {
+                          _vm.$set(_vm.formData, "client_id", $$v)
+                        },
+                        expression: "formData.client_id"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm.submited && !_vm.$v.formData.client_id.required
+                  ? _c("p", { staticClass: "text-red-500 text-sm" }, [
+                      _vm._v("Seleccione un cliente")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
               _vm._m(3),
               _vm._v(" "),
               _vm._m(4),
               _vm._v(" "),
               _vm._m(5),
               _vm._v(" "),
-              _vm._m(6),
-              _vm._v(" "),
-              _vm._m(7)
+              _vm._m(6)
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flex mb-4" }, [
@@ -78205,7 +78247,7 @@ var render = function() {
                 staticClass: "items-center w-full bg-gray-100 border-collapse"
               },
               [
-                _vm._m(8),
+                _vm._m(7),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -78323,6 +78365,38 @@ var staticRenderFns = [
             staticClass: "block text-gray-600 text-sm font-semibold mb-2",
             attrs: { htmlFor: "grid-password" }
           },
+          [_vm._v("\n                Permisos formularios:\n              ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "relative flex w-full flex-wrap items-stretch mb-3" },
+          [
+            _c(
+              "span",
+              {
+                staticClass:
+                  "z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
+              },
+              [_c("em", { staticClass: "fas fa-user" })]
+            )
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full" }, [
+      _c("div", { staticClass: "relative w-full mb-5" }, [
+        _c(
+          "label",
+          {
+            staticClass: "block text-gray-600 text-sm font-semibold mb-2",
+            attrs: { htmlFor: "grid-password" }
+          },
           [
             _vm._v(
               "\n                Imagen cabecera reportes:\n              "
@@ -78364,70 +78438,6 @@ var staticRenderFns = [
               "\n                Imagen pie de pagina reportes:\n              "
             )
           ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "relative flex w-full flex-wrap items-stretch mb-3" },
-          [
-            _c(
-              "span",
-              {
-                staticClass:
-                  "z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
-              },
-              [_c("em", { staticClass: "fas fa-user" })]
-            )
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-full" }, [
-      _c("div", { staticClass: "relative w-full mb-5" }, [
-        _c(
-          "label",
-          {
-            staticClass: "block text-gray-600 text-sm font-semibold mb-2",
-            attrs: { htmlFor: "grid-password" }
-          },
-          [_vm._v("\n                Permisos menu:\n              ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "relative flex w-full flex-wrap items-stretch mb-3" },
-          [
-            _c(
-              "span",
-              {
-                staticClass:
-                  "z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
-              },
-              [_c("em", { staticClass: "fas fa-user" })]
-            )
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-full" }, [
-      _c("div", { staticClass: "relative w-full mb-5" }, [
-        _c(
-          "label",
-          {
-            staticClass: "block text-gray-600 text-sm font-semibold mb-2",
-            attrs: { htmlFor: "grid-password" }
-          },
-          [_vm._v("\n                Permisos formularios:\n              ")]
         ),
         _vm._v(" "),
         _c(
@@ -79485,7 +79495,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                        Cliente:\n                    "
+                          "\n                      Cliente:\n                  "
                         )
                       ]
                     ),

@@ -5,24 +5,24 @@
           <form>
             <div class="flex flex-wrap mt-5">
 
-                <div class="w-full">                    
-                    <div class="relative w-full mb-3">
-                        <label
-                            class="block text-gray-600 text-sm font-semibold mb-2"
-                            htmlFor="grid-password"
-                        >
-                            Cliente:
-                        </label>
-                        <t-rich-select
-                        v-model="formData.client_id"
-                        :options="clients"
-                        placeholder="Seleccione una opción"
-                        @change="onChange"
-                        >
-                        </t-rich-select>
-                    </div>
-                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.client_id.required">Seleccione un cliente</p>                                      
-                </div> 
+              <div class="w-full">                    
+                  <div class="relative w-full mb-3">
+                      <label
+                          class="block text-gray-600 text-sm font-semibold mb-2"
+                          htmlFor="grid-password"
+                      >
+                          Cliente:
+                      </label>
+                      <t-rich-select
+                      v-model="formData.client_id"
+                      :options="clients"
+                      placeholder="Seleccione una opción"
+                      @change="onChange"
+                      >
+                      </t-rich-select>
+                  </div>
+                  <p class="text-red-500 text-sm" v-if="submited && !$v.formData.client_id.required">Seleccione un cliente</p>                                      
+              </div> 
               <div class="w-full">
                   <div class="relative w-full mb-5">
                   <label
@@ -263,20 +263,17 @@
     computed: {
         searchSede() {
             let sedes = this.sedes.filter((c) => (c.nombre).toUpperCase().includes(this.search.toUpperCase()));
-            console.log("entre");
+            
             if (sedes.length > 0 && this.clients.length > 0) {
                 console.log(sedes);
                 for (let index = 0; index < sedes.length; index++) {
                     const element = sedes[index];
-                    console.log(`Client ID: ${element.client_id}`);
+                    console.log(`Cliente ID: ${element.client_id}`);                    
                     
-                    // Buscar en el array de clients el objeto que tenga un ID coincidente
-                    const client = this.clients.find(client => client.id === element.client_id);
+                    const client = this.clients.find(client => client.id === element.client_id);                    
                     
-                    // Si se encontró el cliente, agregar el nombre al objeto de sede
                     if (client) {
-                        console.log(`Nombre del cliente: ${client.nombre}`);
-                        // Agregar el nombre al objeto de la sede
+                        console.log(`Nombre del cliente: ${client.nombre}`);                      
                         element.client = client.nombre;
                     } else {
                         console.log(`Cliente con ID ${element.client_id} no encontrado.`);
@@ -284,7 +281,7 @@
                 }            
             }
 
-            return sedes; // Retornar el array modificado de sedes
+            return sedes;
         }
     },
     components: { TRichSelect }

@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cliente;
+use App\Models\OpcionMenu;
 
 class ClientsController extends Controller
 {
-    public function registerClients(Request $request){
+    public function registerOpcion(Request $request){
         $request->validate([
-            'nit'  => ['required', 'numeric', 'unique:clients'],
+            'estado' => ['required', 'in:ACTIVO,ACTIVO,ELIMINADO'],
             'nombre'            => ['required']
         ]);
-        $client = Cliente::create([
+        $client = OpcionMenu::create([
             'nit'  => $request->nit,
             'nombre'            => $request->nombre
         ]); 
@@ -20,6 +20,6 @@ class ClientsController extends Controller
     }
 
     public function getClients(Request $request){
-        return Cliente::orderBy('nombre')->get();
+        return OpcionMenu::orderBy('nombre')->get();
     }
 }
