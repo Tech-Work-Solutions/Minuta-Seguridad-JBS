@@ -1,62 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Tecnologías
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+1. Vue
+2. Xampp
+3. Laravel
+4. MySql
 
-## About Laravel
+# Cómo correr el proyecto localmente?
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Dependencias en windows
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Instalar node 16 recomendada la version 16.20.2.
+   Al ser una versión vieja puede generarte conflicto con otras apps, recomendamos usar nvm para cambiar entre versiones de node.
+2. Instalar xampp 7.4.33
+   [Instalador Xampp windows](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.33/)
+3. Si tu cuenta de root en mysql tiene una contraseña diferente a 123456, debes cambiarla de root por 123456 o la que desees en la variables de entorno y root de mysql.
+   [Cambiar pass mysql](https://www.youtube.com/watch?v=HMDSPX1qN-M&t=135s)
+4. Instalar Composer -> [Guía Composer](https://styde.net/instalacion-de-composer-y-laravel-en-windows/)
+5. Instalar vue -> `npm install -g @vue/cli`
+6. Mover/clonar todo el proyecto a `XAMPP/htdocs`
+7. Dentro del proyecto, instalar dependencias -> `npm install`
+8. Ejecutar `composer install` para que se cree carpeta `vendor` si hay algún error, ejecutar `composer update` y volver a ejecutar el `composer install`
+9. En el archivo .env reemplazar esta var
+   `APP_URL=http://localhost/seguridadapp`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Settings
 
-## Learning Laravel
+1. Configurar la Raíz del DocumentRoot a la Carpeta public. Agregar lo siguiente en el archivo `C:\xampp\apache\conf\extra\httpd-vhosts.conf`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    img 1.9
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    example
 
-## Laravel Sponsors
+    img2
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. Editar los hosts
 
-### Premium Partners
+`C:\Windows\System32\drivers\etc\hosts`
+agregar `127.0.0.1 seguridadapp.local`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+3. Verificar que `mod_rewrite` esté Habilitado
 
-## Contributing
+En Apache revisa en: `C:\xampp\apache\conf\httpd.conf`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Asegúrarse de que la línea `LoadModule rewrite_module modules/mod_rewrite.so` no esté comentada.
+img 3
 
-## Code of Conduct
+Verificar que este la siguiente configuración
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    <Directory "C:/xampp/htdocs">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
 
-## Security Vulnerabilities
+4. reiniciar apache
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Ejecutar `npm run dev`
 
-## License
+6. Acceder a la url http://seguridadapp.local para ver la aplicación en ejecución.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+img 4
