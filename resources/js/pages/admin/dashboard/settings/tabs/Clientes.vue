@@ -42,7 +42,7 @@
                       v-model="formData.nombre"
                       class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                 </div>
-                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nombre.required">Ingrese el nombre del cliente</p>
+                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nombre.required">Ingrese el nombre del puesto</p>
                 </div>
               </div>
               <div class="w-full">
@@ -62,40 +62,47 @@
                       v-model="formData.email"
                       class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                 </div>
-                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.email.required">Ingrese el email del cliente</p>
+                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.email.required">Ingrese el email del puesto</p>
                 </div>
-              </div>
-              <div class="w-full">                    
-                  <div class="relative w-full mb-3">
-                      <label
-                          class="block text-gray-600 text-sm font-semibold mb-2"
-                          htmlFor="grid-password"
-                      >
-                          Cliente:
-                      </label>
-                      <t-rich-select
-                      v-model="formData.client_id"
-                      :options="clients"
-                      placeholder="Seleccione una opción"
-                      @change="onChange"
-                      >
-                      </t-rich-select>
-                  </div>
-                  <p class="text-red-500 text-sm" v-if="submited && !$v.formData.client_id.required">Seleccione un cliente</p>                                      
               </div>
               <div class="w-full">
                 <div class="relative w-full mb-5">
                   <label
                     class="block text-gray-600 text-sm font-semibold mb-2"
-                    htmlFor="grid-password"
+                    for="menu-visible"
                   >
-                    Permisos formularios:
+                    Menú Visible:
                   </label>
-                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                        <em class="fas fa-user"></em>
-                    </span>                      
-                  </div>                    
+                  <div v-for="(menu, index) in menuOptions" :key="index" class="flex items-center mb-2">
+                    <input
+                      type="checkbox"
+                      :id="'form-option-' + index"
+                      :value="menu.id"
+                      v-model="selectedMenuOptions"
+                      class="mr-2"
+                    />
+                    <label :for="'form-option-' + index">{{ menu.nombre }}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <div class="relative w-full mb-5">
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    for="form-visible"
+                  >
+                    Elementos Visibles en el Formulario:
+                  </label>
+                  <div v-for="(formOption, index) in formOptions" :key="index" class="flex items-center mb-2">
+                    <input
+                      type="checkbox"
+                      :id="'menu-option-' + index"
+                      :value="formOption.id"
+                      v-model="selectedFormOptions"
+                      class="mr-2"
+                    />
+                    <label :for="'menu-option-' + index">{{ formOption.nombre }}</label>                  
+                  </div>
                 </div>
               </div>
               <div class="w-full">
@@ -164,7 +171,7 @@
                   <h3
                     class="font-semibold text-lg text-white mb-2"
                   >
-                    Clientes registrados
+                    Puestos registrados
                   </h3>
                   <input 
                     type="text" 
@@ -192,7 +199,7 @@
                     <th
                     class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                     >
-                      Cliente
+                      Puesto
                     </th>
                 </tr>
               </thead>
@@ -233,6 +240,10 @@
           nombre: ''
         },
         clients: [],
+        menuOptions: [],
+        formOptions: [],
+        selectedMenuOptions: [],
+        selectedFormOptions: [],        
         search: '',
         spiner: false
       };
@@ -240,12 +251,18 @@
   
     mounted() {
       this.spiner = false;
-      this.getClients();      
+      this.getClients();
+      this.getOpcionesMenu();
+      this.getOpcionesFormulario();     
     },
   
     methods: {
       registrarCliente(){
           this.spiner = true;
+          console.log("Opciones seleccionadas:", {
+            menu: this.selectedMenuOptions,
+            formulario: this.selectedFormOptions,
+          });
           this.validarDatos()         
       },
       validarDatos(){
@@ -277,7 +294,24 @@
   
       getClients(){
         axios.get('/api/getClients').then((response) => {
-          this.clients = response.data
+          this.clients = response.data          
+        }).catch((errors) => {
+            console.log(errors.response.data.errors)
+        });
+      },
+
+      getOpcionesMenu(){
+        axios.get('/api/getOpcionesMenu').then((response) => {
+           this.menuOptions = response.data
+                 
+        }).catch((errors) => {
+            console.log(errors.response.data.errors)
+        });
+      },
+
+      getOpcionesFormulario(){
+        axios.get('/api/getOpcionesFormulario').then((response) => {
+          this.formOptions = response.data                    
         }).catch((errors) => {
             console.log(errors.response.data.errors)
         });

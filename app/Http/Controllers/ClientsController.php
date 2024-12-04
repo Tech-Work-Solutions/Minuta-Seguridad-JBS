@@ -9,7 +9,7 @@ class ClientsController extends Controller
 {
     public function registerClients(Request $request){
         $request->validate([
-            'nit'  => ['required', 'numeric', 'unique:clients'],
+            'nit'  => ['required', 'numeric', 'unique:clientes'],
             'nombre'            => ['required']
         ]);
         $client = Cliente::create([

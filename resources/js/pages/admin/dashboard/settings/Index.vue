@@ -85,7 +85,7 @@
                      v-on:click="toggleTabs(9)"
                      v-bind:class="{'text-gray-600 bg-white': openTab !== 9, 'text-white bg-blue-500': openTab === 9}"
                   >
-                     <em class="fas fa-user-circle"></em> Puestos
+                     <em class="fas fa-user-circle"></em> Ubicaciones
                   </a>
                </li>
                <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
@@ -94,7 +94,7 @@
                      v-on:click="toggleTabs(10)"
                      v-bind:class="{'text-gray-600 bg-white': openTab !== 10, 'text-white bg-blue-500': openTab === 10}"
                   >
-                     <em class="fas fa-user-circle"></em> Clientes
+                     <em class="fas fa-user-circle"></em> Puestos
                   </a>
                </li>
                <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer">

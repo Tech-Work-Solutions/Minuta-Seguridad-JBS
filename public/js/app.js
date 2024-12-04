@@ -11175,6 +11175,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -11185,6 +11192,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         nombre: ''
       },
       clients: [],
+      menuOptions: [],
+      formOptions: [],
+      selectedMenuOptions: [],
+      selectedFormOptions: [],
       search: '',
       spiner: false
     };
@@ -11192,10 +11203,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.spiner = false;
     this.getClients();
+    this.getOpcionesMenu();
+    this.getOpcionesFormulario();
   },
   methods: {
     registrarCliente: function registrarCliente() {
       this.spiner = true;
+      console.log("Opciones seleccionadas:", {
+        menu: this.selectedMenuOptions,
+        formulario: this.selectedFormOptions
+      });
       this.validarDatos();
     },
     validarDatos: function validarDatos() {
@@ -11252,6 +11269,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       })["catch"](function (errors) {
         console.log(errors.response.data.errors);
       });
+    },
+    getOpcionesMenu: function getOpcionesMenu() {
+      var _this3 = this;
+
+      axios.get('/api/getOpcionesMenu').then(function (response) {
+        _this3.menuOptions = response.data;
+      })["catch"](function (errors) {
+        console.log(errors.response.data.errors);
+      });
+    },
+    getOpcionesFormulario: function getOpcionesFormulario() {
+      var _this4 = this;
+
+      axios.get('/api/getOpcionesFormulario').then(function (response) {
+        _this4.formOptions = response.data;
+      })["catch"](function (errors) {
+        console.log(errors.response.data.errors);
+      });
     }
   },
   validations: {
@@ -11267,10 +11302,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     searchClient: function searchClient() {
-      var _this3 = this;
+      var _this5 = this;
 
       return this.clients.filter(function (c) {
-        return c.nombre.toUpperCase().includes(_this3.search.toUpperCase());
+        return c.nombre.toUpperCase().includes(_this5.search.toUpperCase());
       });
     }
   }
@@ -77401,7 +77436,7 @@ var render = function() {
                       },
                       [
                         _c("em", { staticClass: "fas fa-user-circle" }),
-                        _vm._v(" Puestos\n                ")
+                        _vm._v(" Ubicaciones\n                ")
                       ]
                     )
                   ]
@@ -77431,7 +77466,7 @@ var render = function() {
                       },
                       [
                         _c("em", { staticClass: "fas fa-user-circle" }),
-                        _vm._v(" Clientes\n                ")
+                        _vm._v(" Puestos\n                ")
                       ]
                     )
                   ]
@@ -78046,7 +78081,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm.submited && !_vm.$v.formData.nombre.required
                     ? _c("p", { staticClass: "text-red-500 text-sm" }, [
-                        _vm._v("Ingrese el nombre del cliente")
+                        _vm._v("Ingrese el nombre del puesto")
                       ])
                     : _vm._e()
                 ])
@@ -78100,7 +78135,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm.submited && !_vm.$v.formData.email.required
                     ? _c("p", { staticClass: "text-red-500 text-sm" }, [
-                        _vm._v("Ingrese el email del cliente")
+                        _vm._v("Ingrese el email del puesto")
                       ])
                     : _vm._e()
                 ])
@@ -78109,54 +78144,177 @@ var render = function() {
               _c("div", { staticClass: "w-full" }, [
                 _c(
                   "div",
-                  { staticClass: "relative w-full mb-3" },
+                  { staticClass: "relative w-full mb-5" },
                   [
                     _c(
                       "label",
                       {
                         staticClass:
                           "block text-gray-600 text-sm font-semibold mb-2",
-                        attrs: { htmlFor: "grid-password" }
+                        attrs: { for: "menu-visible" }
                       },
                       [
                         _vm._v(
-                          "\n                      Cliente:\n                  "
+                          "\n                Menú Visible:\n              "
                         )
                       ]
                     ),
                     _vm._v(" "),
-                    _c("t-rich-select", {
-                      attrs: {
-                        options: _vm.clients,
-                        placeholder: "Seleccione una opción"
-                      },
-                      on: { change: _vm.onChange },
-                      model: {
-                        value: _vm.formData.client_id,
-                        callback: function($$v) {
-                          _vm.$set(_vm.formData, "client_id", $$v)
-                        },
-                        expression: "formData.client_id"
-                      }
+                    _vm._l(_vm.menuOptions, function(menu, index) {
+                      return _c(
+                        "div",
+                        { key: index, staticClass: "flex items-center mb-2" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedMenuOptions,
+                                expression: "selectedMenuOptions"
+                              }
+                            ],
+                            staticClass: "mr-2",
+                            attrs: {
+                              type: "checkbox",
+                              id: "form-option-" + index
+                            },
+                            domProps: {
+                              value: menu.id,
+                              checked: Array.isArray(_vm.selectedMenuOptions)
+                                ? _vm._i(_vm.selectedMenuOptions, menu.id) > -1
+                                : _vm.selectedMenuOptions
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.selectedMenuOptions,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = menu.id,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      (_vm.selectedMenuOptions = $$a.concat([
+                                        $$v
+                                      ]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.selectedMenuOptions = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.selectedMenuOptions = $$c
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            { attrs: { for: "form-option-" + index } },
+                            [_vm._v(_vm._s(menu.nombre))]
+                          )
+                        ]
+                      )
                     })
                   ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm.submited && !_vm.$v.formData.client_id.required
-                  ? _c("p", { staticClass: "text-red-500 text-sm" }, [
-                      _vm._v("Seleccione un cliente")
-                    ])
-                  : _vm._e()
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-full" }, [
+                _c(
+                  "div",
+                  { staticClass: "relative w-full mb-5" },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block text-gray-600 text-sm font-semibold mb-2",
+                        attrs: { for: "form-visible" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                Elementos Visibles en el Formulario:\n              "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._l(_vm.formOptions, function(formOption, index) {
+                      return _c(
+                        "div",
+                        { key: index, staticClass: "flex items-center mb-2" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedFormOptions,
+                                expression: "selectedFormOptions"
+                              }
+                            ],
+                            staticClass: "mr-2",
+                            attrs: {
+                              type: "checkbox",
+                              id: "menu-option-" + index
+                            },
+                            domProps: {
+                              value: formOption.id,
+                              checked: Array.isArray(_vm.selectedFormOptions)
+                                ? _vm._i(
+                                    _vm.selectedFormOptions,
+                                    formOption.id
+                                  ) > -1
+                                : _vm.selectedFormOptions
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.selectedFormOptions,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = formOption.id,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      (_vm.selectedFormOptions = $$a.concat([
+                                        $$v
+                                      ]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.selectedFormOptions = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.selectedFormOptions = $$c
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            { attrs: { for: "menu-option-" + index } },
+                            [_vm._v(_vm._s(formOption.nombre))]
+                          )
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
               ]),
               _vm._v(" "),
               _vm._m(3),
               _vm._v(" "),
               _vm._m(4),
               _vm._v(" "),
-              _vm._m(5),
-              _vm._v(" "),
-              _vm._m(6)
+              _vm._m(5)
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flex mb-4" }, [
@@ -78207,7 +78365,7 @@ var render = function() {
                       { staticClass: "font-semibold text-lg text-white mb-2" },
                       [
                         _vm._v(
-                          "\n                Clientes registrados\n              "
+                          "\n                Puestos registrados\n              "
                         )
                       ]
                     ),
@@ -78247,7 +78405,7 @@ var render = function() {
                 staticClass: "items-center w-full bg-gray-100 border-collapse"
               },
               [
-                _vm._m(7),
+                _vm._m(6),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -78352,38 +78510,6 @@ var staticRenderFns = [
       },
       [_c("em", { staticClass: "fas fa-user" })]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-full" }, [
-      _c("div", { staticClass: "relative w-full mb-5" }, [
-        _c(
-          "label",
-          {
-            staticClass: "block text-gray-600 text-sm font-semibold mb-2",
-            attrs: { htmlFor: "grid-password" }
-          },
-          [_vm._v("\n                Permisos formularios:\n              ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "relative flex w-full flex-wrap items-stretch mb-3" },
-          [
-            _c(
-              "span",
-              {
-                staticClass:
-                  "z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
-              },
-              [_c("em", { staticClass: "fas fa-user" })]
-            )
-          ]
-        )
-      ])
-    ])
   },
   function() {
     var _vm = this
@@ -78519,7 +78645,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                  Cliente\n                ")]
+          [_vm._v("\n                  Puesto\n                ")]
         )
       ])
     ])
