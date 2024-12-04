@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2024 a las 04:07:58
+-- Tiempo de generación: 03-12-2024 a las 04:24:49
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -799,7 +799,12 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (17, 'App\\Models\\User', 5, 'browser', 'a1b1f466269bbffe56542f4965709bef5f2bc4a0aff2f14e7ad66cab8a1992b9', '[\"*\"]', '2024-11-11 19:59:51', '2024-11-11 19:59:50', '2024-11-11 19:59:51'),
 (2021, 'App\\Models\\User', 5, 'browser', 'e54deac979a68ae7adee172f329992724f82a5b710ae8e7950e001f0ff94aac7', '[\"*\"]', '2024-11-12 23:26:29', '2024-11-12 23:26:28', '2024-11-12 23:26:29'),
 (2026, 'App\\Models\\User', 5, 'browser', '096783c4956db0df8d3440a70ca45e345d45ad5ae23bf3363b9ca3e4f219b6b9', '[\"*\"]', '2024-11-22 19:13:45', '2024-11-22 19:13:44', '2024-11-22 19:13:45'),
-(2027, 'App\\Models\\User', 5, 'browser', '01d4763f22feee91c28c1bfc9216b5fac53a9810b70f71dc84999ff3a2202566', '[\"*\"]', '2024-11-26 15:25:46', '2024-11-26 15:25:44', '2024-11-26 15:25:46');
+(2027, 'App\\Models\\User', 5, 'browser', '01d4763f22feee91c28c1bfc9216b5fac53a9810b70f71dc84999ff3a2202566', '[\"*\"]', '2024-11-26 15:25:46', '2024-11-26 15:25:44', '2024-11-26 15:25:46'),
+(2028, 'App\\Models\\User', 5, 'browser', 'ba4c456bb473c5d1ca45dc995cf511efafee0f3b9b3d9a92409f9850c14d21f0', '[\"*\"]', '2024-12-02 03:08:23', '2024-12-02 02:51:38', '2024-12-02 03:08:23'),
+(2029, 'App\\Models\\User', 5, 'browser', 'bd7e52e38ad31db180116e6aeb40ede662c44c2ae9d221715c0fab30c7086688', '[\"*\"]', '2024-12-02 03:27:57', '2024-12-02 03:08:58', '2024-12-02 03:27:57'),
+(2030, 'App\\Models\\User', 5, 'browser', 'ff1ef373d4fad8e5266abfdf9c4286e9bfc331a088f3ffb7dd829d746acc9bc6', '[\"*\"]', '2024-12-03 12:09:07', '2024-12-03 12:09:05', '2024-12-03 12:09:07'),
+(2031, 'App\\Models\\User', 5, 'browser', 'd8d35e1223c758f0c11555124873de35902dc80cfefc8bc79582ae4d67d26ca3', '[\"*\"]', '2024-12-03 17:12:27', '2024-12-03 17:12:24', '2024-12-03 17:12:27'),
+(2032, 'App\\Models\\User', 5, 'browser', '8f98b6cb48ea76de714a69f044ffea53ca988a804f1080b101f421cbcfd6fd95', '[\"*\"]', '2024-12-04 03:04:02', '2024-12-04 02:54:37', '2024-12-04 03:04:02');
 
 -- --------------------------------------------------------
 
@@ -822,13 +827,6 @@ CREATE TABLE `record_minutas` (
   `latitud` varchar(50) DEFAULT NULL,
   `longitud` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `record_minutas`
---
-
-INSERT INTO `record_minutas` (`id`, `anotaciones`, `foto`, `subject_id`, `ubicacion_id`, `user_id`, `created_at`, `updated_at`, `sede_id`, `audio`, `video`, `latitud`, `longitud`) VALUES
-(1, 'prueba desde app de new repo', '/img/minutas/221124142040wifi domingo valle de lili.png', 1, 4, 5, '2024-11-22 19:20:40', '2024-11-22 19:20:40', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -951,23 +949,9 @@ CREATE TABLE `ubicacions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `sede_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `ubicacions`
---
-
-INSERT INTO `ubicacions` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
-(1, 'RECEPCION 1', '2021-12-01 09:15:46', '2021-12-01 09:15:46'),
-(2, 'RECEPCION 2', '2021-12-01 09:16:15', '2021-12-01 09:16:15'),
-(3, 'GRESA JHENRI', '2023-03-08 21:34:28', '2023-03-08 21:34:28'),
-(4, 'GRESA', '2024-02-22 15:31:49', '2024-02-22 15:31:49'),
-(5, 'gresa alejandro', '2024-03-11 15:19:00', '2024-03-11 15:19:00'),
-(6, 'gresa alejandro', '2024-03-11 15:19:00', '2024-03-11 15:19:00'),
-(8, 'MEDIOS TECNOLOGICOS', '2021-12-01 14:15:46', '2021-12-01 14:15:46'),
-(9, 'PORTERIA', '2021-12-01 14:15:46', '2021-12-01 14:15:46'),
-(10, 'RECEPCION 3', '2024-11-11 21:12:14', '2024-11-11 21:12:14');
 
 -- --------------------------------------------------------
 
@@ -1218,7 +1202,8 @@ ALTER TABLE `tipo_documentos`
 -- Indices de la tabla `ubicacions`
 --
 ALTER TABLE `ubicacions`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sede_sede_id_foreign` (`sede_id`);
 
 --
 -- Indices de la tabla `users`
@@ -1305,7 +1290,7 @@ ALTER TABLE `people`
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2028;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2033;
 
 --
 -- AUTO_INCREMENT de la tabla `record_minutas`
@@ -1418,6 +1403,12 @@ ALTER TABLE `record_vehicles`
 --
 ALTER TABLE `sedes`
   ADD CONSTRAINT `clientes_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`);
+
+--
+-- Filtros para la tabla `ubicacions`
+--
+ALTER TABLE `ubicacions`
+  ADD CONSTRAINT `sede_sede_id_foreign` FOREIGN KEY (`sede_id`) REFERENCES `sedes` (`id`);
 
 --
 -- Filtros para la tabla `users`
