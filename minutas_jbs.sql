@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-12-2024 a las 04:24:49
+-- Tiempo de generación: 03-12-2024 a las 05:50:47
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -188,6 +188,20 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (15, '2021_11_02_213214_create_record_minutas_table', 1),
 (16, '2021_11_02_213226_create_record_vehicles_table', 1),
 (17, '2021_11_02_213236_create_record_people_table', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `opciones_formulario`
+--
+
+CREATE TABLE `opciones_formulario` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `estado` enum('ACTIVO','INACTIVO','ELIMINADO') NOT NULL DEFAULT 'ACTIVO',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -804,7 +818,8 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (2029, 'App\\Models\\User', 5, 'browser', 'bd7e52e38ad31db180116e6aeb40ede662c44c2ae9d221715c0fab30c7086688', '[\"*\"]', '2024-12-02 03:27:57', '2024-12-02 03:08:58', '2024-12-02 03:27:57'),
 (2030, 'App\\Models\\User', 5, 'browser', 'ff1ef373d4fad8e5266abfdf9c4286e9bfc331a088f3ffb7dd829d746acc9bc6', '[\"*\"]', '2024-12-03 12:09:07', '2024-12-03 12:09:05', '2024-12-03 12:09:07'),
 (2031, 'App\\Models\\User', 5, 'browser', 'd8d35e1223c758f0c11555124873de35902dc80cfefc8bc79582ae4d67d26ca3', '[\"*\"]', '2024-12-03 17:12:27', '2024-12-03 17:12:24', '2024-12-03 17:12:27'),
-(2032, 'App\\Models\\User', 5, 'browser', '8f98b6cb48ea76de714a69f044ffea53ca988a804f1080b101f421cbcfd6fd95', '[\"*\"]', '2024-12-04 03:04:02', '2024-12-04 02:54:37', '2024-12-04 03:04:02');
+(2032, 'App\\Models\\User', 5, 'browser', '8f98b6cb48ea76de714a69f044ffea53ca988a804f1080b101f421cbcfd6fd95', '[\"*\"]', '2024-12-04 03:52:15', '2024-12-04 02:54:37', '2024-12-04 03:52:15'),
+(2033, 'App\\Models\\User', 5, 'browser', 'd8351c1d0fa155e5c0ab89eb59d809ecea47d28a0cebda2301587499c83eb627', '[\"*\"]', '2024-12-04 03:56:19', '2024-12-04 03:52:39', '2024-12-04 03:56:19');
 
 -- --------------------------------------------------------
 
@@ -1290,7 +1305,7 @@ ALTER TABLE `people`
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2033;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2034;
 
 --
 -- AUTO_INCREMENT de la tabla `record_minutas`
