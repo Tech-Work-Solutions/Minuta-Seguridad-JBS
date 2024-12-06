@@ -21,7 +21,7 @@
                         v-model="formData.nit"
                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                   </div>
-                  <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nit.required">Ingrese el número de documento</p>
+                  <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nit.required">Ingrese el NIT</p>
                   <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nit.numeric">Ingrese solo números</p>
                   </div>
               </div> 
@@ -73,15 +73,21 @@
                   >
                     Menú Visible:
                   </label>
-                  <div v-for="(menu, index) in menuOptions" :key="index" class="flex items-center mb-2">
-                    <input
-                      type="checkbox"
-                      :id="'form-option-' + index"
-                      :value="{ id: menu.id, nombre: menu.nombre }"
-                      v-model="selectedMenuOptions"
-                      class="mr-2"
-                    />
-                    <label :for="'form-option-' + index">{{ menu.nombre }}</label>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div
+                      v-for="(menu, index) in menuOptions"
+                      :key="index"
+                      class="flex items-center"
+                    >
+                      <input
+                        type="checkbox"
+                        :id="'form-option-' + index"
+                        :value="{ id: menu.id, nombre: menu.nombre }"
+                        v-model="selectedMenuOptions"
+                        class="mr-2"
+                      />
+                      <label :for="'form-option-' + index" class="text-gray-600">{{ menu.nombre }}</label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -101,33 +107,33 @@
                       v-model="selectedFormOptions"
                       class="mr-2"
                     />
-                    <label :for="'menu-option-' + index">{{ formOption.nombre }}</label>                  
+                    <label :for="'menu-option-' + index" class="text-gray-600">{{ formOption.nombre }}</label>                  
                   </div>
                 </div>
               </div>
-              <div class="flex flex-col items-center">
-                <div class="flex flex-row justify-center items-center w-full">
+              <div class="flex flex-col items-center w-full">
+                <div class="flex flex-col md:flex-row justify-center items-center w-full">
                   <label
-                    class="w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                    class="w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                     <em class="fas fa-cloud-upload-alt fa-3x"></em>
                     <span class="mt-2 text-sm font-semibold">Adjuntar Imagen Header</span>
                     <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen('header', $event)" />
                   </label>
 
                   <label
-                    class="w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                    class="w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                     <em class="fas fa-cloud-upload-alt fa-3x"></em>
                     <span class="mt-2 text-sm font-semibold">Adjuntar Imagen Footer</span>
                     <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen('footer', $event)" />
                   </label>
                 </div>
-                <div class="flex flex-row justify-center items-center w-full">
-                  <div class="w-full md:w-60 p-4 md:p-0 rounded-md overflow-hidden ml-4 mt-5">
+                <div class="flex flex-col md:flex-row justify-center items-center w-full">
+                  <div class="w-full md:w-60 rounded-md overflow-hidden md:ml-4 mt-5 flex justify-center">
                     <figure>
                       <img :src="reportHeaderImage" alt="">
                     </figure>
                   </div>
-                  <div class="w-full md:w-60 p-4 md:p-0 rounded-md overflow-hidden ml-4 mt-5">
+                  <div class="w-full md:w-60 rounded-md overflow-hidden md:ml-4 mt-5 flex justify-center">
                     <figure>
                       <img :src="reportFooterImage" alt="">
                     </figure>

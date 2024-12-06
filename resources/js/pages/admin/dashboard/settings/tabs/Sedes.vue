@@ -18,6 +18,7 @@
                     :options="clients"
                     placeholder="Seleccione una opción"
                     @change="onChange"
+                    class="z-50"
                     >
                     </t-rich-select>
                 </div>

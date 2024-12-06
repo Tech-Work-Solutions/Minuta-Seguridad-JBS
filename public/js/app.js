@@ -11181,6 +11181,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -12070,6 +12076,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -78950,7 +78957,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm.submited && !_vm.$v.formData.nit.required
                     ? _c("p", { staticClass: "text-red-500 text-sm" }, [
-                        _vm._v("Ingrese el número de documento")
+                        _vm._v("Ingrese el NIT")
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -79075,28 +79082,27 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "w-full" }, [
-                _c(
-                  "div",
-                  { staticClass: "relative w-full mb-5" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-gray-600 text-sm font-semibold mb-2",
-                        attrs: { for: "menu-visible" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                Menú Visible:\n              "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
+                _c("div", { staticClass: "relative w-full mb-5" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block text-gray-600 text-sm font-semibold mb-2",
+                      attrs: { for: "menu-visible" }
+                    },
+                    [_vm._v("\n                Menú Visible:\n              ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                    },
                     _vm._l(_vm.menuOptions, function(menu, index) {
                       return _c(
                         "div",
-                        { key: index, staticClass: "flex items-center mb-2" },
+                        { key: index, staticClass: "flex items-center" },
                         [
                           _c("input", {
                             directives: [
@@ -79152,15 +79158,18 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "label",
-                            { attrs: { for: "form-option-" + index } },
+                            {
+                              staticClass: "text-gray-600",
+                              attrs: { for: "form-option-" + index }
+                            },
                             [_vm._v(_vm._s(menu.nombre))]
                           )
                         ]
                       )
-                    })
-                  ],
-                  2
-                )
+                    }),
+                    0
+                  )
+                ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "w-full" }, [
@@ -79244,7 +79253,10 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "label",
-                            { attrs: { for: "menu-option-" + index } },
+                            {
+                              staticClass: "text-gray-600",
+                              attrs: { for: "menu-option-" + index }
+                            },
                             [_vm._v(_vm._s(formOption.nombre))]
                           )
                         ]
@@ -79255,19 +79267,19 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col items-center" }, [
+              _c("div", { staticClass: "flex flex-col items-center w-full" }, [
                 _c(
                   "div",
                   {
                     staticClass:
-                      "flex flex-row justify-center items-center w-full"
+                      "flex flex-col md:flex-row justify-center items-center w-full"
                   },
                   [
                     _c(
                       "label",
                       {
                         staticClass:
-                          "w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                          "w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
                       },
                       [
                         _c("em", {
@@ -79296,7 +79308,7 @@ var render = function() {
                       "label",
                       {
                         staticClass:
-                          "w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                          "w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
                       },
                       [
                         _c("em", {
@@ -79327,14 +79339,14 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "flex flex-row justify-center items-center w-full"
+                      "flex flex-col md:flex-row justify-center items-center w-full"
                   },
                   [
                     _c(
                       "div",
                       {
                         staticClass:
-                          "w-full md:w-60 p-4 md:p-0 rounded-md overflow-hidden ml-4 mt-5"
+                          "w-full md:w-60 rounded-md overflow-hidden md:ml-4 mt-5 flex justify-center"
                       },
                       [
                         _c("figure", [
@@ -79349,7 +79361,7 @@ var render = function() {
                       "div",
                       {
                         staticClass:
-                          "w-full md:w-60 p-4 md:p-0 rounded-md overflow-hidden ml-4 mt-5"
+                          "w-full md:w-60 rounded-md overflow-hidden md:ml-4 mt-5 flex justify-center"
                       },
                       [
                         _c("figure", [
@@ -80603,6 +80615,7 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("t-rich-select", {
+                      staticClass: "z-50",
                       attrs: {
                         options: _vm.clients,
                         placeholder: "Seleccione una opción"
