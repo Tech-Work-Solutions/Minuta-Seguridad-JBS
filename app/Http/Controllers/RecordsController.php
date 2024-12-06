@@ -19,6 +19,7 @@ class RecordsController extends Controller
         ]);
 
         $imagen = '';
+        $audio = '';
         if($request->file('file')){
             $file = $request->file('file');
             //obtenemos el nombre del archivo
@@ -28,12 +29,23 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/minutas/', $f.$nombre); 
             $imagen = '/img/minutas/'.$f.$nombre;
         }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            // Crear un nombre único para evitar conflictos
+            $f = date("dmyHis");
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/minutas/', $f.$nombre); 
+            $audio = '/audios/minutas/'.$f.$nombre;
+        }
         Record_minuta::create([
             'anotaciones'   => $request->anotaciones,
             'foto'          => $imagen,
             'ubicacion_id'  => $request->ubicacion_id,
             'subject_id'    => $request->subject_id,
             'user_id'       => $request->user_id,
+            'audio'         => $audio,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }

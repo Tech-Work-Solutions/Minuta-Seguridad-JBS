@@ -100,7 +100,7 @@
                   </div>
                   <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
                      <figure v-if="audioPreview">
-                        <audio :src="audioPreview" controls></audio>
+                        <audio :src="audioMinuta" controls></audio>
                      </figure>
                   </div>
                </div>
@@ -114,7 +114,6 @@
                </div>
             </form>
          </div>
-
 
          <div class="block w-full overflow-x-auto m-2 -mt-10">
             <table class="items-center w-full bg-gray-100 border-collapse mb-4">
@@ -143,6 +142,10 @@
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
                         Foto
+                     </th>
+                     <th
+                        class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
+                        audio
                      </th>
                   </tr>
                </thead>
@@ -175,11 +178,17 @@
                            <img :src="item.foto" alt="">
                         </div>
                      </td>
+
+                     <td
+                        class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
+                        <div class="w-32 lg:w-48 rounded overflow-hidden">
+                           <audio :src="item.audio" controls></audio>
+                        </div>
+                     </td>
                   </tr>
                </tbody>
             </table>
          </div>
-
 
       </div>
    </div>
@@ -197,7 +206,8 @@ export default {
             ubicacion_id: '',
             anotaciones: '',
             imagen: '',
-            user_id: ''
+            user_id: '',
+            audio: ''
          },
          imgMinuta: '',
          spiner: false,
@@ -285,7 +295,8 @@ export default {
          datos.append('anotaciones', this.formData.anotaciones);
          datos.append('user_id', this.formData.user_id);
          datos.append('file', this.formData.imagen);
-         //console.log(this.formData)
+         datos.append('audio', this.formData.audio);
+         // console.log(this.formData)
          await axios.post('/api/registerMinuta', datos).then((response) => {
             this.getRecordsMinutaByUser();
             this.spiner = false
@@ -295,6 +306,8 @@ export default {
             this.formData.anotaciones = '';
             this.imgMinuta = '';
             this.formData.imagen = '';
+            this.formData.audio = '';
+            this.audioPreview = '';
             this.$toaster.success('Registro creado con exito.');
          }).catch((errors) => {
             this.spiner = false
@@ -316,7 +329,7 @@ export default {
       obtenerAudio(e) {
          let file = e.target.files[0];
          if (!file) {
-            this.audioPreview = null;
+            this.audioPreview = '';
             return;
          }
          console.log('audio', file)
@@ -362,6 +375,9 @@ export default {
    computed: {
       imagenMinuta() {
          return this.imgMinuta;
+      },
+      audioMinuta() {
+         return this.audioPreview;
       },
 
    },
