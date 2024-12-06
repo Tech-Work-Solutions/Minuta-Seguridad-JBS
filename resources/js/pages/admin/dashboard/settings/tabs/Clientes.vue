@@ -26,7 +26,7 @@
                   </div>
               </div> 
               <div class="w-full">
-                <div class="relative w-full mb-5">
+                <div class="relative w-full mb-5"> 
                 <label
                   class="block text-gray-600 text-sm font-semibold mb-2"
                   htmlFor="grid-password"
@@ -77,7 +77,7 @@
                     <input
                       type="checkbox"
                       :id="'form-option-' + index"
-                      :value="menu.id"
+                      :value="{ id: menu.id, nombre: menu.nombre }"
                       v-model="selectedMenuOptions"
                       class="mr-2"
                     />
@@ -97,7 +97,7 @@
                     <input
                       type="checkbox"
                       :id="'menu-option-' + index"
-                      :value="formOption.id"
+                      :value="{id: formOption.id, nombre: formOption.nombre}"
                       v-model="selectedFormOptions"
                       class="mr-2"
                     />
@@ -105,49 +105,48 @@
                   </div>
                 </div>
               </div>
-              <div class="w-full">
-                <div class="relative w-full mb-5">
+              <div class="flex flex-col items-center">
+                <div class="flex flex-row justify-center items-center w-full">
                   <label
-                    class="block text-gray-600 text-sm font-semibold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    Imagen cabecera reportes:
+                    class="w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                    <em class="fas fa-cloud-upload-alt fa-3x"></em>
+                    <span class="mt-2 text-sm font-semibold">Adjuntar Imagen Header</span>
+                    <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen('header', $event)" />
                   </label>
-                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                        <em class="fas fa-user"></em>
-                    </span>                      
-                  </div>                    
+
+                  <label
+                    class="w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                    <em class="fas fa-cloud-upload-alt fa-3x"></em>
+                    <span class="mt-2 text-sm font-semibold">Adjuntar Imagen Footer</span>
+                    <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen('footer', $event)" />
+                  </label>
+                </div>
+                <div class="flex flex-row justify-center items-center w-full">
+                  <div class="w-full md:w-60 p-4 md:p-0 rounded-md overflow-hidden ml-4 mt-5">
+                    <figure>
+                      <img :src="reportHeaderImage" alt="">
+                    </figure>
+                  </div>
+                  <div class="w-full md:w-60 p-4 md:p-0 rounded-md overflow-hidden ml-4 mt-5">
+                    <figure>
+                      <img :src="reportFooterImage" alt="">
+                    </figure>
+                  </div>
                 </div>
               </div>
-              <div class="w-full">
-                <div class="relative w-full mb-5">
+              <div class="w-full mt-5">
+                <div class="relative w-full mb-5 flex items-center">
                   <label
-                    class="block text-gray-600 text-sm font-semibold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    Imagen pie de pagina reportes:
-                  </label>
-                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                        <em class="fas fa-user"></em>
-                    </span>                      
-                  </div>                
-                </div>
-              </div>              
-              <div class="w-full">
-                <div class="relative w-full mb-5">
-                  <label
-                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    class="block text-gray-600 text-sm font-semibold mr-2"
                     htmlFor="grid-password"
                   >
                     Estado:
-                  </label>
-                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                        <em class="fas fa-user"></em>
-                    </span>                      
-                  </div>                    
+                  </label>                                      
+                  <toggle-button 
+                    v-model="formData.estado" 
+                    :labels="false" 
+                    color="rgba(59, 130, 246, var(--tw-bg-opacity))"
+                  />                               
                 </div>
               </div>
             </div>
@@ -194,7 +193,7 @@
                     <th
                     class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                     >
-                      Número de documento
+                      NIT
                     </th>
                     <th
                     class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
@@ -237,7 +236,13 @@
         submited: false,
         formData: { 
           nit: '',
-          nombre: ''
+          nombre: '',
+          email: '',
+          estado: true,
+          permisos_formulario: '',
+          permisos_menu: '', 
+          img_header: null,
+          img_footer: null,
         },
         clients: [],
         menuOptions: [],
@@ -245,7 +250,9 @@
         selectedMenuOptions: [],
         selectedFormOptions: [],        
         search: '',
-        spiner: false
+        spiner: false,
+        reportHeaderImage: '',  
+        reportFooterImage: '',
       };
     },
   
@@ -259,10 +266,13 @@
     methods: {
       registrarCliente(){
           this.spiner = true;
-          console.log("Opciones seleccionadas:", {
-            menu: this.selectedMenuOptions,
-            formulario: this.selectedFormOptions,
-          });
+          this.formData.permisos_formulario = JSON.stringify(this.selectedFormOptions)          
+          this.formData.permisos_menu = JSON.stringify(this.selectedMenuOptions) 
+          if(this.formData.estado == true){
+            this.formData.estado = 'ACTIVO';
+          } else {
+            this.formData.estado = 'INACTIVO';
+          }           
           this.validarDatos()         
       },
       validarDatos(){
@@ -275,13 +285,37 @@
           this.register();          
       }, 
   
-      async register(){
-        await axios.post('/api/registerClients', this.formData).then((response) => { 
+      async register(){        
+        const data = new FormData();
+        data.append('nit', this.formData.nit);
+        data.append('nombre', this.formData.nombre);
+        data.append('email', this.formData.email);
+        data.append('estado', this.formData.estado); 
+        data.append('img_header', this.formData.img_header);   
+        data.append('img_footer', this.formData.img_footer);     
+        data.append('permisos_formulario', this.formData.permisos_formulario); 
+        data.append('permisos_menu', this.formData.permisos_menu);
+
+        await axios.post('/api/registerClients', data).then((response) => { 
           this.spiner = false;
           this.submited = false;
-          this.formData.nit = this.formData.nombre = '';
+          this.formData.nit = this.formData.nombre = this.formData.email = '';
+          this.formData.img_header = this.formData.img_footer = null;
+          this.formData.estado = true,
+          this.formData.permisos_formulario = '',
+          this.formData.permisos_menu = '', 
+
+          this.menuOptions= [],
+          this.formOptions= [],
+          this.selectedMenuOptions= [],
+          this.selectedFormOptions= [];
+          this.reportHeaderImage = '';
+          this.reportFooterImage = '';        
+
           this.$toaster.success('Registro creado con exito.');
           this.getClients();
+          this.getOpcionesMenu();
+          this.getOpcionesFormulario();
         }).catch((errors) => {
           this.spiner = false;
           if (errors.response.data.errors && errors.response.data.errors.nit){
@@ -316,6 +350,33 @@
             console.log(errors.response.data.errors)
         });
       },
+
+      obtenerImagen(imageType, e){
+        let file = e.target.files[0];
+        if (file) {
+          if (imageType === 'header') {
+            this.formData.img_header = file;
+          } else if (imageType === 'footer') {
+            this.formData.img_footer = file;
+          }
+          
+          //leer y mostrar imagen
+          this.cargarImagen(file, imageType);
+        }        
+      },
+
+      cargarImagen(file, imageType){
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          if (imageType === 'header') {
+            this.reportHeaderImage = e.target.result;
+          } else if (imageType === 'footer') {
+            this.reportFooterImage = e.target.result;
+          }
+        };
+        reader.readAsDataURL(file);
+      },
+
     },
   
     validations: {
@@ -328,7 +389,7 @@
     computed: {
       searchClient() {
         return this.clients.filter((c) => (c.nombre).toUpperCase().includes(this.search.toUpperCase()));
-      }
+      },      
     }
   }
   </script>

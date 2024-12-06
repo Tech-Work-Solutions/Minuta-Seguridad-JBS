@@ -6,22 +6,22 @@
             <div class="flex flex-wrap mt-5">
 
               <div class="w-full">                    
-                  <div class="relative w-full mb-3">
-                      <label
-                          class="block text-gray-600 text-sm font-semibold mb-2"
-                          htmlFor="grid-password"
-                      >
-                          Cliente:
-                      </label>
-                      <t-rich-select
-                      v-model="formData.client_id"
-                      :options="clients"
-                      placeholder="Seleccione una opción"
-                      @change="onChange"
-                      >
-                      </t-rich-select>
-                  </div>
-                  <p class="text-red-500 text-sm" v-if="submited && !$v.formData.client_id.required">Seleccione un cliente</p>                                      
+                <div class="relative w-full mb-3">
+                    <label
+                        class="block text-gray-600 text-sm font-semibold mb-2"
+                        htmlFor="grid-password"
+                    >
+                        Cliente:
+                    </label>
+                    <t-rich-select
+                    v-model="formData.cliente_id"
+                    :options="clients"
+                    placeholder="Seleccione una opción"
+                    @change="onChange"
+                    >
+                    </t-rich-select>
+                </div>
+                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cliente_id.required">Seleccione un cliente</p>                                      
               </div> 
               <div class="w-full">
                   <div class="relative w-full mb-5">
@@ -46,22 +46,21 @@
               
               <div class="w-full">
                 <div class="relative w-full mb-5">
-                <label
-                  class="block text-gray-600 text-sm font-semibold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Direccion:
-                </label>
-                <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                  <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                      <em class="fas fa-user"></em>
-                  </span>
-                  <input 
-                      type="text" 
-                      v-model="formData.ubicacion"
-                      class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
-                </div>
-                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ubicacion.required">Ingrese la direccion de la sede</p>
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Direccion:
+                  </label>
+                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <em class="fas fa-user"></em>
+                    </span>
+                    <input 
+                        type="text" 
+                        v-model="formData.direccion"
+                        class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
+                  </div>
                 </div>
               </div>
               <div class="w-full">
@@ -70,7 +69,7 @@
                     class="block text-gray-600 text-sm font-semibold mb-2"
                     htmlFor="grid-password"
                   >
-                    Estado:
+                    Telefono:
                   </label>
                   <div class="relative flex w-full flex-wrap items-stretch mb-3">
                     <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
@@ -78,9 +77,24 @@
                     </span>
                     <input 
                         type="text" 
-                        v-model="formData.estado"
+                        v-model="formData.telefono"
                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
-                  </div>                  
+                  </div>
+                </div>
+              </div>
+              <div class="w-full mt-5">
+                <div class="relative w-full mb-5 flex items-center">
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mr-2"
+                    htmlFor="grid-password"
+                  >
+                    Estado:
+                  </label>                                      
+                  <toggle-button 
+                    v-model="formData.estado" 
+                    :labels="false" 
+                    color="rgba(59, 130, 246, var(--tw-bg-opacity))"
+                  />                               
                 </div>
               </div>
             </div>
@@ -132,7 +146,7 @@
                     <th
                     class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                     >
-                      Ubicacion
+                      Direccion
                     </th>
                     <th
                     class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
@@ -156,12 +170,12 @@
                   <td
                     class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
                     >
-                    {{ sede.ubicacion.toUpperCase() }}
+                    {{ sede.direccion.toUpperCase() }}
                   </td>
                   <td
                     class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
                     >
-                    {{ sede.client }}
+                    {{ sede.client.toUpperCase() }}
                   </td>
                 </tr>
               </tbody>
@@ -182,8 +196,10 @@
         submited: false,
         formData: {
           nombre: '',
-          client_id: '',
-          ubicacion: ''
+          cliente_id: '',
+          direccion: '',
+          telefono: '',
+          estado: true,          
         },
         sedes: [],
         clients: [],
@@ -209,17 +225,20 @@
           if(this.$v.$invalid){
             this.spiner = false;
             return false;
-          }   
+          }
           this.register();          
       }, 
   
-      async register(){
+      async register(){        
         await axios.post('/api/registerSede', this.formData).then((response) => { 
           this.spiner = false;
           this.submited = false;
-          this.formData.nombre = this.formData.ubicacion = '';
+          this.formData.nombre = this.formData.direccion = this.formData.telefono = '';
+          this.formData.estado = true;
+          this.clients= [],
           this.$toaster.success('Registro creado con exito.');
           this.getSedes();
+          this.getClients();
         }).catch((errors) => {
           this.spiner = false;
           if (errors.response.data.errors && errors.response.data.errors.nombre){
@@ -248,15 +267,14 @@
          });
       },
       onChange() {
-         const client = this.clients.find((d) => d.id === this.formData.client_id);
+         const client = this.clients.find((d) => d.id === this.formData.cliente_id);
       },
     },
   
     validations: {
       formData: {
           nombre: { required },         
-          client_id: { required },
-          ubicacion: { required }        
+          cliente_id: { required }    
       }
     },
   
@@ -265,18 +283,14 @@
             let sedes = this.sedes.filter((c) => (c.nombre).toUpperCase().includes(this.search.toUpperCase()));
             
             if (sedes.length > 0 && this.clients.length > 0) {
-                console.log(sedes);
                 for (let index = 0; index < sedes.length; index++) {
-                    const element = sedes[index];
-                    console.log(`Cliente ID: ${element.client_id}`);                    
+                    const element = sedes[index];                    
+                    const client = this.clients.find(client => client.id === element.cliente_id);                    
                     
-                    const client = this.clients.find(client => client.id === element.client_id);                    
-                    
-                    if (client) {
-                        console.log(`Nombre del cliente: ${client.nombre}`);                      
+                    if (client) {                      
                         element.client = client.nombre;
                     } else {
-                        console.log(`Cliente con ID ${element.client_id} no encontrado.`);
+                        console.log(`Cliente con ID ${element.cliente_id} no encontrado.`);
                     }
                 }            
             }

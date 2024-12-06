@@ -10,12 +10,18 @@ class SedesController extends Controller
     public function registerSede(Request $request){
         $request->validate([
             'nombre'            => ['required'],
-            'ubicacion'            => ['required']
+            'cliente_id'            => ['required']
         ]);
+
+        $estado = $request->estado ? 'ACTIVO' : 'INACTIVO';
+        
         $sede = Sede::create([
             'nombre'  => $request->nombre,
-            'ubicacion'            => $request->ubicacion,
-            'client_id'  => $request->client_id,
+            'direccion'            => $request->direccion,
+            'cliente_id'  => $request->cliente_id,
+            'telefono'  => $request->telefono,
+            'estado'  => $estado,
+            
         ]); 
         return response()->json(["msg" => "Registro exitoso", "res" => $sede]); 
     }

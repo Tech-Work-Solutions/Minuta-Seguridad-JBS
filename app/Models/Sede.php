@@ -12,7 +12,7 @@ class Sede extends Model
     protected $fillable = [
         'nombre',
         'telefono',
-        'client_id',
+        'cliente_id',
         'direccion',
         'estado',
     ];
