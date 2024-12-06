@@ -5,27 +5,143 @@
 3. Laravel
 4. MySql
 
-# Cómo correr el proyecto localmente?
+## Dependencias
 
-## Dependencias en windows
+Antes de configurar el proyecto, asegúrate de contar con las siguientes herramientas instaladas:
 
-1. Instalar node 16 recomendada la version 16.20.2.
-   Al ser una versión vieja puede generarte conflicto con otras apps, recomendamos usar nvm para cambiar entre versiones de node.
-   ![1](https://github.com/user-attachments/assets/37042e25-346f-40f9-bc7b-b106fa3c32dd)
+1. **Node.js (versión 16.x)**  
+   Es recomendable tener instalado **nvm** para gestionar diferentes versiones de Node.js. Si no tienes Node.js o nvm, puedes instalarlo siguiendo la documentación oficial:
 
-2. Instalar xampp 7.4.33
-   [Instalador Xampp windows](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.33/)
-3. Si tu cuenta de root en mysql tiene una contraseña diferente a 123456, debes cambiarla de root por 123456 o la que desees en la variables de entorno y root de mysql.
-   [Cambiar pass mysql](https://www.youtube.com/watch?v=HMDSPX1qN-M&t=135s)
-4. Instalar Composer -> [Guía Composer](https://styde.net/instalacion-de-composer-y-laravel-en-windows/)
-5. Instalar vue -> `npm install -g @vue/cli`
-6. Mover/clonar todo el proyecto a `XAMPP/htdocs`
-7. Dentro del proyecto, instalar dependencias -> `npm install`
-8. Ejecutar `composer install` para que se cree carpeta `vendor` si hay algún error, ejecutar `composer update` y volver a ejecutar el `composer install`
-9. En el archivo .env reemplazar esta var
+    - [Instalar Node.js](https://nodejs.org/)
+    - [Instalar nvm](https://github.com/nvm-sh/nvm)
+
+2. **Composer**  
+   Composer es necesario para gestionar las dependencias de PHP. Sigue los pasos según tu sistema operativo:
+
+    - **Windows:** [Guía de instalación para Windows](https://styde.net/instalacion-de-composer-y-laravel-en-windows/)
+    - **Linux:** [Guía de instalación para Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04-es)
+
+3. **Vue CLI**  
+   Instala Vue CLI globalmente utilizando npm:
+    ```bash
+    npm install -g @vue/cli
+    ```
+
+# Instrucciones para configurar y ejecutar el proyecto
+
+Sigue los pasos a continuación para configurar y ejecutar este proyecto correctamente:
+
+## 1. Clonar el repositorio
+
+Clona este repositorio en tu máquina local usando el siguiente comando:
+
+```bash
+git clone https://github.com/Tech-Work-Solutions/Minuta-Seguridad-JBS.git
+```
+
+## 2. Configurar la base de datos
+
+Asegúrate de tener MySQL instalado en tu sistema. Luego, realiza lo siguiente:
+
+-   Ejecuta el script SQL que se encuentra en el repositorio `minutas_jbs.sql` para inicializar la base de datos:
+    ```bash
+    mysql -u <usuario> -p <nombre_base_de_datos> < archivo.sql
+    ```
+    > **Nota:** Reemplaza <usuario> y <nombre_base_de_datos> con las credenciales correspondientes.
+
+## 3. Configurar las variables de entorno
+
+-   Crea un archivo .env en la raíz del proyecto (si aún no existe).
+-   Ajusta las variables de entorno necesarias según el formato proporcionado en el archivo de ejemplo .env.example.
+
+## 4. Seleccionar la versión correcta de Node.js
+
+Asegúrate de usar la versión `16.x` de Node.js:
+
+```bash
+nvm use 16
+```
+
+## 5. Instalar las dependencias de Node.js
+
+Ejecuta el siguiente comando para instalar las dependencias del proyecto:
+
+```bash
+npm install
+```
+
+## 6. Actualizar e instalar dependencias de Composer
+
+Si el proyecto incluye dependencias de PHP, ejecuta los siguientes comandos:
+
+```bash
+composer update
+composer install
+```
+
+## 6. Ejecutar el proyecto
+
+Para ejecutar el proyecto en modo desarrollo, utiliza:
+
+```bash
+npm run dev
+```
+
+O, si necesitas que los archivos se recompilen automáticamente, utiliza:
+
+```bash
+npm run watch
+```
+
+Para ejecutar el servidor, usa:
+
+```bash
+npm run start:server
+```
+
+¡Listo para usar! 😊
+
+## Configuración en Windows con Apache
+
+### Requisitos previos en Windows
+
+1. Instalar Node.js (versión recomendada: 16.20.2).
+   Es preferible usar nvm para cambiar entre versiones:
+
+    ![1](https://github.com/user-attachments/assets/37042e25-346f-40f9-bc7b-b106fa3c32dd)
+
+2. Instalar XAMPP (versión recomendada: 7.4.33):
+
+    [Instalador Xampp windows](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.33/)
+
+3. Si tu usuario `root` tiene una contraseña diferente a `123456`, cámbiala o ajusta la variable de entorno en el archivo `.env`:
+
+    [Cambiar pass mysql](https://www.youtube.com/watch?v=HMDSPX1qN-M&t=135s)
+
+4. Instalar Composer:
+
+    [Guía Composer](https://styde.net/instalacion-de-composer-y-laravel-en-windows/)
+
+5. Instalar vue:
+
+    ```bash
+    npm install -g @vue/cli
+    ```
+
+6. Mover el proyecto a `XAMPP/htdocs`
+7. En proyecto, instalar dependencias:
+    ```bash
+    npm install
+    ```
+8. Ejecutar composer:
+    ```bash
+    composer update
+    composer install
+    ```
+9. En el archivo `.env` reemplazar esta var
    `APP_URL=http://localhost/seguridadapp`
 
-## Settings
+## Configuración adicional
 
 1. Configurar la Raíz del DocumentRoot a la Carpeta public. Agregar lo siguiente en el archivo `C:\xampp\apache\conf\extra\httpd-vhosts.conf`
 
