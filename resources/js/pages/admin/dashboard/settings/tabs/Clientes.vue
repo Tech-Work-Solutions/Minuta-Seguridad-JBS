@@ -71,7 +71,7 @@
                     class="block text-gray-600 text-sm font-semibold mb-2"
                     for="menu-visible"
                   >
-                    Menú Visible:
+                    Opciones de menu:
                   </label>
                   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div
@@ -97,7 +97,7 @@
                     class="block text-gray-600 text-sm font-semibold mb-2"
                     for="form-visible"
                   >
-                    Elementos Visibles en el Formulario:
+                  Opciones multimedia:
                   </label>
                   <div v-for="(formOption, index) in formOptions" :key="index" class="flex items-center mb-2">
                     <input
@@ -111,19 +111,25 @@
                   </div>
                 </div>
               </div>
-              <div class="flex flex-col items-center w-full">
-                <div class="flex flex-col md:flex-row justify-center items-center w-full">
+              <div class="flex flex-col w-full">
+                <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    for="form-visible"
+                  >
+                Configuracion de reportes:
+                </label>
+                <div class="flex flex-col md:flex-row justify-center items-center w-full">                  
                   <label
                     class="w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                     <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                    <span class="mt-2 text-sm font-semibold">Adjuntar Imagen Header</span>
+                    <span class="mt-2 text-sm font-semibold">Adjuntar Cabecera</span>
                     <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen('header', $event)" />
                   </label>
 
                   <label
                     class="w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                     <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                    <span class="mt-2 text-sm font-semibold">Adjuntar Imagen Footer</span>
+                    <span class="mt-2 text-sm font-semibold">Adjuntar Pie de Pagina</span>
                     <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen('footer', $event)" />
                   </label>
                 </div>
@@ -139,24 +145,9 @@
                     </figure>
                   </div>
                 </div>
-              </div>
-              <div class="w-full mt-5">
-                <div class="relative w-full mb-5 flex items-center">
-                  <label
-                    class="block text-gray-600 text-sm font-semibold mr-2"
-                    htmlFor="grid-password"
-                  >
-                    Estado:
-                  </label>                                      
-                  <toggle-button 
-                    v-model="formData.estado" 
-                    :labels="false" 
-                    color="rgba(59, 130, 246, var(--tw-bg-opacity))"
-                  />                               
-                </div>
-              </div>
+              </div>              
             </div>
-            <div class="flex mb-4">
+            <div class="flex mb-4 mt-5">
               <button 
                   class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
                   type="button" 

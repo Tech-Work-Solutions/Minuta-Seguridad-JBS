@@ -82,22 +82,7 @@
                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                   </div>
                 </div>
-              </div>
-              <div class="w-full mt-5">
-                <div class="relative w-full mb-5 flex items-center">
-                  <label
-                    class="block text-gray-600 text-sm font-semibold mr-2"
-                    htmlFor="grid-password"
-                  >
-                    Estado:
-                  </label>                                      
-                  <toggle-button 
-                    v-model="formData.estado" 
-                    :labels="false" 
-                    color="rgba(59, 130, 246, var(--tw-bg-opacity))"
-                  />                               
-                </div>
-              </div>
+              </div>              
             </div>
             <div class="flex mb-4">
               <button 

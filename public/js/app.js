@@ -11178,15 +11178,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -12076,21 +12067,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -79090,7 +79066,11 @@ var render = function() {
                         "block text-gray-600 text-sm font-semibold mb-2",
                       attrs: { for: "menu-visible" }
                     },
-                    [_vm._v("\n                Menú Visible:\n              ")]
+                    [
+                      _vm._v(
+                        "\n                Opciones de menu:\n              "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -79186,7 +79166,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                Elementos Visibles en el Formulario:\n              "
+                          "\n              Opciones multimedia:\n              "
                         )
                       ]
                     ),
@@ -79267,7 +79247,21 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col items-center w-full" }, [
+              _c("div", { staticClass: "flex flex-col w-full" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass:
+                      "block text-gray-600 text-sm font-semibold mb-2",
+                    attrs: { for: "form-visible" }
+                  },
+                  [
+                    _vm._v(
+                      "\n            Configuracion de reportes:\n            "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
                 _c(
                   "div",
                   {
@@ -79289,7 +79283,7 @@ var render = function() {
                         _c(
                           "span",
                           { staticClass: "mt-2 text-sm font-semibold" },
-                          [_vm._v("Adjuntar Imagen Header")]
+                          [_vm._v("Adjuntar Cabecera")]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -79318,7 +79312,7 @@ var render = function() {
                         _c(
                           "span",
                           { staticClass: "mt-2 text-sm font-semibold" },
-                          [_vm._v("Adjuntar Imagen Footer")]
+                          [_vm._v("Adjuntar Pie de Pagina")]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -79373,43 +79367,10 @@ var render = function() {
                     )
                   ]
                 )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "w-full mt-5" }, [
-                _c(
-                  "div",
-                  { staticClass: "relative w-full mb-5 flex items-center" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-gray-600 text-sm font-semibold mr-2",
-                        attrs: { htmlFor: "grid-password" }
-                      },
-                      [_vm._v("\n                Estado:\n              ")]
-                    ),
-                    _vm._v(" "),
-                    _c("toggle-button", {
-                      attrs: {
-                        labels: false,
-                        color: "rgba(59, 130, 246, var(--tw-bg-opacity))"
-                      },
-                      model: {
-                        value: _vm.formData.estado,
-                        callback: function($$v) {
-                          _vm.$set(_vm.formData, "estado", $$v)
-                        },
-                        expression: "formData.estado"
-                      }
-                    })
-                  ],
-                  1
-                )
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "flex mb-4" }, [
+            _c("div", { staticClass: "flex mb-4 mt-5" }, [
               _c(
                 "button",
                 {
@@ -80800,39 +80761,6 @@ var render = function() {
                     ]
                   )
                 ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "w-full mt-5" }, [
-                _c(
-                  "div",
-                  { staticClass: "relative w-full mb-5 flex items-center" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-gray-600 text-sm font-semibold mr-2",
-                        attrs: { htmlFor: "grid-password" }
-                      },
-                      [_vm._v("\n                Estado:\n              ")]
-                    ),
-                    _vm._v(" "),
-                    _c("toggle-button", {
-                      attrs: {
-                        labels: false,
-                        color: "rgba(59, 130, 246, var(--tw-bg-opacity))"
-                      },
-                      model: {
-                        value: _vm.formData.estado,
-                        callback: function($$v) {
-                          _vm.$set(_vm.formData, "estado", $$v)
-                        },
-                        expression: "formData.estado"
-                      }
-                    })
-                  ],
-                  1
-                )
               ])
             ]),
             _vm._v(" "),
