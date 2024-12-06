@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-12-2024 a las 05:50:47
+-- Tiempo de generación: 06-12-2024 a las 14:50:09
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `minutas_jbs`
 --
+CREATE DATABASE IF NOT EXISTS `minutas_jbs` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `minutas_jbs`;
 
 -- --------------------------------------------------------
 
@@ -67,6 +69,13 @@ CREATE TABLE `clientes` (
   `img_footer` varchar(255) DEFAULT NULL COMMENT 'Img para el pie de página.',
   `estado` enum('ACTIVO','INACTIVO','ELIMINADO') DEFAULT 'ACTIVO'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`id`, `nit`, `nombre`, `email`, `created_at`, `updated_at`, `permisos_menu`, `permisos_formulario`, `img_header`, `img_footer`, `estado`) VALUES
+(1, '324654656', 'exito', 'exito@gmail.com', '2024-12-06 02:10:56', '2024-12-06 02:10:56', '[{\"id\":5,\"nombre\":\"Configuraciones\"},{\"id\":4,\"nombre\":\"Reportes\"},{\"id\":6,\"nombre\":\"Usuarios\"},{\"id\":2,\"nombre\":\"Vehiculos\"},{\"id\":3,\"nombre\":\"Visitantes\"}]', '[{\"id\":3,\"nombre\":\"Adjuntar foto\"},{\"id\":1,\"nombre\":\"Grabar audio\"}]', '/img/clientes/051224211056_headerfondo.jpg', '/img/clientes/051224211056_footerimages (2).jpg', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -203,6 +212,15 @@ CREATE TABLE `opciones_formulario` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `opciones_formulario`
+--
+
+INSERT INTO `opciones_formulario` (`id`, `nombre`, `estado`, `created_at`, `updated_at`) VALUES
+(1, 'Grabar audio', 'ACTIVO', '2024-12-05 17:27:49', NULL),
+(2, 'Grabar video', 'ACTIVO', '2024-12-05 17:32:18', NULL),
+(3, 'Adjuntar foto', 'ACTIVO', '2024-12-05 17:32:00', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -216,6 +234,18 @@ CREATE TABLE `opciones_menu` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `opciones_menu`
+--
+
+INSERT INTO `opciones_menu` (`id`, `nombre`, `estado`, `created_at`, `updated_at`) VALUES
+(1, 'Minuta', 'ACTIVO', '2024-12-05 17:32:43', NULL),
+(2, 'Vehiculos', 'ACTIVO', '2024-12-05 17:32:43', NULL),
+(3, 'Visitantes', 'ACTIVO', '2024-12-05 17:33:34', NULL),
+(4, 'Reportes', 'ACTIVO', '2024-12-05 17:33:34', NULL),
+(5, 'Configuraciones', 'ACTIVO', '2024-12-05 17:33:34', NULL),
+(6, 'Usuarios', 'ACTIVO', '2024-12-05 17:33:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -819,7 +849,8 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (2030, 'App\\Models\\User', 5, 'browser', 'ff1ef373d4fad8e5266abfdf9c4286e9bfc331a088f3ffb7dd829d746acc9bc6', '[\"*\"]', '2024-12-03 12:09:07', '2024-12-03 12:09:05', '2024-12-03 12:09:07'),
 (2031, 'App\\Models\\User', 5, 'browser', 'd8d35e1223c758f0c11555124873de35902dc80cfefc8bc79582ae4d67d26ca3', '[\"*\"]', '2024-12-03 17:12:27', '2024-12-03 17:12:24', '2024-12-03 17:12:27'),
 (2032, 'App\\Models\\User', 5, 'browser', '8f98b6cb48ea76de714a69f044ffea53ca988a804f1080b101f421cbcfd6fd95', '[\"*\"]', '2024-12-04 03:52:15', '2024-12-04 02:54:37', '2024-12-04 03:52:15'),
-(2033, 'App\\Models\\User', 5, 'browser', 'd8351c1d0fa155e5c0ab89eb59d809ecea47d28a0cebda2301587499c83eb627', '[\"*\"]', '2024-12-04 03:56:19', '2024-12-04 03:52:39', '2024-12-04 03:56:19');
+(2033, 'App\\Models\\User', 5, 'browser', 'd8351c1d0fa155e5c0ab89eb59d809ecea47d28a0cebda2301587499c83eb627', '[\"*\"]', '2024-12-04 03:56:19', '2024-12-04 03:52:39', '2024-12-04 03:56:19'),
+(2034, 'App\\Models\\User', 5, 'browser', 'bafa0c330498f089befa72f38e78115b813fb304a1b922410b21686c9654b5a2', '[\"*\"]', '2024-12-06 03:42:24', '2024-12-05 17:29:31', '2024-12-06 03:42:24');
 
 -- --------------------------------------------------------
 
@@ -1129,6 +1160,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `opciones_formulario`
+--
+ALTER TABLE `opciones_formulario`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `opciones_menu`
 --
 ALTER TABLE `opciones_menu`
@@ -1263,7 +1300,7 @@ ALTER TABLE `arls`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla de clientes';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla de clientes', AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `drivers`
@@ -1290,6 +1327,18 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT de la tabla `opciones_formulario`
+--
+ALTER TABLE `opciones_formulario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `opciones_menu`
+--
+ALTER TABLE `opciones_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT de la tabla `origins`
 --
 ALTER TABLE `origins`
@@ -1305,7 +1354,7 @@ ALTER TABLE `people`
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2034;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2035;
 
 --
 -- AUTO_INCREMENT de la tabla `record_minutas`
@@ -1329,7 +1378,7 @@ ALTER TABLE `record_vehicles`
 -- AUTO_INCREMENT de la tabla `sedes`
 --
 ALTER TABLE `sedes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `subjects`
