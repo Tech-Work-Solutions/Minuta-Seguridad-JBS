@@ -1,62 +1,179 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Tecnologías
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+1. Vue
+2. Xampp
+3. Laravel
+4. MySql
 
-## About Laravel
+## Dependencias
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Antes de configurar el proyecto, asegúrate de contar con las siguientes herramientas instaladas:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. **Node.js (versión 16.x)**  
+   Es recomendable tener instalado **nvm** para gestionar diferentes versiones de Node.js. Si no tienes Node.js o nvm, puedes instalarlo siguiendo la documentación oficial:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    - [Instalar Node.js](https://nodejs.org/)
+    - [Instalar nvm](https://github.com/nvm-sh/nvm)
 
-## Learning Laravel
+2. **Composer**  
+   Composer es necesario para gestionar las dependencias de PHP. Sigue los pasos según tu sistema operativo:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    - **Windows:** [Guía de instalación para Windows](https://styde.net/instalacion-de-composer-y-laravel-en-windows/)
+    - **Linux:** [Guía de instalación para Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04-es)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Vue CLI**  
+   Instala Vue CLI globalmente utilizando npm:
+    ```bash
+    npm install -g @vue/cli
+    ```
 
-## Laravel Sponsors
+# Instrucciones para configurar y ejecutar el proyecto
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Sigue los pasos a continuación para configurar y ejecutar este proyecto correctamente:
 
-### Premium Partners
+## 1. Clonar el repositorio
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+Clona este repositorio en tu máquina local usando el siguiente comando:
 
-## Contributing
+```bash
+git clone https://github.com/Tech-Work-Solutions/Minuta-Seguridad-JBS.git
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 2. Configurar la base de datos
 
-## Code of Conduct
+Asegúrate de tener MySQL instalado en tu sistema. Luego, realiza lo siguiente:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   Ejecuta el script SQL que se encuentra en el repositorio `minutas_jbs.sql` para inicializar la base de datos:
+    ```bash
+    mysql -u <usuario> -p <nombre_base_de_datos> < archivo.sql
+    ```
+    > **Nota:** Reemplaza <usuario> y <nombre_base_de_datos> con las credenciales correspondientes.
 
-## Security Vulnerabilities
+## 3. Configurar las variables de entorno
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   Crea un archivo .env en la raíz del proyecto (si aún no existe).
+-   Ajusta las variables de entorno necesarias según el formato proporcionado en el archivo de ejemplo .env.example.
 
-## License
+## 4. Seleccionar la versión correcta de Node.js
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Asegúrate de usar la versión `16.x` de Node.js:
+
+```bash
+nvm use 16
+```
+
+## 5. Instalar las dependencias de Node.js
+
+Ejecuta el siguiente comando para instalar las dependencias del proyecto:
+
+```bash
+npm install
+```
+
+## 6. Actualizar e instalar dependencias de Composer
+
+Si el proyecto incluye dependencias de PHP, ejecuta los siguientes comandos:
+
+```bash
+composer update
+composer install
+```
+
+## 6. Ejecutar el proyecto
+
+Para ejecutar el proyecto en modo desarrollo, utiliza:
+
+```bash
+npm run dev
+```
+
+O, si necesitas que los archivos se recompilen automáticamente, utiliza:
+
+```bash
+npm run watch
+```
+
+Para ejecutar el servidor, usa:
+
+```bash
+npm run start:server
+```
+
+¡Listo para usar! 😊
+
+## Configuración en Windows con Apache
+
+### Requisitos previos en Windows
+
+1. Instalar Node.js (versión recomendada: 16.20.2).
+   Es preferible usar nvm para cambiar entre versiones:
+
+    ![1](https://github.com/user-attachments/assets/37042e25-346f-40f9-bc7b-b106fa3c32dd)
+
+2. Instalar XAMPP (versión recomendada: 7.4.33):
+
+    [Instalador Xampp windows](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.33/)
+
+3. Si tu usuario `root` tiene una contraseña diferente a `123456`, cámbiala o ajusta la variable de entorno en el archivo `.env`:
+
+    [Cambiar pass mysql](https://www.youtube.com/watch?v=HMDSPX1qN-M&t=135s)
+
+4. Instalar Composer:
+
+    [Guía Composer](https://styde.net/instalacion-de-composer-y-laravel-en-windows/)
+
+5. Instalar vue:
+
+    ```bash
+    npm install -g @vue/cli
+    ```
+
+6. Mover el proyecto a `XAMPP/htdocs`
+7. En proyecto, instalar dependencias:
+    ```bash
+    npm install
+    ```
+8. Ejecutar composer:
+    ```bash
+    composer update
+    composer install
+    ```
+9. En el archivo `.env` reemplazar esta var
+   `APP_URL=http://localhost/seguridadapp`
+
+## Configuración adicional
+
+1. Configurar la Raíz del DocumentRoot a la Carpeta public. Agregar lo siguiente en el archivo `C:\xampp\apache\conf\extra\httpd-vhosts.conf`
+
+    ![1 9](https://github.com/user-attachments/assets/04114cc7-e1fe-4569-9cd5-daca62e6b8df)
+
+    ![2](https://github.com/user-attachments/assets/27f442b1-29fd-488c-8031-0bb7d024634f)
+
+2. Editar los hosts
+
+`C:\Windows\System32\drivers\etc\hosts`
+agregar `127.0.0.1 seguridadapp.local`
+
+3. Verificar que `mod_rewrite` esté Habilitado
+
+En Apache revisa en: `C:\xampp\apache\conf\httpd.conf`
+
+Asegúrarse de que la línea `LoadModule rewrite_module modules/mod_rewrite.so` no esté comentada.
+
+![3](https://github.com/user-attachments/assets/30f61228-f6d5-4b34-84d0-fe0b8e40a1a8)
+
+Verificar que este la siguiente configuración
+
+    <Directory "C:/xampp/htdocs">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+4. reiniciar apache
+
+5. Ejecutar `npm run dev`
+
+6. Acceder a la url http://seguridadapp.local para ver la aplicación en ejecución.
+
+![4](https://github.com/user-attachments/assets/05d179fb-06ec-45ec-ae3c-4d7cfa348d16)
