@@ -69,26 +69,22 @@
                 <div class="relative w-full mb-5">
                   <label
                     class="block text-gray-600 text-sm font-semibold mb-2"
-                    for="menu-visible"
+                    htmlFor="grid-password"
                   >
                     Opciones de menu:
                   </label>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div
-                      v-for="(menu, index) in menuOptions"
-                      :key="index"
-                      class="flex items-center"
-                    >
-                      <input
-                        type="checkbox"
-                        :id="'form-option-' + index"
-                        :value="{ id: menu.id, nombre: menu.nombre }"
-                        v-model="selectedMenuOptions"
-                        class="mr-2"
-                      />
-                      <label :for="'form-option-' + index" class="text-gray-600">{{ menu.nombre }}</label>
-                    </div>
-                  </div>
+                  <multiselect
+                    v-model="selectedMenuOptions"
+                    :options="menuOptions"
+                    :multiple="true"
+                    :searchable="true"
+                    :close-on-select="false"
+                    label="nombre"
+                    track-by="id"
+                    placeholder="Selecciona las opciones"
+                    class="w-full"
+                    :show-labels="false"
+                  />
                 </div>
               </div>
               <div class="w-full">
@@ -99,16 +95,18 @@
                   >
                   Opciones multimedia:
                   </label>
-                  <div v-for="(formOption, index) in formOptions" :key="index" class="flex items-center mb-2">
-                    <input
-                      type="checkbox"
-                      :id="'menu-option-' + index"
-                      :value="{id: formOption.id, nombre: formOption.nombre}"
-                      v-model="selectedFormOptions"
-                      class="mr-2"
-                    />
-                    <label :for="'menu-option-' + index" class="text-gray-600">{{ formOption.nombre }}</label>                  
-                  </div>
+                  <multiselect
+                    v-model="selectedFormOptions"
+                    :options="formOptions"
+                    :multiple="true"
+                    :searchable="true"
+                    :close-on-select="false"
+                    label="nombre"
+                    track-by="id"
+                    placeholder="Selecciona las opciones"
+                    class="w-full"
+                    :show-labels="false"
+                  />                  
                 </div>
               </div>
               <div class="flex flex-col w-full">
@@ -227,7 +225,13 @@
   
   <script>
   import { required, numeric } from 'vuelidate/lib/validators';
+  import Multiselect from 'vue-multiselect';
+  import 'vue-multiselect/dist/vue-multiselect.min.css';
+  import '../../../../../../css/app.css';
   export default {
+    components: {
+      Multiselect
+    },
     data() {
       return {
         submited: false,
@@ -263,6 +267,15 @@
     methods: {
       registrarCliente(){
           this.spiner = true;
+          this.selectedMenuOptions = this.selectedMenuOptions.map(option => ({
+            id: option.id,
+            nombre: option.nombre
+          }));
+
+          this.selectedFormOptions = this.selectedFormOptions.map(option => ({
+            id: option.id,
+            nombre: option.nombre
+          }));
           this.formData.permisos_formulario = JSON.stringify(this.selectedFormOptions)          
           this.formData.permisos_menu = JSON.stringify(this.selectedMenuOptions) 
           if(this.formData.estado == true){
@@ -333,7 +346,7 @@
 
       getOpcionesMenu(){
         axios.get('/api/getOpcionesMenu').then((response) => {
-           this.menuOptions = response.data
+           this.menuOptions = response.data;
                  
         }).catch((errors) => {
             console.log(errors.response.data.errors)
