@@ -341,8 +341,6 @@ export default {
             alert("Por favor selecciona un archivo de audio válido.");
             this.audioPreview = null;
          }
-
-         // this.cargarImagen(file);
       },
 
       cargarImagen(file) {
