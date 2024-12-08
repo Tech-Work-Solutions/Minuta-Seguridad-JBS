@@ -9,7 +9,7 @@ class OpcionesMenuController extends Controller
 {
     public function registerOpcionMenu(Request $request){
         $request->validate([
-            'estado' => ['required', 'in:ACTIVO,ACTIVO,ELIMINADO'],
+            'estado' => ['required', 'in:ACTIVO,INACTIVO,ELIMINADO'],
             'nombre'            => ['required']
         ]);
         $opcionMenu = OpcionMenu::create([

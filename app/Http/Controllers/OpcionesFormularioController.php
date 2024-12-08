@@ -9,7 +9,7 @@ class OpcionesFormularioController extends Controller
 {
     public function registerOpcionesFormulario(Request $request){
         $request->validate([
-            'estado' => ['required', 'in:ACTIVO,ACTIVO,ELIMINADO'],
+            'estado' => ['required', 'in:ACTIVO,INACTIVO,ELIMINADO'],
             'nombre'            => ['required']
         ]);
         $opcionFormulario = OpcionFormulario::create([
