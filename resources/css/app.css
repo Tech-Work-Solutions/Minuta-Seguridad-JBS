@@ -69,3 +69,9 @@
    background-color: rgba(55, 65, 81, 1) !important;
    color: white !important;
  }
+  
+@media (min-width: 767px) and (max-width: 1408px) {
+  .config-reportes {
+    flex-direction: column !important;
+  }
+}

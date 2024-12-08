@@ -31907,6 +31907,12 @@ video {
   color: white !important;
 }
 
+@media (min-width: 767px) and (max-width: 1408px) {
+  .config-reportes {
+    flex-direction: column !important;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -187461,3 +187467,4 @@ video {
     --tw-backdrop-sepia: sepia(100%);
   }
 }
+

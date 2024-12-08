@@ -116,7 +116,7 @@
                   >
                 Configuracion de reportes:
                 </label>
-                <div class="flex flex-col md:flex-row justify-center items-center w-full">                  
+                <div class="flex flex-col md:flex-row justify-center items-center w-full config-reportes">                  
                   <label
                     class="w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                     <em class="fas fa-cloud-upload-alt fa-3x"></em>

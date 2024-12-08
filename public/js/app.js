@@ -79223,7 +79223,7 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "flex flex-col md:flex-row justify-center items-center w-full"
+                      "flex flex-col md:flex-row justify-center items-center w-full config-reportes"
                   },
                   [
                     _c(
