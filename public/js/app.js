@@ -11270,8 +11270,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 data.append('nombre', _this.formData.nombre);
                 data.append('email', _this.formData.email);
                 data.append('estado', _this.formData.estado);
-                data.append('img_header', _this.formData.img_header);
-                data.append('img_footer', _this.formData.img_footer);
+
+                if (_this.formData.img_header != null) {
+                  data.append('img_header', _this.formData.img_header);
+                }
+
+                if (_this.formData.img_footer != null) {
+                  data.append('img_footer', _this.formData.img_footer);
+                }
+
                 data.append('permisos_formulario', _this.formData.permisos_formulario);
                 data.append('permisos_menu', _this.formData.permisos_menu);
                 _context.next = 11;
@@ -12289,6 +12296,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     registrarSede: function registrarSede() {
       this.spiner = true;
+
+      if (this.formData.estado == true) {
+        this.formData.estado = 'ACTIVO';
+      } else {
+        this.formData.estado = 'INACTIVO';
+      }
+
       this.validarDatos();
     },
     validarDatos: function validarDatos() {
@@ -12412,7 +12426,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (client) {
             element.client = client.nombre;
           } else {
-            console.log("Cliente con ID ".concat(element.cliente_id, " no encontrado."));
+            console.log("Puesto con ID ".concat(element.cliente_id, " no encontrado."));
           }
         };
 
@@ -80513,7 +80527,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                    Cliente:\n                "
+                          "\n                    Puesto:\n                "
                         )
                       ]
                     ),
@@ -80539,7 +80553,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.submited && !_vm.$v.formData.cliente_id.required
                   ? _c("p", { staticClass: "text-red-500 text-sm" }, [
-                      _vm._v("Seleccione un cliente")
+                      _vm._v("Seleccione un puesto")
                     ])
                   : _vm._e()
               ]),
@@ -80937,7 +80951,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                  Cliente\n                ")]
+          [_vm._v("\n                  Puesto\n                ")]
         ),
         _vm._v(" "),
         _c(

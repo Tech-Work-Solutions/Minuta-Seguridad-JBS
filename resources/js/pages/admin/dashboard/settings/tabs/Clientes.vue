@@ -301,11 +301,15 @@
         data.append('nombre', this.formData.nombre);
         data.append('email', this.formData.email);
         data.append('estado', this.formData.estado); 
-        data.append('img_header', this.formData.img_header);   
-        data.append('img_footer', this.formData.img_footer);     
+        if (this.formData.img_header != null) {
+            data.append('img_header', this.formData.img_header);
+        }
+        if (this.formData.img_footer != null) {
+            data.append('img_footer', this.formData.img_footer);
+        }
         data.append('permisos_formulario', this.formData.permisos_formulario); 
         data.append('permisos_menu', this.formData.permisos_menu);
-
+        
         await axios.post('/api/registerClients', data).then((response) => { 
           this.spiner = false;
           this.submited = false;
@@ -383,7 +387,7 @@
           } else if (imageType === 'footer') {
             this.reportFooterImage = e.target.result;
           }
-        };
+        };        
         reader.readAsDataURL(file);
       },
 

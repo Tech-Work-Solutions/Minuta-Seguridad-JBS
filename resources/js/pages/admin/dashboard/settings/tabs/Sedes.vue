@@ -11,7 +11,7 @@
                         class="block text-gray-600 text-sm font-semibold mb-2"
                         htmlFor="grid-password"
                     >
-                        Cliente:
+                        Puesto:
                     </label>
                     <t-rich-select
                     v-model="formData.cliente_id"
@@ -22,7 +22,7 @@
                     >
                     </t-rich-select>
                 </div>
-                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cliente_id.required">Seleccione un cliente</p>                                      
+                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cliente_id.required">Seleccione un puesto</p>                                      
               </div> 
               <div class="w-full">
                   <div class="relative w-full mb-5">
@@ -127,7 +127,7 @@
                     <th
                     class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                     >
-                      Cliente
+                      Puesto
                     </th>
                     <th
                     class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
@@ -203,6 +203,11 @@
     methods: {
       registrarSede(){
           this.spiner = true;
+          if(this.formData.estado == true){
+            this.formData.estado = 'ACTIVO';
+          } else {
+            this.formData.estado = 'INACTIVO';
+          }  
           this.validarDatos()         
       },
       validarDatos(){
@@ -215,7 +220,7 @@
           this.register();          
       }, 
   
-      async register(){        
+      async register(){  
         await axios.post('/api/registerSede', this.formData).then((response) => { 
           this.spiner = false;
           this.submited = false;
@@ -276,7 +281,7 @@
                     if (client) {                      
                         element.client = client.nombre;
                     } else {
-                        console.log(`Cliente con ID ${element.cliente_id} no encontrado.`);
+                        console.log(`Puesto con ID ${element.cliente_id} no encontrado.`);
                     }
                 }            
             }
