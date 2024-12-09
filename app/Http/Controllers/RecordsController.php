@@ -19,6 +19,7 @@ class RecordsController extends Controller
         ]);
 
         $imagen = '';
+        $audio = '';
         if($request->file('file')){
             $file = $request->file('file');
             //obtenemos el nombre del archivo
@@ -28,12 +29,23 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/minutas/', $f.$nombre); 
             $imagen = '/img/minutas/'.$f.$nombre;
         }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            // Crear un nombre único para evitar conflictos
+            $f = date("dmyHis");
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/minutas/', $f.$nombre); 
+            $audio = '/audios/minutas/'.$f.$nombre;
+        }
         Record_minuta::create([
             'anotaciones'   => $request->anotaciones,
             'foto'          => $imagen,
             'ubicacion_id'  => $request->ubicacion_id,
             'subject_id'    => $request->subject_id,
             'user_id'       => $request->user_id,
+            'audio'         => $audio,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }
@@ -49,6 +61,7 @@ class RecordsController extends Controller
         ]);
 
         $imagen = '';
+        $audio = '';
         if($request->file('file')){
             $file = $request->file('file');
             //obtenemos el nombre del archivo
@@ -57,6 +70,16 @@ class RecordsController extends Controller
             //indicamos que queremos guardar un nuevo archivo en el disco local
             $file->move(public_path().'/img/vehiculos/', $f.$nombre); 
             $imagen = '/img/vehiculos/'.$f.$nombre;
+        }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            // Crear un nombre único para evitar conflictos
+            $f = date("dmyHis");
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/vehiculos/', $f.$nombre); 
+            $audio = '/audios/vehiculos/'.$f.$nombre;
         }
         Record_vehicle::create([
             'observaciones'     => $request->observaciones ? $request->observaciones : '',
@@ -67,6 +90,7 @@ class RecordsController extends Controller
             'origin_id'         => $request->origin_id,
             'volqueta_id'       => $request->volqueta_id,
             'user_id'           => $request->user_id,
+            'audio'             => $audio,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }
@@ -103,6 +127,7 @@ class RecordsController extends Controller
 
     public function registrarVisitante($request, $id_persona) {
         $imagen = '';
+        $audio = '';
         if($request->file('file')){
             $file = $request->file('file');
             //obtenemos el nombre del archivo
@@ -112,13 +137,24 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/visitantes/', $f.$nombre); 
             $imagen = '/img/visitantes/'.$f.$nombre;
         }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            // Crear un nombre único para evitar conflictos
+            $f = date("dmyHis");
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/visitantes/', $f.$nombre); 
+            $audio = '/audios/visitantes/'.$f.$nombre;
+        }
         Record_person::create([
             'destino'           => $request->destino ? $request->destino : '', 
             'entrada_salida'    => $request->entrada_salida, 
             'observaciones'     => $request->observaciones ? $request->observaciones : '', 
             'foto'              => $imagen, 
             'person_id'         => $id_persona, 
-            'user_id'           => $request->user_id, 
+            'user_id'           => $request->user_id,
+            'audio'             => $audio,
         ]);
         return response()->json(["msg" => "Registro exitoso"]);
     }
@@ -196,6 +232,7 @@ class RecordsController extends Controller
 
     public function updateRecordMinuta(Request $request) {
         $imagen = '';
+        $audio = '';
         $record = Record_minuta::findOrFail($request->id);  
         if($request->file('file')){
             $file = $request->file('file');
@@ -211,9 +248,28 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/minutas/', $f.$nombre); 
             $imagen = '/img/minutas/'.$f.$nombre;
         }
+        
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            $f = date("dmyHis");
+            //Eliminar el audio
+            if($request->audioOrigin != "" || $request->audioOrigin != null){
+                $audioOrigin_path = public_path().$request->audioOrigin;
+                unlink($audioOrigin_path);
+            }
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/minutas/', $f.$nombre); 
+            $audio = '/audios/minutas/'.$f.$nombre;
+        }
         $record->anotaciones   = $request->anotaciones;
         if ($imagen !== '') {
             $record->foto      = $imagen;
+        }
+        
+        if ($audio !== '') {
+            $record->audio      = $audio;
         }
         $record->subject_id    = $request->subject_id;
         $record->ubicacion_id  = $request->ubicacion_id;
@@ -223,6 +279,7 @@ class RecordsController extends Controller
 
     public function updateRecordVehicle(Request $request) {
         $imagen = '';
+        $audio = '';
         $record = Record_vehicle::findOrFail($request->id);  
         if($request->file('file')){
             $file = $request->file('file');
@@ -238,10 +295,27 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/vehiculos/', $f.$nombre); 
             $imagen = '/img/vehiculos/'.$f.$nombre;
         }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            $f = date("dmyHis");
+            //Eliminar el audio
+            if($request->audioOrigin != "" || $request->audioOrigin != null){
+                $audioOrigin_path = public_path().$request->audioOrigin;
+                unlink($audioOrigin_path);
+            }
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/vehiculos/', $f.$nombre); 
+            $audio = '/audios/vehiculos/'.$f.$nombre;
+        }
         $record->observaciones  = $request->observaciones;
         $record->entrada_salida = $request->entrada_salida;
         if ($imagen !== '') {
             $record->foto       = $imagen;
+        }
+        if ($audio !== '') {
+            $record->audio      = $audio;
         }
         $record->vehicle_id     = $request->vehicle_id;
         $record->driver_id      = $request->driver_id;
@@ -253,6 +327,7 @@ class RecordsController extends Controller
 
     public function updateRecordVisitante(Request $request) {
         $imagen = '';
+        $audio = '';
         $record = Record_person::findOrFail($request->id);  
         if($request->file('file')){
             $file = $request->file('file');
@@ -268,6 +343,20 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/visitantes/', $f.$nombre); 
             $imagen = '/img/visitantes/'.$f.$nombre;
         }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            $f = date("dmyHis");
+            //Eliminar el audio
+            if($request->audioOrigin != "" || $request->audioOrigin != null){
+                $audioOrigin_path = public_path().$request->audioOrigin;
+                unlink($audioOrigin_path);
+            }
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/visitantes/', $f.$nombre); 
+            $audio = '/audios/visitantes/'.$f.$nombre;
+        }
         $person = Person::where('numero_documento', $request->numero_documento)->first();
         if(!$person) {
             $newPerson = Person::create([
@@ -279,19 +368,22 @@ class RecordsController extends Controller
                 'eps_id'            => $request->eps_id,
                 'arl_id'            => $request->arl_id,
             ]);
-            $this->updateVisitante($request, $newPerson->id, $record, $imagen);
+            $this->updateVisitante($request, $newPerson->id, $record, $imagen, $audio);
         } else {
-            $this->updateVisitante($request, $person->id, $record, $imagen);
+            $this->updateVisitante($request, $person->id, $record, $imagen, $audio);
         }
         
     }
 
-    public function updateVisitante($request, $person_id, $record, $imagen) {
+    public function updateVisitante($request, $person_id, $record, $imagen, $audio) {
         $record->destino        = $request->destino;
         $record->entrada_salida = $request->entrada_salida;
         $record->observaciones  = $request->observaciones ? $request->observaciones : '';
         if ($imagen !== '') {
             $record->foto       = $imagen;
+        }
+        if ($audio !== '') {
+            $record->audio      = $audio;
         }
         $record->person_id      = $person_id;
         $record->update();
@@ -304,6 +396,10 @@ class RecordsController extends Controller
             $image_path = public_path().$record->foto;
             unlink($image_path);
         } 
+        if($record->audio != "" || $record->audio != null){
+            $audio_path = public_path().$record->audio;
+            unlink($audio_path);
+        } 
         $record->delete(); 
         return response()->json(['msg' => 'Registro eliminado']);
     }
@@ -313,6 +409,10 @@ class RecordsController extends Controller
         if($record->foto != "" || $record->foto != null){
             $image_path = public_path().$record->foto;
             unlink($image_path);
+        }
+        if($record->audio != "" || $record->audio != null){
+            $audio_path = public_path().$record->audio;
+            unlink($audio_path);
         } 
         $record->delete(); 
         return response()->json(['msg' => 'Registro eliminado']);
@@ -323,6 +423,10 @@ class RecordsController extends Controller
         if($record->foto != "" || $record->foto != null){
             $image_path = public_path().$record->foto;
             unlink($image_path);
+        }
+        if($record->audio != "" || $record->audio != null){
+            $audio_path = public_path().$record->audio;
+            unlink($audio_path);
         } 
         $record->delete(); 
         return response()->json(['msg' => 'Registro eliminado']);

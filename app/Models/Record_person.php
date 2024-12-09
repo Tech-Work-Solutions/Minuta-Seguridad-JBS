@@ -16,6 +16,7 @@ class Record_person extends Model
         'foto',
         'person_id',
         'user_id',
+        'audio',
     ];
 
     public function person(){
