@@ -127,6 +127,7 @@ class RecordsController extends Controller
 
     public function registrarVisitante($request, $id_persona) {
         $imagen = '';
+        $audio = '';
         if($request->file('file')){
             $file = $request->file('file');
             //obtenemos el nombre del archivo
@@ -136,6 +137,16 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/visitantes/', $f.$nombre); 
             $imagen = '/img/visitantes/'.$f.$nombre;
         }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            // Crear un nombre único para evitar conflictos
+            $f = date("dmyHis");
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/visitantes/', $f.$nombre); 
+            $audio = '/audios/visitantes/'.$f.$nombre;
+        }
         Record_person::create([
             'destino'           => $request->destino ? $request->destino : '', 
             'entrada_salida'    => $request->entrada_salida, 
@@ -143,6 +154,7 @@ class RecordsController extends Controller
             'foto'              => $imagen, 
             'person_id'         => $id_persona, 
             'user_id'           => $request->user_id, 
+            'audio'             => $audio,
         ]);
         return response()->json(["msg" => "Registro exitoso"]);
     }
