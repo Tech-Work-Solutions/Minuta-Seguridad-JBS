@@ -327,6 +327,7 @@ class RecordsController extends Controller
 
     public function updateRecordVisitante(Request $request) {
         $imagen = '';
+        $audio = '';
         $record = Record_person::findOrFail($request->id);  
         if($request->file('file')){
             $file = $request->file('file');
@@ -342,6 +343,20 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/visitantes/', $f.$nombre); 
             $imagen = '/img/visitantes/'.$f.$nombre;
         }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            $f = date("dmyHis");
+            //Eliminar el audio
+            if($request->audioOrigin != "" || $request->audioOrigin != null){
+                $audioOrigin_path = public_path().$request->audioOrigin;
+                unlink($audioOrigin_path);
+            }
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/visitantes/', $f.$nombre); 
+            $audio = '/audios/visitantes/'.$f.$nombre;
+        }
         $person = Person::where('numero_documento', $request->numero_documento)->first();
         if(!$person) {
             $newPerson = Person::create([
@@ -353,19 +368,22 @@ class RecordsController extends Controller
                 'eps_id'            => $request->eps_id,
                 'arl_id'            => $request->arl_id,
             ]);
-            $this->updateVisitante($request, $newPerson->id, $record, $imagen);
+            $this->updateVisitante($request, $newPerson->id, $record, $imagen, $audio);
         } else {
-            $this->updateVisitante($request, $person->id, $record, $imagen);
+            $this->updateVisitante($request, $person->id, $record, $imagen, $audio);
         }
         
     }
 
-    public function updateVisitante($request, $person_id, $record, $imagen) {
+    public function updateVisitante($request, $person_id, $record, $imagen, $audio) {
         $record->destino        = $request->destino;
         $record->entrada_salida = $request->entrada_salida;
         $record->observaciones  = $request->observaciones ? $request->observaciones : '';
         if ($imagen !== '') {
             $record->foto       = $imagen;
+        }
+        if ($audio !== '') {
+            $record->audio      = $audio;
         }
         $record->person_id      = $person_id;
         $record->update();
