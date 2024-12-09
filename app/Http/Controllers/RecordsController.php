@@ -153,7 +153,7 @@ class RecordsController extends Controller
             'observaciones'     => $request->observaciones ? $request->observaciones : '', 
             'foto'              => $imagen, 
             'person_id'         => $id_persona, 
-            'user_id'           => $request->user_id, 
+            'user_id'           => $request->user_id,
             'audio'             => $audio,
         ]);
         return response()->json(["msg" => "Registro exitoso"]);
@@ -391,6 +391,10 @@ class RecordsController extends Controller
         if($record->foto != "" || $record->foto != null){
             $image_path = public_path().$record->foto;
             unlink($image_path);
+        }
+        if($record->audio != "" || $record->audio != null){
+            $audio_path = public_path().$record->audio;
+            unlink($audio_path);
         } 
         $record->delete(); 
         return response()->json(['msg' => 'Registro eliminado']);
@@ -401,6 +405,10 @@ class RecordsController extends Controller
         if($record->foto != "" || $record->foto != null){
             $image_path = public_path().$record->foto;
             unlink($image_path);
+        }
+        if($record->audio != "" || $record->audio != null){
+            $audio_path = public_path().$record->audio;
+            unlink($audio_path);
         } 
         $record->delete(); 
         return response()->json(['msg' => 'Registro eliminado']);
