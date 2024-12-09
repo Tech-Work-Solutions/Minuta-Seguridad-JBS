@@ -267,6 +267,7 @@ class RecordsController extends Controller
 
     public function updateRecordVehicle(Request $request) {
         $imagen = '';
+        $audio = '';
         $record = Record_vehicle::findOrFail($request->id);  
         if($request->file('file')){
             $file = $request->file('file');
@@ -282,10 +283,27 @@ class RecordsController extends Controller
             $file->move(public_path().'/img/vehiculos/', $f.$nombre); 
             $imagen = '/img/vehiculos/'.$f.$nombre;
         }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            $f = date("dmyHis");
+            //Eliminar el audio
+            if($request->audioOrigin != "" || $request->audioOrigin != null){
+                $audioOrigin_path = public_path().$request->audioOrigin;
+                unlink($audioOrigin_path);
+            }
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/vehiculos/', $f.$nombre); 
+            $audio = '/audios/vehiculos/'.$f.$nombre;
+        }
         $record->observaciones  = $request->observaciones;
         $record->entrada_salida = $request->entrada_salida;
         if ($imagen !== '') {
             $record->foto       = $imagen;
+        }
+        if ($audio !== '') {
+            $record->audio      = $audio;
         }
         $record->vehicle_id     = $request->vehicle_id;
         $record->driver_id      = $request->driver_id;
