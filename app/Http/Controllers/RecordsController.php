@@ -61,6 +61,7 @@ class RecordsController extends Controller
         ]);
 
         $imagen = '';
+        $audio = '';
         if($request->file('file')){
             $file = $request->file('file');
             //obtenemos el nombre del archivo
@@ -69,6 +70,16 @@ class RecordsController extends Controller
             //indicamos que queremos guardar un nuevo archivo en el disco local
             $file->move(public_path().'/img/vehiculos/', $f.$nombre); 
             $imagen = '/img/vehiculos/'.$f.$nombre;
+        }
+        if($request->file('audio')){
+            $file = $request->file('audio');
+            //obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            // Crear un nombre único para evitar conflictos
+            $f = date("dmyHis");
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path().'/audios/vehiculos/', $f.$nombre); 
+            $audio = '/audios/vehiculos/'.$f.$nombre;
         }
         Record_vehicle::create([
             'observaciones'     => $request->observaciones ? $request->observaciones : '',
@@ -79,6 +90,7 @@ class RecordsController extends Controller
             'origin_id'         => $request->origin_id,
             'volqueta_id'       => $request->volqueta_id,
             'user_id'           => $request->user_id,
+            'audio'             => $audio,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }
