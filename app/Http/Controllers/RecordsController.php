@@ -7,6 +7,7 @@ use App\Models\Record_minuta;
 use App\Models\Record_vehicle;
 use App\Models\Record_person;
 use App\Models\Person;
+use App\Services\FileService;
 
 class RecordsController extends Controller
 {
@@ -62,25 +63,10 @@ class RecordsController extends Controller
 
         $imagen = '';
         $audio = '';
-        if($request->file('file')){
-            $file = $request->file('file');
-            //obtenemos el nombre del archivo
-            $nombre = $file->getClientOriginalName();
-            $f = date("dmyHis");
-            //indicamos que queremos guardar un nuevo archivo en el disco local
-            $file->move(public_path().'/img/vehiculos/', $f.$nombre); 
-            $imagen = '/img/vehiculos/'.$f.$nombre;
-        }
-        if($request->file('audio')){
-            $file = $request->file('audio');
-            //obtenemos el nombre del archivo
-            $nombre = $file->getClientOriginalName();
-            // Crear un nombre único para evitar conflictos
-            $f = date("dmyHis");
-            //indicamos que queremos guardar un nuevo archivo en el disco local
-            $file->move(public_path().'/audios/vehiculos/', $f.$nombre); 
-            $audio = '/audios/vehiculos/'.$f.$nombre;
-        }
+        $fileService = new FileService();
+        $imagen = $fileService->guardarArchivo($request->file('file'), '/img/vehiculos/');
+        $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/vehiculos/');
+
         Record_vehicle::create([
             'observaciones'     => $request->observaciones ? $request->observaciones : '',
             'entrada_salida'    => $request->entrada_salida,
@@ -128,25 +114,10 @@ class RecordsController extends Controller
     public function registrarVisitante($request, $id_persona) {
         $imagen = '';
         $audio = '';
-        if($request->file('file')){
-            $file = $request->file('file');
-            //obtenemos el nombre del archivo
-            $nombre = $file->getClientOriginalName();
-            $f = date("dmyHis");
-            //indicamos que queremos guardar un nuevo archivo en el disco local
-            $file->move(public_path().'/img/visitantes/', $f.$nombre); 
-            $imagen = '/img/visitantes/'.$f.$nombre;
-        }
-        if($request->file('audio')){
-            $file = $request->file('audio');
-            //obtenemos el nombre del archivo
-            $nombre = $file->getClientOriginalName();
-            // Crear un nombre único para evitar conflictos
-            $f = date("dmyHis");
-            //indicamos que queremos guardar un nuevo archivo en el disco local
-            $file->move(public_path().'/audios/visitantes/', $f.$nombre); 
-            $audio = '/audios/visitantes/'.$f.$nombre;
-        }
+        $fileService = new FileService();
+        $imagen = $fileService->guardarArchivo($request->file('file'), '/img/visitantes/');
+        $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/visitantes/');
+
         Record_person::create([
             'destino'           => $request->destino ? $request->destino : '', 
             'entrada_salida'    => $request->entrada_salida, 
