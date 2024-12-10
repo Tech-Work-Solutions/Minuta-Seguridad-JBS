@@ -77,7 +77,7 @@
                         <em class="fas fa-user"></em>
                     </span>
                     <input 
-                        type="text" 
+                        type="number" 
                         v-model="formData.telefono"
                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                   </div>
@@ -151,17 +151,17 @@
                   <td
                     class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
                     >
-                    {{ sede.nombre.toUpperCase() }}
+                    {{ sede.nombre ? sede.nombre.toUpperCase() : '' }}
                   </td>
                   <td
                     class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
                     >
-                    {{ sede.direccion.toUpperCase() }}
+                    {{ sede.direccion ? sede.direccion.toUpperCase() : '' }}
                   </td>
                   <td
                     class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
                     >
-                    {{ sede.client.toUpperCase() }}
+                    {{ sede.client ? sede.client.toUpperCase() : '' }}
                   </td>
                 </tr>
               </tbody>

@@ -47,22 +47,21 @@
               </div>
               <div class="w-full">
                 <div class="relative w-full mb-5">
-                <label
-                  class="block text-gray-600 text-sm font-semibold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Email:
-                </label>
-                <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                  <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                      <em class="fas fa-user"></em>
-                  </span>
-                  <input 
-                      type="text" 
-                      v-model="formData.email"
-                      class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
-                </div>
-                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.email.required">Ingrese el email del puesto</p>
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Email:
+                  </label>
+                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <em class="fas fa-user"></em>
+                    </span>
+                    <input 
+                        type="text" 
+                        v-model="formData.email"
+                        class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
+                  </div>
                 </div>
               </div>
               <div class="w-full">
@@ -110,40 +109,40 @@
                 </div>
               </div>
               <div class="flex flex-col w-full">
-                <label
-                    class="block text-gray-600 text-sm font-semibold mb-2"
-                    for="form-visible"
-                  >
-                Configuracion de reportes:
+                <label class="block text-gray-600 text-sm font-semibold mb-2" for="form-visible">
+                  Configuración de reportes:
                 </label>
-                <div class="flex flex-col md:flex-row justify-center items-center w-full config-reportes">                  
-                  <label
-                    class="w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
-                    <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                    <span class="mt-2 text-sm font-semibold">Adjuntar Cabecera</span>
-                    <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen('header', $event)" />
-                  </label>
+                <div class="flex flex-col lg:flex-row lg:flex-wrap w-full justify-center">
+                  <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                    <label class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                      <em class="fas fa-cloud-upload-alt fa-3x"></em>
+                      <span class="mt-2 text-sm font-semibold">Adjuntar Cabecera</span>
+                      <input type="file" class="opacity-0" accept="image/*" @change="obtenerImagen('header', $event)" />
+                    </label>
+                    
+                    <div v-if="reportHeaderImage" class="w-full rounded-md overflow-hidden mt-3 flex justify-center">
+                      <figure>
+                        <img :src="reportHeaderImage" alt="Imagen de cabecera" class="w-full object-contain">
+                      </figure>
+                    </div>
+                  </div>
 
-                  <label
-                    class="w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
-                    <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                    <span class="mt-2 text-sm font-semibold">Adjuntar Pie de Pagina</span>
-                    <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen('footer', $event)" />
-                  </label>
-                </div>
-                <div class="flex flex-col md:flex-row justify-center items-center w-full">
-                  <div class="w-full md:w-60 rounded-md overflow-hidden md:ml-4 mt-5 flex justify-center">
-                    <figure>
-                      <img :src="reportHeaderImage" alt="">
-                    </figure>
-                  </div>
-                  <div class="w-full md:w-60 rounded-md overflow-hidden md:ml-4 mt-5 flex justify-center">
-                    <figure>
-                      <img :src="reportFooterImage" alt="">
-                    </figure>
+                  <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                    <label class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150 mt-3 xl:mt-0">
+                      <em class="fas fa-cloud-upload-alt fa-3x"></em>
+                      <span class="mt-2 text-sm font-semibold">Adjuntar Pie de Página</span>
+                      <input type="file" class="opacity-0" accept="image/*" @change="obtenerImagen('footer', $event)" />
+                    </label>
+                    <div v-if="reportFooterImage" class="w-full rounded-md overflow-hidden mt-3 flex justify-center">
+                      <figure>
+                        <img :src="reportFooterImage" alt="Imagen del pie de página" class="w-full object-contain">
+                      </figure>
+                    </div>
                   </div>
                 </div>
-              </div>              
+              </div>
+
+              
             </div>
             <div class="flex mb-4 mt-5">
               <button 
@@ -224,7 +223,7 @@
   </template>
   
   <script>
-  import { required, numeric } from 'vuelidate/lib/validators';
+  import { required } from 'vuelidate/lib/validators';
   import Multiselect from 'vue-multiselect';
   import 'vue-multiselect/dist/vue-multiselect.min.css';
   import '../../../../../../css/app.css';
@@ -396,7 +395,7 @@
     validations: {
       formData: {
           nombre: { required },         
-          nit: { required, numeric },         
+          nit: { required },         
       }
     },
   

@@ -70,7 +70,7 @@
                      <em class="fas fa-pen-fancy"></em> Asuntos
                   </a>
                </li>
-               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
+               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs">
                   <a 
                      class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
                      v-on:click="toggleTabs(8)"
@@ -79,7 +79,7 @@
                      <em class="fas fa-id-card"></em> Tipos documento
                   </a>
                </li>
-               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
+               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs">
                   <a 
                      class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
                      v-on:click="toggleTabs(9)"
@@ -88,7 +88,7 @@
                      <em class="fas fa-user-circle"></em> Ubicaciones
                   </a>
                </li>
-               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
+               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs">
                   <a 
                      class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
                      v-on:click="toggleTabs(10)"
@@ -97,7 +97,7 @@
                      <em class="fas fa-user-circle"></em> Puestos
                   </a>
                </li>
-               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
+               <li class="m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs">
                   <a 
                      class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
                      v-on:click="toggleTabs(11)"

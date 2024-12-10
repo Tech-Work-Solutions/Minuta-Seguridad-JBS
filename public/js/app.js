@@ -11180,7 +11180,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 
@@ -11379,8 +11378,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       nit: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -78361,7 +78359,7 @@ var render = function() {
                   "li",
                   {
                     staticClass:
-                      "m-2 last:mr-0 flex-auto text-center cursor-pointer"
+                      "m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs"
                   },
                   [
                     _c(
@@ -78391,7 +78389,7 @@ var render = function() {
                   "li",
                   {
                     staticClass:
-                      "m-2 last:mr-0 flex-auto text-center cursor-pointer"
+                      "m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs"
                   },
                   [
                     _c(
@@ -78421,7 +78419,7 @@ var render = function() {
                   "li",
                   {
                     staticClass:
-                      "m-2 last:mr-0 flex-auto text-center cursor-pointer"
+                      "m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs"
                   },
                   [
                     _c(
@@ -78451,7 +78449,7 @@ var render = function() {
                   "li",
                   {
                     staticClass:
-                      "m-2 last:mr-0 flex-auto text-center cursor-pointer"
+                      "m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs"
                   },
                   [
                     _c(
@@ -79071,7 +79069,7 @@ var render = function() {
                         "block text-gray-600 text-sm font-semibold mb-2",
                       attrs: { htmlFor: "grid-password" }
                     },
-                    [_vm._v("\n              Email:\n            ")]
+                    [_vm._v("\n                Email:\n              ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -79106,13 +79104,7 @@ var render = function() {
                         }
                       })
                     ]
-                  ),
-                  _vm._v(" "),
-                  _vm.submited && !_vm.$v.formData.email.required
-                    ? _c("p", { staticClass: "text-red-500 text-sm" }, [
-                        _vm._v("Ingrese el email del puesto")
-                      ])
-                    : _vm._e()
+                  )
                 ])
               ]),
               _vm._v(" "),
@@ -79214,7 +79206,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n            Configuracion de reportes:\n            "
+                      "\n              Configuración de reportes:\n            "
                     )
                   ]
                 ),
@@ -79223,88 +79215,65 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "flex flex-col md:flex-row justify-center items-center w-full config-reportes"
-                  },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                      },
-                      [
-                        _c("em", {
-                          staticClass: "fas fa-cloud-upload-alt fa-3x"
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "span",
-                          { staticClass: "mt-2 text-sm font-semibold" },
-                          [_vm._v("Adjuntar Cabecera")]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "opacity-0",
-                          attrs: { type: "file", accept: "image/*" },
-                          on: {
-                            change: function($event) {
-                              return _vm.obtenerImagen("header", $event)
-                            }
-                          }
-                        })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "w-60 h-36 flex flex-col items-center md:ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                      },
-                      [
-                        _c("em", {
-                          staticClass: "fas fa-cloud-upload-alt fa-3x"
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "span",
-                          { staticClass: "mt-2 text-sm font-semibold" },
-                          [_vm._v("Adjuntar Pie de Pagina")]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "opacity-0",
-                          attrs: { type: "file", accept: "image/*" },
-                          on: {
-                            change: function($event) {
-                              return _vm.obtenerImagen("footer", $event)
-                            }
-                          }
-                        })
-                      ]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "flex flex-col md:flex-row justify-center items-center w-full"
+                      "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                   },
                   [
                     _c(
                       "div",
                       {
                         staticClass:
-                          "w-full md:w-60 rounded-md overflow-hidden md:ml-4 mt-5 flex justify-center"
+                          "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                       },
                       [
-                        _c("figure", [
-                          _c("img", {
-                            attrs: { src: _vm.reportHeaderImage, alt: "" }
-                          })
-                        ])
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                          },
+                          [
+                            _c("em", {
+                              staticClass: "fas fa-cloud-upload-alt fa-3x"
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "mt-2 text-sm font-semibold" },
+                              [_vm._v("Adjuntar Cabecera")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "opacity-0",
+                              attrs: { type: "file", accept: "image/*" },
+                              on: {
+                                change: function($event) {
+                                  return _vm.obtenerImagen("header", $event)
+                                }
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.reportHeaderImage
+                          ? _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "w-full rounded-md overflow-hidden mt-3 flex justify-center"
+                              },
+                              [
+                                _c("figure", [
+                                  _c("img", {
+                                    staticClass: "w-full object-contain",
+                                    attrs: {
+                                      src: _vm.reportHeaderImage,
+                                      alt: "Imagen de cabecera"
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          : _vm._e()
                       ]
                     ),
                     _vm._v(" "),
@@ -79312,14 +79281,58 @@ var render = function() {
                       "div",
                       {
                         staticClass:
-                          "w-full md:w-60 rounded-md overflow-hidden md:ml-4 mt-5 flex justify-center"
+                          "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                       },
                       [
-                        _c("figure", [
-                          _c("img", {
-                            attrs: { src: _vm.reportFooterImage, alt: "" }
-                          })
-                        ])
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150 mt-3 xl:mt-0"
+                          },
+                          [
+                            _c("em", {
+                              staticClass: "fas fa-cloud-upload-alt fa-3x"
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "mt-2 text-sm font-semibold" },
+                              [_vm._v("Adjuntar Pie de Página")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "opacity-0",
+                              attrs: { type: "file", accept: "image/*" },
+                              on: {
+                                change: function($event) {
+                                  return _vm.obtenerImagen("footer", $event)
+                                }
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.reportFooterImage
+                          ? _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "w-full rounded-md overflow-hidden mt-3 flex justify-center"
+                              },
+                              [
+                                _c("figure", [
+                                  _c("img", {
+                                    staticClass: "w-full object-contain",
+                                    attrs: {
+                                      src: _vm.reportFooterImage,
+                                      alt: "Imagen del pie de página"
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          : _vm._e()
                       ]
                     )
                   ]
@@ -80700,7 +80713,7 @@ var render = function() {
                         ],
                         staticClass:
                           "px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10",
-                        attrs: { type: "text" },
+                        attrs: { type: "number" },
                         domProps: { value: _vm.formData.telefono },
                         on: {
                           input: function($event) {
@@ -80842,7 +80855,9 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                " +
-                                _vm._s(sede.nombre.toUpperCase()) +
+                                _vm._s(
+                                  sede.nombre ? sede.nombre.toUpperCase() : ""
+                                ) +
                                 "\n              "
                             )
                           ]
@@ -80857,7 +80872,11 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                " +
-                                _vm._s(sede.direccion.toUpperCase()) +
+                                _vm._s(
+                                  sede.direccion
+                                    ? sede.direccion.toUpperCase()
+                                    : ""
+                                ) +
                                 "\n              "
                             )
                           ]
@@ -80872,7 +80891,9 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                " +
-                                _vm._s(sede.client.toUpperCase()) +
+                                _vm._s(
+                                  sede.client ? sede.client.toUpperCase() : ""
+                                ) +
                                 "\n              "
                             )
                           ]
