@@ -296,7 +296,6 @@ export default {
          datos.append('user_id', this.formData.user_id);
          datos.append('file', this.formData.imagen);
          datos.append('audio', this.formData.audio);
-         // console.log(this.formData)
          await axios.post('/api/registerMinuta', datos).then((response) => {
             this.getRecordsMinutaByUser();
             this.spiner = false
@@ -334,7 +333,6 @@ export default {
          }
          console.log('audio', file)
          if (file.type.startsWith("audio/")) {
-            // Crear una URL para previsualizar el archivo
             this.audioPreview = URL.createObjectURL(file);
             this.formData.audio = file;
          } else {
