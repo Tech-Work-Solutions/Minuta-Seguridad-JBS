@@ -203,7 +203,7 @@
     methods: {
       registrarSede(){
           this.spiner = true;
-          if(this.formData.estado == true){
+          if(this.formData.estado === true){
             this.formData.estado = 'ACTIVO';
           } else {
             this.formData.estado = 'INACTIVO';

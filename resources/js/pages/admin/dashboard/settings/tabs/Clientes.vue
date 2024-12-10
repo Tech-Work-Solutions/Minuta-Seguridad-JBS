@@ -277,7 +277,7 @@
           }));
           this.formData.permisos_formulario = JSON.stringify(this.selectedFormOptions)          
           this.formData.permisos_menu = JSON.stringify(this.selectedMenuOptions) 
-          if(this.formData.estado == true){
+          if(this.formData.estado === true){
             this.formData.estado = 'ACTIVO';
           } else {
             this.formData.estado = 'INACTIVO';

@@ -11236,7 +11236,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.formData.permisos_formulario = JSON.stringify(this.selectedFormOptions);
       this.formData.permisos_menu = JSON.stringify(this.selectedMenuOptions);
 
-      if (this.formData.estado == true) {
+      if (this.formData.estado === true) {
         this.formData.estado = 'ACTIVO';
       } else {
         this.formData.estado = 'INACTIVO';
@@ -12295,7 +12295,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     registrarSede: function registrarSede() {
       this.spiner = true;
 
-      if (this.formData.estado == true) {
+      if (this.formData.estado === true) {
         this.formData.estado = 'ACTIVO';
       } else {
         this.formData.estado = 'INACTIVO';
