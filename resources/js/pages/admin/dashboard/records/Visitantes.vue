@@ -452,7 +452,6 @@ export default {
          datos.append('user_id', this.formData.user_id);
          datos.append('file', this.formData.imagen);
          datos.append('audio', this.formData.audio);
-         //console.log(this.formData)
          await axios.post('/api/recordVisitante', datos).then((response) => {
             this.getRecordsVisitantesByUser();
             this.spiner = false
@@ -499,7 +498,6 @@ export default {
             this.audioPreview = '';
             return;
          }
-         console.log('audio', file)
          if (file.type.startsWith("audio/")) {
             this.audioPreview = URL.createObjectURL(file);
             this.formData.audio = file;

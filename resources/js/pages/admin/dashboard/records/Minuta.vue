@@ -331,7 +331,6 @@ export default {
             this.audioPreview = '';
             return;
          }
-         console.log('audio', file)
          if (file.type.startsWith("audio/")) {
             this.audioPreview = URL.createObjectURL(file);
             this.formData.audio = file;
