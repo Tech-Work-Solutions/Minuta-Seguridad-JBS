@@ -151,7 +151,7 @@ export default {
                localStorage.setItem('token', user)
                localStorage.setItem('rol', datosUser.rol);
                localStorage.setItem('user', JSON.stringify(datosUser));
-               this.$router.push('/dashboard')              
+               this.$router.push('/login/config_page');             
                this.spiner = false;
              }else {
                this.error = true

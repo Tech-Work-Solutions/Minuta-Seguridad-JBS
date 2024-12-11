@@ -15,6 +15,7 @@ import EditUser from './pages/admin/dashboard/users/EditUser.vue'
 import EditMinuta from './pages/admin/dashboard/records/EditMinuta.vue'
 import EditRecordVehicle from './pages/admin/dashboard/records/EditVehicle.vue'
 import EditRecordVisitante from './pages/admin/dashboard/records/EditVisitante.vue'
+import ConfigPage from './pages/ConfigPage.vue'
 import Recurso404 from './pages/Recurso404.vue'
 
 Vue.use(VueRouter)
@@ -34,12 +35,24 @@ const routes = [
         component: Register,
         meta: { guest: true } //Si esta autenticado bloqueamos la vista register
     }, */
+    { 
+      path: "/login/config_page",
+      name: "ConfigPage",
+      component: ConfigPage,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/dashboard/minuta",
+        name: "Minuta",
+        meta: { requiresAuth :true },
+        component: Minuta
+    },
     {
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
         meta: { requiresAuth: true }, //Para proteger la vista y validar que el usuario este logueado
-        children: [   
+        children: [
             {
             path: "/usuarios",
             name: "Usuarios",
