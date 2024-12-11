@@ -286,7 +286,6 @@ export default {
          datos.append('file', this.formData.imagen);
          datos.append('audio', this.formData.audio);
          datos.append('audioOrigin', this.audio);
-         //console.log(this.formData)
          await axios.post('/api/updateRecordVehicle', datos).then((response) => {
             this.spiner = false
             this.submited = false
