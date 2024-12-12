@@ -77,7 +77,7 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`id`, `nit`, `nombre`, `email`, `created_at`, `updated_at`, `permisos_menu`, `permisos_formulario`, `img_header`, `img_footer`, `estado`) VALUES
 (1, '324654656', 'exito', 'exito@gmail.com', '2024-12-06 02:10:56', '2024-12-06 02:10:56', '[{\"id\":5,\"nombre\":\"Configuraciones\"},{\"id\":4,\"nombre\":\"Reportes\"},{\"id\":6,\"nombre\":\"Usuarios\"},{\"id\":2,\"nombre\":\"Vehiculos\"},{\"id\":3,\"nombre\":\"Visitantes\"}]', '[{\"id\":3,\"nombre\":\"Adjuntar foto\"},{\"id\":1,\"nombre\":\"Grabar audio\"}]', '/img/clientes/051224211056_headerfondo.jpg', '/img/clientes/051224211056_footerimages (2).jpg', 'ACTIVO'),
 (8, '3454', 'La merced', 'niño@gmail.com', '2024-12-08 16:48:27', '2024-12-08 16:48:27', '[{\"id\":6,\"nombre\":\"Usuarios\"},{\"id\":4,\"nombre\":\"Reportes\"},{\"id\":1,\"nombre\":\"Minuta\"}]', '[{\"id\":1,\"nombre\":\"Grabar audio\"}]', '/img/clientes/081224114827_headertado.jpg', '/img/clientes/081224114827_footerpruieba2.jpg', 'ACTIVO'),
-(13, '1232-master', 'master', 'master@gmail.com', '2024-12-11 16:08:42', '2024-12-11 16:10:03', '[{\"id\":0,\"nombre\":\"all\"}]', '[{\"id\":0,\"nombre\":\"all\"}]', NULL, NULL, 'MASTER'),
+(13, '1232-master', 'master', 'master@gmail.com', '2024-12-11 16:08:42', '2024-12-11 16:10:03', '[{\"id\":0,\"nombre\":\"all\"}]', '[{\"id\":0,\"nombre\":\"all\"}]', NULL, NULL, 'MASTER');
 
 -- --------------------------------------------------------
 
@@ -408,7 +408,7 @@ INSERT INTO `people` (`id`, `nombres`, `apellidos`, `numero_documento`, `tipo`, 
 (97, 'laura', 'bolivar', '59685968', 'VISITANTE', 1, 1, 5, '2022-07-02 05:27:14', '2022-07-02 05:27:14'),
 (98, 'piafeel', 'coral', '85154495', 'VISITANTE', 1, 2, 7, '2022-07-02 18:19:06', '2022-07-02 18:19:06'),
 (99, 'martin', 'ferin', '12911855', 'VISITANTE', 1, 1, 6, '2022-07-02 19:59:36', '2022-07-02 19:59:36'),
-(100, 'dayon', 'lopes', '84063500', 'VISITANTE', 1, 2, 6, '2022-07-02 20:01:48', '2022-07-02 20:01:48'),
+(100, 'dayon', 'lopes', '84063500', 'VISITANTE', 1, 2, 6, '2022-07-02 20:01:48', '2022-07-02 20:01:48');
 
 -- --------------------------------------------------------
 
