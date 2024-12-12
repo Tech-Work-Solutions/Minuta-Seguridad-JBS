@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2024 a las 16:22:16
+-- Tiempo de generación: 06-12-2024 a las 14:50:09
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `minutas_jbs`
 --
+CREATE DATABASE IF NOT EXISTS `minutas_jbs` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `minutas_jbs`;
 
 -- --------------------------------------------------------
 
@@ -407,7 +409,6 @@ INSERT INTO `people` (`id`, `nombres`, `apellidos`, `numero_documento`, `tipo`, 
 (98, 'piafeel', 'coral', '85154495', 'VISITANTE', 1, 2, 7, '2022-07-02 18:19:06', '2022-07-02 18:19:06'),
 (99, 'martin', 'ferin', '12911855', 'VISITANTE', 1, 1, 6, '2022-07-02 19:59:36', '2022-07-02 19:59:36'),
 (100, 'dayon', 'lopes', '84063500', 'VISITANTE', 1, 2, 6, '2022-07-02 20:01:48', '2022-07-02 20:01:48'),
-
 
 -- --------------------------------------------------------
 
