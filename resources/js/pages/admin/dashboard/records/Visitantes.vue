@@ -206,6 +206,23 @@
                         </div>
                      </div>
 
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                        <label
+                           class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                           <em class="fas fa-video fa-3x"></em>
+                           <span class="mt-2 text-sm font-semibold">Adjuntar Video</span>
+                           <input type='file' accept="video/mp4,video/x-m4v,video/*" class="opacity-0"
+                              @change="obtenerVideo" />
+
+                        </label>
+
+                        <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure v-if="videoPreview">
+                              <video :src="videoMinuta" controls></video>
+                           </figure>
+                        </div>
+                     </div>
+
                   </div>
                </div>
                <div class="flex mb-8 mt-6">
@@ -271,6 +288,10 @@
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
                         audio
                      </th>
+                     <th
+                        class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
+                        video
+                     </th>
                   </tr>
                </thead>
                <tbody>
@@ -324,7 +345,13 @@
                      <td
                         class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
                         <div class="w-32 lg:w-48 rounded overflow-hidden">
-                           <audio :src="item.audio" controls></audio>
+                           <audio v-if="item.audio" :src="item.audio" controls></audio>
+                        </div>
+                     </td>
+                     <td
+                        class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
+                        <div class="w-32 lg:w-48 rounded overflow-hidden">
+                           <video v-if="item.video" :src="item.video" controls></video>
                         </div>
                      </td>
                   </tr>
@@ -355,7 +382,8 @@ export default {
             anotaciones: '',
             tipo: '',
             imagen: '',
-            audio: ''
+            audio: '',
+            video: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -367,7 +395,8 @@ export default {
          datos: [],
          show: false,
          tipos: [{ id: 'EMPLEADO', text: 'EMPLEADO' }, { id: 'VISITANTE', text: 'VISITANTE' }],
-         audioPreview: null
+         audioPreview: null,
+         videoPreview: null,
       };
    },
 
@@ -452,6 +481,7 @@ export default {
          datos.append('user_id', this.formData.user_id);
          datos.append('file', this.formData.imagen);
          datos.append('audio', this.formData.audio);
+         datos.append('video', this.formData.video);
          await axios.post('/api/recordVisitante', datos).then((response) => {
             this.getRecordsVisitantesByUser();
             this.spiner = false
@@ -465,11 +495,13 @@ export default {
             this.formData.imagen = '';
             this.formData.audio = '';
             this.audioPreview = '';
-            this.$toaster.success('Registro creado con exito.');
+            this.formData.video = '';
+            this.videoPreview = '';
+            this.$toaster.success('Registro creado con éxito.');
          }).catch((errors) => {
             this.spiner = false
             this.submited = false
-            this.$toaster.error('Algo salio mal.');
+            this.$toaster.error('Algo salió mal.');
             console.log(errors.response.data.errors)
          });
       },
@@ -504,6 +536,20 @@ export default {
          } else {
             alert("Por favor selecciona un archivo de audio válido.");
             this.audioPreview = null;
+         }
+      },
+      obtenerVideo(e) {
+         let file = e.target.files[0];
+         if (!file) {
+            this.videoPreview = '';
+            return;
+         }
+         if (file.type.startsWith("video/")) {
+            this.videoPreview = URL.createObjectURL(file);
+            this.formData.video = file;
+         } else {
+            alert("Por favor selecciona un archivo de video válido.");
+            this.videoPreview = null;
          }
       },
       cargarImagen(file) {
@@ -544,6 +590,9 @@ export default {
       },
       audioMinuta() {
          return this.audioPreview;
+      },
+      videoMinuta() {
+         return this.videoPreview;
       },
    },
 

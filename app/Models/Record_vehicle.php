@@ -19,6 +19,7 @@ class Record_vehicle extends Model
         'origin_id',
         'user_id',
         'audio',
+        'video',
     ];
 
     public function driver(){

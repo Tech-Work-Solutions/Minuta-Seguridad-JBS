@@ -53,6 +53,7 @@ class RecordsController extends Controller
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/vehiculos/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/vehiculos/');
+        $video = $fileService->guardarArchivo($request->file('video'), '/videos/vehiculos/');
 
         Record_vehicle::create([
             'observaciones'     => $request->observaciones ? $request->observaciones : '',
@@ -64,6 +65,7 @@ class RecordsController extends Controller
             'volqueta_id'       => $request->volqueta_id,
             'user_id'           => $request->user_id,
             'audio'             => $audio,
+            'video'             => $video,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }
@@ -104,6 +106,7 @@ class RecordsController extends Controller
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/visitantes/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/visitantes/');
+        $video = $fileService->guardarArchivo($request->file('video'), '/videos/visitantes/');
 
         Record_person::create([
             'destino'           => $request->destino ? $request->destino : '', 
@@ -113,6 +116,7 @@ class RecordsController extends Controller
             'person_id'         => $id_persona, 
             'user_id'           => $request->user_id,
             'audio'             => $audio,
+            'video'             => $video,
         ]);
         return response()->json(["msg" => "Registro exitoso"]);
     }
