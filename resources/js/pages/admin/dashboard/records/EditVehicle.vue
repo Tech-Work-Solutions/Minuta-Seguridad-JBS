@@ -117,46 +117,49 @@
                   </div>
                </div>
 
-               <div class="flex flex-col md:flex-row items-center">
-                  <div class="mr-6">
-                     <label
-                        class="w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
-                        <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                        <span class="mt-2 text-sm font-semibold">Adjuntar foto</span>
-                        <input type='file' class="opacity-0" @change="obtenerImagen" />
-                     </label>
-                  </div>
-                  <div v-if="!imagenMinuta" class="w-56 mt-5 rounded-md overflow-hidden">
-                     <figure>
-                        <img :src="imagen">
-                     </figure>
-                  </div>
-                  <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
-                     <figure>
-                        <img :src="imagenMinuta" alt="">
-                     </figure>
-                  </div>
-               </div>
-               <div class="flex flex-col md:flex-row items-center">
-                  <div class="mr-6">
-                     <label
-                        class="w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
-                        <em class="fas fa-music fa-3x"></em>
-                        <span class="mt-2 text-sm font-semibold">Adjuntar audio</span>
-                        <input type='file' class="opacity-0" @change="obtenerAudio" />
+               <div class="flex flex-col w-full">
+                  <div class="flex flex-col lg:flex-row lg:flex-wrap w-full justify-center">
 
-                     </label>
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                        <label
+                           class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                           <em class="fas fa-cloud-upload-alt fa-3x"></em>
+                           <span class="mt-2 text-sm font-semibold">Adjuntar foto</span>
+                           <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen" />
+                        </label>
+                        <div v-if="!imagenMinuta" class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure>
+                              <img :src="imagen">
+                           </figure>
+                        </div>
+                        <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure>
+                              <img :src="imagenMinuta" alt="">
+                           </figure>
+                        </div>
+                     </div>
 
-                  </div>
-                  <div v-if="!audioMinuta" class="w-56 mt-5 rounded-md overflow-hidden">
-                     <figure>
-                        <audio :src="audio" controls></audio>
-                     </figure>
-                  </div>
-                  <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
-                     <figure>
-                        <audio :src="audioMinuta" alt="" controls></audio>
-                     </figure>
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                        <label
+                           class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                           <em class="fas fa-music fa-3x"></em>
+                           <span class="mt-2 text-sm font-semibold">Adjuntar Audio</span>
+                           <input type='file' accept="audio/*" class="opacity-0" @change="obtenerAudio" />
+
+                        </label>
+
+                        <div v-if="!audioMinuta" class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure>
+                              <audio :src="audio" controls></audio>
+                           </figure>
+                        </div>
+                        <div v-if="audioMinuta" class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure>
+                              <audio :src="audioMinuta" alt="" controls></audio>
+                           </figure>
+                        </div>
+                     </div>
+
                   </div>
                </div>
                <div class="flex p-6 -mt-20 md:mt-0">
