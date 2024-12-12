@@ -24,6 +24,7 @@ class RecordsController extends Controller
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/minutas/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/minutas/');
+        $video = $fileService->guardarArchivo($request->file('video'), '/videos/minutas/');
 
         Record_minuta::create([
             'anotaciones'   => $request->anotaciones,
@@ -32,6 +33,7 @@ class RecordsController extends Controller
             'subject_id'    => $request->subject_id,
             'user_id'       => $request->user_id,
             'audio'         => $audio,
+            'video'         => $video,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }
