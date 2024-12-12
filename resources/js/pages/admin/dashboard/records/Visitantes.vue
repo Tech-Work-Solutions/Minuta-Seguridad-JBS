@@ -172,45 +172,45 @@
                   </div>
                </div>
 
+               <div class="flex flex-col w-full">
+                  <div class="flex flex-col lg:flex-row lg:flex-wrap w-full justify-center">
 
-               <div class="flex flex-col md:flex-row items-center">
-                  <div class="mr-6">
-                     <label
-                        class="w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
-                        <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                        <span class="mt-2 text-sm font-semibold">Adjuntar foto</span>
-                        <input type='file' class="opacity-0" @change="obtenerImagen" />
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                        <label
+                           class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                           <em class="fas fa-cloud-upload-alt fa-3x"></em>
+                           <span class="mt-2 text-sm font-semibold">Adjuntar foto</span>
+                           <input type='file' class="opacity-0" accept="image/*" @change="obtenerImagen" />
+                        </label>
 
-                     </label>
+                        <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure>
+                              <img :src="imagenMinuta" alt="">
+                           </figure>
+                        </div>
+                     </div>
+
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                        <label
+                           class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                           <em class="fas fa-music fa-3x"></em>
+                           <span class="mt-2 text-sm font-semibold">Adjuntar Audio</span>
+                           <input type='file' accept="audio/*" class="opacity-0" @change="obtenerAudio" />
+
+                        </label>
+
+                        <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure v-if="audioPreview">
+                              <audio :src="audioMinuta" controls></audio>
+                           </figure>
+                        </div>
+                     </div>
 
                   </div>
-                  <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
-                     <figure>
-                        <img :src="imagenMinuta" alt="">
-                     </figure>
-                  </div>
-
                </div>
-               <div class="flex flex-col md:flex-row items-center">
-                  <div class="mr-6">
-                     <label
-                        class="w-60 h-36 flex flex-col items-center ml-4 mt-5 px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
-                        <em class="fas fa-music fa-3x"></em>
-                        <span class="mt-2 text-sm font-semibold">Adjuntar Audio</span>
-                        <input type='file' accept="audio/*" class="opacity-0" @change="obtenerAudio" />
-
-                     </label>
-
-                  </div>
-                  <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
-                     <figure v-if="audioPreview">
-                        <audio :src="audioMinuta" controls></audio>
-                     </figure>
-                  </div>
-               </div>
-               <div class="flex p-6">
+               <div class="flex mb-8 mt-6">
                   <button
-                     class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                     class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                      type="button" @click="validarDatos">
                      <p v-if="!spiner">Guardar</p>
                      <p v-else><em class="fas fa-spinner fa-pulse"></em> Guardando...</p>
