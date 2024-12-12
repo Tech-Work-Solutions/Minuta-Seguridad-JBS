@@ -16,4 +16,8 @@ class Sede extends Model
         'direccion',
         'estado',
     ];
+
+    public function cliente(){
+        return $this->belongsTo('App\Models\Cliente', 'cliente_id');
+    }
 }

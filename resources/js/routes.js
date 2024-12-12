@@ -172,6 +172,10 @@ function loggedIn(){
    return localStorage.getItem('token');
 }
 
+function passedConfigPage() {
+  return localStorage.getItem('puesto') && localStorage.getItem('sede');
+}
+
 router.beforeEach((to, from, next) => {
    if (to.matched.some(record => record.meta.requiresAuth)) {
      // this route requires auth, check if logged in
@@ -186,14 +190,19 @@ router.beforeEach((to, from, next) => {
      }
    }
    else if(to.matched.some(record => record.meta.guest)){
-       if (loggedIn()) {
-           next({
-             path: '/dashboard',
-             query: { redirect: to.fullPath }
-           })
-         } else {
-           next()
-         }
+       if (loggedIn() && passedConfigPage()) {
+          next({
+            path: '/dashboard',
+            query: { redirect: to.fullPath }
+          })
+        } else if (loggedIn() && !passedConfigPage()) {
+          next({
+            path: '/login/config_page',
+            query: { redirect: to.fullPath }
+          })
+        } else {
+          next()        
+        }
    }
    else {
      next() // make sure to always call next()!

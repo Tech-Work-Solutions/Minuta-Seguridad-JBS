@@ -73,6 +73,11 @@ export default {
             localStorage.removeItem('token');
             localStorage.removeItem('rol');
             localStorage.removeItem('user');
+            localStorage.removeItem('puesto');
+            localStorage.removeItem('sede');
+            localStorage.removeItem('permisosMenu');
+            localStorage.removeItem('permisosFormulario');
+            localStorage.removeItem('puestos');
             this.$router.push('/')
          }).catch((errors) => {
             console.log(errors)
