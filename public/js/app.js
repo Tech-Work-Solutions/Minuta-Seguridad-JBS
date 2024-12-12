@@ -5768,14 +5768,10 @@ __webpack_require__.r(__webpack_exports__);
 
       window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(this.token);
       axios.post('api/logout').then(function (response) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('rol');
-        localStorage.removeItem('user');
-        localStorage.removeItem('puesto');
-        localStorage.removeItem('sede');
-        localStorage.removeItem('permisosMenu');
-        localStorage.removeItem('permisosFormulario');
-        localStorage.removeItem('puestos');
+        var itemsToRemove = ['token', 'rol', 'user', 'puesto', 'sede', 'permisosMenu', 'permisosFormulario', 'puestos'];
+        itemsToRemove.forEach(function (item) {
+          return localStorage.removeItem(item);
+        });
 
         _this.$router.push('/');
       })["catch"](function (errors) {
@@ -14076,14 +14072,10 @@ __webpack_require__.r(__webpack_exports__);
 
       window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(this.token);
       axios.post('api/logout').then(function (response) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('rol');
-        localStorage.removeItem('user');
-        localStorage.removeItem('puesto');
-        localStorage.removeItem('puestos');
-        localStorage.removeItem('sede');
-        localStorage.removeItem('permisosMenu');
-        localStorage.removeItem('permisosFormulario');
+        var itemsToRemove = ['token', 'rol', 'user', 'puesto', 'sede', 'permisosMenu', 'permisosFormulario', 'puestos'];
+        itemsToRemove.forEach(function (item) {
+          return localStorage.removeItem(item);
+        });
 
         _this2.$router.push('/');
       })["catch"](function (errors) {
@@ -15273,13 +15265,6 @@ var routes = [{
   meta: {
     requiresAuth: true
   }
-}, {
-  path: "/dashboard/minuta",
-  name: "Minuta",
-  meta: {
-    requiresAuth: true
-  },
-  component: _pages_admin_dashboard_records_Minuta_vue__WEBPACK_IMPORTED_MODULE_2__.default
 }, {
   path: "/dashboard",
   name: "Dashboard",

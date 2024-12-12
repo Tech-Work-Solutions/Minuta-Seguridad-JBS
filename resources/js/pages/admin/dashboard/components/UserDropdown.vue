@@ -70,15 +70,19 @@ export default {
     logout(){
          window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
          axios.post('api/logout').then((response) => {
-            localStorage.removeItem('token');
-            localStorage.removeItem('rol');
-            localStorage.removeItem('user');
-            localStorage.removeItem('puesto');
-            localStorage.removeItem('sede');
-            localStorage.removeItem('permisosMenu');
-            localStorage.removeItem('permisosFormulario');
-            localStorage.removeItem('puestos');
-            this.$router.push('/')
+          const itemsToRemove = [
+              'token',
+              'rol',
+              'user',
+              'puesto',
+              'sede',
+              'permisosMenu',
+              'permisosFormulario',
+              'puestos'
+          ];
+
+          itemsToRemove.forEach(item => localStorage.removeItem(item));
+          this.$router.push('/')
          }).catch((errors) => {
             console.log(errors)
          });

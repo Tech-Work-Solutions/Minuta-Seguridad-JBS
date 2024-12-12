@@ -42,12 +42,6 @@ const routes = [
       meta: { requiresAuth: true }
     },
     {
-      path: "/dashboard/minuta",
-        name: "Minuta",
-        meta: { requiresAuth :true },
-        component: Minuta
-    },
-    {
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
