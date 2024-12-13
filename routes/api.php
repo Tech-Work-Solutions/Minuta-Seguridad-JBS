@@ -18,6 +18,7 @@ use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\SedesController;
 use App\Http\Controllers\OpcionesMenuController;
 use App\Http\Controllers\OpcionesFormularioController;
+use App\Http\Controllers\UsersSedeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,5 +115,7 @@ Route::get('getOpcionesFormulario', [OpcionesFormularioController::class, 'getOp
 Route::get('getUrlLogo', function () {
     return asset('img/logo.png') ;
 });
+
+Route::get('getSedesAndClientesByUser', [UsersSedeController::class, 'getSedesAndClientesByUser']);
 
 /** Route::post('sendEmailUsuario', [AuthController::class, 'sendEmailUsuario']); */

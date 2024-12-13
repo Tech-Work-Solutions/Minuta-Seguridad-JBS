@@ -107,42 +107,7 @@
                     :show-labels="false"
                   />                  
                 </div>
-              </div>
-              <div class="flex flex-col w-full">
-                <label class="block text-gray-600 text-sm font-semibold mb-2" for="form-visible">
-                  Configuración de reportes:
-                </label>
-                <div class="flex flex-col lg:flex-row lg:flex-wrap w-full justify-center">
-                  <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
-                    <label class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
-                      <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                      <span class="mt-2 text-sm font-semibold">Adjuntar Cabecera</span>
-                      <input type="file" class="opacity-0" accept="image/*" @change="obtenerImagen('header', $event)" />
-                    </label>
-                    
-                    <div v-if="reportHeaderImage" class="w-full rounded-md overflow-hidden mt-3 flex justify-center">
-                      <figure>
-                        <img :src="reportHeaderImage" alt="Imagen de cabecera" class="w-full object-contain">
-                      </figure>
-                    </div>
-                  </div>
-
-                  <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
-                    <label class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150 mt-3 xl:mt-0">
-                      <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                      <span class="mt-2 text-sm font-semibold">Adjuntar Pie de Página</span>
-                      <input type="file" class="opacity-0" accept="image/*" @change="obtenerImagen('footer', $event)" />
-                    </label>
-                    <div v-if="reportFooterImage" class="w-full rounded-md overflow-hidden mt-3 flex justify-center">
-                      <figure>
-                        <img :src="reportFooterImage" alt="Imagen del pie de página" class="w-full object-contain">
-                      </figure>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              
+              </div>             
             </div>
             <div class="flex mb-4 mt-5">
               <button 
@@ -313,7 +278,6 @@
           this.spiner = false;
           this.submited = false;
           this.formData.nit = this.formData.nombre = this.formData.email = '';
-          this.formData.img_header = this.formData.img_footer = null;
           this.formData.estado = true,
           this.formData.permisos_formulario = '',
           this.formData.permisos_menu = '', 

@@ -250,8 +250,10 @@
 
       async getClients(){
          await axios.get('/api/getClients').then((response) => {
-            this.clients = response.data;
-            this.clients.forEach((item) => item.text = item.nombre.toUpperCase());
+          this.clients = response.data.filter((item) => item.estado === 'ACTIVO');
+          this.clients.forEach((item) => {
+            item.text = item.nombre.toUpperCase();
+          }); 
             
          }).catch((errors) => {
             console.log(errors.response.data.errors)
