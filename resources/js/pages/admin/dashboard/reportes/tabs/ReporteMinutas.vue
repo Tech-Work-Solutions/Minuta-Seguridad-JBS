@@ -112,6 +112,10 @@
                   class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
                   Audio
                 </th>
+                <th
+                  class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
+                  video
+                </th>
                 <th v-if="rol == 'ADMINISTRADOR'"
                   class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
                   Acciones
@@ -150,7 +154,13 @@
                 <td
                   class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
                   <div class="w-32 lg:w-48 rounded overflow-hidden">
-                    <audio :src="item.audio" alt="" controls></audio>
+                    <audio v-if="item.audio" :src="item.audio" alt="" controls></audio>
+                  </div>
+                </td>
+                <td
+                  class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
+                  <div class="w-32 lg:w-48 rounded overflow-hidden">
+                    <video v-if="item.video" :src="item.video" alt="" controls></video>
                   </div>
                 </td>
                 <td v-if="rol == 'ADMINISTRADOR'"

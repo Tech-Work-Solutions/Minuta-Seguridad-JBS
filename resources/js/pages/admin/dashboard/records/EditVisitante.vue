@@ -3,6 +3,12 @@
       <div class="flex flex-wrap items-center">
          <h1 class="text-xl text-gray-500 pl-5 mr-5 font-bold"><em class="fas fa-users "></em> Registro de Visitantes
          </h1>
+         <router-link :to="{ name: 'Reportes' }" title="Regresar">
+            <div
+               class="text-center inline-flex items-center justify-center w-10 h-10 shadow-lg rounded-full bg-red-500 hover:bg-red-600 ease-linear transition-all duration-150">
+               <em class="fas fa-arrow-left font-bold text-white"></em>
+            </div>
+         </router-link>
       </div>
       <div class="flex flex-col min-w-0 w-full shadow-lg my-8 rounded-lg bg-gray-100 border-1">
          <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -215,6 +221,27 @@
                         </div>
                      </div>
 
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                        <label
+                           class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
+                           <em class="fas fa-video fa-3x"></em>
+                           <span class="mt-2 text-sm font-semibold">Adjuntar Video</span>
+                           <input type='file' accept="video/mp4,video/x-m4v,video/*" class="opacity-0"
+                              @change="obtenerVideo" />
+                        </label>
+
+                        <div v-if="!videoMinuta" class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure>
+                              <video :src="video" controls></video>
+                           </figure>
+                        </div>
+                        <div v-if="videoMinuta" class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
+                           <figure>
+                              <video :src="videoMinuta" alt="" controls></video>
+                           </figure>
+                        </div>
+                     </div>
+
                   </div>
                </div>
                <div class="flex p-6">
@@ -252,7 +279,8 @@ export default {
             anotaciones: '',
             tipo: '',
             imagen: '',
-            audio: ''
+            audio: '',
+            video: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -265,7 +293,9 @@ export default {
          imagen: '',
          tipos: [{ id: 'EMPLEADO', text: 'EMPLEADO' }, { id: 'VISITANTE', text: 'VISITANTE' }],
          audio: '',
-         audioPreview: null
+         audioPreview: null,
+         video: '',
+         videoPreview: null,
       };
    },
 
@@ -290,6 +320,7 @@ export default {
             const { person } = response.data;
             this.imagen = response.data.foto;
             this.audio = response.data.audio;
+            this.video = response.data.video;
             this.formData.numero_documento = person.numero_documento;
             this.formData.tipo_documento_id = person.tipo_documento_id;
             this.formData.tipo = person.tipo;
@@ -365,6 +396,8 @@ export default {
          datos.append('file', this.formData.imagen);
          datos.append('audio', this.formData.audio);
          datos.append('audioOrigin', this.audio);
+         datos.append('video', this.formData.video);
+         datos.append('videoOrigin', this.video);
          await axios.post('/api/updateRecordVisitante', datos).then((response) => {
             this.spiner = false
             this.submited = false
@@ -410,6 +443,21 @@ export default {
             this.audioPreview = null;
          }
       },
+      obtenerVideo(e) {
+         let file = e.target.files[0];
+         if (!file) {
+            this.videoPreview = '';
+            return;
+         }
+
+         if (file.type.startsWith("video/")) {
+            this.videoPreview = URL.createObjectURL(file);
+            this.formData.video = file;
+         } else {
+            alert("Por favor selecciona un archivo de video válido.");
+            this.videoPreview = null;
+         }
+      },
       cargarImagen(file) {
          let reader = new FileReader();
          reader.onload = (e) => {
@@ -448,6 +496,9 @@ export default {
       },
       audioMinuta() {
          return this.audioPreview;
+      },
+      videoMinuta() {
+         return this.videoPreview;
       },
    },
 

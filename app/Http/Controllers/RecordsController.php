@@ -21,6 +21,7 @@ class RecordsController extends Controller
 
         $imagen = '';
         $audio = '';
+        $video = '';
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/minutas/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/minutas/');
@@ -50,6 +51,7 @@ class RecordsController extends Controller
 
         $imagen = '';
         $audio = '';
+        $video = '';
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/vehiculos/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/vehiculos/');
@@ -103,6 +105,7 @@ class RecordsController extends Controller
     public function registrarVisitante($request, $id_persona) {
         $imagen = '';
         $audio = '';
+        $video = '';
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/visitantes/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/visitantes/');
@@ -195,10 +198,12 @@ class RecordsController extends Controller
     public function updateRecordMinuta(Request $request) {
         $imagen = '';
         $audio = '';
+        $video = '';
         $record = Record_minuta::findOrFail($request->id);
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/minutas/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/minutas/');
+        $video = $fileService->guardarArchivo($request->file('video'), '/videos/minutas/');
 
         if ($request->file('file')) {
             $fileService->eliminarArchivo($request->imagen);
@@ -206,6 +211,10 @@ class RecordsController extends Controller
     
         if ($request->file('audio')) {
             $fileService->eliminarArchivo($request->audioOrigin);
+        }
+        
+        if ($request->file('video')) {
+            $fileService->eliminarArchivo($request->videoOrigin);
         }
 
         $record->anotaciones   = $request->anotaciones;
@@ -216,6 +225,10 @@ class RecordsController extends Controller
         if ($audio !== '') {
             $record->audio      = $audio;
         }
+        
+        if ($video !== '') {
+            $record->video      = $video;
+        }
         $record->subject_id    = $request->subject_id;
         $record->ubicacion_id  = $request->ubicacion_id;
         $record->update();
@@ -225,10 +238,12 @@ class RecordsController extends Controller
     public function updateRecordVehicle(Request $request) {
         $imagen = '';
         $audio = '';
+        $video = '';
         $record = Record_vehicle::findOrFail($request->id);  
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/vehiculos/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/vehiculos/');
+        $video = $fileService->guardarArchivo($request->file('video'), '/videos/vehiculos/');
 
         if ($request->file('file')) {
             $fileService->eliminarArchivo($request->imagen);
@@ -237,13 +252,23 @@ class RecordsController extends Controller
         if ($request->file('audio')) {
             $fileService->eliminarArchivo($request->audioOrigin);
         }
+
+        if ($request->file('video')) {
+            $fileService->eliminarArchivo($request->videoOrigin);
+        }
+
         $record->observaciones  = $request->observaciones;
         $record->entrada_salida = $request->entrada_salida;
         if ($imagen !== '') {
             $record->foto       = $imagen;
         }
+
         if ($audio !== '') {
             $record->audio      = $audio;
+        }
+
+        if ($video !== '') {
+            $record->video      = $video;
         }
         $record->vehicle_id     = $request->vehicle_id;
         $record->driver_id      = $request->driver_id;
@@ -256,10 +281,12 @@ class RecordsController extends Controller
     public function updateRecordVisitante(Request $request) {
         $imagen = '';
         $audio = '';
+        $video = '';
         $record = Record_person::findOrFail($request->id);  
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/visitantes/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/visitantes/');
+        $video = $fileService->guardarArchivo($request->file('video'), '/videos/visitantes/');
 
         if ($request->file('file')) {
             $fileService->eliminarArchivo($request->imagen);
@@ -268,6 +295,11 @@ class RecordsController extends Controller
         if ($request->file('audio')) {
             $fileService->eliminarArchivo($request->audioOrigin);
         }
+
+        if ($request->file('video')) {
+            $fileService->eliminarArchivo($request->videoOrigin);
+        }
+
         $person = Person::where('numero_documento', $request->numero_documento)->first();
         if(!$person) {
             $newPerson = Person::create([
@@ -279,23 +311,30 @@ class RecordsController extends Controller
                 'eps_id'            => $request->eps_id,
                 'arl_id'            => $request->arl_id,
             ]);
-            $this->updateVisitante($request, $newPerson->id, $record, $imagen, $audio);
+            $this->updateVisitante($request, $newPerson->id, $record, $imagen, $audio, $video);
         } else {
-            $this->updateVisitante($request, $person->id, $record, $imagen, $audio);
+            $this->updateVisitante($request, $person->id, $record, $imagen, $audio, $video);
         }
         
     }
 
-    public function updateVisitante($request, $person_id, $record, $imagen, $audio) {
+    public function updateVisitante($request, $person_id, $record, $imagen, $audio, $video) {
         $record->destino        = $request->destino;
         $record->entrada_salida = $request->entrada_salida;
         $record->observaciones  = $request->observaciones ? $request->observaciones : '';
+
         if ($imagen !== '') {
             $record->foto       = $imagen;
         }
+
         if ($audio !== '') {
             $record->audio      = $audio;
         }
+
+        if ($video !== '') {
+            $record->video      = $video;
+        }
+
         $record->person_id      = $person_id;
         $record->update();
         return response()->json(["msg" => "Registro exitoso"]);
@@ -311,6 +350,10 @@ class RecordsController extends Controller
     
         if ($record->audio) {
             $fileService->eliminarArchivo($record->audio);
+        }
+        
+        if ($record->video) {
+            $fileService->eliminarArchivo($record->video);
         }
 
         $record->delete(); 
@@ -328,6 +371,11 @@ class RecordsController extends Controller
         if ($record->audio) {
             $fileService->eliminarArchivo($record->audio);
         }
+
+        if ($record->video) {
+            $fileService->eliminarArchivo($record->video);
+        }
+
         $record->delete(); 
         return response()->json(['msg' => 'Registro eliminado']);
     }
@@ -343,6 +391,11 @@ class RecordsController extends Controller
         if ($record->audio) {
             $fileService->eliminarArchivo($record->audio);
         }
+
+        if ($record->video) {
+            $fileService->eliminarArchivo($record->video);
+        }
+
         $record->delete(); 
         return response()->json(['msg' => 'Registro eliminado']);
     }

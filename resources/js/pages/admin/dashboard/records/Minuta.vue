@@ -110,7 +110,6 @@
                            <span class="mt-2 text-sm font-semibold">Adjuntar Video</span>
                            <input type='file' accept="video/mp4,video/x-m4v,video/*" class="opacity-0"
                               @change="obtenerVideo" />
-
                         </label>
 
                         <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
