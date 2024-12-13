@@ -5058,11 +5058,25 @@ __webpack_require__.r(__webpack_exports__);
       if (clienteSeleccionado) {
         localStorage.setItem('permisosFormulario', JSON.stringify(clienteSeleccionado.permisos_formulario));
         localStorage.setItem('permisosMenu', JSON.stringify(clienteSeleccionado.permisos_menu));
-        localStorage.setItem('puesto', JSON.stringify(clienteSeleccionado.id));
-        localStorage.removeItem('puestos');
+        localStorage.setItem('puesto', JSON.stringify({
+          id: clienteSeleccionado.id,
+          nombre: clienteSeleccionado.nombre
+        }));
+        var sedeSeleccionada = clienteSeleccionado.sedes.find(function (sede) {
+          return sede.sede_id === _this.formData.sede;
+        });
+
+        if (sedeSeleccionada) {
+          localStorage.setItem('sede', JSON.stringify({
+            id: sedeSeleccionada.sede_id,
+            nombre: sedeSeleccionada.sede_nombre
+          }));
+        } else {
+          console.error("Sede seleccionada no encontrada.");
+        }
       }
 
-      localStorage.setItem('sede', JSON.stringify(this.formData.sede));
+      localStorage.removeItem('puestos');
       this.$router.push('/dashboard');
     }
   },
@@ -15403,11 +15417,13 @@ function passedConfigPage() {
 }
 
 router.beforeEach(function (to, from, next) {
-  if (to.matched.some(function (record) {
+  if (to.path === '/login/config_page' && loggedIn() && passedConfigPage()) {
+    next({
+      path: '/dashboard'
+    });
+  } else if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   })) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
     if (!loggedIn()) {
       next({
         path: '/',
@@ -15439,7 +15455,7 @@ router.beforeEach(function (to, from, next) {
       next();
     }
   } else {
-    next(); // make sure to always call next()!
+    next();
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);

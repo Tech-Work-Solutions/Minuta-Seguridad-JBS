@@ -171,36 +171,40 @@ function passedConfigPage() {
 }
 
 router.beforeEach((to, from, next) => {
-   if (to.matched.some(record => record.meta.requiresAuth)) {
-     // this route requires auth, check if logged in
-     // if not, redirect to login page.
-     if (!loggedIn()) {
-       next({
-         path: '/',
-         query: { redirect: to.fullPath }
-       })
-     } else {
-       next()
-     }
-   }
-   else if(to.matched.some(record => record.meta.guest)){
-       if (loggedIn() && passedConfigPage()) {
-          next({
-            path: '/dashboard',
-            query: { redirect: to.fullPath }
-          })
-        } else if (loggedIn() && !passedConfigPage()) {
-          next({
-            path: '/login/config_page',
-            query: { redirect: to.fullPath }
-          })
-        } else {
-          next()        
-        }
-   }
-   else {
-     next() // make sure to always call next()!
-   }
- })
+  if (to.path === '/login/config_page' && loggedIn() && passedConfigPage()) {
+    next({
+      path: '/dashboard'
+    });
+  }
+  else if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!loggedIn()) {
+      next({
+        path: '/',
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  }
+  else if (to.matched.some(record => record.meta.guest)) {
+    if (loggedIn() && passedConfigPage()) {
+      next({
+        path: '/dashboard',
+        query: { redirect: to.fullPath }
+      });
+    } else if (loggedIn() && !passedConfigPage()) {
+      next({
+        path: '/login/config_page',
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  }
+  else {
+    next();
+  }
+});
+
 
  export default router;

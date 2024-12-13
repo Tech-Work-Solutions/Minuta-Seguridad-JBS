@@ -137,10 +137,17 @@ export default {
             if (clienteSeleccionado) {
                 localStorage.setItem('permisosFormulario', JSON.stringify(clienteSeleccionado.permisos_formulario));
                 localStorage.setItem('permisosMenu', JSON.stringify(clienteSeleccionado.permisos_menu));
-                localStorage.setItem('puesto', JSON.stringify(clienteSeleccionado.id));
-                localStorage.removeItem('puestos');
+                localStorage.setItem('puesto', JSON.stringify({ id: clienteSeleccionado.id, nombre: clienteSeleccionado.nombre }));
+
+                const sedeSeleccionada = clienteSeleccionado.sedes.find(sede => sede.sede_id === this.formData.sede);
+                
+                if (sedeSeleccionada) {
+                    localStorage.setItem('sede', JSON.stringify({ id: sedeSeleccionada.sede_id, nombre: sedeSeleccionada.sede_nombre }));
+                } else {
+                    console.error("Sede seleccionada no encontrada.");
+                }
             }
-            localStorage.setItem('sede', JSON.stringify(this.formData.sede));
+            localStorage.removeItem('puestos');
             this.$router.push('/dashboard');
         }
     },
