@@ -18,6 +18,8 @@ class Record_vehicle extends Model
         'volqueta_id',
         'origin_id',
         'user_id',
+        'audio',
+        'video',
     ];
 
     public function driver(){
