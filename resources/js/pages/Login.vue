@@ -122,7 +122,8 @@ export default {
          errors: {},
          submited: false,
          spiner: false,
-         error: false
+         error: false,
+         sedes: []
       }
    },
 
@@ -140,40 +141,82 @@ export default {
           this.validarDatos()
        },
 
-       verificarLogin(){
-          axios.post('api/login', this.formData).then((response) => {
-             const { user, datosUser, status } = response.data;
-             if(status === 423) {
-                this.error = true;
-                this.spiner = false;
-                return;
-             } else if(datosUser.estado === '1'){
-               localStorage.setItem('token', user)
-               localStorage.setItem('rol', datosUser.rol);
-               localStorage.setItem('user', JSON.stringify(datosUser));
-               this.$router.push('/dashboard')              
-               this.spiner = false;
-             }else {
-               this.error = true
-               this.spiner = false;
-               this.errors = errors.response.data.errors
-             }            
-         }).catch((errors) => {
-            this.error = true
-            this.spiner = false;
-            this.errors = errors.response.data.errors
-         })
-       },
+       async verificarLogin() {
+         try {
+            const response = await axios.post('api/login', this.formData);
+            const { user, datosUser, status } = response.data;
 
-       validarDatos(){
-            this.submited = true;
-            this.$v.$touch();
-            if(this.$v.$invalid){
-               this.spiner = false;
-               return false;
-            }   
-            this.verificarLogin();          
-        },
+            if (status === 423) {
+                  this.error = true;
+                  this.spiner = false;
+                  return;
+            } else if (datosUser.estado === '1') {
+                  localStorage.setItem('token', user);
+                  localStorage.setItem('rol', datosUser.rol);
+                  localStorage.setItem('user', JSON.stringify(datosUser));
+
+                  await this.getSedesAndClientesByUser({ user_id: datosUser.id });
+
+                  if(this.sedes.length > 1) {
+                     const sedes = this.sedes.slice();
+                     const clientes = sedes.reduce((acc, sede) => {
+                        const clienteIndex = acc.findIndex(c => c.id === sede.cliente.id);
+                        if (clienteIndex === -1) {
+                           acc.push({
+                                 ...sede.cliente,
+                                 sedes: [{
+                                    sede_id: sede.sede_id,
+                                    sede_nombre: sede.sede_nombre
+                                 }]
+                           });
+                        } else {
+                           acc[clienteIndex].sedes.push({
+                                 sede_id: sede.sede_id,
+                                 sede_nombre: sede.sede_nombre
+                           });
+                        }
+                        return acc;
+                     }, []);
+
+                     localStorage.setItem('puestos', JSON.stringify(clientes));
+                     this.$router.push('/login/config_page');
+                  } else {
+                     localStorage.setItem('puesto', JSON.stringify(this.sedes[0].cliente.id));
+                     localStorage.setItem('sede', this.sedes[0].sede_id);
+                     localStorage.setItem('permisosFormulario', JSON.stringify(this.sedes[0].cliente.permisos_formulario));
+                     localStorage.setItem('permisosMenu', JSON.stringify(this.sedes[0].cliente.permisos_menu));
+                     this.$router.push('/dashboard');
+                  }
+                  this.spiner = false;
+            } else {
+                  this.error = true;
+                  this.spiner = false;
+                  this.errors = errors.response.data.errors;
+            }
+         } catch (errors) {
+            this.error = true;
+            this.spiner = false;
+            this.errors = errors.response.data.errors;
+         }
+      },
+
+      validarDatos(){
+         this.submited = true;
+         this.$v.$touch();
+         if(this.$v.$invalid){
+            this.spiner = false;
+            return false;
+         }   
+         this.verificarLogin();          
+      },
+      async getSedesAndClientesByUser(params) {
+         try {
+            const response = await axios.get('/api/getSedesAndClientesByUser', { params });
+            this.sedes = response.data.sedes;
+         } catch (errors) {
+            console.log(errors.response.data.errors);
+         }
+      },
     },
 
    validations: {
