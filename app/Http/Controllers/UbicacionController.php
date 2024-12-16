@@ -20,9 +20,11 @@ class UbicacionController extends Controller
     }
 
     public function getUbicaciones(Request $request) {
-        if ($request->sede_id) {
-            return Ubicacion::where('sede_id', $request->sede_id)->orderBy('nombre')->get();
+        $query = Ubicacion::query();
+        $sede_id = $request->query('sede_id');
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
         }
-        return Ubicacion::orderBy('nombre')->get();
+        return $query->orderBy('nombre')->get();
     }
 }

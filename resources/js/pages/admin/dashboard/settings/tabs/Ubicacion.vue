@@ -34,7 +34,7 @@
                     class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <em class="fas fa-building"></em>
                   </span>
-                  <input type="text" v-model="this.sede" disabled
+                  <input type="text" v-model="this.sede.nombre" disabled
                     class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
                 </div>
 
@@ -85,18 +85,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-gray-100 text-left" v-for="(puesto, index) in searchPuesto" :key="puesto.id">
+              <tr class="bg-gray-100 text-left" v-for="(ubicacion, index) in searchUbicacion" :key="ubicacion.id">
                 <td
                   class="px-4 text-center text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap">
                   {{ index + 1 }}
                 </td>
                 <td
                   class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap">
-                  {{ puesto.nombre.toUpperCase() }}
+                  {{ ubicacion.nombre.toUpperCase() }}
                 </td>
                 <td
                   class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap">
-                  {{ sede.toUpperCase() }}
+                  {{ ubicacion.sede_id }}
                 </td>
               </tr>
             </tbody>
@@ -117,22 +117,21 @@ export default {
         nombre: '',
         sede_id: 0
       },
-      puestos: [],
+      ubicaciones: [],
       search: '',
       spiner: false,
-      sede: 0,
+      sede: {},
     };
   },
 
-  mounted() {
+  async mounted() {
     this.spiner = false;
-    // this.getLocalStorage();
-    const sede = localStorage.getItem("sede");
-    if (sede) {
-      this.sede = sede
-      this.formData.sede_id = sede;
+    const sede = JSON.parse(localStorage.getItem("sede"));
+    if (sede?.id) {
+      this.sede = sede;
+      this.formData.sede_id = sede.id;
+      await this.getUbicaciones(); // pendiente preguntar que pasa si no hay localstorage
     }
-    this.getUbicaciones();
 
   },
 
@@ -167,12 +166,14 @@ export default {
         }
       });
     },
-    getUbicaciones() {
-      axios.get('/api/getUbicaciones', { sede_id: this.sede }).then((response) => {
-        this.puestos = response.data;
-      }).catch((errors) => {
+    async getUbicaciones() {
+      try {
+        const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`
+        const ubicaciones = await axios.get(url);
+        this.ubicaciones = ubicaciones.data;
+      } catch (errors) {
         console.log(errors.response.data.errors)
-      });
+      }
     },
   },
 
@@ -183,8 +184,8 @@ export default {
   },
 
   computed: {
-    searchPuesto() {
-      return this.puestos.filter((p) => (p.nombre).toUpperCase().includes(this.search.toUpperCase()));
+    searchUbicacion() {
+      return this.ubicaciones.filter((p) => (p.nombre).toUpperCase().includes(this.search.toUpperCase()));
     }
   }
 }
