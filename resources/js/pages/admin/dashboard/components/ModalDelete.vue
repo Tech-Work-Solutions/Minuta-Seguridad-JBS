@@ -77,13 +77,17 @@ export default {
          this.$emit('closeModal', false)
       },
 
-      eliminar(){
-         axios.post(this.datos.url, { id: this.datos.id} ).then((response) => { 
-            this.$emit('closeModalSuccess', false)          
-         }).catch((errors) => {
+      async eliminar(){
+         try {
+            const response = await axios.post(this.datos.url, { id: this.datos.id} )
+            if (response.status === 200) {
+               await axios.post(this.datos.urlRemoveSedes, { id: this.datos.id} );
+            }            
+            this.$emit('closeModalSuccess', false)    
+         } catch (errors) {
             this.$toaster.error('Algo salio mal. Vuelva a intentarlo')
             console.log(errors.response.data.errors)
-         });
+         }         
       }
    }
 }

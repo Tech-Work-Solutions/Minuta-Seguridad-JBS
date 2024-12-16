@@ -149,6 +149,7 @@ export default {
          this.datos = {
             id: user.id,
             url: '/api/deleteUser',
+            urlRemoveSedes: '/api/deleteAllUserSedes',
             title: 'Eliminar Usuario',
             message: '¿Está seguro de eliminar al usuario '+user.name+'?'
          }

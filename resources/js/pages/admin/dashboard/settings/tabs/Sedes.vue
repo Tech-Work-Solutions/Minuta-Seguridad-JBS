@@ -242,7 +242,8 @@
   
       getSedes(){
         axios.get('/api/getSedes').then((response) => {
-          this.sedes = response.data          
+          this.sedes = response.data.filter((item) => item.estado === 'ACTIVO');
+        
         }).catch((errors) => {
             console.log(errors.response.data.errors)
         });
@@ -272,24 +273,24 @@
     },
   
     computed: {
-        searchSede() {
-            let sedes = this.sedes.filter((c) => (c.nombre).toUpperCase().includes(this.search.toUpperCase()));
-            
-            if (sedes.length > 0 && this.clients.length > 0) {
-                for (let index = 0; index < sedes.length; index++) {
-                    const element = sedes[index];                    
-                    const client = this.clients.find(client => client.id === element.cliente_id);                    
-                    
-                    if (client) {                      
-                        element.client = client.nombre;
-                    } else {
-                        console.log(`Puesto con ID ${element.cliente_id} no encontrado.`);
-                    }
-                }            
-            }
+      searchSede() {
+          let sedes = this.sedes.filter((c) => (c.nombre).toUpperCase().includes(this.search.toUpperCase()));
+          
+          if (sedes.length > 0 && this.clients.length > 0) {
+              for (let index = 0; index < sedes.length; index++) {
+                  const element = sedes[index];                    
+                  const client = this.clients.find(client => client.id === element.cliente_id);                    
+                  
+                  if (client) {                      
+                      element.client = client.nombre;
+                  } else {
+                      console.log(`Puesto con ID ${element.cliente_id} no encontrado.`);
+                  }
+              }            
+          }
 
-            return sedes;
-        }
+          return sedes;
+      }
     },
     components: { TRichSelect }
   }

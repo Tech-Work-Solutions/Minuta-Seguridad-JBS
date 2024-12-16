@@ -24,7 +24,7 @@ class AuthController extends Controller
             'password'          => ['required', 'min:6'],
         ]);
 
-        User::create([
+        $user = User::create([
             'name'              => $request->name,
             'email'             => $request->email,
             'password'          => Hash::make($request->password),
@@ -38,7 +38,7 @@ class AuthController extends Controller
             'fecha_nacimiento'  => $request->fecha_nacimiento,
             'estado'            => '1',
         ]);
-        return response()->json(['msg' => 'Registro exitoso']);
+        return response()->json(['msg' => 'Registro exitoso', 'user_id' => $user->id]);
     }
 
     public function login(Request $request){
@@ -121,7 +121,7 @@ class AuthController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->update();
-        return response()->json(['msg' => "Registro actualizado correctamente"]);
+        return response()->json(['msg' => "Registro actualizado correctamente", 'user_id' => $user->id]);
     }
 
     public function sendEmailUsuario(Request $request){
