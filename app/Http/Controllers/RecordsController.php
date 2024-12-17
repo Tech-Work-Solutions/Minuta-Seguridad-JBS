@@ -49,6 +49,7 @@ class RecordsController extends Controller
             'driver_id'         => ['required'],
             'volqueta_id'       => ['required'],
             'entrada_salida'    => ['required'],
+            'sede_id'           => ['required'],
         ]);
 
         $imagen = '';
@@ -70,6 +71,7 @@ class RecordsController extends Controller
             'user_id'           => $request->user_id,
             'audio'             => $audio,
             'video'             => $video,
+            'sede_id'           => $request->sede_id,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }
@@ -277,6 +279,7 @@ class RecordsController extends Controller
         $record->driver_id      = $request->driver_id;
         $record->origin_id      = $request->origin_id;
         $record->volqueta_id    = $request->volqueta_id;
+        $record->sede_id        = $request->sede_id;
         $record->update();
         return response()->json(["msg" => "Registro exitoso"]);
     }

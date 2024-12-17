@@ -20,6 +20,7 @@ class Record_vehicle extends Model
         'user_id',
         'audio',
         'video',
+        'sede_id',
     ];
 
     public function driver(){
@@ -40,5 +41,9 @@ class Record_vehicle extends Model
 
     public function user(){
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function sede(){
+        return $this->belongsTo('App\Models\Sede', 'sede_id');
     }
 }

@@ -162,11 +162,11 @@
                      </th>
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        audio
+                        Audio
                      </th>
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        video
+                        Video
                      </th>
                   </tr>
                </thead>
@@ -333,7 +333,6 @@ export default {
          datos.append('audio', this.formData.audio);
          datos.append('video', this.formData.video);
          datos.append('sede_id', this.formData.sede_id);
-         console.log('enviando ', this.formData);
          await axios.post('/api/registerMinuta', datos).then((response) => {
             this.getRecordsMinutaByUser();
             this.spiner = false
@@ -351,7 +350,7 @@ export default {
          }).catch((errors) => {
             this.spiner = false
             this.submited = false
-            this.$toaster.error('Algo salio mal.');
+            this.$toaster.error('Algo salió mal.');
             console.log(errors.response.data.errors)
          });
       },

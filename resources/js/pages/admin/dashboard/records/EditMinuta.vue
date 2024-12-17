@@ -175,7 +175,6 @@ export default {
       this.sede = JSON.parse(localStorage.getItem('sede'));
       console.log('sede', this.sede)
       this.formData.user_id = user.id;
-      //this.formData.sede_id = this.sede.id;
       this.id_user = user.id;
       const rol = localStorage.getItem('rol');
       if (rol !== 'ADMINISTRADOR') {
@@ -227,7 +226,6 @@ export default {
          datos.append('video', this.formData.video);
          datos.append('videoOrigin', this.video);
          datos.append('sede_id', this.formData.sede_id);
-         console.log('editando ', this.formData);
          await axios.post('/api/updateRecordMinuta', datos).then((response) => {
             this.spiner = false
             this.submited = false

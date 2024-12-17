@@ -168,11 +168,11 @@ export default {
     },
     async getUbicaciones() {
       try {
-        const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`
+        const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`;
         const ubicaciones = await axios.get(url);
         this.ubicaciones = ubicaciones.data;
       } catch (errors) {
-        console.log(errors.response.data.errors)
+        console.log(errors.response.data.errors);
       }
     },
   },

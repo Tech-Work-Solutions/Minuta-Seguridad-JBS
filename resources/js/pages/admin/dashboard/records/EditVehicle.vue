@@ -316,15 +316,16 @@ export default {
          datos.append('audioOrigin', this.audio);
          datos.append('video', this.formData.video);
          datos.append('videoOrigin', this.video);
+         datos.append('sede_id', this.formData.sede_id);
          await axios.post('/api/updateRecordVehicle', datos).then((response) => {
             this.spiner = false
             this.submited = false
-            this.$toaster.success('Registro actualizado con exito.');
+            this.$toaster.success('Registro actualizado con éxito.');
          }).catch((errors) => {
             this.spiner = false
             this.submited = false
-            this.$toaster.error('Algo salio mal.');
-            console.log(errors.response.data.errors)
+            this.$toaster.error('Algo salió mal.');
+            console.log(errors.response.data.errors);
          });
       },
 

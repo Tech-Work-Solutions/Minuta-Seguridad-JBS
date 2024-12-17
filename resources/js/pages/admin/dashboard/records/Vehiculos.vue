@@ -225,11 +225,11 @@
                      </th>
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        audio
+                        Audio
                      </th>
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        video
+                        Video
                      </th>
                   </tr>
                </thead>
@@ -312,6 +312,7 @@ export default {
             entrada_salida: '',
             audio: '',
             video: '',
+            sede_id: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -326,12 +327,15 @@ export default {
          show: false,
          audioPreview: null,
          videoPreview: null,
+         sede: {},
       };
    },
 
    mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
+      this.sede = JSON.parse(localStorage.getItem('sede'));
       this.formData.user_id = user.id;
+      this.formData.sede_id = this.sede.id;
       this.id_user = user.id;
       if (user.rol === 'ADMINISTRATIVO') {
          this.$router.push('/dashboard');
@@ -350,7 +354,7 @@ export default {
             this.vehicles = response.data;
             this.vehicles.forEach((item) => item.text = item.placa.toUpperCase());
          }).catch((errors) => {
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
 
@@ -358,12 +362,12 @@ export default {
          await axios.post('/api/registerVehiculo', { placa: query }).then((response) => {
             const item = response.data.res;
             this.vehicles.unshift({ id: item.id, placa: query.toUpperCase(), text: query.toUpperCase() });
-            this.$toaster.success('Registro creado con exito.');
+            this.$toaster.success('Registro creado con éxito.');
          }).catch((errors) => {
             if (errors.response.data.errors && errors.response.data.errors.placa) {
                this.$toaster.error(errors.response.data.errors.placa[0]);
             } else {
-               this.$toaster.error('Algo salio mal.');
+               this.$toaster.error('Algo salió mal.');
             }
          });
       },
@@ -395,7 +399,7 @@ export default {
 
       async getRecordsVehiculosByUser() {
          await axios.post('/api/getRecordsVehiculosByUser', { user_id: this.id_user }).then((response) => {
-            this.datos = response.data
+            this.datos = response.data;
          }).catch((errors) => {
             console.log(errors.response.data.errors)
          });
@@ -420,6 +424,7 @@ export default {
          datos.append('file', this.formData.imagen);
          datos.append('audio', this.formData.audio);
          datos.append('video', this.formData.video);
+         datos.append('sede_id', this.formData.sede_id);
          await axios.post('/api/recordVehicle', datos).then((response) => {
             this.getRecordsVehiculosByUser();
             this.spiner = false
@@ -442,7 +447,7 @@ export default {
             this.spiner = false
             this.submited = false
             this.$toaster.error('Algo salió mal.');
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
 
