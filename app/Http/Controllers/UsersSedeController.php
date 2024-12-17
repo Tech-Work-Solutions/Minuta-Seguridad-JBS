@@ -36,7 +36,7 @@ class UsersSedeController extends Controller
         ]);
     }
 
-    public function registerUserSede(Request $request)
+    public function registerUserSedes(Request $request)
     {
         $request->validate([
             'user_id' => ['required', 'integer', 'exists:users,id'],

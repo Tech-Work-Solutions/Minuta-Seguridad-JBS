@@ -81,7 +81,7 @@ export default {
          try {
             const response = await axios.post(this.datos.url, { id: this.datos.id} )
             if (response.status === 200) {
-               await axios.post(this.datos.urlRemoveSedes, { id: this.datos.id} );
+               await axios.post(this.datos.urlRemoveUserSedes, { id: this.datos.id} );
             }            
             this.$emit('closeModalSuccess', false)    
          } catch (errors) {

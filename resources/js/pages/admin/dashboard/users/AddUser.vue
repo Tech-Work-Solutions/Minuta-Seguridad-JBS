@@ -374,7 +374,7 @@ export default {
                const user_id = response.data.user_id;
                const sedes = this.sedesSelected.map(option => option.id);
                const data = { user_id, sedes };
-               await axios.post('/api/registerUserSede', data);
+               await axios.post('/api/registerUserSedes', data);
             }
             
             this.formData.name = this.formData.email = this.formData.password = '';
@@ -415,7 +415,7 @@ export default {
             console.log(errors.response.data.errors)
          });
       },
-      async getSedesByIds(data){
+      async getSedesByPuestosIds(data){
          const ids = {'client_ids': data}
          await axios.get('/api/getSedesByClients', {params: ids}).then((response) => {
          this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
@@ -430,7 +430,7 @@ export default {
       onPuestosChange() {
          if (this.puestosSelected.length > 0) {
             const puestosIds = this.puestosSelected.map((puesto) => puesto.id);
-            this.getSedesByIds(puestosIds);
+            this.getSedesByPuestosIds(puestosIds);
          } else {
             this.sedes = [];
          }

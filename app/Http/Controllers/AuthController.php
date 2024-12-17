@@ -74,8 +74,16 @@ class AuthController extends Controller
         return response()->json(['msg' => "logout successfull..."]);
     }
 
-    public function getUsers(){
-        return User::where('estado', '1')->orderBy('name')->get();
+    public function getUsers()
+    {
+        return User::where('estado', '1')
+            ->whereDoesntHave('user_sedes', function ($query) {
+                $query->whereHas('sede', function ($subQuery) {
+                    $subQuery->where('estado', 'master');
+                });
+            })
+            ->orderBy('name')
+            ->get();
     }
 
     public function getUsersGuardas(){

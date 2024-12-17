@@ -118,7 +118,7 @@ Route::get('getUrlLogo', function () {
 });
 
 Route::get('getSedesAndClientesByUser', [UsersSedeController::class, 'getSedesAndClientesByUser']);
-Route::post('registerUserSede', [UsersSedeController::class,'registerUserSede']);
+Route::post('registerUserSedes', [UsersSedeController::class,'registerUserSedes']);
 Route::post('updateUserSedes', [UsersSedeController::class, 'updateUserSedes']);
 Route::post('deleteAllUserSedes', [UsersSedeController::class, 'deleteAllUserSedes']);
 

@@ -342,9 +342,9 @@ export default {
             this.$router.push('/dashboard');
          } 
          this.show = true;
-         axios.get('/api/getUser/'+this.$route.params.id).then((response) => {
-            this.formData = response.data
-         });
+         const reponse = await axios.get('/api/getUser/'+this.$route.params.id)
+         this.formData = reponse.data
+         
          await this.getClients();
          await this.getTipoDocumentos();
          await this.getSedesAndClientesByUser({ user_id: this.$route.params.id });
@@ -416,16 +416,18 @@ export default {
             console.log(errors.response.data.errors)
          });
       },
-      async getSedesByIds(data){
-         const ids = {'client_ids': data}
-         await axios.get('/api/getSedesByClients', {params: ids}).then((response) => {
-         this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
-         this.sedes.forEach((item) => {
-            item.nombre = item.nombre.toUpperCase();
-         });            
-         }).catch((errors) => {
-            console.log(errors.response.data.errors)
-         });
+      async getSedesByPuestosIds(data) {
+         try {
+            const ids = { 'client_ids': data };
+            const response = await axios.get('/api/getSedesByClients', { params: ids });
+
+            this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
+            this.sedes.forEach((item) => {
+               item.nombre = item.nombre.toUpperCase();
+            });
+         } catch (errors) {
+               console.log(errors.response?.data?.errors || "Ocurrió un error desconocido");
+         }
       },
       async getSedesAndClientesByUser(params) {
          try {
@@ -438,7 +440,7 @@ export default {
       onPuestosChange() {
          if (this.puestosSelected.length > 0) {
             const puestosIds = this.puestosSelected.map((puesto) => puesto.id);
-            this.getSedesByIds(puestosIds);
+            this.getSedesByPuestosIds(puestosIds);
          } else {
             this.sedes = [];
          }
