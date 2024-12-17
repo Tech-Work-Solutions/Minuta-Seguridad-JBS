@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-12-2024 a las 14:50:09
+-- Tiempo de generación: 16-12-2024 a las 17:11:18
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -670,17 +670,18 @@ CREATE TABLE `users_sedes` (
   `id` int(11) NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `sede_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `users_sedes`
 --
 
-INSERT INTO `users_sedes` (`id`, `user_id`, `sede_id`, `created_at`) VALUES
-(1, 5, 7, '2024-12-11 16:50:32'),
-(3, 11, 4, '2024-12-11 21:46:46'),
-(4, 11, 5, '2024-12-11 21:46:46');
+INSERT INTO `users_sedes` (`id`, `user_id`, `sede_id`, `created_at`, `updated_at`) VALUES
+(1, 5, 7, '2024-12-11 16:50:32', NULL),
+(3, 11, 4, '2024-12-11 21:46:46', NULL),
+(4, 11, 5, '2024-12-11 21:46:46', NULL);
 
 -- --------------------------------------------------------
 

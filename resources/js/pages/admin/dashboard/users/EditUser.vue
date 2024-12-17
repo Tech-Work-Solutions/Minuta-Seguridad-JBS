@@ -236,7 +236,53 @@
                      <p class="text-red-500 text-sm" v-if="submited && !$v.formData.rol.required">Seleccione un rol</p>
                   </div>
                </div>
-                              
+
+               <div class="w-full lg:w-4/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Puestos:
+                  </label>
+                  <multiselect
+                    v-model="puestosSelected"
+                    :options="puestos"
+                    :multiple="true"
+                    :searchable="true"
+                    :close-on-select="false"
+                    label="nombre"
+                    track-by="id"
+                    placeholder="Selecciona las opciones"
+                    class="w-full"
+                    :show-labels="false"
+                    @close="onPuestosChange"
+                  />
+                </div>
+              </div>
+              <div class="w-full lg:w-4/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Sedes:
+                  </label>
+                  <multiselect
+                    v-model="sedesSelected"
+                    :options="sedes"
+                    :multiple="true"
+                    :searchable="true"
+                    :close-on-select="false"
+                    label="nombre"
+                    track-by="id"
+                    placeholder="Selecciona las opciones"
+                    class="w-full"
+                    :show-labels="false"
+                    :disabled="puestosSelected.length === 0"
+                  />
+                </div>
+              </div>                              
             </div>
             
             <div class="flex p-6">
@@ -256,7 +302,12 @@
 
 <script>
 import { required, email, minLength, numeric } from 'vuelidate/lib/validators';
+import Multiselect from 'vue-multiselect';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
 export default {
+   components: {
+      Multiselect
+   },
    data() {
       return {
          submited: false,
@@ -273,22 +324,37 @@ export default {
             telefono_dos: '',
             fecha_nacimiento: '',
          },
+         puestos: [],
+         puestosSelected: [],
+         sedes: [],
+         sedesSelected: [],
          spiner: false,
          tipoDocumentos: [],
-         show: false
+         show: false,
+         sedesOfClient: ''
       };
    },
 
-   mounted(){
-      const rol = localStorage.getItem('rol');
-      if (rol !== 'ADMINISTRADOR'){
-         this.$router.push('/dashboard');
-      } 
-      this.show = true;
-      axios.get('/api/getUser/'+this.$route.params.id).then((response) => {
-         this.formData = response.data
-      });
-      this.getTipoDocumentos();
+   async mounted(){
+      try {
+         const rol = localStorage.getItem('rol');
+         if (rol !== 'ADMINISTRADOR'){
+            this.$router.push('/dashboard');
+         } 
+         this.show = true;
+         const reponse = await axios.get('/api/getUser/'+this.$route.params.id)
+         this.formData = reponse.data
+         
+         await this.getClients();
+         await this.getTipoDocumentos();
+         await this.getSedesAndClientesByUser({ user_id: this.$route.params.id });
+         if(this.sedesOfClient.length > 0) {
+            const sedes = this.sedesOfClient.slice();
+            this.processSedesAndClients(sedes);
+         }
+      } catch (error) {
+         console.error("Error al cargar los elementos:", error);
+      }
    },
 
    methods: {
@@ -306,20 +372,28 @@ export default {
          this.validarDatos()         
       },
 
-      register(){
-          axios.post('/api/editUser', this.formData).then( (response) => {
-             this.formData.name = this.formData.email = this.formData.password = ''             
-             this.$router.push('/usuarios')
-             this.$toaster.success('Registro actualizado con exito.')
-          }).catch((errors) => {        
-             this.spiner = false;
-             this.errors = errors.response.data.errors
-             if (errors.response.data.errors.email) {
-                this.$toaster.error(errors.response.data.errors.email[0]);
-             }else {
-                this.$toaster.error('Ocurrió un error');
-             }
-          });
+      async register(){
+         try {
+            const response = await axios.post('/api/editUser', this.formData);
+            if (response.status === 200) {
+               const user_id = response.data.user_id;
+               const sedes = this.sedesSelected.map(option => option.id);
+               const data = { user_id, sedes };
+               await axios.post('/api/updateUserSedes', data);
+            }
+            this.formData.name = this.formData.email = this.formData.password = '';               
+            this.$router.push('/usuarios')
+            this.$toaster.success('Registro actualizado con exito.')
+         } catch (errors) {
+            this.spiner = false;
+            this.errors = errors.response.data.errors
+            if (errors.response.data.errors.email) {
+               this.$toaster.error(errors.response.data.errors.email[0]);
+            }else {
+               this.$toaster.error('Ocurrió un error');
+            }
+         }
+  
        },
 
       validarDatos(){
@@ -330,8 +404,63 @@ export default {
             return false;
          }   
          this.register();          
-      },     
-      
+      },
+
+      async getClients(){
+         await axios.get('/api/getClients').then((response) => {
+         this.puestos = response.data.filter((item) => item.estado === 'ACTIVO');
+         this.puestos.forEach((item) => {
+            item.nombre = item.nombre.toUpperCase();
+         });            
+         }).catch((errors) => {
+            console.log(errors.response.data.errors)
+         });
+      },
+      async getSedesByPuestosIds(data) {
+         try {
+            const ids = { 'client_ids': data };
+            const response = await axios.get('/api/getSedesByClients', { params: ids });
+
+            this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
+            this.sedes.forEach((item) => {
+               item.nombre = item.nombre.toUpperCase();
+            });
+         } catch (errors) {
+               console.log(errors.response?.data?.errors || "Ocurrió un error desconocido");
+         }
+      },
+      async getSedesAndClientesByUser(params) {
+         try {
+            const response = await axios.get('/api/getSedesAndClientesByUser', { params });
+            this.sedesOfClient = response.data.sedes;
+         } catch (errors) {
+            console.log(errors.response.data.errors);
+         }
+      },
+      onPuestosChange() {
+         if (this.puestosSelected.length > 0) {
+            const puestosIds = this.puestosSelected.map((puesto) => puesto.id);
+            this.getSedesByPuestosIds(puestosIds);
+         } else {
+            this.sedes = [];
+         }
+      },
+      processSedesAndClients(data) {
+         const uniqueClients = [];
+         const clientsSet = new Set();
+         data.forEach(item => {
+            if (!clientsSet.has(item.cliente.id)) {
+               clientsSet.add(item.cliente.id);
+               uniqueClients.push(item.cliente);
+            }
+         });
+         this.puestosSelected = uniqueClients;
+         this.onPuestosChange();
+         this.sedesSelected = data.map(item => ({
+            id: item.sede_id,
+            nombre: item.sede_nombre
+         }));
+      },      
    },
 
    validations: {
@@ -349,9 +478,7 @@ export default {
          fecha_nacimiento: { required }          
       }
         
-    },
-
-   
+    },  
 
 }
 </script>
