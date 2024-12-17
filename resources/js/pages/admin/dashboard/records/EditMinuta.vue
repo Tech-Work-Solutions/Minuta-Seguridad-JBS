@@ -173,7 +173,6 @@ export default {
    mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
       this.sede = JSON.parse(localStorage.getItem('sede'));
-      console.log('sede', this.sede)
       this.formData.user_id = user.id;
       this.id_user = user.id;
       const rol = localStorage.getItem('rol');
@@ -188,7 +187,7 @@ export default {
          this.imagen = response.data.foto;
          this.audio = response.data.audio;
          this.video = response.data.video;
-         this.formData = response.data
+         this.formData = response.data;
       });
    },
 
@@ -198,7 +197,7 @@ export default {
             this.subjects = response.data;
             this.subjects.forEach(item => item.text = item.nombre.toUpperCase());
          }).catch((errors) => {
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
 
@@ -208,7 +207,7 @@ export default {
             this.ubicaciones = response.data;
             this.ubicaciones.forEach((item) => item.text = item.nombre.toUpperCase())
          }).catch((errors) => {
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
       async actualizar() {
@@ -234,7 +233,7 @@ export default {
             this.spiner = false
             this.submited = false
             this.$toaster.error('Algo salió mal.');
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
 

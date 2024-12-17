@@ -58,7 +58,7 @@
           <div class="flex flex-wrap items-center">
             <div class="relative w-full px-4 max-w-full flex-grow flex-1">
               <h3 class="font-semibold text-lg text-white mb-2">
-                ubicaciones registradas
+                Ubicaciones registradas
               </h3>
               <input type="text" placeholder="Buscar..." v-model="search"
                 class="px-2 py-2 placeholder-gray-400 text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />

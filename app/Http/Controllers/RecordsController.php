@@ -87,6 +87,7 @@ class RecordsController extends Controller
             'arl_id'            => ['required'],
             'user_id'           => ['required'],
             'entrada_salida'    => ['required'],
+            'sede_id'           => ['required'],
         ]);
 
         $person = Person::where('numero_documento', $request->numero_documento)->first();
@@ -124,6 +125,7 @@ class RecordsController extends Controller
             'user_id'           => $request->user_id,
             'audio'             => $audio,
             'video'             => $video,
+            'sede_id'           => $request->sede_id,
         ]);
         return response()->json(["msg" => "Registro exitoso"]);
     }
@@ -342,6 +344,7 @@ class RecordsController extends Controller
         }
 
         $record->person_id      = $person_id;
+        $record->sede_id        = $request->sede_id;
         $record->update();
         return response()->json(["msg" => "Registro exitoso"]);
     }
