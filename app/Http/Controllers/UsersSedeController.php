@@ -35,4 +35,75 @@ class UsersSedeController extends Controller
             'sedes' => $sedes,
         ]);
     }
+
+    public function registerUserSedes(Request $request)
+    {
+        $request->validate([
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'sedes'   => ['required', 'array'],
+            'sedes.*' => ['integer', 'exists:sedes,id'],
+        ]);
+    
+        // Recorrer el array de sedes y registrar cada relación
+        foreach ($request->sedes as $sede_id) {
+            Users_sede::create([
+                'user_id' => $request->user_id,
+                'sede_id' => $sede_id,
+            ]);
+        }
+    
+        return response()->json(['msg' => 'Relaciones usuario-sedes registradas con éxito']);
+    }
+
+    public function updateUserSedes(Request $request)
+    {
+        $request->validate([
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'sedes'   => ['required', 'array'],
+            'sedes.*' => ['integer', 'exists:sedes,id'],
+        ]);
+
+        $userId = $request->user_id;
+        $newSedes = $request->sedes;
+
+        // Obtener las sedes actuales
+        $currentSedes = Users_sede::where('user_id', $userId)
+            ->pluck('sede_id')
+            ->toArray();
+
+        // identificar las sedes que se deben agregar
+        $sedesToAdd = array_diff($newSedes, $currentSedes);
+
+        // identificar las sedes que se deben eliminar
+        $sedesToRemove = array_diff($currentSedes, $newSedes);
+
+        foreach ($sedesToAdd as $sedeId) {
+            Users_sede::create([
+                'user_id' => $userId,
+                'sede_id' => $sedeId,
+            ]);
+        }
+
+        // Eliminar las sedes que ya no están asociadas
+        if (!empty($sedesToRemove)) {
+            Users_sede::where('user_id', $userId)
+                ->whereIn('sede_id', $sedesToRemove)
+                ->delete();
+        }
+
+        return response()->json([
+            'msg' => 'Usuario-sedes actualizadas con éxito']);
+    }
+
+    public function deleteAllUserSedes(Request $request)
+    {
+        $request->validate([
+            'id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        Users_sede::where('user_id', $request->id)->delete();
+        return response()->json([
+            'msg' => 'Registros eliminadas con éxito'
+        ]);
+    }
 }

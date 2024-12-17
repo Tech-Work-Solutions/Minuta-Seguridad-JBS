@@ -239,7 +239,52 @@
                      <p class="text-red-500 text-sm" v-if="submited && !$v.formData.rol.required">Seleccione un rol</p>
                   </div>
                </div>
-                              
+               <div class="w-full lg:w-4/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Puestos:
+                  </label>
+                  <multiselect
+                    v-model="puestosSelected"
+                    :options="puestos"
+                    :multiple="true"
+                    :searchable="true"
+                    :close-on-select="false"
+                    label="nombre"
+                    track-by="id"
+                    placeholder="Selecciona las opciones"
+                    class="w-full"
+                    :show-labels="false"
+                    @close="onPuestosChange"
+                  />
+                </div>
+              </div>
+              <div class="w-full lg:w-4/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Sedes:
+                  </label>
+                  <multiselect
+                    v-model="sedesSelected"
+                    :options="sedes"
+                    :multiple="true"
+                    :searchable="true"
+                    :close-on-select="false"
+                    label="nombre"
+                    track-by="id"
+                    placeholder="Selecciona las opciones"
+                    class="w-full"
+                    :show-labels="false"
+                    :disabled="puestosSelected.length === 0"
+                  />
+                </div>
+              </div>                              
             </div>
             
             <div class="flex p-6">
@@ -259,7 +304,13 @@
 
 <script>
 import { required, email, minLength, numeric } from 'vuelidate/lib/validators';
+import Multiselect from 'vue-multiselect';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
+
 export default {
+   components: {
+      Multiselect
+   },
    data() {
       return {
          submited: false,
@@ -276,19 +327,28 @@ export default {
             telefono_dos: '',
             fecha_nacimiento: '',
          },
+         puestos: [],
+         puestosSelected: [],
+         sedes: [],
+         sedesSelected: [],
          spiner: false,
          tipoDocumentos: [],
          show: false
       };
    },
 
-   mounted() {
+   async mounted() {
       const rol = localStorage.getItem('rol');
       if (rol !== 'ADMINISTRADOR'){
          this.$router.push('/dashboard');
-      } 
-      this.show = true;
-      this.getTipoDocumentos();
+      }
+      try {
+         await this.getClients();
+         this.show = true;
+         await this.getTipoDocumentos();
+      } catch (error) {
+         console.error("Error en al cargar los elementos:", error);
+      }
    },
 
    methods: {
@@ -306,25 +366,36 @@ export default {
          this.validarDatos()         
       },
 
-      register(){
-          axios.post('/api/register', this.formData).then( (response) => {
-             this.formData.name = this.formData.email = this.formData.password = '';
-             this.formData.tipo_documento_id = this.formData.numero_documento = this.formData.fecha_nacimiento = '';
-             this.formData.direccion = this.formData.ciudad = this.formData.telefono_uno = '';
-             this.formData.telefono_dos = '';
-             this.$router.push('/usuarios')
-             this.$toaster.success('Registro creado con exito.')
-          }).catch((errors) => {
-             this.spiner = false;
-             if (errors.response.data.errors.email) {
-                this.$toaster.error(errors.response.data.errors.email[0]);
-             }else {
-                this.$toaster.error('Ocurrió un error');
-             }
-          })
-       },
+      async register() {
+         try {
+            const response = await axios.post('/api/register', this.formData);
 
-       validarDatos(){
+            if (response.status === 200) {
+               const user_id = response.data.user_id;
+               const sedes = this.sedesSelected.map(option => option.id);
+               const data = { user_id, sedes };
+               await axios.post('/api/registerUserSedes', data);
+            }
+            
+            this.formData.name = this.formData.email = this.formData.password = '';
+            this.formData.tipo_documento_id = this.formData.numero_documento = this.formData.fecha_nacimiento = '';
+            this.formData.direccion = this.formData.ciudad = this.formData.telefono_uno = '';
+            this.formData.telefono_dos = '';
+            this.puestosSelected = this.sedesSelected = this.puestos = this.sedes = [];
+            
+            this.$router.push('/usuarios');
+            this.$toaster.success('Registro creado con exito.');
+         } catch (errors) {
+            this.spiner = false;            
+            if (errors.response && errors.response.data.errors.email) {
+                  this.$toaster.error(errors.response.data.errors.email[0]);
+            } else {
+                  this.$toaster.error('Ocurrió un error');
+            }
+         }
+      },
+
+      validarDatos(){
             this.submited = true;
             this.$v.$touch();
             if(this.$v.$invalid){
@@ -332,8 +403,38 @@ export default {
                return false;
             }   
             this.register();          
-        },
+      },
       
+      async getClients(){
+         await axios.get('/api/getClients').then((response) => {
+         this.puestos = response.data.filter((item) => item.estado === 'ACTIVO');
+         this.puestos.forEach((item) => {
+            item.nombre = item.nombre.toUpperCase();
+         });            
+         }).catch((errors) => {
+            console.log(errors.response.data.errors)
+         });
+      },
+      async getSedesByPuestosIds(data){
+         const ids = {'client_ids': data}
+         await axios.get('/api/getSedesByClients', {params: ids}).then((response) => {
+         this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
+         this.sedes.forEach((item) => {
+            item.nombre = item.nombre.toUpperCase();
+         });            
+         }).catch((errors) => {
+            console.log(errors.response.data.errors)
+         });
+      },
+
+      onPuestosChange() {
+         if (this.puestosSelected.length > 0) {
+            const puestosIds = this.puestosSelected.map((puesto) => puesto.id);
+            this.getSedesByPuestosIds(puestosIds);
+         } else {
+            this.sedes = [];
+         }
+      },
       
    },
 
@@ -350,8 +451,7 @@ export default {
          telefono_uno: { required, numeric },         
          telefono_dos: { numeric },         
          fecha_nacimiento: { required }     
-      }
-        
-    },
+      }        
+    }
 }
 </script>
