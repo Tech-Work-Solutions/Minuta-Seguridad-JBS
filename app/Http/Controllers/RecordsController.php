@@ -17,6 +17,7 @@ class RecordsController extends Controller
             'ubicacion_id' => ['required'],
             'user_id'      => ['required'],
             'anotaciones'  => ['required'],
+            'sede_id'      => ['required'],
         ]);
 
         $imagen = '';
@@ -35,6 +36,7 @@ class RecordsController extends Controller
             'user_id'       => $request->user_id,
             'audio'         => $audio,
             'video'         => $video,
+            'sede_id'       => $request->sede_id,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }
@@ -231,6 +233,7 @@ class RecordsController extends Controller
         }
         $record->subject_id    = $request->subject_id;
         $record->ubicacion_id  = $request->ubicacion_id;
+        $record->sede_id       = $request->sede_id;
         $record->update();
         return response()->json(["msg" => "Registro exitoso"]);
     }

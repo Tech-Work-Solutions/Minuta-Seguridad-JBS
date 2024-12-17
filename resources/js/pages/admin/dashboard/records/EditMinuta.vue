@@ -30,14 +30,15 @@
                   <div class="w-full lg:w-6/12  px-4">
                      <div class="relative w-full mb-3">
                         <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="grid-password">
-                           Puesto:
+                           Ubicación:
                         </label>
                         <t-rich-select v-model="formData.ubicacion_id" :options="ubicaciones"
                            placeholder="Seleccione una opción">
                         </t-rich-select>
                      </div>
-                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ubicacion_id.required">Seleccione un
-                        puesto o ubicación</p>
+                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ubicacion_id.required">
+                        Seleccione una ubicación
+                     </p>
                   </div>
 
                   <div class="w-full px-4">
@@ -151,6 +152,7 @@ export default {
             user_id: '',
             audio: '',
             video: '',
+            sede_id: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -164,12 +166,16 @@ export default {
          audioPreview: null,
          video: '',
          videoPreview: null,
+         sede: {},
       };
    },
 
    mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
+      this.sede = JSON.parse(localStorage.getItem('sede'));
+      console.log('sede', this.sede)
       this.formData.user_id = user.id;
+      //this.formData.sede_id = this.sede.id;
       this.id_user = user.id;
       const rol = localStorage.getItem('rol');
       if (rol !== 'ADMINISTRADOR') {
@@ -198,7 +204,8 @@ export default {
       },
 
       async getUbicaciones() {
-         await axios.get('/api/getUbicaciones').then((response) => {
+         const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`;
+         await axios.get(url).then((response) => {
             this.ubicaciones = response.data;
             this.ubicaciones.forEach((item) => item.text = item.nombre.toUpperCase())
          }).catch((errors) => {
@@ -219,6 +226,8 @@ export default {
          datos.append('audioOrigin', this.audio);
          datos.append('video', this.formData.video);
          datos.append('videoOrigin', this.video);
+         datos.append('sede_id', this.formData.sede_id);
+         console.log('editando ', this.formData);
          await axios.post('/api/updateRecordMinuta', datos).then((response) => {
             this.spiner = false
             this.submited = false
