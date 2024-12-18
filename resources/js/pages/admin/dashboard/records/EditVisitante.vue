@@ -403,16 +403,18 @@ export default {
          datos.append('video', this.formData.video);
          datos.append('videoOrigin', this.video);
          datos.append('sede_id', this.formData.sede_id);
-         await axios.post('/api/updateRecordVisitante', datos).then((response) => {
+         try {
+            await axios.post('/api/updateRecordVisitante', datos)
             this.spiner = false
             this.submited = false
             this.$toaster.success('Registro actualizado con éxito.');
-         }).catch((errors) => {
+         } catch (errors) {
             this.spiner = false
             this.submited = false
             this.$toaster.error('Algo salió mal.');
             console.log(errors.response.data.errors);
-         });
+
+         }
       },
 
       limpiar() {
@@ -471,14 +473,14 @@ export default {
          reader.readAsDataURL(file);
       },
 
-      validarDatos() {
+      async validarDatos() {
          this.submited = true;
          this.$v.$touch();
          if (this.$v.$invalid) {
             this.spiner = false;
             return false;
          }
-         this.actualizar();
+         await this.actualizar();
       },
    },
 

@@ -253,7 +253,7 @@ export default {
       };
    },
 
-   mounted() {
+   async mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
       this.sede = JSON.parse(localStorage.getItem('sede'));
       this.formData.user_id = user.id;
@@ -264,7 +264,7 @@ export default {
       }
       this.show = true;
       this.getSubjects();
-      this.getUbicaciones();
+      await this.getUbicaciones();
       this.getRecordsMinutaByUser();
    },
 
@@ -300,14 +300,15 @@ export default {
          });
       },
 
-      getUbicaciones() {
+      async getUbicaciones() {
          const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`;
-         axios.get(url).then((response) => {
+         try {
+            const response = await axios.get(url);
             this.ubicaciones = response.data
-            this.ubicaciones.forEach((item) => item.text = item.nombre.toUpperCase())
-         }).catch((errors) => {
-            console.log(errors.response.data.errors)
-         });
+            this.ubicaciones.forEach((item) => item.text = item.nombre.toUpperCase());
+         } catch (errors) {
+            console.log(errors.response.data.errors);
+         }
       },
       async createUbicacion(query) {
          await axios.post('/api/registerUbicacion', { nombre: query, sede_id: this.sede.id }).then((response) => {
@@ -374,7 +375,7 @@ export default {
             this.audioPreview = URL.createObjectURL(file);
             this.formData.audio = file;
          } else {
-            alert("Por favor selecciona un archivo de audio válido.");
+            this.$toaster.error("Por favor selecciona un archivo de audio válido.");
             this.audioPreview = null;
          }
       },
@@ -388,7 +389,7 @@ export default {
             this.videoPreview = URL.createObjectURL(file);
             this.formData.video = file;
          } else {
-            alert("Por favor selecciona un archivo de video válido.");
+            this.$toaster.error("Por favor selecciona un archivo de video válido.");
             this.videoPreview = null;
          }
       },

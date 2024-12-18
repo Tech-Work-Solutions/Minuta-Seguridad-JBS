@@ -78,10 +78,6 @@
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
                   Ubicación
                 </th>
-                <th
-                  class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                  sede
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -93,10 +89,6 @@
                 <td
                   class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap">
                   {{ ubicacion.nombre.toUpperCase() }}
-                </td>
-                <td
-                  class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap">
-                  {{ ubicacion.sede_id }}
                 </td>
               </tr>
             </tbody>
@@ -140,31 +132,32 @@ export default {
       this.spiner = true;
       this.validarDatos()
     },
-    validarDatos() {
+    async validarDatos() {
       this.submited = true;
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.spiner = false;
         return false;
       }
-      this.register();
+      await this.register();
     },
 
     async register() {
-      await axios.post('/api/registerUbicacion', this.formData).then((response) => {
+      try {
+        await axios.post('/api/registerUbicacion', this.formData);
         this.spiner = false;
         this.submited = false;
         this.formData.nombre = '';
         this.$toaster.success('Registro creado con éxito.');
-        this.getUbicaciones();
-      }).catch((errors) => {
+        await this.getUbicaciones();
+      } catch (errors) {
         this.spiner = false;
         if (errors.response.data.errors && errors.response.data.errors.nombre) {
           this.$toaster.error(errors.response.data.errors.nombre[0]);
         } else {
           this.$toaster.error('Algo salió mal.');
         }
-      });
+      }
     },
     async getUbicaciones() {
       try {

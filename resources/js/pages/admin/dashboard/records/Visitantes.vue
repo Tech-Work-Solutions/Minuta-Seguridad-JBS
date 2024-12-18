@@ -400,7 +400,7 @@ export default {
       };
    },
 
-   mounted() {
+   async mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
       this.sede = JSON.parse(localStorage.getItem('sede'));
       this.formData.user_id = user.id;
@@ -409,36 +409,39 @@ export default {
          this.$router.push('/dashboard');
       }
       this.show = true;
-      this.getEps()
-      this.getArls();
+      await this.getEps();
+      await this.getArls();
       this.getTipoDocumentos();
       this.getRecordsVisitantesByUser();
    },
 
    methods: {
       async getEps() {
-         await axios.get('/api/getEps').then((response) => {
+         try {
+            const response = await axios.get('/api/getEps');
             this.epss = response.data;
             this.epss.forEach(item => item.text = item.nombre.toUpperCase());
-         }).catch((errors) => {
+         } catch (errors) {
             console.log(errors.response.data.errors);
-         });
+         }
       },
       async getArls() {
-         await axios.get('/api/getArls').then((response) => {
+         try {
+            const response = await axios.get('/api/getArls');
             this.arls = response.data;
             this.arls.forEach(item => item.text = item.nombre.toUpperCase());
-         }).catch((errors) => {
+         } catch (errors) {
             console.log(errors.response.data.errors);
-         });
+         }
       },
       async getTipoDocumentos() {
-         await axios.get('/api/getDocumentos').then((response) => {
+         try {
+            const response = await axios.get('/api/getDocumentos');
             this.tipoDocumentos = response.data;
             this.tipoDocumentos.forEach(item => item.text = item.documento.toUpperCase());
-         }).catch((errors) => {
+         } catch (errors) {
             console.log(errors.response.data.errors);
-         });
+         }
       },
 
       async getRecordsVisitantesByUser() {
@@ -485,10 +488,11 @@ export default {
          datos.append('audio', this.formData.audio);
          datos.append('video', this.formData.video);
          datos.append('sede_id', this.formData.sede_id);
-         await axios.post('/api/recordVisitante', datos).then((response) => {
+         try {
+            await axios.post('/api/recordVisitante', datos);
             this.getRecordsVisitantesByUser();
-            this.spiner = false
-            this.submited = false
+            this.spiner = false;
+            this.submited = false;
             this.limpiar();
             this.formData.destino = '';
             this.formData.numero_documento = '';
@@ -501,12 +505,12 @@ export default {
             this.formData.video = '';
             this.videoPreview = '';
             this.$toaster.success('Registro creado con éxito.');
-         }).catch((errors) => {
+         } catch (errors) {
             this.spiner = false
             this.submited = false
             this.$toaster.error('Algo salió mal.');
             console.log(errors.response.data.errors);
-         });
+         }
       },
 
       limpiar() {

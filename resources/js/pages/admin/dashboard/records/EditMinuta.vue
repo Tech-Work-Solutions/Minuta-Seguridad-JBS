@@ -170,7 +170,7 @@ export default {
       };
    },
 
-   mounted() {
+   async mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
       this.sede = JSON.parse(localStorage.getItem('sede'));
       this.formData.user_id = user.id;
@@ -182,7 +182,7 @@ export default {
       }
       this.show = true;
       this.getSubjects();
-      this.getUbicaciones();
+      await this.getUbicaciones();
       axios.get('/api/getRecordMinuta/' + this.formData.id).then((response) => {
          this.imagen = response.data.foto;
          this.audio = response.data.audio;
@@ -203,12 +203,13 @@ export default {
 
       async getUbicaciones() {
          const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`;
-         await axios.get(url).then((response) => {
+         try {
+            const response = await axios.get(url);
             this.ubicaciones = response.data;
             this.ubicaciones.forEach((item) => item.text = item.nombre.toUpperCase())
-         }).catch((errors) => {
+         } catch (errors) {
             console.log(errors.response.data.errors);
-         });
+         }
       },
       async actualizar() {
          this.spiner = true;
@@ -225,16 +226,17 @@ export default {
          datos.append('video', this.formData.video);
          datos.append('videoOrigin', this.video);
          datos.append('sede_id', this.formData.sede_id);
-         await axios.post('/api/updateRecordMinuta', datos).then((response) => {
+         try {
+            await axios.post('/api/updateRecordMinuta', datos);
             this.spiner = false
             this.submited = false
             this.$toaster.success('Registro actualizado con éxito.');
-         }).catch((errors) => {
+         } catch (errors) {
             this.spiner = false
             this.submited = false
             this.$toaster.error('Algo salió mal.');
             console.log(errors.response.data.errors);
-         });
+         }
       },
 
       obtenerImagen(e) {
@@ -253,7 +255,7 @@ export default {
             this.audioPreview = URL.createObjectURL(file);
             this.formData.audio = file;
          } else {
-            alert("Por favor selecciona un archivo de audio válido.");
+            this.$toaster.error("Por favor selecciona un archivo de audio válido.");
             this.audioPreview = null;
          }
       },
@@ -268,7 +270,7 @@ export default {
             this.videoPreview = URL.createObjectURL(file);
             this.formData.video = file;
          } else {
-            alert("Por favor selecciona un archivo de video válido.");
+            this.$toaster.error("Por favor selecciona un archivo de video válido.");
             this.videoPreview = null;
          }
       },
@@ -280,14 +282,14 @@ export default {
          reader.readAsDataURL(file);
       },
 
-      validarDatos() {
+      async validarDatos() {
          this.submited = true;
          this.$v.$touch();
          if (this.$v.$invalid) {
             this.spiner = false;
             return false;
          }
-         this.actualizar();
+         await this.actualizar();
       },
    },
 
