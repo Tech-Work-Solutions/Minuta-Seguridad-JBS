@@ -81,14 +81,18 @@
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-          <li class="items-center" v-if="rol !== 'ADMINISTRATIVO'">
+          <li
+            class="items-center"
+            v-for="(opcion, index) in opcionesMenu"
+            :key="index"
+          >
             <router-link
-              :to="{ name: 'Minuta' }"
+              :to="{ name: opcion.label }"
               v-slot="{ href, isActive }"
             >
               <a
                 :href="href"
-                @click.prevent="navegar('/minuta')"
+                @click.prevent="navegar(opcion.route)"
                 class="text-xs uppercase py-3 font-bold block"
                 :class="[
                   isActive
@@ -97,135 +101,15 @@
                 ]"
               >
                 <i
-                  class="fas fa-file-signature mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-white']"
-                ></i>
-                Minuta
-              </a>
-            </router-link>
-          </li>
-
-          <li class="items-center" v-if="rol !== 'ADMINISTRATIVO'">
-            <router-link
-              :to="{ name: 'Vehiculos' }"
-              v-slot="{ href, isActive }"
-            >
-              <a
-                :href="href"
-                @click.prevent="navegar('/vehiculos')"
-                class="text-xs uppercase py-3 font-bold block"
                 :class="[
-                  isActive
-                    ? 'text-blue-400 hover:text-white'
-                    : 'text-white hover:text-gray-300',
+                  `fas ${opcion.icon} mr-2 text-sm`, 
+                  isActive ? 'opacity-75' : 'text-white'
                 ]"
-              >
-                <i
-                  class="fas fa-car mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-white']"
-                ></i>
-                Vehiculos
+                ></i>               
+                {{ opcion.label }}
               </a>
             </router-link>
-          </li>
-
-          <li class="items-center" v-if="rol !== 'ADMINISTRATIVO'">
-            <router-link
-              :to="{ name: 'Visitantes' }"
-              v-slot="{ href, isActive }"
-            >
-              <a
-                :href="href"
-                @click.prevent="navegar('/visitantes')"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-blue-400 hover:text-white'
-                    : 'text-white hover:text-gray-300',
-                ]"
-              >
-                <i
-                  class="fas fa-users mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-white']"
-                ></i>
-                Visitantes
-              </a>
-            </router-link>
-          </li>   
-
-          <li class="items-center" v-if="rol === 'ADMINISTRADOR' || rol === 'ADMINISTRATIVO'">
-            <router-link
-              :to="{ name: 'Reportes' }"
-              v-slot="{ href, isActive }"
-            >
-              <a
-                :href="href"
-                @click.prevent="navegar('/reportes')"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-blue-400 hover:text-white'
-                    : 'text-white hover:text-gray-300',
-                ]"
-              >
-                <i
-                  class="fas fa-chart-bar mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-white']"
-                ></i>
-                Reportes
-              </a>
-            </router-link>
-          </li>  
-
-          <li class="items-center" v-if="rol === 'ADMINISTRADOR'">
-            <router-link
-              :to="{ name: 'Settings' }"
-              v-slot="{ href, isActive }"
-            >
-              <a
-                :href="href"
-                @click.prevent="navegar('/configuraciones')"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-blue-400 hover:text-white'
-                    : 'text-white hover:text-gray-300',
-                ]"
-              >
-                <i
-                  class="fas fa-cogs mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-white']"
-                ></i>
-                Configuraciones
-              </a>
-            </router-link>
-          </li>       
-
-          <li class="items-center" v-if="rol === 'ADMINISTRADOR'">
-            <router-link
-              :to="{ name: 'Usuarios' }"
-              v-slot="{ href, isActive }"
-            >
-              <a
-                :href="href"
-                @click.prevent="navegar('/usuarios')"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-blue-400 hover:text-white'
-                    : 'text-white hover:text-gray-300',
-                ]"
-              >
-                <i
-                  class="fas fa-users-cog mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-white']"
-                ></i>
-                Usuarios
-              </a>
-            </router-link>
-          </li>
-
-          
+          </li>          
         </ul>
 
         <!-- Divider -->
@@ -261,12 +145,52 @@ export default {
         collapseShow: "hidden",
         token: localStorage.getItem('token'),
         rol: localStorage.getItem('rol'),
+        permisosMenu: JSON.parse(localStorage.getItem('permisosMenu')|| '[]'),
+        opcionesMenu: []
       };
    },
-  mounted() {
-    axios.get('/api/getUrlLogo').then((response) => {
-      this.url_logo = response.data;
-    });
+  async mounted() {
+    const response = await axios.get('/api/getUrlLogo');
+    this.url_logo = response.data;
+    const opcionesMenuGuarda = ["minuta", "vehiculos", "visitantes"];
+    
+    const iconosMap = {
+      'minuta': 'fa-file-signature',
+      'vehiculos': 'fa-car',
+      'visitantes': 'fa-users',
+      'reportes': 'fa-chart-bar',
+      'configuraciones': 'fa-cogs',
+      'usuarios': 'fa-users-cog'
+    };
+
+    if (this.permisosMenu?.length > 1) {
+      this.permisosMenu.forEach((permiso) => {
+        const nombre = permiso.nombre.toLowerCase(); 
+        if(this.rol === "GUARDA DE SEGURIDAD"){
+          if (opcionesMenuGuarda.includes(nombre) ) {
+            this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: iconosMap[nombre]});
+          }
+        } else if(this.rol === "ADMINISTRATIVO"){
+          if ( nombre === "reportes" ) {
+            this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: iconosMap[nombre]});
+          }
+        }
+        else if(this.rol === "ADMINISTRADOR"){
+          this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: iconosMap[nombre]});
+        }
+      });
+    } else {
+      if(this.rol === "ADMINISTRADOR" && this.permisosMenu[0].nombre === "all"){
+        this.opcionesMenu = [
+          { label: "Minuta", route: "/minuta", icon: "fa-file-signature" },
+          { label: "Vehiculos", route: "/vehiculos", icon: "fa-car" },
+          { label: "Visitantes", route: "/visitantes", icon: "fa-users" },
+          { label: "Reportes", route: "/reportes", icon: "fa-chart-bar" },
+          { label: "Configuraciones", route: "/configuraciones", icon: "fa-cogs" },
+          { label: "Usuarios", route: "/usuarios", icon: "fa-users-cog" }
+        ];
+      }
+    }
   },
    methods: {
       toggleCollapseShow: function (classes) {
@@ -278,27 +202,30 @@ export default {
         this.$router.push(ruta);
       },
 
-      logout(){
-         window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-         axios.post('api/logout').then((response) => {
+      async logout() {
+        try {
+          window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;          
+          await axios.post('api/logout');
           const itemsToRemove = [
-              'token',
-              'rol',
-              'user',
-              'puesto',
-              'sede',
-              'permisosMenu',
-              'permisosFormulario',
-              'puestos'
+            'token',
+            'rol',
+            'user',
+            'puesto',
+            'sede',
+            'permisosMenu',
+            'permisosFormulario',
+            'puestos'
           ];
 
           itemsToRemove.forEach(item => localStorage.removeItem(item));
-            this.$router.push('/')
-         }).catch((errors) => {
-            console.log(errors)
-         })
-         window.axios.defaults.headers.common['Authorization'] = null;
+          this.$router.push('/');
+        } catch (errors) {
+          console.log(errors);
+        } finally {
+          window.axios.defaults.headers.common['Authorization'] = null;
+        }
       }
+
    },
    components: {
       NotificationDropdown,
