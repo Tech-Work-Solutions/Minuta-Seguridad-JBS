@@ -134,7 +134,7 @@
                 </th>
                 <th
                   class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                  video
+                  Video
                 </th>
                 <th v-if="rol == 'ADMINISTRADOR'"
                   class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">

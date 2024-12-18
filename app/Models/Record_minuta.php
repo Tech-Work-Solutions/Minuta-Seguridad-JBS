@@ -17,6 +17,7 @@ class Record_minuta extends Model
         'user_id',
         'audio',
         'video',
+        'sede_id',
     ];
 
     public function usuario(){
@@ -29,6 +30,10 @@ class Record_minuta extends Model
 
     public function ubicacion(){
         return $this->belongsTo('App\Models\Ubicacion', 'ubicacion_id');
+    }
+
+    public function sede(){
+        return $this->belongsTo('App\Models\Sede', 'sede_id');
     }
 
 }

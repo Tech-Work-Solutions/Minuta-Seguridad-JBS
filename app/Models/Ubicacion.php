@@ -10,6 +10,11 @@ class Ubicacion extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre',
+        'nombre',        
+        'sede_id'
     ];
+
+    public function sede(){
+        return $this->belongsTo('App\Models\Sede', 'sede_id');
+    }
 }

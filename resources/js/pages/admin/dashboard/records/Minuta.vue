@@ -33,7 +33,7 @@
                   <div class="w-full lg:w-6/12  px-4">
                      <div class="relative w-full mb-3">
                         <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="grid-password">
-                           Puesto:
+                           Ubicación:
                         </label>
                         <t-rich-select v-model="formData.ubicacion_id" :options="ubicaciones"
                            placeholder="Seleccione una opción">
@@ -42,14 +42,14 @@
                                  <button type="button"
                                     class="block w-full p-3 text-white bg-blue-500 border hover:bg-blue-600"
                                     @click="createUbicacion(query)">
-                                    Crear puesto: {{ query }}
+                                    Crear Ubicación: {{ query }}
                                  </button>
                               </div>
                            </template>
                         </t-rich-select>
                      </div>
-                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ubicacion_id.required">Seleccione un
-                        puesto o
+                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ubicacion_id.required">Seleccione
+                        una
                         ubicación</p>
                   </div>
 
@@ -150,7 +150,7 @@
                      </th>
                      <th
                         class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        Puesto
+                        Ubicación
                      </th>
                      <th
                         class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
@@ -162,11 +162,11 @@
                      </th>
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        audio
+                        Audio
                      </th>
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        video
+                        Video
                      </th>
                   </tr>
                </thead>
@@ -237,6 +237,7 @@ export default {
             user_id: '',
             audio: '',
             video: '',
+            sede_id: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -248,19 +249,22 @@ export default {
          show: false,
          audioPreview: null,
          videoPreview: null,
+         sede: {},
       };
    },
 
-   mounted() {
+   async mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
+      this.sede = JSON.parse(localStorage.getItem('sede'));
       this.formData.user_id = user.id;
+      this.formData.sede_id = this.sede.id;
       this.id_user = user.id;
       if (user.rol === 'ADMINISTRATIVO') {
          this.$router.push('/dashboard');
       }
       this.show = true;
       this.getSubjects();
-      this.getUbicaciones();
+      await this.getUbicaciones();
       this.getRecordsMinutaByUser();
    },
 
@@ -278,12 +282,12 @@ export default {
          await axios.post('/api/registerSubject', { nombre: query }).then((response) => {
             const item = response.data.res;
             this.subjects.unshift({ id: item.id, nombre: query.toUpperCase(), text: query.toUpperCase() });
-            this.$toaster.success('Registro creado con exito.');
+            this.$toaster.success('Registro creado con éxito.');
          }).catch((errors) => {
             if (errors.response.data.errors && errors.response.data.errors.nombre) {
                this.$toaster.error(errors.response.data.errors.nombre[0]);
             } else {
-               this.$toaster.error('Algo salio mal.');
+               this.$toaster.error('Algo salió mal.');
             }
          });
       },
@@ -297,23 +301,25 @@ export default {
       },
 
       async getUbicaciones() {
-         await axios.get('/api/getUbicaciones').then((response) => {
+         const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`;
+         try {
+            const response = await axios.get(url);
             this.ubicaciones = response.data
-            this.ubicaciones.forEach((item) => item.text = item.nombre.toUpperCase())
-         }).catch((errors) => {
-            console.log(errors.response.data.errors)
-         });
+            this.ubicaciones.forEach((item) => item.text = item.nombre.toUpperCase());
+         } catch (errors) {
+            console.log(errors.response.data.errors);
+         }
       },
       async createUbicacion(query) {
-         await axios.post('/api/registerUbicacion', { nombre: query }).then((response) => {
+         await axios.post('/api/registerUbicacion', { nombre: query, sede_id: this.sede.id }).then((response) => {
             const item = response.data.res;
             this.ubicaciones.unshift({ id: item.id, nombre: query.toUpperCase(), text: query.toUpperCase() });
-            this.$toaster.success('Registro creado con exito.');
+            this.$toaster.success('Registro creado con éxito.');
          }).catch((errors) => {
             if (errors.response.data.errors && errors.response.data.errors.nombre) {
                this.$toaster.error(errors.response.data.errors.nombre[0]);
             } else {
-               this.$toaster.error('Algo salio mal.');
+               this.$toaster.error('Algo salió mal.');
             }
          });
       },
@@ -327,6 +333,7 @@ export default {
          datos.append('file', this.formData.imagen);
          datos.append('audio', this.formData.audio);
          datos.append('video', this.formData.video);
+         datos.append('sede_id', this.formData.sede_id);
          await axios.post('/api/registerMinuta', datos).then((response) => {
             this.getRecordsMinutaByUser();
             this.spiner = false
@@ -344,7 +351,7 @@ export default {
          }).catch((errors) => {
             this.spiner = false
             this.submited = false
-            this.$toaster.error('Algo salio mal.');
+            this.$toaster.error('Algo salió mal.');
             console.log(errors.response.data.errors)
          });
       },
@@ -368,7 +375,7 @@ export default {
             this.audioPreview = URL.createObjectURL(file);
             this.formData.audio = file;
          } else {
-            alert("Por favor selecciona un archivo de audio válido.");
+            this.$toaster.error("Por favor selecciona un archivo de audio válido.");
             this.audioPreview = null;
          }
       },
@@ -382,7 +389,7 @@ export default {
             this.videoPreview = URL.createObjectURL(file);
             this.formData.video = file;
          } else {
-            alert("Por favor selecciona un archivo de video válido.");
+            this.$toaster.error("Por favor selecciona un archivo de video válido.");
             this.videoPreview = null;
          }
       },
