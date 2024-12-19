@@ -273,24 +273,20 @@
     },
   
     computed: {
-      searchSede() {
-          const sedes = this.sedes.filter((c) => (c.nombre).toUpperCase().includes(this.search.toUpperCase()));
-          
-          if (sedes.length > 0 && this.clients.length > 0) {
-              for (let index = 0; index < sedes.length; index++) {
-                  const sede = sedes[index];                    
-                  const client = this.clients.find(client => client.id === sede.cliente_id);                    
-                  
-                  if (client) {                      
-                      sede.client = client.nombre;
-                  } else {
-                      console.log(`Puesto con ID ${sede.cliente_id} no encontrado.`);
-                  }
-              }            
-          }
-
-          return sedes;
-      }
+        searchSede() {
+            let sedes = this.sedes.filter((c) => (c.nombre).toUpperCase().includes(this.search.toUpperCase()));
+            
+            if (sedes.length > 0 && this.clients.length > 0) {
+                for (let index = 0; index < sedes.length; index++) {
+                    const sede = sedes[index];
+                    const client = this.clients.find(client => client.id === sede.cliente_id);  
+                    if (client) {
+                        sede.client = client.nombre;
+                    }
+                }
+            }
+            return sedes;
+        }
     },
     components: { TRichSelect }
   }

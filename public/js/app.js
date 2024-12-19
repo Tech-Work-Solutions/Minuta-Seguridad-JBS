@@ -5056,8 +5056,8 @@ __webpack_require__.r(__webpack_exports__);
       });
 
       if (clienteSeleccionado) {
-        localStorage.setItem('permisosFormulario', JSON.stringify(clienteSeleccionado.permisos_formulario));
-        localStorage.setItem('permisosMenu', JSON.stringify(clienteSeleccionado.permisos_menu));
+        localStorage.setItem('permisosFormulario', clienteSeleccionado.permisos_formulario);
+        localStorage.setItem('permisosMenu', clienteSeleccionado.permisos_menu);
         localStorage.setItem('puesto', JSON.stringify({
           id: clienteSeleccionado.id,
           nombre: clienteSeleccionado.nombre
@@ -5373,8 +5373,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     id: _this2.sedes[0].sede_id,
                     nombre: _this2.sedes[0].sede_nombre
                   }));
-                  localStorage.setItem('permisosFormulario', JSON.stringify(_this2.sedes[0].cliente.permisos_formulario));
-                  localStorage.setItem('permisosMenu', JSON.stringify(_this2.sedes[0].cliente.permisos_menu));
+                  localStorage.setItem('permisosFormulario', _this2.sedes[0].cliente.permisos_formulario);
+                  localStorage.setItem('permisosMenu', _this2.sedes[0].cliente.permisos_menu);
 
                   _this2.$router.push('/dashboard');
                 }
@@ -6127,6 +6127,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6140,7 +6141,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         imagen: '',
         user_id: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -6153,62 +6155,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       audio: '',
       audioPreview: null,
       video: '',
-      videoPreview: null
+      videoPreview: null,
+      sede: {}
     };
   },
   mounted: function mounted() {
     var _this = this;
 
-    var user = JSON.parse(localStorage.getItem('user'));
-    this.formData.user_id = user.id;
-    this.id_user = user.id;
-    var rol = localStorage.getItem('rol');
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var user, rol;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              user = JSON.parse(localStorage.getItem('user'));
+              _this.sede = JSON.parse(localStorage.getItem('sede'));
+              _this.formData.user_id = user.id;
+              _this.id_user = user.id;
+              rol = localStorage.getItem('rol');
 
-    if (rol !== 'ADMINISTRADOR') {
-      this.$router.push('/dashboard');
-      return;
-    }
+              if (!(rol !== 'ADMINISTRADOR')) {
+                _context.next = 8;
+                break;
+              }
 
-    this.show = true;
-    this.getSubjects();
-    this.getUbicaciones();
-    axios.get('/api/getRecordMinuta/' + this.formData.id).then(function (response) {
-      _this.imagen = response.data.foto;
-      _this.audio = response.data.audio;
-      _this.video = response.data.video;
-      _this.formData = response.data;
-    });
+              _this.$router.push('/dashboard');
+
+              return _context.abrupt("return");
+
+            case 8:
+              _this.show = true;
+
+              _this.getSubjects();
+
+              _context.next = 12;
+              return _this.getUbicaciones();
+
+            case 12:
+              axios.get('/api/getRecordMinuta/' + _this.formData.id).then(function (response) {
+                _this.imagen = response.data.foto;
+                _this.audio = response.data.audio;
+                _this.video = response.data.video;
+                _this.formData = response.data;
+              });
+
+            case 13:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
     getSubjects: function getSubjects() {
       var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('/api/getSubjects').then(function (response) {
-                  _this2.subjects = response.data;
-
-                  _this2.subjects.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    getUbicaciones: function getUbicaciones() {
-      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
@@ -6216,10 +6217,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.get('/api/getUbicaciones').then(function (response) {
-                  _this3.ubicaciones = response.data;
+                return axios.get('/api/getSubjects').then(function (response) {
+                  _this2.subjects = response.data;
 
-                  _this3.ubicaciones.forEach(function (item) {
+                  _this2.subjects.forEach(function (item) {
                     return item.text = item.nombre.toUpperCase();
                   });
                 })["catch"](function (errors) {
@@ -6234,14 +6235,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    actualizar: function actualizar() {
-      var _this4 = this;
+    getUbicaciones: function getUbicaciones() {
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var datos;
+        var _this3$sede;
+
+        var url, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
+              case 0:
+                url = "/api/getUbicaciones".concat((_this3$sede = _this3.sede) !== null && _this3$sede !== void 0 && _this3$sede.id ? "/?sede_id=".concat(_this3.sede.id) : '');
+                _context3.prev = 1;
+                _context3.next = 4;
+                return axios.get(url);
+
+              case 4:
+                response = _context3.sent;
+                _this3.ubicaciones = response.data;
+
+                _this3.ubicaciones.forEach(function (item) {
+                  return item.text = item.nombre.toUpperCase();
+                });
+
+                _context3.next = 12;
+                break;
+
+              case 9:
+                _context3.prev = 9;
+                _context3.t0 = _context3["catch"](1);
+                console.log(_context3.t0.response.data.errors);
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[1, 9]]);
+      }))();
+    },
+    actualizar: function actualizar() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var datos;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this4.spiner = true;
                 datos = new FormData();
@@ -6256,27 +6297,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('audioOrigin', _this4.audio);
                 datos.append('video', _this4.formData.video);
                 datos.append('videoOrigin', _this4.video);
-                _context3.next = 15;
-                return axios.post('/api/updateRecordMinuta', datos).then(function (response) {
-                  _this4.spiner = false;
-                  _this4.submited = false;
+                datos.append('sede_id', _this4.formData.sede_id);
+                _context4.prev = 14;
+                _context4.next = 17;
+                return axios.post('/api/updateRecordMinuta', datos);
 
-                  _this4.$toaster.success('Registro actualizado con éxito.');
-                })["catch"](function (errors) {
-                  _this4.spiner = false;
-                  _this4.submited = false;
+              case 17:
+                _this4.spiner = false;
+                _this4.submited = false;
 
-                  _this4.$toaster.error('Algo salió mal.');
+                _this4.$toaster.success('Registro actualizado con éxito.');
 
-                  console.log(errors.response.data.errors);
-                });
+                _context4.next = 28;
+                break;
 
-              case 15:
+              case 22:
+                _context4.prev = 22;
+                _context4.t0 = _context4["catch"](14);
+                _this4.spiner = false;
+                _this4.submited = false;
+
+                _this4.$toaster.error('Algo salió mal.');
+
+                console.log(_context4.t0.response.data.errors);
+
+              case 28:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4, null, [[14, 22]]);
       }))();
     },
     obtenerImagen: function obtenerImagen(e) {
@@ -6296,7 +6346,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.audioPreview = URL.createObjectURL(file);
         this.formData.audio = file;
       } else {
-        alert("Por favor selecciona un archivo de audio válido.");
+        this.$toaster.error("Por favor selecciona un archivo de audio válido.");
         this.audioPreview = null;
       }
     },
@@ -6312,7 +6362,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.videoPreview = URL.createObjectURL(file);
         this.formData.video = file;
       } else {
-        alert("Por favor selecciona un archivo de video válido.");
+        this.$toaster.error("Por favor selecciona un archivo de video válido.");
         this.videoPreview = null;
       }
     },
@@ -6328,15 +6378,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reader.readAsDataURL(file);
     },
     validarDatos: function validarDatos() {
-      this.submited = true;
-      this.$v.$touch();
+      var _this6 = this;
 
-      if (this.$v.$invalid) {
-        this.spiner = false;
-        return false;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this6.submited = true;
 
-      this.actualizar();
+                _this6.$v.$touch();
+
+                if (!_this6.$v.$invalid) {
+                  _context5.next = 5;
+                  break;
+                }
+
+                _this6.spiner = false;
+                return _context5.abrupt("return", false);
+
+              case 5:
+                _context5.next = 7;
+                return _this6.actualizar();
+
+              case 7:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
     }
   },
   validations: {
@@ -6800,27 +6871,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('audioOrigin', _this7.audio);
                 datos.append('video', _this7.formData.video);
                 datos.append('videoOrigin', _this7.video);
-                _context5.next = 18;
-                return axios.post('/api/updateRecordVehicle', datos).then(function (response) {
-                  _this7.spiner = false;
-                  _this7.submited = false;
+                datos.append('sede_id', _this7.formData.sede_id);
+                _context5.prev = 17;
+                _context5.next = 20;
+                return axios.post('/api/updateRecordVehicle', datos);
 
-                  _this7.$toaster.success('Registro actualizado con exito.');
-                })["catch"](function (errors) {
-                  _this7.spiner = false;
-                  _this7.submited = false;
+              case 20:
+                _this7.spiner = false;
+                _this7.submited = false;
 
-                  _this7.$toaster.error('Algo salio mal.');
+                _this7.$toaster.success('Registro actualizado con éxito.');
 
-                  console.log(errors.response.data.errors);
-                });
+                _context5.next = 31;
+                break;
 
-              case 18:
+              case 25:
+                _context5.prev = 25;
+                _context5.t0 = _context5["catch"](17);
+                _this7.spiner = false;
+                _this7.submited = false;
+
+                _this7.$toaster.error('Algo salió mal.');
+
+                console.log(_context5.t0.response.data.errors);
+
+              case 31:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5);
+        }, _callee5, null, [[17, 25]]);
       }))();
     },
     fecha: function fecha(d) {
@@ -6843,7 +6923,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.audioPreview = URL.createObjectURL(file);
         this.formData.audio = file;
       } else {
-        alert("Por favor selecciona un archivo de audio válido.");
+        this.$toaster.error("Por favor selecciona un archivo de audio válido.");
         this.audioPreview = null;
       }
     },
@@ -6859,7 +6939,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.videoPreview = URL.createObjectURL(file);
         this.formData.video = file;
       } else {
-        alert("Por favor selecciona un archivo de video válido.");
+        this.$toaster.error("Por favor selecciona un archivo de video válido.");
         this.videoPreview = null;
       }
     },
@@ -6875,15 +6955,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reader.readAsDataURL(file);
     },
     validarDatos: function validarDatos() {
-      this.submited = true;
-      this.$v.$touch();
+      var _this9 = this;
 
-      if (this.$v.$invalid) {
-        this.spiner = false;
-        return false;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this9.submited = true;
 
-      this.actualizar();
+                _this9.$v.$touch();
+
+                if (!_this9.$v.$invalid) {
+                  _context6.next = 5;
+                  break;
+                }
+
+                _this9.spiner = false;
+                return _context6.abrupt("return", false);
+
+              case 5:
+                _context6.next = 7;
+                return _this9.actualizar();
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
     }
   },
   validations: {
@@ -7228,7 +7329,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         tipo: '',
         imagen: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -7249,12 +7351,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       audio: '',
       audioPreview: null,
       video: '',
-      videoPreview: null
+      videoPreview: null,
+      sede: {}
     };
   },
   mounted: function mounted() {
     var user = JSON.parse(localStorage.getItem('user'));
+    this.sede = JSON.parse(localStorage.getItem('sede'));
     this.formData.user_id = user.id;
+    this.formData.sede_id = this.sede.id;
     var rol = localStorage.getItem('rol');
 
     if (rol !== 'ADMINISTRADOR') {
@@ -7436,27 +7541,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('audioOrigin', _this6.audio);
                 datos.append('video', _this6.formData.video);
                 datos.append('videoOrigin', _this6.video);
-                _context5.next = 22;
-                return axios.post('/api/updateRecordVisitante', datos).then(function (response) {
-                  _this6.spiner = false;
-                  _this6.submited = false;
+                datos.append('sede_id', _this6.formData.sede_id);
+                _context5.prev = 21;
+                _context5.next = 24;
+                return axios.post('/api/updateRecordVisitante', datos);
 
-                  _this6.$toaster.success('Registro actualizado con exito.');
-                })["catch"](function (errors) {
-                  _this6.spiner = false;
-                  _this6.submited = false;
+              case 24:
+                _this6.spiner = false;
+                _this6.submited = false;
 
-                  _this6.$toaster.error('Algo salio mal.');
+                _this6.$toaster.success('Registro actualizado con éxito.');
 
-                  console.log(errors.response.data.errors);
-                });
+                _context5.next = 35;
+                break;
 
-              case 22:
+              case 29:
+                _context5.prev = 29;
+                _context5.t0 = _context5["catch"](21);
+                _this6.spiner = false;
+                _this6.submited = false;
+
+                _this6.$toaster.error('Algo salió mal.');
+
+                console.log(_context5.t0.response.data.errors);
+
+              case 35:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5);
+        }, _callee5, null, [[21, 29]]);
       }))();
     },
     limpiar: function limpiar() {
@@ -7519,15 +7633,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reader.readAsDataURL(file);
     },
     validarDatos: function validarDatos() {
-      this.submited = true;
-      this.$v.$touch();
+      var _this8 = this;
 
-      if (this.$v.$invalid) {
-        this.spiner = false;
-        return false;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this8.submited = true;
 
-      this.actualizar();
+                _this8.$v.$touch();
+
+                if (!_this8.$v.$invalid) {
+                  _context6.next = 5;
+                  break;
+                }
+
+                _this8.spiner = false;
+                return _context6.abrupt("return", false);
+
+              case 5:
+                _context6.next = 7;
+                return _this8.actualizar();
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
     }
   },
   validations: {
@@ -7838,7 +7973,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         imagen: '',
         user_id: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -7849,52 +7985,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       id_user: '',
       show: false,
       audioPreview: null,
-      videoPreview: null
+      videoPreview: null,
+      sede: {}
     };
   },
   mounted: function mounted() {
-    var user = JSON.parse(localStorage.getItem('user'));
-    this.formData.user_id = user.id;
-    this.id_user = user.id;
+    var _this = this;
 
-    if (user.rol === 'ADMINISTRATIVO') {
-      this.$router.push('/dashboard');
-    }
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var user;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              user = JSON.parse(localStorage.getItem('user'));
+              _this.sede = JSON.parse(localStorage.getItem('sede'));
+              _this.formData.user_id = user.id;
+              _this.formData.sede_id = _this.sede.id;
+              _this.id_user = user.id;
 
-    this.show = true;
-    this.getSubjects();
-    this.getUbicaciones();
-    this.getRecordsMinutaByUser();
+              if (user.rol === 'ADMINISTRATIVO') {
+                _this.$router.push('/dashboard');
+              }
+
+              _this.show = true;
+
+              _this.getSubjects();
+
+              _context.next = 10;
+              return _this.getUbicaciones();
+
+            case 10:
+              _this.getRecordsMinutaByUser();
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
     getSubjects: function getSubjects() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('/api/getSubjects').then(function (response) {
-                  _this.subjects = response.data;
-
-                  _this.subjects.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    createAsunto: function createAsunto(query) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -7903,24 +8036,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.post('/api/registerSubject', {
-                  nombre: query
-                }).then(function (response) {
-                  var item = response.data.res;
+                return axios.get('/api/getSubjects').then(function (response) {
+                  _this2.subjects = response.data;
 
-                  _this2.subjects.unshift({
-                    id: item.id,
-                    nombre: query.toUpperCase(),
-                    text: query.toUpperCase()
+                  _this2.subjects.forEach(function (item) {
+                    return item.text = item.nombre.toUpperCase();
                   });
-
-                  _this2.$toaster.success('Registro creado con exito.');
                 })["catch"](function (errors) {
-                  if (errors.response.data.errors && errors.response.data.errors.nombre) {
-                    _this2.$toaster.error(errors.response.data.errors.nombre[0]);
-                  } else {
-                    _this2.$toaster.error('Algo salio mal.');
-                  }
+                  console.log(errors.response.data.errors);
                 });
 
               case 2:
@@ -7931,7 +8054,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    getRecordsMinutaByUser: function getRecordsMinutaByUser() {
+    createAsunto: function createAsunto(query) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -7940,12 +8063,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios.post('/api/getRecordsMinutaByUser', {
-                  user_id: _this3.id_user
+                return axios.post('/api/registerSubject', {
+                  nombre: query
                 }).then(function (response) {
-                  _this3.datos = response.data;
+                  var item = response.data.res;
+
+                  _this3.subjects.unshift({
+                    id: item.id,
+                    nombre: query.toUpperCase(),
+                    text: query.toUpperCase()
+                  });
+
+                  _this3.$toaster.success('Registro creado con éxito.');
                 })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
+                  if (errors.response.data.errors && errors.response.data.errors.nombre) {
+                    _this3.$toaster.error(errors.response.data.errors.nombre[0]);
+                  } else {
+                    _this3.$toaster.error('Algo salió mal.');
+                  }
                 });
 
               case 2:
@@ -7956,7 +8091,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    getUbicaciones: function getUbicaciones() {
+    getRecordsMinutaByUser: function getRecordsMinutaByUser() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
@@ -7965,12 +8100,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return axios.get('/api/getUbicaciones').then(function (response) {
-                  _this4.ubicaciones = response.data;
-
-                  _this4.ubicaciones.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
+                return axios.post('/api/getRecordsMinutaByUser', {
+                  user_id: _this4.id_user
+                }).then(function (response) {
+                  _this4.datos = response.data;
                 })["catch"](function (errors) {
                   console.log(errors.response.data.errors);
                 });
@@ -7983,93 +8116,135 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    createUbicacion: function createUbicacion(query) {
+    getUbicaciones: function getUbicaciones() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var _this5$sede;
+
+        var url, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _context5.next = 2;
+                url = "/api/getUbicaciones".concat((_this5$sede = _this5.sede) !== null && _this5$sede !== void 0 && _this5$sede.id ? "/?sede_id=".concat(_this5.sede.id) : '');
+                _context5.prev = 1;
+                _context5.next = 4;
+                return axios.get(url);
+
+              case 4:
+                response = _context5.sent;
+                _this5.ubicaciones = response.data;
+
+                _this5.ubicaciones.forEach(function (item) {
+                  return item.text = item.nombre.toUpperCase();
+                });
+
+                _context5.next = 12;
+                break;
+
+              case 9:
+                _context5.prev = 9;
+                _context5.t0 = _context5["catch"](1);
+                console.log(_context5.t0.response.data.errors);
+
+              case 12:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[1, 9]]);
+      }))();
+    },
+    createUbicacion: function createUbicacion(query) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
                 return axios.post('/api/registerUbicacion', {
-                  nombre: query
+                  nombre: query,
+                  sede_id: _this6.sede.id
                 }).then(function (response) {
                   var item = response.data.res;
 
-                  _this5.ubicaciones.unshift({
+                  _this6.ubicaciones.unshift({
                     id: item.id,
                     nombre: query.toUpperCase(),
                     text: query.toUpperCase()
                   });
 
-                  _this5.$toaster.success('Registro creado con exito.');
+                  _this6.$toaster.success('Registro creado con éxito.');
                 })["catch"](function (errors) {
                   if (errors.response.data.errors && errors.response.data.errors.nombre) {
-                    _this5.$toaster.error(errors.response.data.errors.nombre[0]);
+                    _this6.$toaster.error(errors.response.data.errors.nombre[0]);
                   } else {
-                    _this5.$toaster.error('Algo salio mal.');
+                    _this6.$toaster.error('Algo salió mal.');
                   }
                 });
 
               case 2:
               case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
-    },
-    registrar: function registrar() {
-      var _this6 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        var datos;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _this6.spiner = true;
-                datos = new FormData();
-                datos.append('subject_id', _this6.formData.subject_id);
-                datos.append('ubicacion_id', _this6.formData.ubicacion_id);
-                datos.append('anotaciones', _this6.formData.anotaciones);
-                datos.append('user_id', _this6.formData.user_id);
-                datos.append('file', _this6.formData.imagen);
-                datos.append('audio', _this6.formData.audio);
-                datos.append('video', _this6.formData.video);
-                _context6.next = 11;
-                return axios.post('/api/registerMinuta', datos).then(function (response) {
-                  _this6.getRecordsMinutaByUser();
-
-                  _this6.spiner = false;
-                  _this6.submited = false;
-                  _this6.formData.subject_id = '';
-                  _this6.formData.ubicacion_id = '';
-                  _this6.formData.anotaciones = '';
-                  _this6.imgMinuta = '';
-                  _this6.formData.imagen = '';
-                  _this6.formData.audio = '';
-                  _this6.audioPreview = '';
-                  _this6.formData.video = '';
-                  _this6.videoPreview = '';
-
-                  _this6.$toaster.success('Registro creado con éxito.');
-                })["catch"](function (errors) {
-                  _this6.spiner = false;
-                  _this6.submited = false;
-
-                  _this6.$toaster.error('Algo salio mal.');
-
-                  console.log(errors.response.data.errors);
-                });
-
-              case 11:
-              case "end":
                 return _context6.stop();
             }
           }
         }, _callee6);
+      }))();
+    },
+    registrar: function registrar() {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        var datos;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _this7.spiner = true;
+                datos = new FormData();
+                datos.append('subject_id', _this7.formData.subject_id);
+                datos.append('ubicacion_id', _this7.formData.ubicacion_id);
+                datos.append('anotaciones', _this7.formData.anotaciones);
+                datos.append('user_id', _this7.formData.user_id);
+                datos.append('file', _this7.formData.imagen);
+                datos.append('audio', _this7.formData.audio);
+                datos.append('video', _this7.formData.video);
+                datos.append('sede_id', _this7.formData.sede_id);
+                _context7.next = 12;
+                return axios.post('/api/registerMinuta', datos).then(function (response) {
+                  _this7.getRecordsMinutaByUser();
+
+                  _this7.spiner = false;
+                  _this7.submited = false;
+                  _this7.formData.subject_id = '';
+                  _this7.formData.ubicacion_id = '';
+                  _this7.formData.anotaciones = '';
+                  _this7.imgMinuta = '';
+                  _this7.formData.imagen = '';
+                  _this7.formData.audio = '';
+                  _this7.audioPreview = '';
+                  _this7.formData.video = '';
+                  _this7.videoPreview = '';
+
+                  _this7.$toaster.success('Registro creado con éxito.');
+                })["catch"](function (errors) {
+                  _this7.spiner = false;
+                  _this7.submited = false;
+
+                  _this7.$toaster.error('Algo salió mal.');
+
+                  console.log(errors.response.data.errors);
+                });
+
+              case 12:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
       }))();
     },
     fecha: function fecha(d) {
@@ -8092,7 +8267,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.audioPreview = URL.createObjectURL(file);
         this.formData.audio = file;
       } else {
-        alert("Por favor selecciona un archivo de audio válido.");
+        this.$toaster.error("Por favor selecciona un archivo de audio válido.");
         this.audioPreview = null;
       }
     },
@@ -8108,17 +8283,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.videoPreview = URL.createObjectURL(file);
         this.formData.video = file;
       } else {
-        alert("Por favor selecciona un archivo de video válido.");
+        this.$toaster.error("Por favor selecciona un archivo de video válido.");
         this.videoPreview = null;
       }
     },
     cargarImagen: function cargarImagen(file) {
-      var _this7 = this;
+      var _this8 = this;
 
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        _this7.imgMinuta = e.target.result;
+        _this8.imgMinuta = e.target.result;
       };
 
       reader.readAsDataURL(file);
@@ -8502,7 +8677,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         imagen: '',
         entrada_salida: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -8516,12 +8692,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       id_user: '',
       show: false,
       audioPreview: null,
-      videoPreview: null
+      videoPreview: null,
+      sede: {}
     };
   },
   mounted: function mounted() {
     var user = JSON.parse(localStorage.getItem('user'));
+    this.sede = JSON.parse(localStorage.getItem('sede'));
     this.formData.user_id = user.id;
+    this.formData.sede_id = this.sede.id;
     this.id_user = user.id;
 
     if (user.rol === 'ADMINISTRATIVO') {
@@ -8583,12 +8762,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     text: query.toUpperCase()
                   });
 
-                  _this2.$toaster.success('Registro creado con exito.');
+                  _this2.$toaster.success('Registro creado con éxito.');
                 })["catch"](function (errors) {
                   if (errors.response.data.errors && errors.response.data.errors.placa) {
                     _this2.$toaster.error(errors.response.data.errors.placa[0]);
                   } else {
-                    _this2.$toaster.error('Algo salio mal.');
+                    _this2.$toaster.error('Algo salió mal.');
                   }
                 });
 
@@ -8738,7 +8917,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('file', _this8.formData.imagen);
                 datos.append('audio', _this8.formData.audio);
                 datos.append('video', _this8.formData.video);
-                _context7.next = 14;
+                datos.append('sede_id', _this8.formData.sede_id);
+                _context7.next = 15;
                 return axios.post('/api/recordVehicle', datos).then(function (response) {
                   _this8.getRecordsVehiculosByUser();
 
@@ -8768,7 +8948,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(errors.response.data.errors);
                 });
 
-              case 14:
+              case 15:
               case "end":
                 return _context7.stop();
             }
@@ -9262,8 +9442,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 
@@ -9284,7 +9462,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         tipo: '',
         imagen: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -9303,214 +9482,279 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         text: 'VISITANTE'
       }],
       audioPreview: null,
-      videoPreview: null
+      videoPreview: null,
+      sede: {}
     };
   },
   mounted: function mounted() {
-    var user = JSON.parse(localStorage.getItem('user'));
-    this.formData.user_id = user.id;
+    var _this = this;
 
-    if (user.rol === 'ADMINISTRATIVO') {
-      this.$router.push('/dashboard');
-    }
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var user;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              user = JSON.parse(localStorage.getItem('user'));
+              _this.sede = JSON.parse(localStorage.getItem('sede'));
+              _this.formData.user_id = user.id;
+              _this.formData.sede_id = _this.sede.id;
 
-    this.show = true;
-    this.getEps();
-    this.getArls();
-    this.getTipoDocumentos();
-    this.getRecordsVisitantesByUser();
+              if (user.rol === 'ADMINISTRATIVO') {
+                _this.$router.push('/dashboard');
+              }
+
+              _this.show = true;
+              _context.next = 8;
+              return _this.getEps();
+
+            case 8:
+              _context.next = 10;
+              return _this.getArls();
+
+            case 10:
+              _this.getTipoDocumentos();
+
+              _this.getRecordsVisitantesByUser();
+
+            case 12:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
     getEps: function getEps() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('/api/getEps').then(function (response) {
-                  _this.epss = response.data;
-
-                  _this.epss.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    getArls: function getArls() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return axios.get('/api/getArls').then(function (response) {
-                  _this2.arls = response.data;
+                _context2.prev = 0;
+                _context2.next = 3;
+                return axios.get('/api/getEps');
 
-                  _this2.arls.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
+              case 3:
+                response = _context2.sent;
+                _this2.epss = response.data;
+
+                _this2.epss.forEach(function (item) {
+                  return item.text = item.nombre.toUpperCase();
                 });
 
-              case 2:
+                _context2.next = 11;
+                break;
+
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0.response.data.errors);
+
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[0, 8]]);
       }))();
     },
-    getTipoDocumentos: function getTipoDocumentos() {
+    getArls: function getArls() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
-                return axios.get('/api/getDocumentos').then(function (response) {
-                  _this3.tipoDocumentos = response.data;
+                _context3.prev = 0;
+                _context3.next = 3;
+                return axios.get('/api/getArls');
 
-                  _this3.tipoDocumentos.forEach(function (item) {
-                    return item.text = item.documento.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
+              case 3:
+                response = _context3.sent;
+                _this3.arls = response.data;
+
+                _this3.arls.forEach(function (item) {
+                  return item.text = item.nombre.toUpperCase();
                 });
 
-              case 2:
+                _context3.next = 11;
+                break;
+
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](0);
+                console.log(_context3.t0.response.data.errors);
+
+              case 11:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[0, 8]]);
       }))();
     },
-    getRecordsVisitantesByUser: function getRecordsVisitantesByUser() {
+    getTipoDocumentos: function getTipoDocumentos() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
+                _context4.prev = 0;
+                _context4.next = 3;
+                return axios.get('/api/getDocumentos');
+
+              case 3:
+                response = _context4.sent;
+                _this4.tipoDocumentos = response.data;
+
+                _this4.tipoDocumentos.forEach(function (item) {
+                  return item.text = item.documento.toUpperCase();
+                });
+
+                _context4.next = 11;
+                break;
+
+              case 8:
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](0);
+                console.log(_context4.t0.response.data.errors);
+
+              case 11:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[0, 8]]);
+      }))();
+    },
+    getRecordsVisitantesByUser: function getRecordsVisitantesByUser() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
                 return axios.post('/api/getRecordsVisitantesByUser', {
-                  user_id: _this4.formData.user_id
+                  user_id: _this5.formData.user_id
                 }).then(function (response) {
-                  _this4.datos = response.data;
+                  _this5.datos = response.data;
                 })["catch"](function (errors) {
                   console.log(errors.response.data.errors);
                 });
 
               case 2:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
     searchPerson: function searchPerson() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.load = true;
       axios.post('/api/getPerson', {
         numero_documento: this.formData.numero_documento
       }).then(function (resp) {
         if (resp.data && resp.data !== '') {
-          _this5.formData.tipo_documento_id = resp.data.tipo_documento_id;
-          _this5.formData.tipo = resp.data.tipo;
-          _this5.formData.nombres = resp.data.nombres;
-          _this5.formData.apellidos = resp.data.apellidos;
-          _this5.formData.eps_id = resp.data.eps_id;
-          _this5.formData.arl_id = resp.data.arl_id;
+          _this6.formData.tipo_documento_id = resp.data.tipo_documento_id;
+          _this6.formData.tipo = resp.data.tipo;
+          _this6.formData.nombres = resp.data.nombres;
+          _this6.formData.apellidos = resp.data.apellidos;
+          _this6.formData.eps_id = resp.data.eps_id;
+          _this6.formData.arl_id = resp.data.arl_id;
         } else {
-          _this5.limpiar();
+          _this6.limpiar();
 
-          _this5.$toaster.info('El usuario no se encuentra registrado en la base de datos');
+          _this6.$toaster.info('El usuario no se encuentra registrado en la base de datos');
         }
 
-        _this5.load = false;
+        _this6.load = false;
       });
     },
     registrar: function registrar() {
-      var _this6 = this;
+      var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
         var datos;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _this6.spiner = true;
+                _this7.spiner = true;
                 datos = new FormData();
-                datos.append('observaciones', _this6.formData.anotaciones);
-                datos.append('entrada_salida', _this6.formData.entrada_salida);
-                datos.append('numero_documento', _this6.formData.numero_documento);
-                datos.append('tipo_documento_id', _this6.formData.tipo_documento_id);
-                datos.append('tipo', _this6.formData.tipo);
-                datos.append('eps_id', _this6.formData.eps_id);
-                datos.append('arl_id', _this6.formData.arl_id);
-                datos.append('destino', _this6.formData.destino);
-                datos.append('nombres', _this6.formData.nombres);
-                datos.append('apellidos', _this6.formData.apellidos);
-                datos.append('user_id', _this6.formData.user_id);
-                datos.append('file', _this6.formData.imagen);
-                datos.append('audio', _this6.formData.audio);
-                datos.append('video', _this6.formData.video);
-                _context5.next = 18;
-                return axios.post('/api/recordVisitante', datos).then(function (response) {
-                  _this6.getRecordsVisitantesByUser();
+                datos.append('observaciones', _this7.formData.anotaciones);
+                datos.append('entrada_salida', _this7.formData.entrada_salida);
+                datos.append('numero_documento', _this7.formData.numero_documento);
+                datos.append('tipo_documento_id', _this7.formData.tipo_documento_id);
+                datos.append('tipo', _this7.formData.tipo);
+                datos.append('eps_id', _this7.formData.eps_id);
+                datos.append('arl_id', _this7.formData.arl_id);
+                datos.append('destino', _this7.formData.destino);
+                datos.append('nombres', _this7.formData.nombres);
+                datos.append('apellidos', _this7.formData.apellidos);
+                datos.append('user_id', _this7.formData.user_id);
+                datos.append('file', _this7.formData.imagen);
+                datos.append('audio', _this7.formData.audio);
+                datos.append('video', _this7.formData.video);
+                datos.append('sede_id', _this7.formData.sede_id);
+                _context6.prev = 17;
+                _context6.next = 20;
+                return axios.post('/api/recordVisitante', datos);
 
-                  _this6.spiner = false;
-                  _this6.submited = false;
+              case 20:
+                _this7.getRecordsVisitantesByUser();
 
-                  _this6.limpiar();
+                _this7.spiner = false;
+                _this7.submited = false;
 
-                  _this6.formData.destino = '';
-                  _this6.formData.numero_documento = '';
-                  _this6.formData.entrada_salida = '';
-                  _this6.formData.anotaciones = '';
-                  _this6.imgMinuta = '';
-                  _this6.formData.imagen = '';
-                  _this6.formData.audio = '';
-                  _this6.audioPreview = '';
-                  _this6.formData.video = '';
-                  _this6.videoPreview = '';
+                _this7.limpiar();
 
-                  _this6.$toaster.success('Registro creado con éxito.');
-                })["catch"](function (errors) {
-                  _this6.spiner = false;
-                  _this6.submited = false;
+                _this7.formData.destino = '';
+                _this7.formData.numero_documento = '';
+                _this7.formData.entrada_salida = '';
+                _this7.formData.anotaciones = '';
+                _this7.imgMinuta = '';
+                _this7.formData.imagen = '';
+                _this7.formData.audio = '';
+                _this7.audioPreview = '';
+                _this7.formData.video = '';
+                _this7.videoPreview = '';
 
-                  _this6.$toaster.error('Algo salió mal.');
+                _this7.$toaster.success('Registro creado con éxito.');
 
-                  console.log(errors.response.data.errors);
-                });
+                _context6.next = 43;
+                break;
 
-              case 18:
+              case 37:
+                _context6.prev = 37;
+                _context6.t0 = _context6["catch"](17);
+                _this7.spiner = false;
+                _this7.submited = false;
+
+                _this7.$toaster.error('Algo salió mal.');
+
+                console.log(_context6.t0.response.data.errors);
+
+              case 43:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5);
+        }, _callee6, null, [[17, 37]]);
       }))();
     },
     limpiar: function limpiar() {
@@ -9562,12 +9806,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     cargarImagen: function cargarImagen(file) {
-      var _this7 = this;
+      var _this8 = this;
 
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        _this7.imgMinuta = e.target.result;
+        _this8.imgMinuta = e.target.result;
       };
 
       reader.readAsDataURL(file);
@@ -9764,7 +10008,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
 //
 //
 //
@@ -13005,8 +13248,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
           if (client) {
             sede.client = client.nombre;
-          } else {
-            console.log("Puesto con ID ".concat(sede.cliente_id, " no encontrado."));
           }
         };
 
@@ -13567,22 +13808,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       submited: false,
       formData: {
-        nombre: ''
+        nombre: '',
+        sede_id: 0
       },
-      puestos: [],
+      ubicaciones: [],
       search: '',
-      spiner: false
+      spiner: false,
+      sede: {}
     };
   },
   mounted: function mounted() {
-    this.spiner = false;
-    this.getUbicaciones();
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var sede;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.spiner = false;
+              sede = JSON.parse(localStorage.getItem("sede"));
+
+              if (!(sede !== null && sede !== void 0 && sede.id)) {
+                _context.next = 7;
+                break;
+              }
+
+              _this.sede = sede;
+              _this.formData.sede_id = sede.id;
+              _context.next = 7;
+              return _this.getUbicaciones();
+
+            case 7:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
     registrarUbicacion: function registrarUbicacion() {
@@ -13590,59 +13865,115 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.validarDatos();
     },
     validarDatos: function validarDatos() {
-      this.submited = true;
-      this.$v.$touch();
+      var _this2 = this;
 
-      if (this.$v.$invalid) {
-        this.spiner = false;
-        return false;
-      }
-
-      this.register();
-    },
-    register: function register() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.next = 2;
-                return axios.post('/api/registerUbicacion', _this.formData).then(function (response) {
-                  _this.spiner = false;
-                  _this.submited = false;
-                  _this.formData.nombre = '';
+                _this2.submited = true;
 
-                  _this.$toaster.success('Registro creado con exito.');
+                _this2.$v.$touch();
 
-                  _this.getUbicaciones();
-                })["catch"](function (errors) {
-                  _this.spiner = false;
+                if (!_this2.$v.$invalid) {
+                  _context2.next = 5;
+                  break;
+                }
 
-                  if (errors.response.data.errors && errors.response.data.errors.nombre) {
-                    _this.$toaster.error(errors.response.data.errors.nombre[0]);
-                  } else {
-                    _this.$toaster.error('Algo salio mal.');
-                  }
-                });
+                _this2.spiner = false;
+                return _context2.abrupt("return", false);
 
-              case 2:
+              case 5:
+                _context2.next = 7;
+                return _this2.register();
+
+              case 7:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
+      }))();
+    },
+    register: function register() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return axios.post('/api/registerUbicacion', _this3.formData);
+
+              case 3:
+                _this3.spiner = false;
+                _this3.submited = false;
+                _this3.formData.nombre = '';
+
+                _this3.$toaster.success('Registro creado con éxito.');
+
+                _context3.next = 9;
+                return _this3.getUbicaciones();
+
+              case 9:
+                _context3.next = 15;
+                break;
+
+              case 11:
+                _context3.prev = 11;
+                _context3.t0 = _context3["catch"](0);
+                _this3.spiner = false;
+
+                if (_context3.t0.response.data.errors && _context3.t0.response.data.errors.nombre) {
+                  _this3.$toaster.error(_context3.t0.response.data.errors.nombre[0]);
+                } else {
+                  _this3.$toaster.error('Algo salió mal.');
+                }
+
+              case 15:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 11]]);
       }))();
     },
     getUbicaciones: function getUbicaciones() {
-      var _this2 = this;
+      var _this4 = this;
 
-      axios.get('/api/getUbicaciones').then(function (response) {
-        _this2.puestos = response.data;
-      })["catch"](function (errors) {
-        console.log(errors.response.data.errors);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var _this4$sede, url, ubicaciones;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                url = "/api/getUbicaciones".concat((_this4$sede = _this4.sede) !== null && _this4$sede !== void 0 && _this4$sede.id ? "/?sede_id=".concat(_this4.sede.id) : '');
+                _context4.next = 4;
+                return axios.get(url);
+
+              case 4:
+                ubicaciones = _context4.sent;
+                _this4.ubicaciones = ubicaciones.data;
+                _context4.next = 11;
+                break;
+
+              case 8:
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](0);
+                console.log(_context4.t0.response.data.errors);
+
+              case 11:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[0, 8]]);
+      }))();
     }
   },
   validations: {
@@ -13653,11 +13984,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   computed: {
-    searchPuesto: function searchPuesto() {
-      var _this3 = this;
+    searchUbicacion: function searchUbicacion() {
+      var _this5 = this;
 
-      return this.puestos.filter(function (p) {
-        return p.nombre.toUpperCase().includes(_this3.search.toUpperCase());
+      return this.ubicaciones.filter(function (p) {
+        return p.nombre.toUpperCase().includes(_this5.search.toUpperCase());
       });
     }
   }
@@ -14103,8 +14434,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/NotificationDropdown.vue */ "./resources/js/pages/admin/dashboard/components/NotificationDropdown.vue");
-/* harmony import */ var _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/UserDropdown.vue */ "./resources/js/pages/admin/dashboard/components/UserDropdown.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/NotificationDropdown.vue */ "./resources/js/pages/admin/dashboard/components/NotificationDropdown.vue");
+/* harmony import */ var _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/UserDropdown.vue */ "./resources/js/pages/admin/dashboard/components/UserDropdown.vue");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../constants */ "./resources/js/constants.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -14241,122 +14581,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -14365,15 +14590,79 @@ __webpack_require__.r(__webpack_exports__);
       url_logo: '',
       collapseShow: "hidden",
       token: localStorage.getItem('token'),
-      rol: localStorage.getItem('rol')
+      rol: localStorage.getItem('rol'),
+      permisosMenu: JSON.parse(localStorage.getItem('permisosMenu') || '[]'),
+      opcionesMenu: []
     };
   },
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/api/getUrlLogo').then(function (response) {
-      _this.url_logo = response.data;
-    });
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var _this$permisosMenu;
+
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return axios.get('/api/getUrlLogo');
+
+            case 3:
+              response = _context.sent;
+              _this.url_logo = response.data;
+              _context.next = 10;
+              break;
+
+            case 7:
+              _context.prev = 7;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+
+            case 10:
+              if (((_this$permisosMenu = _this.permisosMenu) === null || _this$permisosMenu === void 0 ? void 0 : _this$permisosMenu.length) > 1) {
+                _this.permisosMenu.forEach(function (permiso) {
+                  var nombre = permiso.nombre.toLowerCase();
+
+                  if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.GUARDA_SEGURIDAD) {
+                    if (_constants__WEBPACK_IMPORTED_MODULE_3__.OPCIONES_MENU_GUARDA.includes(nombre)) {
+                      _this.opcionesMenu.push({
+                        label: permiso.nombre,
+                        route: '/' + nombre,
+                        icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
+                      });
+                    }
+                  } else if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRATIVO) {
+                    if (nombre === "reportes") {
+                      _this.opcionesMenu.push({
+                        label: permiso.nombre,
+                        route: '/' + nombre,
+                        icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
+                      });
+                    }
+                  } else if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRADOR) {
+                    _this.opcionesMenu.push({
+                      label: permiso.nombre,
+                      route: '/' + nombre,
+                      icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
+                    });
+                  }
+                });
+              } else {
+                if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRADOR && _this.permisosMenu[0].nombre === "all") {
+                  _this.opcionesMenu = _constants__WEBPACK_IMPORTED_MODULE_3__.OPCIONES_MENU_ADMIN;
+                }
+              }
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 7]]);
+    }))();
   },
   methods: {
     toggleCollapseShow: function toggleCollapseShow(classes) {
@@ -14386,23 +14675,50 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this2 = this;
 
-      window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(this.token);
-      axios.post('api/logout').then(function (response) {
-        var itemsToRemove = ['token', 'rol', 'user', 'puesto', 'sede', 'permisosMenu', 'permisosFormulario', 'puestos'];
-        itemsToRemove.forEach(function (item) {
-          return localStorage.removeItem(item);
-        });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var itemsToRemove;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(_this2.token);
+                _context2.next = 4;
+                return axios.post('api/logout');
 
-        _this2.$router.push('/');
-      })["catch"](function (errors) {
-        console.log(errors);
-      });
-      window.axios.defaults.headers.common['Authorization'] = null;
+              case 4:
+                itemsToRemove = ['token', 'rol', 'user', 'puesto', 'sede', 'permisosMenu', 'permisosFormulario', 'puestos'];
+                itemsToRemove.forEach(function (item) {
+                  return localStorage.removeItem(item);
+                });
+
+                _this2.$router.push('/');
+
+                _context2.next = 12;
+                break;
+
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
+
+              case 12:
+                _context2.prev = 12;
+                window.axios.defaults.headers.common['Authorization'] = null;
+                return _context2.finish(12);
+
+              case 15:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 9, 12, 15]]);
+      }))();
     }
   },
   components: {
-    NotificationDropdown: _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_0__.default,
-    UserDropdown: _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_1__.default
+    NotificationDropdown: _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_1__.default,
+    UserDropdown: _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_2__.default
   }
 });
 
@@ -16032,6 +16348,62 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/constants.js":
+/*!***********************************!*\
+  !*** ./resources/js/constants.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ROLES": () => (/* binding */ ROLES),
+/* harmony export */   "OPCIONES_MENU_GUARDA": () => (/* binding */ OPCIONES_MENU_GUARDA),
+/* harmony export */   "ICONOS_MAP": () => (/* binding */ ICONOS_MAP),
+/* harmony export */   "OPCIONES_MENU_ADMIN": () => (/* binding */ OPCIONES_MENU_ADMIN)
+/* harmony export */ });
+var ROLES = {
+  GUARDA_SEGURIDAD: "GUARDA DE SEGURIDAD",
+  ADMINISTRATIVO: "ADMINISTRATIVO",
+  ADMINISTRADOR: "ADMINISTRADOR"
+};
+var OPCIONES_MENU_GUARDA = ["minuta", "vehiculos", "visitantes"];
+var ICONOS_MAP = {
+  minuta: "fa-file-signature",
+  vehiculos: "fa-car",
+  visitantes: "fa-users",
+  reportes: "fa-chart-bar",
+  configuraciones: "fa-cogs",
+  usuarios: "fa-users-cog"
+};
+var OPCIONES_MENU_ADMIN = [{
+  label: "Minuta",
+  route: "/minuta",
+  icon: "fa-file-signature"
+}, {
+  label: "Vehiculos",
+  route: "/vehiculos",
+  icon: "fa-car"
+}, {
+  label: "Visitantes",
+  route: "/visitantes",
+  icon: "fa-users"
+}, {
+  label: "Reportes",
+  route: "/reportes",
+  icon: "fa-chart-bar"
+}, {
+  label: "Configuraciones",
+  route: "/configuraciones",
+  icon: "fa-cogs"
+}, {
+  label: "Usuarios",
+  route: "/usuarios",
+  icon: "fa-users-cog"
+}];
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -16211,7 +16583,7 @@ var routes = [{
     }
   }, {
     path: "/configuraciones",
-    name: "Settings",
+    name: "Configuraciones",
     meta: {
       requiresAuth: true
     },
@@ -73084,7 +73456,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                        Puesto:\n                     "
+                              "\n                        Ubicación:\n                     "
                             )
                           ]
                         ),
@@ -73109,7 +73481,7 @@ var render = function() {
                     _vm.submited && !_vm.$v.formData.ubicacion_id.required
                       ? _c("p", { staticClass: "text-red-500 text-sm" }, [
                           _vm._v(
-                            "Seleccione un\n                     puesto o ubicación"
+                            "\n                     Seleccione una ubicación\n                  "
                           )
                         ])
                       : _vm._e()
@@ -75358,7 +75730,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                        Puesto:\n                     "
+                              "\n                        Ubicación:\n                     "
                             )
                           ]
                         ),
@@ -75396,7 +75768,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                 Crear puesto: " +
+                                                  "\n                                 Crear Ubicación: " +
                                                     _vm._s(query) +
                                                     "\n                              "
                                                 )
@@ -75411,7 +75783,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            3861746225
+                            3693811378
                           ),
                           model: {
                             value: _vm.formData.ubicacion_id,
@@ -75428,7 +75800,7 @@ var render = function() {
                     _vm.submited && !_vm.$v.formData.ubicacion_id.required
                       ? _c("p", { staticClass: "text-red-500 text-sm" }, [
                           _vm._v(
-                            "Seleccione un\n                     puesto o\n                     ubicación"
+                            "Seleccione\n                     una\n                     ubicación"
                           )
                         ])
                       : _vm._e()
@@ -75913,7 +76285,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     Puesto\n                  ")]
+          [_vm._v("\n                     Ubicación\n                  ")]
         ),
         _vm._v(" "),
         _c(
@@ -75940,7 +76312,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     audio\n                  ")]
+          [_vm._v("\n                     Audio\n                  ")]
         ),
         _vm._v(" "),
         _c(
@@ -75949,7 +76321,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     video\n                  ")]
+          [_vm._v("\n                     Video\n                  ")]
         )
       ])
     ])
@@ -76986,7 +77358,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     audio\n                  ")]
+          [_vm._v("\n                     Audio\n                  ")]
         ),
         _vm._v(" "),
         _c(
@@ -76995,7 +77367,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     video\n                  ")]
+          [_vm._v("\n                     Video\n                  ")]
         )
       ])
     ])
@@ -78322,7 +78694,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     audio\n                  ")]
+          [_vm._v("\n                     Audio\n                  ")]
         ),
         _vm._v(" "),
         _c(
@@ -78331,7 +78703,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     video\n                  ")]
+          [_vm._v("\n                     Video\n                  ")]
         )
       ])
     ])
@@ -78858,7 +79230,11 @@ var render = function() {
                             staticClass:
                               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                           },
-                          [_vm._v("\n                Puesto\n              ")]
+                          [
+                            _vm._v(
+                              "\n                Ubicación\n              "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
@@ -78898,7 +79274,7 @@ var render = function() {
                             staticClass:
                               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                           },
-                          [_vm._v("\n                video\n              ")]
+                          [_vm._v("\n                Video\n              ")]
                         ),
                         _vm._v(" "),
                         _vm.rol == "ADMINISTRADOR"
@@ -79731,7 +80107,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                Tipo vehículo:\n              "
+                            "\n                Tipo vehículo\n              "
                           )
                         ]
                       ),
@@ -79786,7 +80162,7 @@ var render = function() {
                           staticClass:
                             "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                         },
-                        [_vm._v("\n                video\n              ")]
+                        [_vm._v("\n                Video\n              ")]
                       ),
                       _vm._v(" "),
                       _vm.rol == "ADMINISTRADOR"
@@ -80537,7 +80913,7 @@ var render = function() {
                           staticClass:
                             "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                         },
-                        [_vm._v("\n                video\n              ")]
+                        [_vm._v("\n                Video\n              ")]
                       ),
                       _vm._v(" "),
                       _vm.rol == "ADMINISTRADOR"
@@ -84237,11 +84613,7 @@ var render = function() {
                         "block text-gray-600 text-sm font-semibold mb-2",
                       attrs: { htmlFor: "grid-password" }
                     },
-                    [
-                      _vm._v(
-                        "\n                Puesto o ubicación:\n              "
-                      )
-                    ]
+                    [_vm._v("\n                Ubicación:\n              ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -84284,9 +84656,59 @@ var render = function() {
                   _vm._v(" "),
                   _vm.submited && !_vm.$v.formData.nombre.required
                     ? _c("p", { staticClass: "text-red-500 text-sm" }, [
-                        _vm._v("Ingrese el nombre del puesto o ubicación")
+                        _vm._v(
+                          "Ingrese el nombre de la\n                ubicación"
+                        )
                       ])
                     : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-full" }, [
+                _c("div", { staticClass: "relative w-full mb-5" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block text-gray-600 text-sm font-semibold mb-2",
+                      attrs: { htmlFor: "grid-password" }
+                    },
+                    [_vm._v("\n                Sede:\n              ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "relative flex w-full flex-wrap items-stretch mb-3"
+                    },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: this.sede.nombre,
+                            expression: "this.sede.nombre"
+                          }
+                        ],
+                        staticClass:
+                          "px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10",
+                        attrs: { type: "text", disabled: "" },
+                        domProps: { value: this.sede.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(this.sede, "nombre", $event.target.value)
+                          }
+                        }
+                      })
+                    ]
+                  )
                 ])
               ])
             ]),
@@ -84339,7 +84761,7 @@ var render = function() {
                       { staticClass: "font-semibold text-lg text-white mb-2" },
                       [
                         _vm._v(
-                          "\n                Puestos/ubicaciones registrados\n              "
+                          "\n              Ubicaciones registradas\n            "
                         )
                       ]
                     ),
@@ -84379,14 +84801,17 @@ var render = function() {
                 staticClass: "items-center w-full bg-gray-100 border-collapse"
               },
               [
-                _vm._m(1),
+                _vm._m(2),
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.searchPuesto, function(puesto, index) {
+                  _vm._l(_vm.searchUbicacion, function(ubicacion, index) {
                     return _c(
                       "tr",
-                      { key: puesto.id, staticClass: "bg-gray-100 text-left" },
+                      {
+                        key: ubicacion.id,
+                        staticClass: "bg-gray-100 text-left"
+                      },
                       [
                         _c(
                           "td",
@@ -84412,7 +84837,7 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                " +
-                                _vm._s(puesto.nombre.toUpperCase()) +
+                                _vm._s(ubicacion.nombre.toUpperCase()) +
                                 "\n              "
                             )
                           ]
@@ -84441,7 +84866,20 @@ var staticRenderFns = [
         staticClass:
           "z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
       },
-      [_c("em", { staticClass: "fas fa-car" })]
+      [_c("em", { staticClass: "fas fa-building" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "span",
+      {
+        staticClass:
+          "z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
+      },
+      [_c("em", { staticClass: "fas fa-building" })]
     )
   },
   function() {
@@ -84456,7 +84894,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-center text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                  #\n                ")]
+          [_vm._v("\n                #\n              ")]
         ),
         _vm._v(" "),
         _c(
@@ -84465,7 +84903,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                  Puesto/Ubicación\n                ")]
+          [_vm._v("\n                Ubicación\n              ")]
         )
       ])
     ])
@@ -85195,381 +85633,68 @@ var render = function() {
                   staticClass:
                     "md:flex-col md:min-w-full flex flex-col list-none"
                 },
-                [
-                  _vm.rol !== "ADMINISTRATIVO"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Minuta" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/minuta")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-file-signature mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Minuta\n            "
-                                          )
+                _vm._l(_vm.opcionesMenu, function(opcion, index) {
+                  return _c(
+                    "li",
+                    { key: index, staticClass: "items-center" },
+                    [
+                      _c("router-link", {
+                        attrs: { to: { name: opcion.label } },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "default",
+                              fn: function(ref) {
+                                var href = ref.href
+                                var isActive = ref.isActive
+                                return [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass:
+                                        "text-xs uppercase py-3 font-bold block",
+                                      class: [
+                                        isActive
+                                          ? "text-blue-400 hover:text-white"
+                                          : "text-white hover:text-gray-300"
+                                      ],
+                                      attrs: { href: href },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.navegar(opcion.route)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        class: [
+                                          "fas " +
+                                            opcion.icon +
+                                            " mr-2 text-sm",
+                                          isActive ? "opacity-75" : "text-white"
                                         ]
+                                      }),
+                                      _vm._v(
+                                        "               \n              " +
+                                          _vm._s(opcion.label) +
+                                          "\n            "
                                       )
                                     ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              914033544
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol !== "ADMINISTRATIVO"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Vehiculos" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/vehiculos")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-car mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Vehiculos\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              3893453367
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol !== "ADMINISTRATIVO"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Visitantes" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/visitantes")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-users mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Visitantes\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              3434052869
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol === "ADMINISTRADOR" || _vm.rol === "ADMINISTRATIVO"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Reportes" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/reportes")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-chart-bar mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Reportes\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              1837220279
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol === "ADMINISTRADOR"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Settings" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar(
-                                                "/configuraciones"
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-cogs mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Configuraciones\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              292215103
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol === "ADMINISTRADOR"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Usuarios" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/usuarios")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-users-cog mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Usuarios\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              392326531
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e()
-                ]
+                                  )
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          true
+                        )
+                      })
+                    ],
+                    1
+                  )
+                }),
+                0
               ),
               _vm._v(" "),
               _c("hr", { staticClass: "my-4 md:min-w-full" }),
