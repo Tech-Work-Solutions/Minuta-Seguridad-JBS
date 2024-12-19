@@ -30,14 +30,15 @@
                   <div class="w-full lg:w-6/12  px-4">
                      <div class="relative w-full mb-3">
                         <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="grid-password">
-                           Puesto:
+                           Ubicación:
                         </label>
                         <t-rich-select v-model="formData.ubicacion_id" :options="ubicaciones"
                            placeholder="Seleccione una opción">
                         </t-rich-select>
                      </div>
-                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ubicacion_id.required">Seleccione un
-                        puesto o ubicación</p>
+                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ubicacion_id.required">
+                        Seleccione una ubicación
+                     </p>
                   </div>
 
                   <div class="w-full px-4">
@@ -151,6 +152,7 @@ export default {
             user_id: '',
             audio: '',
             video: '',
+            sede_id: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -164,11 +166,13 @@ export default {
          audioPreview: null,
          video: '',
          videoPreview: null,
+         sede: {},
       };
    },
 
-   mounted() {
+   async mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
+      this.sede = JSON.parse(localStorage.getItem('sede'));
       this.formData.user_id = user.id;
       this.id_user = user.id;
       const rol = localStorage.getItem('rol');
@@ -178,12 +182,12 @@ export default {
       }
       this.show = true;
       this.getSubjects();
-      this.getUbicaciones();
+      await this.getUbicaciones();
       axios.get('/api/getRecordMinuta/' + this.formData.id).then((response) => {
          this.imagen = response.data.foto;
          this.audio = response.data.audio;
          this.video = response.data.video;
-         this.formData = response.data
+         this.formData = response.data;
       });
    },
 
@@ -193,17 +197,19 @@ export default {
             this.subjects = response.data;
             this.subjects.forEach(item => item.text = item.nombre.toUpperCase());
          }).catch((errors) => {
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
 
       async getUbicaciones() {
-         await axios.get('/api/getUbicaciones').then((response) => {
+         const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`;
+         try {
+            const response = await axios.get(url);
             this.ubicaciones = response.data;
             this.ubicaciones.forEach((item) => item.text = item.nombre.toUpperCase())
-         }).catch((errors) => {
-            console.log(errors.response.data.errors)
-         });
+         } catch (errors) {
+            console.log(errors.response.data.errors);
+         }
       },
       async actualizar() {
          this.spiner = true;
@@ -219,16 +225,18 @@ export default {
          datos.append('audioOrigin', this.audio);
          datos.append('video', this.formData.video);
          datos.append('videoOrigin', this.video);
-         await axios.post('/api/updateRecordMinuta', datos).then((response) => {
+         datos.append('sede_id', this.formData.sede_id);
+         try {
+            await axios.post('/api/updateRecordMinuta', datos);
             this.spiner = false
             this.submited = false
             this.$toaster.success('Registro actualizado con éxito.');
-         }).catch((errors) => {
+         } catch (errors) {
             this.spiner = false
             this.submited = false
             this.$toaster.error('Algo salió mal.');
-            console.log(errors.response.data.errors)
-         });
+            console.log(errors.response.data.errors);
+         }
       },
 
       obtenerImagen(e) {
@@ -247,7 +255,7 @@ export default {
             this.audioPreview = URL.createObjectURL(file);
             this.formData.audio = file;
          } else {
-            alert("Por favor selecciona un archivo de audio válido.");
+            this.$toaster.error("Por favor selecciona un archivo de audio válido.");
             this.audioPreview = null;
          }
       },
@@ -262,7 +270,7 @@ export default {
             this.videoPreview = URL.createObjectURL(file);
             this.formData.video = file;
          } else {
-            alert("Por favor selecciona un archivo de video válido.");
+            this.$toaster.error("Por favor selecciona un archivo de video válido.");
             this.videoPreview = null;
          }
       },
@@ -274,14 +282,14 @@ export default {
          reader.readAsDataURL(file);
       },
 
-      validarDatos() {
+      async validarDatos() {
          this.submited = true;
          this.$v.$touch();
          if (this.$v.$invalid) {
             this.spiner = false;
             return false;
          }
-         this.actualizar();
+         await this.actualizar();
       },
    },
 

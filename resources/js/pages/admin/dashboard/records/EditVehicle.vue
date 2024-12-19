@@ -316,16 +316,18 @@ export default {
          datos.append('audioOrigin', this.audio);
          datos.append('video', this.formData.video);
          datos.append('videoOrigin', this.video);
-         await axios.post('/api/updateRecordVehicle', datos).then((response) => {
+         datos.append('sede_id', this.formData.sede_id);
+         try {
+            await axios.post('/api/updateRecordVehicle', datos)
             this.spiner = false
             this.submited = false
-            this.$toaster.success('Registro actualizado con exito.');
-         }).catch((errors) => {
+            this.$toaster.success('Registro actualizado con éxito.');
+         } catch (errors) {
             this.spiner = false
             this.submited = false
-            this.$toaster.error('Algo salio mal.');
-            console.log(errors.response.data.errors)
-         });
+            this.$toaster.error('Algo salió mal.');
+            console.log(errors.response.data.errors);
+         }
       },
 
       fecha(d) {
@@ -348,7 +350,7 @@ export default {
             this.audioPreview = URL.createObjectURL(file);
             this.formData.audio = file;
          } else {
-            alert("Por favor selecciona un archivo de audio válido.");
+            this.$toaster.error("Por favor selecciona un archivo de audio válido.");
             this.audioPreview = null;
          }
       },
@@ -363,7 +365,7 @@ export default {
             this.videoPreview = URL.createObjectURL(file);
             this.formData.video = file;
          } else {
-            alert("Por favor selecciona un archivo de video válido.");
+            this.$toaster.error("Por favor selecciona un archivo de video válido.");
             this.videoPreview = null;
          }
       },
@@ -375,14 +377,14 @@ export default {
          reader.readAsDataURL(file);
       },
 
-      validarDatos() {
+      async validarDatos() {
          this.submited = true;
          this.$v.$touch();
          if (this.$v.$invalid) {
             this.spiner = false;
             return false;
          }
-         this.actualizar();
+         await this.actualizar();
       },
    },
 

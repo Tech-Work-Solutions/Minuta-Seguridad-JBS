@@ -196,7 +196,6 @@
                            <em class="fas fa-music fa-3x"></em>
                            <span class="mt-2 text-sm font-semibold">Adjuntar Audio</span>
                            <input type='file' accept="audio/*" class="opacity-0" @change="obtenerAudio" />
-
                         </label>
 
                         <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
@@ -213,7 +212,6 @@
                            <span class="mt-2 text-sm font-semibold">Adjuntar Video</span>
                            <input type='file' accept="video/mp4,video/x-m4v,video/*" class="opacity-0"
                               @change="obtenerVideo" />
-
                         </label>
 
                         <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
@@ -286,11 +284,11 @@
                      </th>
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        audio
+                        Audio
                      </th>
                      <th
                         class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        video
+                        Video
                      </th>
                   </tr>
                </thead>
@@ -384,6 +382,7 @@ export default {
             imagen: '',
             audio: '',
             video: '',
+            sede_id: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -397,53 +396,59 @@ export default {
          tipos: [{ id: 'EMPLEADO', text: 'EMPLEADO' }, { id: 'VISITANTE', text: 'VISITANTE' }],
          audioPreview: null,
          videoPreview: null,
+         sede: {},
       };
    },
 
-   mounted() {
+   async mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
+      this.sede = JSON.parse(localStorage.getItem('sede'));
       this.formData.user_id = user.id;
+      this.formData.sede_id = this.sede.id;
       if (user.rol === 'ADMINISTRATIVO') {
          this.$router.push('/dashboard');
       }
       this.show = true;
-      this.getEps()
-      this.getArls();
+      await this.getEps();
+      await this.getArls();
       this.getTipoDocumentos();
       this.getRecordsVisitantesByUser();
    },
 
    methods: {
       async getEps() {
-         await axios.get('/api/getEps').then((response) => {
+         try {
+            const response = await axios.get('/api/getEps');
             this.epss = response.data;
             this.epss.forEach(item => item.text = item.nombre.toUpperCase());
-         }).catch((errors) => {
-            console.log(errors.response.data.errors)
-         });
+         } catch (errors) {
+            console.log(errors.response.data.errors);
+         }
       },
       async getArls() {
-         await axios.get('/api/getArls').then((response) => {
+         try {
+            const response = await axios.get('/api/getArls');
             this.arls = response.data;
             this.arls.forEach(item => item.text = item.nombre.toUpperCase());
-         }).catch((errors) => {
-            console.log(errors.response.data.errors)
-         });
+         } catch (errors) {
+            console.log(errors.response.data.errors);
+         }
       },
       async getTipoDocumentos() {
-         await axios.get('/api/getDocumentos').then((response) => {
+         try {
+            const response = await axios.get('/api/getDocumentos');
             this.tipoDocumentos = response.data;
             this.tipoDocumentos.forEach(item => item.text = item.documento.toUpperCase());
-         }).catch((errors) => {
-            console.log(errors.response.data.errors)
-         });
+         } catch (errors) {
+            console.log(errors.response.data.errors);
+         }
       },
 
       async getRecordsVisitantesByUser() {
          await axios.post('/api/getRecordsVisitantesByUser', { user_id: this.formData.user_id }).then((response) => {
             this.datos = response.data
          }).catch((errors) => {
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
 
@@ -482,10 +487,12 @@ export default {
          datos.append('file', this.formData.imagen);
          datos.append('audio', this.formData.audio);
          datos.append('video', this.formData.video);
-         await axios.post('/api/recordVisitante', datos).then((response) => {
+         datos.append('sede_id', this.formData.sede_id);
+         try {
+            await axios.post('/api/recordVisitante', datos);
             this.getRecordsVisitantesByUser();
-            this.spiner = false
-            this.submited = false
+            this.spiner = false;
+            this.submited = false;
             this.limpiar();
             this.formData.destino = '';
             this.formData.numero_documento = '';
@@ -498,12 +505,12 @@ export default {
             this.formData.video = '';
             this.videoPreview = '';
             this.$toaster.success('Registro creado con éxito.');
-         }).catch((errors) => {
+         } catch (errors) {
             this.spiner = false
             this.submited = false
             this.$toaster.error('Algo salió mal.');
-            console.log(errors.response.data.errors)
-         });
+            console.log(errors.response.data.errors);
+         }
       },
 
       limpiar() {
