@@ -277,10 +277,10 @@
             
             if (sedes.length > 0 && this.clients.length > 0) {
                 for (let index = 0; index < sedes.length; index++) {
-                    const element = sedes[index];
-                    const client = this.clients.find(client => client.id === element.cliente_id);  
+                    const sede = sedes[index];
+                    const client = this.clients.find(client => client.id === sede.cliente_id);  
                     if (client) {
-                        element.client = client.nombre;
+                        sede.client = client.nombre;
                     }
                 }
             }

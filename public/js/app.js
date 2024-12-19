@@ -12942,14 +12942,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (sedes.length > 0 && this.clients.length > 0) {
         var _loop = function _loop(index) {
-          var element = sedes[index];
+          var sede = sedes[index];
 
           var client = _this5.clients.find(function (client) {
-            return client.id === element.cliente_id;
+            return client.id === sede.cliente_id;
           });
 
           if (client) {
-            element.client = client.nombre;
+            sede.client = client.nombre;
           }
         };
 
@@ -14050,6 +14050,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/NotificationDropdown.vue */ "./resources/js/pages/admin/dashboard/components/NotificationDropdown.vue");
 /* harmony import */ var _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/UserDropdown.vue */ "./resources/js/pages/admin/dashboard/components/UserDropdown.vue");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../constants */ "./resources/js/constants.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -14194,6 +14195,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -14211,91 +14213,67 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var _this$permisosMenu;
 
-      var response, opcionesMenuGuarda, iconosMap;
+      var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              _context.prev = 0;
+              _context.next = 3;
               return axios.get('/api/getUrlLogo');
 
-            case 2:
+            case 3:
               response = _context.sent;
               _this.url_logo = response.data;
-              opcionesMenuGuarda = ["minuta", "vehiculos", "visitantes"];
-              iconosMap = {
-                'minuta': 'fa-file-signature',
-                'vehiculos': 'fa-car',
-                'visitantes': 'fa-users',
-                'reportes': 'fa-chart-bar',
-                'configuraciones': 'fa-cogs',
-                'usuarios': 'fa-users-cog'
-              };
+              _context.next = 10;
+              break;
 
+            case 7:
+              _context.prev = 7;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+
+            case 10:
               if (((_this$permisosMenu = _this.permisosMenu) === null || _this$permisosMenu === void 0 ? void 0 : _this$permisosMenu.length) > 1) {
                 _this.permisosMenu.forEach(function (permiso) {
                   var nombre = permiso.nombre.toLowerCase();
 
-                  if (_this.rol === "GUARDA DE SEGURIDAD") {
-                    if (opcionesMenuGuarda.includes(nombre)) {
+                  if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.GUARDA_SEGURIDAD) {
+                    if (_constants__WEBPACK_IMPORTED_MODULE_3__.OPCIONES_MENU_GUARDA.includes(nombre)) {
                       _this.opcionesMenu.push({
                         label: permiso.nombre,
                         route: '/' + nombre,
-                        icon: iconosMap[nombre]
+                        icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
                       });
                     }
-                  } else if (_this.rol === "ADMINISTRATIVO") {
+                  } else if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRATIVO) {
                     if (nombre === "reportes") {
                       _this.opcionesMenu.push({
                         label: permiso.nombre,
                         route: '/' + nombre,
-                        icon: iconosMap[nombre]
+                        icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
                       });
                     }
-                  } else if (_this.rol === "ADMINISTRADOR") {
+                  } else if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRADOR) {
                     _this.opcionesMenu.push({
                       label: permiso.nombre,
                       route: '/' + nombre,
-                      icon: iconosMap[nombre]
+                      icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
                     });
                   }
                 });
               } else {
-                if (_this.rol === "ADMINISTRADOR" && _this.permisosMenu[0].nombre === "all") {
-                  _this.opcionesMenu = [{
-                    label: "Minuta",
-                    route: "/minuta",
-                    icon: "fa-file-signature"
-                  }, {
-                    label: "Vehiculos",
-                    route: "/vehiculos",
-                    icon: "fa-car"
-                  }, {
-                    label: "Visitantes",
-                    route: "/visitantes",
-                    icon: "fa-users"
-                  }, {
-                    label: "Reportes",
-                    route: "/reportes",
-                    icon: "fa-chart-bar"
-                  }, {
-                    label: "Configuraciones",
-                    route: "/configuraciones",
-                    icon: "fa-cogs"
-                  }, {
-                    label: "Usuarios",
-                    route: "/usuarios",
-                    icon: "fa-users-cog"
-                  }];
+                if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRADOR && _this.permisosMenu[0].nombre === "all") {
+                  _this.opcionesMenu = _constants__WEBPACK_IMPORTED_MODULE_3__.OPCIONES_MENU_ADMIN;
                 }
               }
 
-            case 7:
+            case 11:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee);
+      }, _callee, null, [[0, 7]]);
     }))();
   },
   methods: {
@@ -15459,6 +15437,62 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/constants.js":
+/*!***********************************!*\
+  !*** ./resources/js/constants.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ROLES": () => (/* binding */ ROLES),
+/* harmony export */   "OPCIONES_MENU_GUARDA": () => (/* binding */ OPCIONES_MENU_GUARDA),
+/* harmony export */   "ICONOS_MAP": () => (/* binding */ ICONOS_MAP),
+/* harmony export */   "OPCIONES_MENU_ADMIN": () => (/* binding */ OPCIONES_MENU_ADMIN)
+/* harmony export */ });
+var ROLES = {
+  GUARDA_SEGURIDAD: "GUARDA DE SEGURIDAD",
+  ADMINISTRATIVO: "ADMINISTRATIVO",
+  ADMINISTRADOR: "ADMINISTRADOR"
+};
+var OPCIONES_MENU_GUARDA = ["minuta", "vehiculos", "visitantes"];
+var ICONOS_MAP = {
+  minuta: "fa-file-signature",
+  vehiculos: "fa-car",
+  visitantes: "fa-users",
+  reportes: "fa-chart-bar",
+  configuraciones: "fa-cogs",
+  usuarios: "fa-users-cog"
+};
+var OPCIONES_MENU_ADMIN = [{
+  label: "Minuta",
+  route: "/minuta",
+  icon: "fa-file-signature"
+}, {
+  label: "Vehiculos",
+  route: "/vehiculos",
+  icon: "fa-car"
+}, {
+  label: "Visitantes",
+  route: "/visitantes",
+  icon: "fa-users"
+}, {
+  label: "Reportes",
+  route: "/reportes",
+  icon: "fa-chart-bar"
+}, {
+  label: "Configuraciones",
+  route: "/configuraciones",
+  icon: "fa-cogs"
+}, {
+  label: "Usuarios",
+  route: "/usuarios",
+  icon: "fa-users-cog"
+}];
 
 /***/ }),
 

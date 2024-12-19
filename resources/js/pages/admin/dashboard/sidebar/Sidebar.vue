@@ -137,6 +137,8 @@
 <script>
 import NotificationDropdown from "../components/NotificationDropdown.vue";
 import UserDropdown from "../components/UserDropdown.vue";
+import { ROLES, OPCIONES_MENU_GUARDA, ICONOS_MAP, OPCIONES_MENU_ADMIN } from '../../../../constants';
+
 
 export default {
    data() {
@@ -150,45 +152,32 @@ export default {
       };
    },
   async mounted() {
-    const response = await axios.get('/api/getUrlLogo');
-    this.url_logo = response.data;
-    const opcionesMenuGuarda = ["minuta", "vehiculos", "visitantes"];
-    
-    const iconosMap = {
-      'minuta': 'fa-file-signature',
-      'vehiculos': 'fa-car',
-      'visitantes': 'fa-users',
-      'reportes': 'fa-chart-bar',
-      'configuraciones': 'fa-cogs',
-      'usuarios': 'fa-users-cog'
-    };
+    try {
+      const response = await axios.get('/api/getUrlLogo');
+      this.url_logo = response.data;
+    } catch (error) {
+      console.log(error);
+    }
 
     if (this.permisosMenu?.length > 1) {
       this.permisosMenu.forEach((permiso) => {
         const nombre = permiso.nombre.toLowerCase(); 
-        if(this.rol === "GUARDA DE SEGURIDAD"){
-          if (opcionesMenuGuarda.includes(nombre) ) {
-            this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: iconosMap[nombre]});
+        if(this.rol === ROLES.GUARDA_SEGURIDAD){
+          if (OPCIONES_MENU_GUARDA.includes(nombre) ) {
+            this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: ICONOS_MAP[nombre]});
           }
-        } else if(this.rol === "ADMINISTRATIVO"){
+        } else if(this.rol === ROLES.ADMINISTRATIVO){
           if ( nombre === "reportes" ) {
-            this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: iconosMap[nombre]});
+            this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: ICONOS_MAP[nombre]});
           }
         }
-        else if(this.rol === "ADMINISTRADOR"){
-          this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: iconosMap[nombre]});
+        else if(this.rol === ROLES.ADMINISTRADOR){
+          this.opcionesMenu.push({label: permiso.nombre, route: '/'+nombre, icon: ICONOS_MAP[nombre]});
         }
       });
     } else {
-      if(this.rol === "ADMINISTRADOR" && this.permisosMenu[0].nombre === "all"){
-        this.opcionesMenu = [
-          { label: "Minuta", route: "/minuta", icon: "fa-file-signature" },
-          { label: "Vehiculos", route: "/vehiculos", icon: "fa-car" },
-          { label: "Visitantes", route: "/visitantes", icon: "fa-users" },
-          { label: "Reportes", route: "/reportes", icon: "fa-chart-bar" },
-          { label: "Configuraciones", route: "/configuraciones", icon: "fa-cogs" },
-          { label: "Usuarios", route: "/usuarios", icon: "fa-users-cog" }
-        ];
+      if(this.rol === ROLES.ADMINISTRADOR && this.permisosMenu[0].nombre === "all"){
+        this.opcionesMenu = OPCIONES_MENU_ADMIN;
       }
     }
   },
