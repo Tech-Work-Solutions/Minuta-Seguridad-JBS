@@ -18,6 +18,8 @@ class RecordsController extends Controller
             'user_id'      => ['required'],
             'anotaciones'  => ['required'],
             'sede_id'      => ['required'],
+            'latitud'      => ['nullable', 'numeric'],
+            'longitud'     => ['nullable', 'numeric'],
         ]);
 
         $imagen = '';
@@ -37,6 +39,8 @@ class RecordsController extends Controller
             'audio'         => $audio,
             'video'         => $video,
             'sede_id'       => $request->sede_id,
+            'latitud'       => $request->latitud,
+            'longitud'      => $request->longitud,
         ]);
         return response()->json(["msg" => "Registro exitoso"]); 
     }

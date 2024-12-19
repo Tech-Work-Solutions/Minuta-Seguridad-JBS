@@ -18,6 +18,8 @@ class Record_minuta extends Model
         'audio',
         'video',
         'sede_id',
+        'latitud',
+        'longitud',
     ];
 
     public function usuario(){

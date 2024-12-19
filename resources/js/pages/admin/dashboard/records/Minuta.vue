@@ -154,6 +154,10 @@
                      </th>
                      <th
                         class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
+                        Latitud/Longitud
+                     </th>
+                     <th
+                        class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
                         Anotaciones
                      </th>
                      <th
@@ -187,6 +191,10 @@
                      <td
                         class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
                         {{ item.ubicacion.nombre.toUpperCase() }}
+                     </td>
+                     <td
+                        class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
+                        {{ `${item.latitud || '-'}/${item.longitud || '-'} ` }}
                      </td>
                      <td
                         class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
@@ -226,6 +234,8 @@
 import { TRichSelect } from 'vue-tailwind/dist/components';
 import { required } from 'vuelidate/lib/validators';
 import moment from 'moment';
+import { getGeolocation } from '../../../../../js/utils/util';
+
 export default {
    data() {
       return {
@@ -238,6 +248,8 @@ export default {
             audio: '',
             video: '',
             sede_id: '',
+            latitud: '',
+            longitud: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -326,6 +338,17 @@ export default {
       async registrar() {
          this.spiner = true;
          let datos = new FormData();
+         try {
+            const { latitud = null, longitud = null } = await getGeolocation();
+            datos.append('latitud', latitud);
+            datos.append('longitud', longitud);
+         } catch (error) {
+            this.spiner = false
+            this.submited = false
+            this.$toaster.error(error);
+            return;
+         }
+
          datos.append('subject_id', this.formData.subject_id);
          datos.append('ubicacion_id', this.formData.ubicacion_id);
          datos.append('anotaciones', this.formData.anotaciones);
@@ -346,6 +369,8 @@ export default {
             this.formData.audio = '';
             this.audioPreview = '';
             this.formData.video = '';
+            this.formData.latitud = '';
+            this.formData.longitud = '';
             this.videoPreview = '';
             this.$toaster.success('Registro creado con éxito.');
          }).catch((errors) => {
