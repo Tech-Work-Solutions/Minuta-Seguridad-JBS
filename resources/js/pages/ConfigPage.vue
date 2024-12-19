@@ -135,8 +135,8 @@ export default {
             const clientesData = JSON.parse(localStorage.getItem("puestos"));
             const clienteSeleccionado = clientesData.find(cliente => cliente.id === this.formData.puesto);
             if (clienteSeleccionado) {
-                localStorage.setItem('permisosFormulario', JSON.stringify(clienteSeleccionado.permisos_formulario));
-                localStorage.setItem('permisosMenu', JSON.stringify(clienteSeleccionado.permisos_menu));
+                localStorage.setItem('permisosFormulario', clienteSeleccionado.permisos_formulario);
+                localStorage.setItem('permisosMenu', clienteSeleccionado.permisos_menu);
                 localStorage.setItem('puesto', JSON.stringify({ id: clienteSeleccionado.id, nombre: clienteSeleccionado.nombre }));
 
                 const sedeSeleccionada = clienteSeleccionado.sedes.find(sede => sede.sede_id === this.formData.sede);
