@@ -10,7 +10,7 @@
                                 <label
                                     class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                                     <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                                    <span class="mt-2 text-sm font-semibold">Adjuntar foto</span>
+                                    <span class="mt-2 text-sm font-semibold">Adjuntar Cabecera</span>
                                     <input type='file' class="opacity-0" accept="image/*"
                                         @change="obtenerImagenHeader" />
                                 </label>
@@ -26,7 +26,7 @@
                                 <label
                                     class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                                     <em class="fas fa-cloud-upload-alt fa-3x"></em>
-                                    <span class="mt-2 text-sm font-semibold">Adjuntar foto</span>
+                                    <span class="mt-2 text-sm font-semibold">Adjuntar pie de página</span>
                                     <input type='file' class="opacity-0" accept="image/*"
                                         @change="obtenerImagenFooter" />
                                 </label>
@@ -44,7 +44,7 @@
                         <button
                             class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             type="button" @click="registrar">
-                            <p v-if="!spiner">Guardar</p>
+                            <p v-if="!spinner">Guardar</p>
                             <p v-else><em class="fas fa-spinner fa-pulse"></em> Guardando...</p>
                         </button>
                     </div>
@@ -57,7 +57,6 @@
 
 <script>
 import { TRichSelect } from 'vue-tailwind/dist/components';
-import { required } from 'vuelidate/lib/validators';
 export default {
     data() {
         return {
@@ -68,47 +67,44 @@ export default {
             imgMinutaHeader: '',
             imgMinutaFooter: '',
             imagenes: {},
-            spiner: false,
+            spinner: false,
             submited: false,
-            show: false,
-
         };
     },
 
     async mounted() {
-        this.show = true;
         await this.getImagenes();
     },
 
     methods: {
         async getImagenes() {
-            await axios.get('/api/getImagenesReporte').then((response) => {
-                console.log(response)
+            try {
+                const response = await axios.get('/api/getImagenesReporte');
                 this.imagenes = response.data;
                 this.imgMinutaHeader = this.imagenes.img_header;
                 this.imgMinutaFooter = this.imagenes.img_footer;
-            }).catch((errors) => {
-                console.log(errors.response.data.errors)
-            });
+            } catch (errors) {
+                console.log(errors.response.data.errors);
+            }
         },
         async registrar() {
-            this.spiner = true;
+            this.spinner = true;
             let datos = new FormData();
 
             datos.append('img_header', this.formData.img_header);
             datos.append('img_footer', this.formData.img_footer);
             try {
                 await axios.post('/api/updateImagenesReporte', datos);
-                this.spiner = false;
+                this.spinner = false;
                 this.submited = false;
                 this.formData.img_header = '';
                 this.formData.img_footer = '';
                 this.$toaster.success('Tarea completada con éxito.');
             } catch (errors) {
-                this.spiner = false;
+                this.spinner = false;
                 this.submited = false;
                 this.$toaster.error('Algo salió mal.');
-                console.log(errors.response.data.errors)
+                console.log(errors.response.data.errors);
             }
 
         },
@@ -120,7 +116,7 @@ export default {
         obtenerImagenFooter(e) {
             let file = e.target.files[0];
             this.formData.img_footer = file;
-            this.cargarImagenFooter(file, this.imgMinutaFooter);
+            this.cargarImagenFooter(file);
         },
         cargarImagenHeader(file) {
             let reader = new FileReader();
@@ -137,14 +133,14 @@ export default {
             reader.readAsDataURL(file);
         },
 
-        validarDatos() {
+        async validarDatos() {
             this.submited = true;
             this.$v.$touch();
             if (this.$v.$invalid) {
-                this.spiner = false;
+                this.spinner = false;
                 return false;
             }
-            this.registrar();
+            await this.registrar();
         },
     },
 

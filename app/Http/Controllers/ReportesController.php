@@ -195,18 +195,7 @@ class ReportesController extends Controller
     public function getImagenesReporte() {
         $imagenHeader = '';
         $imagenFooter = '';
-        
-        $extensionesImagenes = [
-            'bmp', 
-            'gif', 
-            'ico', 
-            'jpeg',
-            'jpg', 
-            'png', 
-            'svg', 
-            'tiff',
-            'webp'
-        ];
+        $extensionesImagenes = config('constantes.extensiones_imagenes');        
         $fileService = new FileService();
         $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
         $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
@@ -220,18 +209,9 @@ class ReportesController extends Controller
     }
     
     public function updateImagenesReporte(Request $request) {
-        $extensionesImagenes = [
-            'bmp', 
-            'gif', 
-            'ico', 
-            'jpeg',
-            'jpg', 
-            'png', 
-            'svg', 
-            'tiff',
-            'webp'
-        ];
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
         $fileService = new FileService();
+
         if ($request->file('img_header') ) {
             $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
             
@@ -247,13 +227,10 @@ class ReportesController extends Controller
             
             if ($imagenFooter) {
                 $fileService->eliminarArchivo($imagenFooter);
-    
             }
             
             $fileService->guardarArchivo($request->file('img_footer'), '/img/', 'img_footer');
-
         }
-
         
         return response()->json(["msg" => "Imagenes actualizadas"]);
     }
