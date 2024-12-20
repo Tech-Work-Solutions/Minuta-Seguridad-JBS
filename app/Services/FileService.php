@@ -26,4 +26,12 @@ class FileService
         }
         return false;
     }
+    
+    public function getArchivo($ruta) {
+        if ($ruta && file_exists(public_path($ruta))) {
+            return asset($ruta);
+        }
+        return null; // Devuelve null si el archivo no existe
+    }
+
 }

@@ -190,4 +190,20 @@ class ReportesController extends Controller
         $pdf = PDF::loadView('pdfs.visitantes', compact('records'))->setPaper('a4', 'landscape');
         return $pdf->download('ReporteVisitantes.pdf');
     }
+
+    public function getImagenesReporte() {
+        $imagenHeader = '';
+        $imagenFooter = '';
+        $fileService = new FileService();
+        $imagenHeader = $fileService->guardarArchivo('/img_header');
+        $imagenFooter = $fileService->guardarArchivo('/img_footer');
+
+        return response()->json(
+            [
+                "img_header" => $imagenHeader,
+                "img_footer" => $imagenFooter
+            ]
+        );
+    }
+
 }

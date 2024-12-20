@@ -98,6 +98,7 @@ Route::post('getReporteVisitantes', [ReportesController::class, 'getReporteVisit
 Route::get('pdf_recordMinuta', [ReportesController::class, 'pdf_recordMinuta']);
 Route::get('pdf_recordVehicle', [ReportesController::class, 'pdf_recordVehicle']);
 Route::get('pdf_recordVisitante', [ReportesController::class, 'pdf_recordVisitante']);
+Route::get('getImagenesReporte', [ReportesController::class, 'getImagenesReporte']);
 
 Route::post('registerClients', [ClientsController::class, 'registerClients']);
 Route::get('getClients', [ClientsController::class, 'getClients']);
