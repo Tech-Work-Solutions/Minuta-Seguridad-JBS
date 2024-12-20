@@ -8,6 +8,7 @@ use App\Models\Record_minuta;
 use App\Models\Record_person;
 use App\Models\Record_vehicle;
 use App\Models\User;
+use App\Services\FileService;
 
 class ReportesController extends Controller
 {
@@ -194,9 +195,21 @@ class ReportesController extends Controller
     public function getImagenesReporte() {
         $imagenHeader = '';
         $imagenFooter = '';
+        
+        $extensionesImagenes = [
+            'bmp', 
+            'gif', 
+            'ico', 
+            'jpeg',
+            'jpg', 
+            'png', 
+            'svg', 
+            'tiff',
+            'webp'
+        ];
         $fileService = new FileService();
-        $imagenHeader = $fileService->guardarArchivo('/img_header');
-        $imagenFooter = $fileService->guardarArchivo('/img_footer');
+        $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
 
         return response()->json(
             [

@@ -22,7 +22,7 @@
 
                                 <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
                                     <figure>
-                                        <img :src="imagenMinuta" alt="">
+                                        <img :src="imgMinutaHeader" alt="">
                                     </figure>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
 
                                 <div class="w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden">
                                     <figure>
-                                        <img :src="imagenMinuta" alt="">
+                                        <img :src="imgMinutaFooter" alt="">
                                     </figure>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                     <div class="flex mb-4">
                         <button
                             class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button" @click="registrarProcedencia">
+                            type="button" @click="registrar">
                             <p v-if="!spiner">Guardar</p>
                             <p v-else><em class="fas fa-spinner fa-pulse"></em> Guardando...</p>
                         </button>
@@ -81,7 +81,8 @@ export default {
 
     async mounted() {
         this.show = true;
-        //this.getImagenes();
+        console.log('mounted');
+        await this.getImagenes();
         //this.getRecordsMinutaByUser();
     },
 
@@ -90,6 +91,8 @@ export default {
             await axios.get('/api/getImagenesReporte').then((response) => {
                 console.log(response)
                 this.imagenes = response.data;
+                this.imgMinutaHeader = this.imagenes.img_header;
+                this.imgMinutaFooter = this.imagenes.img_footer;
                 console.log('llegó ', this.imagenes);
             }).catch((errors) => {
                 console.log(errors.response.data.errors)

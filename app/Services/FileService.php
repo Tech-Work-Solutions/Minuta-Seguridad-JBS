@@ -27,11 +27,17 @@ class FileService
         return false;
     }
     
-    public function getArchivo($ruta) {
-        if ($ruta && file_exists(public_path($ruta))) {
-            return asset($ruta);
+    public function getArchivo($ruta, $extensiones) {
+ 
+        foreach ($extensiones as $extension) {
+            $rutaCompleta = public_path($ruta . '.' . $extension);
+
+            if (file_exists($rutaCompleta)) {
+                return $ruta . '.' . $extension;
+            }
         }
-        return null; // Devuelve null si el archivo no existe
+
+        return null;
     }
 
 }
