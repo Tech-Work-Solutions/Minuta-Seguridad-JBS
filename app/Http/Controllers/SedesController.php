@@ -30,16 +30,15 @@ class SedesController extends Controller
         return Sede::orderBy('nombre')->get();
     }
 
-    public function getSedesByClients(Request $request){
+    public function getSedesByClient(Request $request){
         $request->validate([
-            'client_ids' => 'required|array',
-            'client_ids.*' => 'integer|exists:clientes,id', // Aseguramos que cada id exista en la tabla 'clientes'
+            'client_id' => 'required|integer|exists:clientes,id',
         ]);
-
-        $sedes = Sede::whereIn('cliente_id', $request->client_ids)
+    
+        $sedes = Sede::where('cliente_id', $request->client_id)
                     ->orderBy('nombre')
                     ->get();
-
+    
         return response()->json(['sedes' => $sedes]);
     }
 }

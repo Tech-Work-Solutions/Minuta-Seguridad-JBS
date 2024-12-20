@@ -104,7 +104,7 @@ Route::get('getClients', [ClientsController::class, 'getClients']);
 
 Route::post('registerSede', [SedesController::class, 'registerSede']);
 Route::get('getSedes', [SedesController::class, 'getSedes']);
-Route::get('getSedesByClients', [SedesController::class, 'getSedesByClients']);
+Route::get('getSedesByClient', [SedesController::class, 'getSedesByClient']);
 
 Route::post('registerOpcionMenu', [OpcionesMenuController::class, 'registerOpcionMenu']);
 Route::get('getOpcionesMenu', [OpcionesMenuController::class, 'getOpcionesMenu']);

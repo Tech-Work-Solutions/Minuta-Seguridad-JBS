@@ -44,7 +44,6 @@ class UsersSedeController extends Controller
             'sedes.*' => ['integer', 'exists:sedes,id'],
         ]);
     
-        // Recorrer el array de sedes y registrar cada relación
         foreach ($request->sedes as $sede_id) {
             Users_sede::create([
                 'user_id' => $request->user_id,
@@ -103,7 +102,7 @@ class UsersSedeController extends Controller
 
         Users_sede::where('user_id', $request->id)->delete();
         return response()->json([
-            'msg' => 'Registros eliminadas con éxito'
+            'msg' => 'Registros eliminados con éxito'
         ]);
     }
 }
