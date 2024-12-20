@@ -102,7 +102,7 @@ class UsersSedeController extends Controller
 
         Users_sede::where('user_id', $request->id)->delete();
         return response()->json([
-            'msg' => 'Registros eliminadas con éxito'
+            'msg' => 'Registros eliminados con éxito'
         ]);
     }
 }
