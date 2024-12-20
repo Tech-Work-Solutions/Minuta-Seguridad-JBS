@@ -218,5 +218,44 @@ class ReportesController extends Controller
             ]
         );
     }
+    
+    public function updateImagenesReporte(Request $request) {
+        $extensionesImagenes = [
+            'bmp', 
+            'gif', 
+            'ico', 
+            'jpeg',
+            'jpg', 
+            'png', 
+            'svg', 
+            'tiff',
+            'webp'
+        ];
+        $fileService = new FileService();
+        if ($request->file('img_header') ) {
+            $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+            
+            if ($imagenHeader) {
+                $fileService->eliminarArchivo($imagenHeader);
+            }
+    
+            $fileService->guardarArchivo($request->file('img_header'), "/img/", 'logo2');
+        }
+
+        if ($request->file('img_footer') ) {
+            $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
+            
+            if ($imagenFooter) {
+                $fileService->eliminarArchivo($imagenFooter);
+    
+            }
+            
+            $fileService->guardarArchivo($request->file('img_footer'), '/img/', 'img_footer');
+
+        }
+
+        
+        return response()->json(["msg" => "Imagenes actualizadas"]);
+    }
 
 }

@@ -4,18 +4,26 @@ namespace App\Services;
 
 class FileService
 {
-    public function guardarArchivo($file, $carpeta)
+    public function guardarArchivo($file, $carpeta, $nombre = null)
     {
         if (!$file) {
             return '';
         }
-        // obtenemos el nombre del archivo
-        $nombre = $file->getClientOriginalName();
-        // Crear un nombre único para evitar conflictos
-        $f = date("dmyHis");
-        //indicamos que queremos guardar un nuevo archivo en el disco local
-        $file->move(public_path($carpeta), $f.$nombre);
-        return $carpeta.$f.$nombre;
+
+        if (!$nombre) {
+            // obtenemos el nombre del archivo
+            $nombre = $file->getClientOriginalName();
+            // Crear un nombre único para evitar conflictos
+            $f = date("dmyHis");
+    
+            $fileName = $f.$nombre;
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            $file->move(public_path($carpeta), $fileName);
+            return $carpeta.$f.$nombre;
+        }
+        $extension = $file->getClientOriginalExtension();
+        $file->move(public_path($carpeta), $nombre.".".$extension);
+        return $carpeta.$nombre.$extension;
     }
 
     public function eliminarArchivo($ruta)
