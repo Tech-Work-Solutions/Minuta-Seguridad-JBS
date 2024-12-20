@@ -14421,11 +14421,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css");
-/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
+/* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css");
+/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -14736,12 +14738,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default())
+    Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default()),
+    TRichSelect: vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_2__.TRichSelect
   },
   data: function data() {
     return {
@@ -14762,10 +14777,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       puestos: [],
       puestosSelected: [],
       sedes: [],
-      sedesSelected: [],
+      sedeSelected: null,
       spiner: false,
       tipoDocumentos: [],
-      show: false
+      show: false,
+      puestosDisponibles: [],
+      sedesDisponibles: [],
+      puestosYSedes: [],
+      selectedPuesto: null,
+      errorMessage: ""
     };
   },
   mounted: function mounted() {
@@ -14809,6 +14829,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, _callee, null, [[2, 10]]);
     }))();
   },
+  computed: {
+    renderPuestosYSedes: function renderPuestosYSedes() {
+      var result = [];
+      this.puestosYSedes.forEach(function (puestoData) {
+        puestoData.sedes.forEach(function (sede) {
+          result.push({
+            puestoId: puestoData.puesto.id,
+            puestoNombre: puestoData.puesto.nombre,
+            sedeId: sede.id,
+            sedeNombre: sede.nombre
+          });
+        });
+      });
+      return result;
+    }
+  },
   methods: {
     getTipoDocumentos: function getTipoDocumentos() {
       var _this2 = this;
@@ -14833,13 +14869,87 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
+    agregarPuestoYSedes: function agregarPuestoYSedes() {
+      var _this3 = this;
+
+      this.errorMessage = "";
+      var puestoFull = this.puestos.find(function (puesto) {
+        return puesto.id === _this3.selectedPuesto;
+      });
+
+      if (puestoFull) {
+        var sedeFull = this.sedes.find(function (sede) {
+          return sede.id === _this3.sedeSelected;
+        });
+        var existingPuesto = this.puestosYSedes.find(function (item) {
+          return item.puesto.id === puestoFull.id;
+        });
+
+        if (existingPuesto) {
+          if (!existingPuesto.sedes.some(function (s) {
+            return s.id === sedeFull.id;
+          })) {
+            existingPuesto.sedes.push(sedeFull);
+          }
+        } else {
+          this.puestosYSedes.push({
+            puesto: puestoFull,
+            sedes: [sedeFull]
+          });
+        }
+      }
+
+      this.selectedPuesto = null;
+      this.sedeSelected = null;
+    },
+    actualizarSedesDisponibles: function actualizarSedesDisponibles() {
+      var _this4 = this;
+
+      this.sedes = this.sedes.filter(function (sede) {
+        return !_this4.puestosYSedes.some(function (puesto) {
+          return puesto.sedes.some(function (s) {
+            return s.id === sede.id;
+          });
+        });
+      });
+      this.puestosYSedes = this.puestosYSedes.filter(function (puesto) {
+        if (puesto.sedes.length === 1) {
+          return puesto.sedes.some(function (sede) {
+            return !_this4.sedes.find(function (s) {
+              return s.id === sede.id;
+            });
+          });
+        }
+
+        return true;
+      });
+    },
+    eliminarPuestoYSedes: function eliminarPuestoYSedes(puestoId, sedeId) {
+      var puestoIndex = this.puestosYSedes.findIndex(function (puestosYSede) {
+        return puestosYSede.puesto.id === puestoId;
+      });
+
+      if (puestoIndex !== -1) {
+        var sedeIndex = this.puestosYSedes[puestoIndex].sedes.findIndex(function (sede) {
+          return sede.id === sedeId;
+        });
+
+        if (sedeIndex !== -1) {
+          this.puestosYSedes[puestoIndex].sedes.splice(sedeIndex, 1);
+
+          if (this.puestosYSedes[puestoIndex].sedes.length === 0) {
+            this.puestosYSedes.splice(puestoIndex, 1);
+          }
+        }
+      }
+    },
     registrarUser: function registrarUser() {
       this.error = false;
       this.spiner = true;
       this.validarDatos();
     },
     register: function register() {
-      var _this3 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var response, user_id, sedes, data;
@@ -14849,7 +14959,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return axios.post('/api/register', _this3.formData);
+                return axios.post('/api/register', _this5.formData);
 
               case 3:
                 response = _context3.sent;
@@ -14860,8 +14970,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 user_id = response.data.user_id;
-                sedes = _this3.sedesSelected.map(function (option) {
-                  return option.id;
+                sedes = _this5.puestosYSedes.flatMap(function (puesto) {
+                  return puesto.sedes.map(function (sede) {
+                    return sede.id;
+                  });
                 });
                 data = {
                   user_id: user_id,
@@ -14871,36 +14983,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post('/api/registerUserSedes', data);
 
               case 10:
-                _this3.formData.name = _this3.formData.email = _this3.formData.password = '';
-                _this3.formData.tipo_documento_id = _this3.formData.numero_documento = _this3.formData.fecha_nacimiento = '';
-                _this3.formData.direccion = _this3.formData.ciudad = _this3.formData.telefono_uno = '';
-                _this3.formData.telefono_dos = '';
-                _this3.puestosSelected = _this3.sedesSelected = _this3.puestos = _this3.sedes = [];
+                _this5.formData.name = _this5.formData.email = _this5.formData.password = '';
+                _this5.formData.tipo_documento_id = _this5.formData.numero_documento = _this5.formData.fecha_nacimiento = '';
+                _this5.formData.direccion = _this5.formData.ciudad = _this5.formData.telefono_uno = '';
+                _this5.formData.telefono_dos = '';
+                _this5.puestos = _this5.sedes = [];
+                _this5.puestosSelected = _this5.sedeSelected = null;
 
-                _this3.$router.push('/usuarios');
+                _this5.$router.push('/usuarios');
 
-                _this3.$toaster.success('Registro creado con exito.');
+                _this5.$toaster.success('Registro creado con exito.');
 
-                _context3.next = 23;
+                _context3.next = 24;
                 break;
 
-              case 19:
-                _context3.prev = 19;
+              case 20:
+                _context3.prev = 20;
                 _context3.t0 = _context3["catch"](0);
-                _this3.spiner = false;
+                _this5.spiner = false;
 
                 if (_context3.t0.response && _context3.t0.response.data.errors.email) {
-                  _this3.$toaster.error(_context3.t0.response.data.errors.email[0]);
+                  _this5.$toaster.error(_context3.t0.response.data.errors.email[0]);
                 } else {
-                  _this3.$toaster.error('Ocurrió un error');
+                  _this5.$toaster.error('Ocurrió un error');
                 }
 
-              case 23:
+              case 24:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[0, 19]]);
+        }, _callee3, null, [[0, 20]]);
       }))();
     },
     validarDatos: function validarDatos() {
@@ -14912,10 +15025,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return false;
       }
 
+      if (this.puestosYSedes.length < 1) {
+        this.errorMessage = 'Debe agregar al menos un puesto y una sede';
+        this.spiner = false;
+        return;
+      }
+
       this.register();
     },
     getClients: function getClients() {
-      var _this4 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
@@ -14924,12 +15043,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context4.next = 2;
                 return axios.get('/api/getClients').then(function (response) {
-                  _this4.puestos = response.data.filter(function (item) {
-                    return item.estado === 'ACTIVO';
+                  _this6.puestos = response.data.filter(function (puesto) {
+                    return puesto.estado === 'ACTIVO';
                   });
 
-                  _this4.puestos.forEach(function (item) {
-                    item.nombre = item.nombre.toUpperCase();
+                  _this6.puestos.forEach(function (puesto) {
+                    puesto.text = puesto.nombre.toUpperCase();
                   });
                 })["catch"](function (errors) {
                   console.log(errors.response.data.errors);
@@ -14943,90 +15062,99 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    getSedesByPuestosIds: function getSedesByPuestosIds(data) {
-      var _this5 = this;
+    getSedesByPuesto: function getSedesByPuesto() {
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        var ids;
+        var id, response, _errors$response, _errors$response$data;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                ids = {
-                  'client_ids': data
-                };
-                _context5.next = 3;
-                return axios.get('/api/getSedesByClients', {
-                  params: ids
-                }).then(function (response) {
-                  _this5.sedes = response.data.sedes.filter(function (item) {
-                    return item.estado === 'ACTIVO';
-                  });
+                if (!_this7.selectedPuesto) {
+                  _context5.next = 16;
+                  break;
+                }
 
-                  _this5.sedes.forEach(function (item) {
-                    item.nombre = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
+                _context5.prev = 1;
+                _this7.sedeSelected = null;
+                _this7.sedes = [];
+                id = {
+                  'client_id': _this7.selectedPuesto
+                };
+                _context5.next = 7;
+                return axios.get('/api/getSedesByClient', {
+                  params: id
                 });
 
-              case 3:
+              case 7:
+                response = _context5.sent;
+                _this7.sedes = response.data.sedes.filter(function (item) {
+                  return item.estado === 'ACTIVO';
+                });
+
+                _this7.sedes.forEach(function (sede) {
+                  sede.text = sede.nombre.toUpperCase();
+                });
+
+                _this7.actualizarSedesDisponibles();
+
+                _context5.next = 16;
+                break;
+
+              case 13:
+                _context5.prev = 13;
+                _context5.t0 = _context5["catch"](1);
+                console.log(((_errors$response = _context5.t0.response) === null || _errors$response === void 0 ? void 0 : (_errors$response$data = _errors$response.data) === null || _errors$response$data === void 0 ? void 0 : _errors$response$data.errors) || "Ocurrió un error desconocido");
+
+              case 16:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5);
+        }, _callee5, null, [[1, 13]]);
       }))();
-    },
-    onPuestosChange: function onPuestosChange() {
-      if (this.puestosSelected.length > 0) {
-        var puestosIds = this.puestosSelected.map(function (puesto) {
-          return puesto.id;
-        });
-        this.getSedesByPuestosIds(puestosIds);
-      } else {
-        this.sedes = [];
-      }
     }
   },
   validations: {
     formData: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.email
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.email
       },
       password: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.minLength)(6)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.minLength)(6)
       },
       rol: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       tipo_documento_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       numero_documento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       direccion: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       ciudad: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       telefono_uno: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       telefono_dos: {
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       fecha_nacimiento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   }
@@ -15047,11 +15175,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css");
-/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
+/* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css");
+/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect_dist_vue_multiselect_min_css__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -15360,12 +15490,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default())
+    Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default()),
+    TRichSelect: vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_2__.TRichSelect
   },
   data: function data() {
     return {
@@ -15386,11 +15527,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       puestos: [],
       puestosSelected: [],
       sedes: [],
-      sedesSelected: [],
+      sedeSelected: null,
       spiner: false,
       tipoDocumentos: [],
       show: false,
-      sedesOfClient: ''
+      sedesOfClient: '',
+      puestosDisponibles: [],
+      sedesDisponibles: [],
+      puestosYSedes: [],
+      selectedPuesto: null,
+      errorMessage: ""
     };
   },
   mounted: function mounted() {
@@ -15452,6 +15598,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, _callee, null, [[0, 17]]);
     }))();
   },
+  computed: {
+    renderPuestosYSedes: function renderPuestosYSedes() {
+      var result = [];
+      this.puestosYSedes.forEach(function (puestoData) {
+        puestoData.sedes.forEach(function (sede) {
+          result.push({
+            puestoId: puestoData.puesto.id,
+            puestoNombre: puestoData.puesto.nombre,
+            sedeId: sede.id,
+            sedeNombre: sede.nombre
+          });
+        });
+      });
+      return result;
+    }
+  },
   methods: {
     getTipoDocumentos: function getTipoDocumentos() {
       var _this2 = this;
@@ -15476,13 +15638,87 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
+    agregarPuestoYSedes: function agregarPuestoYSedes() {
+      var _this3 = this;
+
+      this.errorMessage = "";
+      var puestoFull = this.puestos.find(function (puesto) {
+        return puesto.id === _this3.selectedPuesto;
+      });
+
+      if (puestoFull) {
+        var sedeFull = this.sedes.find(function (sede) {
+          return sede.id === _this3.sedeSelected;
+        });
+        var existingPuesto = this.puestosYSedes.find(function (item) {
+          return item.puesto.id === puestoFull.id;
+        });
+
+        if (existingPuesto) {
+          if (!existingPuesto.sedes.some(function (s) {
+            return s.id === sedeFull.id;
+          })) {
+            existingPuesto.sedes.push(sedeFull);
+          }
+        } else {
+          this.puestosYSedes.push({
+            puesto: puestoFull,
+            sedes: [sedeFull]
+          });
+        }
+      }
+
+      this.selectedPuesto = null;
+      this.sedeSelected = null;
+    },
+    actualizarSedesDisponibles: function actualizarSedesDisponibles() {
+      var _this4 = this;
+
+      this.sedes = this.sedes.filter(function (sede) {
+        return !_this4.puestosYSedes.some(function (puesto) {
+          return puesto.sedes.some(function (s) {
+            return s.id === sede.id;
+          });
+        });
+      });
+      this.puestosYSedes = this.puestosYSedes.filter(function (puesto) {
+        if (puesto.sedes.length === 1) {
+          return puesto.sedes.some(function (sede) {
+            return !_this4.sedes.find(function (s) {
+              return s.id === sede.id;
+            });
+          });
+        }
+
+        return true;
+      });
+    },
+    eliminarPuestoYSedes: function eliminarPuestoYSedes(puestoId, sedeId) {
+      var puestoIndex = this.puestosYSedes.findIndex(function (puestosYSede) {
+        return puestosYSede.puesto.id === puestoId;
+      });
+
+      if (puestoIndex !== -1) {
+        var sedeIndex = this.puestosYSedes[puestoIndex].sedes.findIndex(function (sede) {
+          return sede.id === sedeId;
+        });
+
+        if (sedeIndex !== -1) {
+          this.puestosYSedes[puestoIndex].sedes.splice(sedeIndex, 1);
+
+          if (this.puestosYSedes[puestoIndex].sedes.length === 0) {
+            this.puestosYSedes.splice(puestoIndex, 1);
+          }
+        }
+      }
+    },
     registrarUser: function registrarUser() {
       this.error = false;
       this.spiner = true;
       this.validarDatos();
     },
     register: function register() {
-      var _this3 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var response, user_id, sedes, data;
@@ -15492,7 +15728,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return axios.post('/api/editUser', _this3.formData);
+                return axios.post('/api/editUser', _this5.formData);
 
               case 3:
                 response = _context3.sent;
@@ -15503,8 +15739,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 user_id = response.data.user_id;
-                sedes = _this3.sedesSelected.map(function (option) {
-                  return option.id;
+                sedes = _this5.puestosYSedes.flatMap(function (puesto) {
+                  return puesto.sedes.map(function (sede) {
+                    return sede.id;
+                  });
                 });
                 data = {
                   user_id: user_id,
@@ -15514,11 +15752,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post('/api/updateUserSedes', data);
 
               case 10:
-                _this3.formData.name = _this3.formData.email = _this3.formData.password = '';
+                _this5.formData.name = _this5.formData.email = _this5.formData.password = '';
 
-                _this3.$router.push('/usuarios');
+                _this5.$router.push('/usuarios');
 
-                _this3.$toaster.success('Registro actualizado con exito.');
+                _this5.$toaster.success('Registro actualizado con exito.');
 
                 _context3.next = 20;
                 break;
@@ -15526,13 +15764,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 15:
                 _context3.prev = 15;
                 _context3.t0 = _context3["catch"](0);
-                _this3.spiner = false;
-                _this3.errors = _context3.t0.response.data.errors;
+                _this5.spiner = false;
+                _this5.errors = _context3.t0.response.data.errors;
 
                 if (_context3.t0.response.data.errors.email) {
-                  _this3.$toaster.error(_context3.t0.response.data.errors.email[0]);
+                  _this5.$toaster.error(_context3.t0.response.data.errors.email[0]);
                 } else {
-                  _this3.$toaster.error('Ocurrió un error');
+                  _this5.$toaster.error('Ocurrió un error');
                 }
 
               case 20:
@@ -15552,10 +15790,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return false;
       }
 
+      if (this.puestosYSedes.length < 1) {
+        this.errorMessage = 'Debe agregar al menos un puesto y una sede';
+        this.spiner = false;
+        return;
+      }
+
       this.register();
     },
     getClients: function getClients() {
-      var _this4 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
@@ -15564,12 +15808,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context4.next = 2;
                 return axios.get('/api/getClients').then(function (response) {
-                  _this4.puestos = response.data.filter(function (item) {
+                  _this6.puestos = response.data.filter(function (item) {
                     return item.estado === 'ACTIVO';
                   });
 
-                  _this4.puestos.forEach(function (item) {
-                    item.nombre = item.nombre.toUpperCase();
+                  _this6.puestos.forEach(function (puesto) {
+                    puesto.text = puesto.nombre.toUpperCase();
                   });
                 })["catch"](function (errors) {
                   console.log(errors.response.data.errors);
@@ -15583,53 +15827,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    getSedesByPuestosIds: function getSedesByPuestosIds(data) {
-      var _this5 = this;
+    getSedesByPuesto2: function getSedesByPuesto2() {
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        var ids, response, _errors$response, _errors$response$data;
+        var id, response, _errors$response, _errors$response$data;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _context5.prev = 0;
-                ids = {
-                  'client_ids': data
+                if (!_this7.selectedPuesto) {
+                  _context5.next = 16;
+                  break;
+                }
+
+                _context5.prev = 1;
+                _this7.sedeSelected = null;
+                _this7.sedes = [];
+                id = {
+                  'client_id': _this7.selectedPuesto
                 };
-                _context5.next = 4;
-                return axios.get('/api/getSedesByClients', {
-                  params: ids
+                _context5.next = 7;
+                return axios.get('/api/getSedesByClient', {
+                  params: id
                 });
 
-              case 4:
+              case 7:
                 response = _context5.sent;
-                _this5.sedes = response.data.sedes.filter(function (item) {
+                _this7.sedes = response.data.sedes.filter(function (item) {
                   return item.estado === 'ACTIVO';
                 });
 
-                _this5.sedes.forEach(function (item) {
-                  item.nombre = item.nombre.toUpperCase();
+                _this7.sedes.forEach(function (sede) {
+                  sede.text = sede.nombre.toUpperCase();
                 });
 
-                _context5.next = 12;
+                _this7.actualizarSedesDisponibles();
+
+                _context5.next = 16;
                 break;
 
-              case 9:
-                _context5.prev = 9;
-                _context5.t0 = _context5["catch"](0);
+              case 13:
+                _context5.prev = 13;
+                _context5.t0 = _context5["catch"](1);
                 console.log(((_errors$response = _context5.t0.response) === null || _errors$response === void 0 ? void 0 : (_errors$response$data = _errors$response.data) === null || _errors$response$data === void 0 ? void 0 : _errors$response$data.errors) || "Ocurrió un error desconocido");
 
-              case 12:
+              case 16:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[0, 9]]);
+        }, _callee5, null, [[1, 13]]);
       }))();
     },
     getSedesAndClientesByUser: function getSedesAndClientesByUser(params) {
-      var _this6 = this;
+      var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
         var response;
@@ -15645,7 +15898,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 response = _context6.sent;
-                _this6.sedesOfClient = response.data.sedes;
+                _this8.sedesOfClient = response.data.sedes;
                 _context6.next = 10;
                 break;
 
@@ -15662,72 +15915,72 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee6, null, [[0, 7]]);
       }))();
     },
-    onPuestosChange: function onPuestosChange() {
-      if (this.puestosSelected.length > 0) {
-        var puestosIds = this.puestosSelected.map(function (puesto) {
-          return puesto.id;
-        });
-        this.getSedesByPuestosIds(puestosIds);
-      } else {
-        this.sedes = [];
-      }
-    },
     processSedesAndClients: function processSedesAndClients(data) {
-      var uniqueClients = [];
-      var clientsSet = new Set();
+      var _this9 = this;
+
       data.forEach(function (item) {
-        if (!clientsSet.has(item.cliente.id)) {
-          clientsSet.add(item.cliente.id);
-          uniqueClients.push(item.cliente);
+        var existingPuesto = _this9.puestosYSedes.find(function (puesto) {
+          return puesto.puesto.id === item.cliente.id;
+        });
+
+        if (existingPuesto) {
+          if (!existingPuesto.sedes.some(function (sede) {
+            return sede.id === item.sede_id;
+          })) {
+            existingPuesto.sedes.push({
+              id: item.sede_id,
+              nombre: item.sede_nombre
+            });
+          }
+        } else {
+          _this9.puestosYSedes.push({
+            puesto: item.cliente,
+            sedes: [{
+              id: item.sede_id,
+              nombre: item.sede_nombre
+            }]
+          });
         }
-      });
-      this.puestosSelected = uniqueClients;
-      this.onPuestosChange();
-      this.sedesSelected = data.map(function (item) {
-        return {
-          id: item.sede_id,
-          nombre: item.sede_nombre
-        };
       });
     }
   },
   validations: {
     formData: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.email
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.email
       },
       password: {
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.minLength)(6)
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.minLength)(6)
       },
       rol: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       tipo_documento_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       numero_documento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       direccion: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       ciudad: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       telefono_uno: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       telefono_dos: {
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       fecha_nacimiento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   }
@@ -86394,96 +86647,215 @@ var render = function() {
                           ])
                         : _vm._e()
                     ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "w-full lg:w-4/12 px-4" }, [
-                    _c(
-                      "div",
-                      { staticClass: "relative w-full mb-3" },
-                      [
-                        _c(
-                          "label",
-                          {
-                            staticClass:
-                              "block text-gray-600 text-sm font-semibold mb-2",
-                            attrs: { htmlFor: "grid-password" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                 Puestos:\n               "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("multiselect", {
-                          staticClass: "w-full",
-                          attrs: {
-                            options: _vm.puestos,
-                            multiple: true,
-                            searchable: true,
-                            "close-on-select": false,
-                            label: "nombre",
-                            "track-by": "id",
-                            placeholder: "Selecciona las opciones",
-                            "show-labels": false
-                          },
-                          on: { close: _vm.onPuestosChange },
-                          model: {
-                            value: _vm.puestosSelected,
-                            callback: function($$v) {
-                              _vm.puestosSelected = $$v
-                            },
-                            expression: "puestosSelected"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "w-full lg:w-4/12 px-4" }, [
-                    _c(
-                      "div",
-                      { staticClass: "relative w-full mb-3" },
-                      [
-                        _c(
-                          "label",
-                          {
-                            staticClass:
-                              "block text-gray-600 text-sm font-semibold mb-2",
-                            attrs: { htmlFor: "grid-password" }
-                          },
-                          [_vm._v("\n                 Sedes:\n               ")]
-                        ),
-                        _vm._v(" "),
-                        _c("multiselect", {
-                          staticClass: "w-full",
-                          attrs: {
-                            options: _vm.sedes,
-                            multiple: true,
-                            searchable: true,
-                            "close-on-select": false,
-                            label: "nombre",
-                            "track-by": "id",
-                            placeholder: "Selecciona las opciones",
-                            "show-labels": false,
-                            disabled: _vm.puestosSelected.length === 0
-                          },
-                          model: {
-                            value: _vm.sedesSelected,
-                            callback: function($$v) {
-                              _vm.sedesSelected = $$v
-                            },
-                            expression: "sedesSelected"
-                          }
-                        })
-                      ],
-                      1
-                    )
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "flex p-6" }, [
+                _c("div", { staticClass: "space-y-4" }, [
+                  _c(
+                    "div",
+                    { staticClass: "p-4 bg-gray-100 rounded-md shadow" },
+                    [
+                      _c(
+                        "h3",
+                        { staticClass: "text-sm text-gray-500 font-bold mb-4" },
+                        [_vm._v("Agregar Puesto y Sede")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "mb-4" },
+                        [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "block text-sm text-gray-500 font-semibold mb-2"
+                            },
+                            [_vm._v("Puesto:")]
+                          ),
+                          _vm._v(" "),
+                          _c("t-rich-select", {
+                            staticClass: "z-50",
+                            attrs: {
+                              options: _vm.puestos,
+                              placeholder: "Selecciona un puesto"
+                            },
+                            on: { change: _vm.getSedesByPuesto },
+                            model: {
+                              value: _vm.selectedPuesto,
+                              callback: function($$v) {
+                                _vm.selectedPuesto = $$v
+                              },
+                              expression: "selectedPuesto"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "mb-4" },
+                        [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "block text-sm text-gray-500 font-semibold mb-2"
+                            },
+                            [_vm._v("Sede:")]
+                          ),
+                          _vm._v(" "),
+                          _c("t-rich-select", {
+                            staticClass: "z-51",
+                            attrs: {
+                              options: _vm.sedes,
+                              placeholder: "Selecciona una sede",
+                              disabled: _vm.selectedPuesto === null
+                            },
+                            model: {
+                              value: _vm.sedeSelected,
+                              callback: function($$v) {
+                                _vm.sedeSelected = $$v
+                              },
+                              expression: "sedeSelected"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-blue-500 text-white hover:bg-blue-700 font-bold py-2 px-4 rounded",
+                          attrs: {
+                            disabled: !_vm.selectedPuesto || !_vm.sedeSelected
+                          },
+                          on: { click: _vm.agregarPuestoYSedes }
+                        },
+                        [_vm._v("\n                  Agregar\n               ")]
+                      ),
+                      _vm._v(" "),
+                      _vm.errorMessage
+                        ? _c(
+                            "p",
+                            { staticClass: "text-red-500 text-sm mt-2" },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.errorMessage) +
+                                  "\n               "
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.puestosYSedes.length > 0
+                    ? _c(
+                        "div",
+                        { staticClass: "space-y-4" },
+                        [
+                          _c(
+                            "h3",
+                            { staticClass: "text-sm text-gray-500 font-bold" },
+                            [_vm._v("Puestos y Sedes Agregados")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.renderPuestosYSedes, function(
+                            item,
+                            index
+                          ) {
+                            return _c(
+                              "div",
+                              {
+                                key: item.puestoId + "-" + item.sedeId,
+                                staticClass: "p-4 bg-white rounded-md shadow"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "flex justify-between items-center"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "flex items-center space-x-4"
+                                      },
+                                      [
+                                        _c(
+                                          "p",
+                                          {
+                                            staticClass:
+                                              "font-bold text-gray-500"
+                                          },
+                                          [
+                                            _vm._v("Puesto: "),
+                                            _c(
+                                              "span",
+                                              { staticClass: "font-normal" },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(item.puestoNombre)
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          {
+                                            staticClass:
+                                              "font-bold text-gray-500"
+                                          },
+                                          [
+                                            _vm._v("Sede: "),
+                                            _c(
+                                              "span",
+                                              { staticClass: "font-normal" },
+                                              [_vm._v(_vm._s(item.sedeNombre))]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "bg-gray-300 text-white hover:bg-gray-400 font-bold p-3 rounded-full flex items-center justify-center disabled:opacity-50",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.eliminarPuestoYSedes(
+                                              item.puestoId,
+                                              item.sedeId
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fas fa-times" })]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex p-4" }, [
                   _c(
                     "button",
                     {
@@ -87407,96 +87779,215 @@ var render = function() {
                           ])
                         : _vm._e()
                     ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "w-full lg:w-4/12 px-4" }, [
-                    _c(
-                      "div",
-                      { staticClass: "relative w-full mb-3" },
-                      [
-                        _c(
-                          "label",
-                          {
-                            staticClass:
-                              "block text-gray-600 text-sm font-semibold mb-2",
-                            attrs: { htmlFor: "grid-password" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                 Puestos:\n               "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("multiselect", {
-                          staticClass: "w-full",
-                          attrs: {
-                            options: _vm.puestos,
-                            multiple: true,
-                            searchable: true,
-                            "close-on-select": false,
-                            label: "nombre",
-                            "track-by": "id",
-                            placeholder: "Selecciona las opciones",
-                            "show-labels": false
-                          },
-                          on: { close: _vm.onPuestosChange },
-                          model: {
-                            value: _vm.puestosSelected,
-                            callback: function($$v) {
-                              _vm.puestosSelected = $$v
-                            },
-                            expression: "puestosSelected"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "w-full lg:w-4/12 px-4" }, [
-                    _c(
-                      "div",
-                      { staticClass: "relative w-full mb-3" },
-                      [
-                        _c(
-                          "label",
-                          {
-                            staticClass:
-                              "block text-gray-600 text-sm font-semibold mb-2",
-                            attrs: { htmlFor: "grid-password" }
-                          },
-                          [_vm._v("\n                 Sedes:\n               ")]
-                        ),
-                        _vm._v(" "),
-                        _c("multiselect", {
-                          staticClass: "w-full",
-                          attrs: {
-                            options: _vm.sedes,
-                            multiple: true,
-                            searchable: true,
-                            "close-on-select": false,
-                            label: "nombre",
-                            "track-by": "id",
-                            placeholder: "Selecciona las opciones",
-                            "show-labels": false,
-                            disabled: _vm.puestosSelected.length === 0
-                          },
-                          model: {
-                            value: _vm.sedesSelected,
-                            callback: function($$v) {
-                              _vm.sedesSelected = $$v
-                            },
-                            expression: "sedesSelected"
-                          }
-                        })
-                      ],
-                      1
-                    )
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "flex p-6" }, [
+                _c("div", { staticClass: "space-y-4" }, [
+                  _c(
+                    "div",
+                    { staticClass: "p-4 bg-gray-100 rounded-md shadow" },
+                    [
+                      _c(
+                        "h3",
+                        { staticClass: "text-sm text-gray-500 font-bold mb-4" },
+                        [_vm._v("Agregar Puesto y Sede")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "mb-4" },
+                        [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "block text-sm text-gray-500 font-semibold mb-2"
+                            },
+                            [_vm._v("Puesto:")]
+                          ),
+                          _vm._v(" "),
+                          _c("t-rich-select", {
+                            staticClass: "z-50",
+                            attrs: {
+                              options: _vm.puestos,
+                              placeholder: "Selecciona un puesto"
+                            },
+                            on: { change: _vm.getSedesByPuesto2 },
+                            model: {
+                              value: _vm.selectedPuesto,
+                              callback: function($$v) {
+                                _vm.selectedPuesto = $$v
+                              },
+                              expression: "selectedPuesto"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "mb-4" },
+                        [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "block text-sm text-gray-500 font-semibold mb-2"
+                            },
+                            [_vm._v("Sede:")]
+                          ),
+                          _vm._v(" "),
+                          _c("t-rich-select", {
+                            staticClass: "z-51",
+                            attrs: {
+                              options: _vm.sedes,
+                              placeholder: "Selecciona una sede",
+                              disabled: _vm.selectedPuesto === null
+                            },
+                            model: {
+                              value: _vm.sedeSelected,
+                              callback: function($$v) {
+                                _vm.sedeSelected = $$v
+                              },
+                              expression: "sedeSelected"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-blue-500 text-white hover:bg-blue-700 font-bold py-2 px-4 rounded",
+                          attrs: {
+                            disabled: !_vm.selectedPuesto || !_vm.sedeSelected
+                          },
+                          on: { click: _vm.agregarPuestoYSedes }
+                        },
+                        [_vm._v("\n                  Agregar\n               ")]
+                      ),
+                      _vm._v(" "),
+                      _vm.errorMessage
+                        ? _c(
+                            "p",
+                            { staticClass: "text-red-500 text-sm mt-2" },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.errorMessage) +
+                                  "\n               "
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.puestosYSedes.length > 0
+                    ? _c(
+                        "div",
+                        { staticClass: "space-y-4" },
+                        [
+                          _c(
+                            "h3",
+                            { staticClass: "text-sm text-gray-500 font-bold" },
+                            [_vm._v("Puestos y Sedes Agregados")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.renderPuestosYSedes, function(
+                            item,
+                            index
+                          ) {
+                            return _c(
+                              "div",
+                              {
+                                key: item.puestoId + "-" + item.sedeId,
+                                staticClass: "p-4 bg-white rounded-md shadow"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "flex justify-between items-center"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "flex items-center space-x-4"
+                                      },
+                                      [
+                                        _c(
+                                          "p",
+                                          {
+                                            staticClass:
+                                              "font-bold text-gray-500"
+                                          },
+                                          [
+                                            _vm._v("Puesto: "),
+                                            _c(
+                                              "span",
+                                              { staticClass: "font-normal" },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(item.puestoNombre)
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          {
+                                            staticClass:
+                                              "font-bold text-gray-500"
+                                          },
+                                          [
+                                            _vm._v("Sede: "),
+                                            _c(
+                                              "span",
+                                              { staticClass: "font-normal" },
+                                              [_vm._v(_vm._s(item.sedeNombre))]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "bg-gray-300 text-white hover:bg-gray-400 font-bold p-3 rounded-full flex items-center justify-center disabled:opacity-50",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.eliminarPuestoYSedes(
+                                              item.puestoId,
+                                              item.sedeId
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fas fa-times" })]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex p-4" }, [
                   _c(
                     "button",
                     {

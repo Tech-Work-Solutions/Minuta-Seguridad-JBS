@@ -236,56 +236,65 @@
                      <p class="text-red-500 text-sm" v-if="submited && !$v.formData.rol.required">Seleccione un rol</p>
                   </div>
                </div>
-
-               <div class="w-full lg:w-4/12 px-4">
-                <div class="relative w-full mb-3">
-                  <label
-                    class="block text-gray-600 text-sm font-semibold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    Puestos:
-                  </label>
-                  <multiselect
-                    v-model="puestosSelected"
-                    :options="puestos"
-                    :multiple="true"
-                    :searchable="true"
-                    :close-on-select="false"
-                    label="nombre"
-                    track-by="id"
-                    placeholder="Selecciona las opciones"
-                    class="w-full"
-                    :show-labels="false"
-                    @close="onPuestosChange"
-                  />
-                </div>
-              </div>
-              <div class="w-full lg:w-4/12 px-4">
-                <div class="relative w-full mb-3">
-                  <label
-                    class="block text-gray-600 text-sm font-semibold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    Sedes:
-                  </label>
-                  <multiselect
-                    v-model="sedesSelected"
-                    :options="sedes"
-                    :multiple="true"
-                    :searchable="true"
-                    :close-on-select="false"
-                    label="nombre"
-                    track-by="id"
-                    placeholder="Selecciona las opciones"
-                    class="w-full"
-                    :show-labels="false"
-                    :disabled="puestosSelected.length === 0"
-                  />
-                </div>
-              </div>                              
             </div>
-            
-            <div class="flex p-6">
+            <div class="space-y-4">
+               <div class="p-4 bg-gray-100 rounded-md shadow">
+                  <h3 class="text-sm text-gray-500 font-bold mb-4">Agregar Puesto y Sede</h3>
+                  <div class="mb-4">
+                     <label class="block text-sm text-gray-500 font-semibold mb-2">Puesto:</label>
+                     <t-rich-select 
+                        v-model="selectedPuesto" 
+                        :options="puestos"                     
+                        placeholder="Selecciona un puesto" 
+                        class="z-50"
+                        @change="getSedesByPuesto2"
+                     />
+                  </div>
+                  <div class="mb-4">
+                     <label class="block text-sm text-gray-500 font-semibold mb-2">Sede:</label>
+                     <t-rich-select 
+                        v-model="sedeSelected" 
+                        :options="sedes"                     
+                        placeholder="Selecciona una sede" 
+                        class="z-51"
+                        :disabled="selectedPuesto === null"
+                     />
+                  </div>
+                  <button
+                     :disabled="!selectedPuesto || !sedeSelected" 
+                     class="bg-blue-500 text-white hover:bg-blue-700 font-bold py-2 px-4 rounded" 
+                     @click="agregarPuestoYSedes"
+                  >
+                     Agregar
+                  </button>
+                  <p v-if="errorMessage" class="text-red-500 text-sm mt-2">
+                     {{ errorMessage }}
+                  </p>
+               </div>
+
+               <div class="space-y-4" v-if="puestosYSedes.length > 0">
+                  <h3 class="text-sm text-gray-500 font-bold">Puestos y Sedes Agregados</h3>
+                  <div 
+                     v-for="(item, index) in renderPuestosYSedes" 
+                     :key="`${item.puestoId}-${item.sedeId}`" 
+                     class="p-4 bg-white rounded-md shadow"
+                  >
+                     <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                           <p class="font-bold text-gray-500">Puesto: <span class="font-normal">{{ item.puestoNombre }}</span></p>
+                           <p class="font-bold text-gray-500">Sede: <span class="font-normal">{{ item.sedeNombre }}</span></p>
+                        </div>
+                        <button 
+                           class="bg-gray-300 text-white hover:bg-gray-400 font-bold p-3 rounded-full flex items-center justify-center disabled:opacity-50" 
+                           @click="eliminarPuestoYSedes(item.puestoId, item.sedeId)"
+                        >
+                        <i class="fas fa-times"></i>
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="flex p-4">
                <button 
                   class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
                   type="button"
@@ -303,10 +312,12 @@
 <script>
 import { required, email, minLength, numeric } from 'vuelidate/lib/validators';
 import Multiselect from 'vue-multiselect';
+import { TRichSelect } from 'vue-tailwind/dist/components';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 export default {
    components: {
-      Multiselect
+      Multiselect,
+      TRichSelect
    },
    data() {
       return {
@@ -327,11 +338,16 @@ export default {
          puestos: [],
          puestosSelected: [],
          sedes: [],
-         sedesSelected: [],
+         sedeSelected: null,
          spiner: false,
          tipoDocumentos: [],
          show: false,
-         sedesOfClient: ''
+         sedesOfClient: '',
+         puestosDisponibles: [],
+         sedesDisponibles: [],
+         puestosYSedes: [],
+         selectedPuesto: null,
+         errorMessage: ""
       };
    },
 
@@ -356,6 +372,22 @@ export default {
          console.error("Error al cargar los elementos:", error);
       }
    },
+   computed: {
+      renderPuestosYSedes() {
+         const result = [];
+         this.puestosYSedes.forEach(puestoData => {
+            puestoData.sedes.forEach(sede => {
+               result.push({
+                  puestoId: puestoData.puesto.id,
+                  puestoNombre: puestoData.puesto.nombre,
+                  sedeId: sede.id,
+                  sedeNombre: sede.nombre
+               });
+            });
+         });
+         return result;
+      }
+   },
 
    methods: {
       async getTipoDocumentos(){
@@ -364,6 +396,55 @@ export default {
          }).catch((errors) => {
             console.log(errors.response.data.errors)
          });
+      },
+
+      agregarPuestoYSedes() {
+         this.errorMessage = "";
+         const puestoFull = this.puestos.find(puesto => puesto.id === this.selectedPuesto);
+         if (puestoFull) {
+            const sedeFull = this.sedes.find(sede => sede.id === this.sedeSelected);
+            const existingPuesto = this.puestosYSedes.find(item => item.puesto.id === puestoFull.id);
+            if (existingPuesto) {
+               if (!existingPuesto.sedes.some(s => s.id === sedeFull.id)) {
+                  existingPuesto.sedes.push(sedeFull);
+               }
+            } else {
+               this.puestosYSedes.push({
+                  puesto: puestoFull,
+                  sedes: [sedeFull]
+               });
+            }
+         }
+         this.selectedPuesto = null;
+         this.sedeSelected = null;
+      },
+
+      actualizarSedesDisponibles() {
+         this.sedes = this.sedes.filter(sede => {
+            return !this.puestosYSedes.some(puesto => 
+               puesto.sedes.some(s => s.id === sede.id)
+            );
+         });
+
+         this.puestosYSedes = this.puestosYSedes.filter(puesto => {
+            if (puesto.sedes.length === 1) {
+                  return puesto.sedes.some(sede => !this.sedes.find(s => s.id === sede.id));
+            }
+            return true;
+         });
+      },
+
+      eliminarPuestoYSedes(puestoId, sedeId) {
+         const puestoIndex = this.puestosYSedes.findIndex(puestosYSede => puestosYSede.puesto.id === puestoId);
+         if (puestoIndex !== -1) {
+            const sedeIndex = this.puestosYSedes[puestoIndex].sedes.findIndex(sede => sede.id === sedeId);
+            if (sedeIndex !== -1) {
+               this.puestosYSedes[puestoIndex].sedes.splice(sedeIndex, 1);
+               if (this.puestosYSedes[puestoIndex].sedes.length === 0) {
+                  this.puestosYSedes.splice(puestoIndex, 1);
+               }
+            }
+         }
       },
 
       registrarUser(){
@@ -377,7 +458,9 @@ export default {
             const response = await axios.post('/api/editUser', this.formData);
             if (response.status === 200) {
                const user_id = response.data.user_id;
-               const sedes = this.sedesSelected.map(option => option.id);
+               const sedes = this.puestosYSedes.flatMap(puesto => 
+                  puesto.sedes.map(sede => sede.id )
+               );
                const data = { user_id, sedes };
                await axios.post('/api/updateUserSedes', data);
             }
@@ -402,31 +485,40 @@ export default {
          if(this.$v.$invalid){
             this.spiner = false;
             return false;
-         }   
+         }
+         if (this.puestosYSedes.length < 1) {
+            this.errorMessage = 'Debe agregar al menos un puesto y una sede';
+            this.spiner = false;
+            return;
+         }
          this.register();          
       },
 
       async getClients(){
          await axios.get('/api/getClients').then((response) => {
          this.puestos = response.data.filter((item) => item.estado === 'ACTIVO');
-         this.puestos.forEach((item) => {
-            item.nombre = item.nombre.toUpperCase();
+         this.puestos.forEach((puesto) => {
+            puesto.text = puesto.nombre.toUpperCase();
          });            
          }).catch((errors) => {
             console.log(errors.response.data.errors)
          });
       },
-      async getSedesByPuestosIds(data) {
-         try {
-            const ids = { 'client_ids': data };
-            const response = await axios.get('/api/getSedesByClients', { params: ids });
-
-            this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
-            this.sedes.forEach((item) => {
-               item.nombre = item.nombre.toUpperCase();
-            });
-         } catch (errors) {
-               console.log(errors.response?.data?.errors || "Ocurrió un error desconocido");
+      async getSedesByPuesto2() {
+         if (this.selectedPuesto) {
+            try {
+               this.sedeSelected = null;
+               this.sedes = [];
+               const id = {'client_id': this.selectedPuesto};
+               const response = await axios.get('/api/getSedesByClient', { params: id });
+               this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
+               this.sedes.forEach((sede) => {
+                  sede.text = sede.nombre.toUpperCase();
+               });
+               this.actualizarSedesDisponibles();
+            } catch (errors) {
+                  console.log(errors.response?.data?.errors || "Ocurrió un error desconocido");
+            }
          }
       },
       async getSedesAndClientesByUser(params) {
@@ -437,30 +529,23 @@ export default {
             console.log(errors.response.data.errors);
          }
       },
-      onPuestosChange() {
-         if (this.puestosSelected.length > 0) {
-            const puestosIds = this.puestosSelected.map((puesto) => puesto.id);
-            this.getSedesByPuestosIds(puestosIds);
-         } else {
-            this.sedes = [];
-         }
-      },
+      
       processSedesAndClients(data) {
-         const uniqueClients = [];
-         const clientsSet = new Set();
          data.forEach(item => {
-            if (!clientsSet.has(item.cliente.id)) {
-               clientsSet.add(item.cliente.id);
-               uniqueClients.push(item.cliente);
+            const existingPuesto = this.puestosYSedes.find(puesto => puesto.puesto.id === item.cliente.id);
+            if (existingPuesto) {
+                  if (!existingPuesto.sedes.some(sede => sede.id === item.sede_id)) {
+                     existingPuesto.sedes.push({id: item.sede_id, nombre: item.sede_nombre});
+                  }
+            } else {
+                  this.puestosYSedes.push({
+                     puesto: item.cliente,
+                     sedes: [{id: item.sede_id, nombre: item.sede_nombre}]
+                  });
             }
          });
-         this.puestosSelected = uniqueClients;
-         this.onPuestosChange();
-         this.sedesSelected = data.map(item => ({
-            id: item.sede_id,
-            nombre: item.sede_nombre
-         }));
-      },      
+      }
+      
    },
 
    validations: {
