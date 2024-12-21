@@ -98,7 +98,11 @@
                 </th>
                 <th
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                  Puesto
+                  Ubicación
+                </th>
+                <th
+                  class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
+                  Latitud/Longitud
                 </th>
                 <th
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
@@ -114,7 +118,7 @@
                 </th>
                 <th
                   class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                  video
+                  Video
                 </th>
                 <th v-if="rol == 'ADMINISTRADOR'"
                   class="px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
@@ -142,9 +146,12 @@
                 </td>
                 <td
                   class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
+                  {{ `${item.latitud || '-'}/${item.longitud || '-'} ` }}
+                </td>
+                <td
+                  class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
                   {{ item.anotaciones }}
                 </td>
-
                 <td
                   class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
                   <div class="w-32 lg:w-48 rounded overflow-hidden">

@@ -5056,8 +5056,8 @@ __webpack_require__.r(__webpack_exports__);
       });
 
       if (clienteSeleccionado) {
-        localStorage.setItem('permisosFormulario', JSON.stringify(clienteSeleccionado.permisos_formulario));
-        localStorage.setItem('permisosMenu', JSON.stringify(clienteSeleccionado.permisos_menu));
+        localStorage.setItem('permisosFormulario', clienteSeleccionado.permisos_formulario);
+        localStorage.setItem('permisosMenu', clienteSeleccionado.permisos_menu);
         localStorage.setItem('puesto', JSON.stringify({
           id: clienteSeleccionado.id,
           nombre: clienteSeleccionado.nombre
@@ -5365,16 +5365,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   _this2.$router.push('/login/config_page');
                 } else {
-                  localStorage.setItem('puesto', JSON.stringify({
-                    id: _this2.sedes[0].cliente.id,
-                    nombre: _this2.sedes[0].cliente.nombre
-                  }));
-                  localStorage.setItem('sede', JSON.stringify({
-                    id: _this2.sedes[0].sede_id,
-                    nombre: _this2.sedes[0].sede_nombre
-                  }));
-                  localStorage.setItem('permisosFormulario', JSON.stringify(_this2.sedes[0].cliente.permisos_formulario));
-                  localStorage.setItem('permisosMenu', JSON.stringify(_this2.sedes[0].cliente.permisos_menu));
+                  localStorage.setItem('puesto', JSON.stringify(_this2.sedes[0].cliente.id));
+                  localStorage.setItem('sede', _this2.sedes[0].sede_id);
+                  localStorage.setItem('permisosFormulario', _this2.sedes[0].cliente.permisos_formulario);
+                  localStorage.setItem('permisosMenu', _this2.sedes[0].cliente.permisos_menu);
 
                   _this2.$router.push('/dashboard');
                 }
@@ -13005,8 +12999,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
           if (client) {
             sede.client = client.nombre;
-          } else {
-            console.log("Puesto con ID ".concat(sede.cliente_id, " no encontrado."));
           }
         };
 
@@ -14103,8 +14095,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/NotificationDropdown.vue */ "./resources/js/pages/admin/dashboard/components/NotificationDropdown.vue");
-/* harmony import */ var _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/UserDropdown.vue */ "./resources/js/pages/admin/dashboard/components/UserDropdown.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/NotificationDropdown.vue */ "./resources/js/pages/admin/dashboard/components/NotificationDropdown.vue");
+/* harmony import */ var _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/UserDropdown.vue */ "./resources/js/pages/admin/dashboard/components/UserDropdown.vue");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../constants */ "./resources/js/constants.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -14241,122 +14242,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -14365,15 +14251,79 @@ __webpack_require__.r(__webpack_exports__);
       url_logo: '',
       collapseShow: "hidden",
       token: localStorage.getItem('token'),
-      rol: localStorage.getItem('rol')
+      rol: localStorage.getItem('rol'),
+      permisosMenu: JSON.parse(localStorage.getItem('permisosMenu') || '[]'),
+      opcionesMenu: []
     };
   },
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/api/getUrlLogo').then(function (response) {
-      _this.url_logo = response.data;
-    });
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var _this$permisosMenu;
+
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return axios.get('/api/getUrlLogo');
+
+            case 3:
+              response = _context.sent;
+              _this.url_logo = response.data;
+              _context.next = 10;
+              break;
+
+            case 7:
+              _context.prev = 7;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+
+            case 10:
+              if (((_this$permisosMenu = _this.permisosMenu) === null || _this$permisosMenu === void 0 ? void 0 : _this$permisosMenu.length) > 1) {
+                _this.permisosMenu.forEach(function (permiso) {
+                  var nombre = permiso.nombre.toLowerCase();
+
+                  if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.GUARDA_SEGURIDAD) {
+                    if (_constants__WEBPACK_IMPORTED_MODULE_3__.OPCIONES_MENU_GUARDA.includes(nombre)) {
+                      _this.opcionesMenu.push({
+                        label: permiso.nombre,
+                        route: '/' + nombre,
+                        icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
+                      });
+                    }
+                  } else if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRATIVO) {
+                    if (nombre === "reportes") {
+                      _this.opcionesMenu.push({
+                        label: permiso.nombre,
+                        route: '/' + nombre,
+                        icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
+                      });
+                    }
+                  } else if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRADOR) {
+                    _this.opcionesMenu.push({
+                      label: permiso.nombre,
+                      route: '/' + nombre,
+                      icon: _constants__WEBPACK_IMPORTED_MODULE_3__.ICONOS_MAP[nombre]
+                    });
+                  }
+                });
+              } else {
+                if (_this.rol === _constants__WEBPACK_IMPORTED_MODULE_3__.ROLES.ADMINISTRADOR && _this.permisosMenu[0].nombre === "all") {
+                  _this.opcionesMenu = _constants__WEBPACK_IMPORTED_MODULE_3__.OPCIONES_MENU_ADMIN;
+                }
+              }
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 7]]);
+    }))();
   },
   methods: {
     toggleCollapseShow: function toggleCollapseShow(classes) {
@@ -14386,23 +14336,50 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this2 = this;
 
-      window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(this.token);
-      axios.post('api/logout').then(function (response) {
-        var itemsToRemove = ['token', 'rol', 'user', 'puesto', 'sede', 'permisosMenu', 'permisosFormulario', 'puestos'];
-        itemsToRemove.forEach(function (item) {
-          return localStorage.removeItem(item);
-        });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var itemsToRemove;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(_this2.token);
+                _context2.next = 4;
+                return axios.post('api/logout');
 
-        _this2.$router.push('/');
-      })["catch"](function (errors) {
-        console.log(errors);
-      });
-      window.axios.defaults.headers.common['Authorization'] = null;
+              case 4:
+                itemsToRemove = ['token', 'rol', 'user', 'puesto', 'sede', 'permisosMenu', 'permisosFormulario', 'puestos'];
+                itemsToRemove.forEach(function (item) {
+                  return localStorage.removeItem(item);
+                });
+
+                _this2.$router.push('/');
+
+                _context2.next = 12;
+                break;
+
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
+
+              case 12:
+                _context2.prev = 12;
+                window.axios.defaults.headers.common['Authorization'] = null;
+                return _context2.finish(12);
+
+              case 15:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 9, 12, 15]]);
+      }))();
     }
   },
   components: {
-    NotificationDropdown: _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_0__.default,
-    UserDropdown: _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_1__.default
+    NotificationDropdown: _components_NotificationDropdown_vue__WEBPACK_IMPORTED_MODULE_1__.default,
+    UserDropdown: _components_UserDropdown_vue__WEBPACK_IMPORTED_MODULE_2__.default
   }
 });
 
@@ -16285,6 +16262,62 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/constants.js":
+/*!***********************************!*\
+  !*** ./resources/js/constants.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ROLES": () => (/* binding */ ROLES),
+/* harmony export */   "OPCIONES_MENU_GUARDA": () => (/* binding */ OPCIONES_MENU_GUARDA),
+/* harmony export */   "ICONOS_MAP": () => (/* binding */ ICONOS_MAP),
+/* harmony export */   "OPCIONES_MENU_ADMIN": () => (/* binding */ OPCIONES_MENU_ADMIN)
+/* harmony export */ });
+var ROLES = {
+  GUARDA_SEGURIDAD: "GUARDA DE SEGURIDAD",
+  ADMINISTRATIVO: "ADMINISTRATIVO",
+  ADMINISTRADOR: "ADMINISTRADOR"
+};
+var OPCIONES_MENU_GUARDA = ["minuta", "vehiculos", "visitantes"];
+var ICONOS_MAP = {
+  minuta: "fa-file-signature",
+  vehiculos: "fa-car",
+  visitantes: "fa-users",
+  reportes: "fa-chart-bar",
+  configuraciones: "fa-cogs",
+  usuarios: "fa-users-cog"
+};
+var OPCIONES_MENU_ADMIN = [{
+  label: "Minuta",
+  route: "/minuta",
+  icon: "fa-file-signature"
+}, {
+  label: "Vehiculos",
+  route: "/vehiculos",
+  icon: "fa-car"
+}, {
+  label: "Visitantes",
+  route: "/visitantes",
+  icon: "fa-users"
+}, {
+  label: "Reportes",
+  route: "/reportes",
+  icon: "fa-chart-bar"
+}, {
+  label: "Configuraciones",
+  route: "/configuraciones",
+  icon: "fa-cogs"
+}, {
+  label: "Usuarios",
+  route: "/usuarios",
+  icon: "fa-users-cog"
+}];
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -16464,7 +16497,7 @@ var routes = [{
     }
   }, {
     path: "/configuraciones",
-    name: "Settings",
+    name: "Configuraciones",
     meta: {
       requiresAuth: true
     },
@@ -85448,381 +85481,68 @@ var render = function() {
                   staticClass:
                     "md:flex-col md:min-w-full flex flex-col list-none"
                 },
-                [
-                  _vm.rol !== "ADMINISTRATIVO"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Minuta" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/minuta")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-file-signature mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Minuta\n            "
-                                          )
+                _vm._l(_vm.opcionesMenu, function(opcion, index) {
+                  return _c(
+                    "li",
+                    { key: index, staticClass: "items-center" },
+                    [
+                      _c("router-link", {
+                        attrs: { to: { name: opcion.label } },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "default",
+                              fn: function(ref) {
+                                var href = ref.href
+                                var isActive = ref.isActive
+                                return [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass:
+                                        "text-xs uppercase py-3 font-bold block",
+                                      class: [
+                                        isActive
+                                          ? "text-blue-400 hover:text-white"
+                                          : "text-white hover:text-gray-300"
+                                      ],
+                                      attrs: { href: href },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.navegar(opcion.route)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        class: [
+                                          "fas " +
+                                            opcion.icon +
+                                            " mr-2 text-sm",
+                                          isActive ? "opacity-75" : "text-white"
                                         ]
+                                      }),
+                                      _vm._v(
+                                        "               \n              " +
+                                          _vm._s(opcion.label) +
+                                          "\n            "
                                       )
                                     ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              914033544
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol !== "ADMINISTRATIVO"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Vehiculos" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/vehiculos")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-car mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Vehiculos\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              3893453367
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol !== "ADMINISTRATIVO"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Visitantes" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/visitantes")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-users mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Visitantes\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              3434052869
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol === "ADMINISTRADOR" || _vm.rol === "ADMINISTRATIVO"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Reportes" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/reportes")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-chart-bar mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Reportes\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              1837220279
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol === "ADMINISTRADOR"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Settings" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar(
-                                                "/configuraciones"
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-cogs mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Configuraciones\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              292215103
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.rol === "ADMINISTRADOR"
-                    ? _c(
-                        "li",
-                        { staticClass: "items-center" },
-                        [
-                          _c("router-link", {
-                            attrs: { to: { name: "Usuarios" } },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var href = ref.href
-                                    var isActive = ref.isActive
-                                    return [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "text-xs uppercase py-3 font-bold block",
-                                          class: [
-                                            isActive
-                                              ? "text-blue-400 hover:text-white"
-                                              : "text-white hover:text-gray-300"
-                                          ],
-                                          attrs: { href: href },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.navegar("/usuarios")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass:
-                                              "fas fa-users-cog mr-2 text-sm",
-                                            class: [
-                                              isActive
-                                                ? "opacity-75"
-                                                : "text-white"
-                                            ]
-                                          }),
-                                          _vm._v(
-                                            "\n              Usuarios\n            "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              392326531
-                            )
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e()
-                ]
+                                  )
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          true
+                        )
+                      })
+                    ],
+                    1
+                  )
+                }),
+                0
               ),
               _vm._v(" "),
               _c("hr", { staticClass: "my-4 md:min-w-full" }),

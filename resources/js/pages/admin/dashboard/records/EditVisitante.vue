@@ -281,6 +281,7 @@ export default {
             imagen: '',
             audio: '',
             video: '',
+            sede_id: '',
          },
          imgMinuta: '',
          spiner: false,
@@ -296,12 +297,15 @@ export default {
          audioPreview: null,
          video: '',
          videoPreview: null,
+         sede: {},
       };
    },
 
    mounted() {
       const user = JSON.parse(localStorage.getItem('user'));
+      this.sede = JSON.parse(localStorage.getItem('sede'));
       this.formData.user_id = user.id;
+      this.formData.sede_id = this.sede.id;
       const rol = localStorage.getItem('rol');
       if (rol !== 'ADMINISTRADOR') {
          this.$router.push('/dashboard');
@@ -339,7 +343,7 @@ export default {
             this.epss = response.data;
             this.epss.forEach(item => item.text = item.nombre.toUpperCase());
          }).catch((errors) => {
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
       async getArls() {
@@ -347,7 +351,7 @@ export default {
             this.arls = response.data;
             this.arls.forEach(item => item.text = item.nombre.toUpperCase());
          }).catch((errors) => {
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
       async getTipoDocumentos() {
@@ -355,7 +359,7 @@ export default {
             this.tipoDocumentos = response.data;
             this.tipoDocumentos.forEach(item => item.text = item.documento.toUpperCase());
          }).catch((errors) => {
-            console.log(errors.response.data.errors)
+            console.log(errors.response.data.errors);
          });
       },
 
@@ -398,16 +402,19 @@ export default {
          datos.append('audioOrigin', this.audio);
          datos.append('video', this.formData.video);
          datos.append('videoOrigin', this.video);
-         await axios.post('/api/updateRecordVisitante', datos).then((response) => {
+         datos.append('sede_id', this.formData.sede_id);
+         try {
+            await axios.post('/api/updateRecordVisitante', datos)
             this.spiner = false
             this.submited = false
-            this.$toaster.success('Registro actualizado con exito.');
-         }).catch((errors) => {
+            this.$toaster.success('Registro actualizado con éxito.');
+         } catch (errors) {
             this.spiner = false
             this.submited = false
-            this.$toaster.error('Algo salio mal.');
-            console.log(errors.response.data.errors)
-         });
+            this.$toaster.error('Algo salió mal.');
+            console.log(errors.response.data.errors);
+
+         }
       },
 
       limpiar() {
@@ -466,14 +473,14 @@ export default {
          reader.readAsDataURL(file);
       },
 
-      validarDatos() {
+      async validarDatos() {
          this.submited = true;
          this.$v.$touch();
          if (this.$v.$invalid) {
             this.spiner = false;
             return false;
          }
-         this.actualizar();
+         await this.actualizar();
       },
    },
 
