@@ -102,8 +102,12 @@ class ReportesController extends Controller
         $fecha_inicial = $_GET["fecha_inicial"]." 00:00:00";
         $fecha_final = $_GET["fecha_final"]." 23:59:59";
         $user_id = $_GET["user_id"];
-
         $records = [];
+        $imagenHeader = '';
+        $imagenFooter = '';
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+
         if ($user_id === "TODOS"){
             $records = Record_minuta::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
                                     ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
@@ -123,8 +127,17 @@ class ReportesController extends Controller
             $record->ubicacion;
         }
         //var_dump($obj);
+        
+        $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
 
-        $pdf = PDF::loadView('pdfs.minuta', compact('records'))->setPaper('a4', 'landscape');
+        $dataReport = [
+            'img_header' => $imagenHeader,
+            'img_footer' => $imagenFooter,
+            'records' => $records,
+        ];
+
+        $pdf = PDF::loadView('pdfs.minuta', $dataReport)->setPaper('a4', 'landscape');
         return $pdf->download('ReporteMinutas.pdf');
     }
 
@@ -195,7 +208,7 @@ class ReportesController extends Controller
     public function getImagenesReporte() {
         $imagenHeader = '';
         $imagenFooter = '';
-        $extensionesImagenes = config('constantes.extensiones_imagenes');        
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
         $fileService = new FileService();
         $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
         $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
