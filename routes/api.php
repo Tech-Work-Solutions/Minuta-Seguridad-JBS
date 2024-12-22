@@ -104,6 +104,7 @@ Route::get('getClients', [ClientsController::class, 'getClients']);
 
 Route::post('registerSede', [SedesController::class, 'registerSede']);
 Route::get('getSedes', [SedesController::class, 'getSedes']);
+Route::get('getSedesByClient', [SedesController::class, 'getSedesByClient']);
 
 Route::post('registerOpcionMenu', [OpcionesMenuController::class, 'registerOpcionMenu']);
 Route::get('getOpcionesMenu', [OpcionesMenuController::class, 'getOpcionesMenu']);
@@ -117,5 +118,8 @@ Route::get('getUrlLogo', function () {
 });
 
 Route::get('getSedesAndClientesByUser', [UsersSedeController::class, 'getSedesAndClientesByUser']);
+Route::post('registerUserSedes', [UsersSedeController::class,'registerUserSedes']);
+Route::post('updateUserSedes', [UsersSedeController::class, 'updateUserSedes']);
+Route::post('deleteAllUserSedes', [UsersSedeController::class, 'deleteAllUserSedes']);
 
 /** Route::post('sendEmailUsuario', [AuthController::class, 'sendEmailUsuario']); */

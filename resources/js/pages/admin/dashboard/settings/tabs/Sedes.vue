@@ -242,7 +242,8 @@
   
       getSedes(){
         axios.get('/api/getSedes').then((response) => {
-          this.sedes = response.data          
+          this.sedes = response.data.filter((item) => item.estado === 'ACTIVO');
+        
         }).catch((errors) => {
             console.log(errors.response.data.errors)
         });
