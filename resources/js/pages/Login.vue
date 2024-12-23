@@ -177,14 +177,14 @@ export default {
                         }
                         return acc;
                      }, []);
-
+ 
                      localStorage.setItem('puestos', JSON.stringify(clientes));
                      this.$router.push('/login/config_page');
                   } else {
-                     localStorage.setItem('puesto', JSON.stringify(this.sedes[0].cliente.id));
-                     localStorage.setItem('sede', this.sedes[0].sede_id);
-                     localStorage.setItem('permisosFormulario', JSON.stringify(this.sedes[0].cliente.permisos_formulario));
-                     localStorage.setItem('permisosMenu', JSON.stringify(this.sedes[0].cliente.permisos_menu));
+                     localStorage.setItem('puesto', JSON.stringify({ id: this.sedes[0].cliente.id, nombre: this.sedes[0].cliente.nombre }));
+                     localStorage.setItem('sede', JSON.stringify({ id: this.sedes[0].sede_id, nombre: this.sedes[0].sede_nombre }));
+                     localStorage.setItem('permisosFormulario', this.sedes[0].cliente.permisos_formulario);
+                     localStorage.setItem('permisosMenu', this.sedes[0].cliente.permisos_menu);
                      this.$router.push('/dashboard');
                   }
                   this.spiner = false;

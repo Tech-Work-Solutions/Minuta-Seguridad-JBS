@@ -139,7 +139,7 @@ const routes = [
             },
             {
               path: "/configuraciones",
-              name: "Settings",
+              name: "Configuraciones",
               meta: { requiresAuth :true },
               components: {
                 default: Dashboard,

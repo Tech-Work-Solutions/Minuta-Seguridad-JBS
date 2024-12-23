@@ -305,7 +305,7 @@
   
       getClients(){
         axios.get('/api/getClients').then((response) => {
-          this.clients = response.data          
+          this.clients = response.data.filter((item) => item.estado === 'ACTIVO');
         }).catch((errors) => {
             console.log(errors.response.data.errors)
         });

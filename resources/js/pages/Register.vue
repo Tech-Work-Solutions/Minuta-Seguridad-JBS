@@ -135,7 +135,6 @@ export default {
     methods: {
        register(){
           axios.post('api/register', this.formData).then( (response) => {
-             console.log(response.data)
              this.formData.name = this.formData.email = this.formData.password = ''
              this.errors = {}
              this.$router.push('/login')

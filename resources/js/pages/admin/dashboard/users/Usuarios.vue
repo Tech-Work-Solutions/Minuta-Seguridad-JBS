@@ -138,17 +138,19 @@ export default {
    },
 
    methods: {
-       getUsers(){
-          axios.get('/api/getUsers').then((response) => {
-             this.users = response.data
-          }).catch((errors) => {
-             console.log(errors.response.data.errors)
-          })
+       async getUsers(){
+         try {
+            const responseUsers = await axios.get('/api/getUsers');
+            this.users = responseUsers.data;
+         } catch (errors) {
+            console.log(errors.response.data.errors)
+         }
        },
        openModal(user){
          this.datos = {
             id: user.id,
             url: '/api/deleteUser',
+            urlRemoveUserSedes: '/api/deleteAllUserSedes',
             title: 'Eliminar Usuario',
             message: '¿Está seguro de eliminar al usuario '+user.name+'?'
          }
