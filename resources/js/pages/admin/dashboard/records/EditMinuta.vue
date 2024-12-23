@@ -196,7 +196,7 @@ export default {
       hasPermission(permissionName) {
          const allPermission = this.permisosFormulario.some(permiso => permiso.nombre === "all");
          if (allPermission) {
-         return true;
+            return true;
          }
          return this.permisosFormulario.some(permiso => permiso.nombre === permissionName);
       },
