@@ -307,7 +307,9 @@ export default {
         { id: 'CONDUCTOR', text: 'CONDUCTOR' },
         { id: 'PROCEDENCIA', text: 'PROCEDENCIA' },
         { id: 'VOLQUETA', text: 'TIPO VEHICULO' }
-      ]
+      ],
+      sede: JSON.parse(localStorage.getItem('sede')) || {},
+      puesto: JSON.parse(localStorage.getItem('puesto')) || {},
     }
   },
 
@@ -389,7 +391,7 @@ export default {
     },
 
     makePDF() {
-      location.href = '/api/pdf_recordVehicle?value_id=' + this.formData.value_id + '&tipo=' + this.formData.tipo + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final;
+      location.href = '/api/pdf_recordVehicle?value_id=' + this.formData.value_id + '&tipo=' + this.formData.tipo + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final + '&nombre_sede=' + this.sede.nombre + '&nombre_puesto=' + this.puesto.nombre;
     },
 
     validarDatos(action) {

@@ -88,7 +88,7 @@
             $foto = ($record->foto != "" || $record->foto != null ) ? $record->foto : "" ;
             $audio = ($record->audio != "" || $record->audio != null ) ? $record->audio : "" ;
             $video = ($record->video != "" || $record->video != null) ? $record->video : "";
-           ?>
+          ?>
           <tr>
             <td>{{ $record->created_at }}</td>
             <td>{{ strtoupper($record->usuario->name) }}</td>

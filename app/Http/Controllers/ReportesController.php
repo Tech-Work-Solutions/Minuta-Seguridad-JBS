@@ -150,6 +150,8 @@ class ReportesController extends Controller
         $fecha_final = $_GET["fecha_final"]." 23:59:59";
         $tipo = $_GET["tipo"];
         $value_id = $_GET["value_id"];
+        $nombre_sede = $_GET["nombre_sede"];
+        $nombre_puesto = $_GET["nombre_puesto"];
         $records = [];
         $imagenHeader = '';
         $imagenFooter = '';
@@ -186,9 +188,11 @@ class ReportesController extends Controller
         $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
 
         $dataReport = [
-            'img_header' => $imagenHeader,
-            'img_footer' => $imagenFooter,
-            'records' => $records,
+            'img_header'    => $imagenHeader,
+            'img_footer'    => $imagenFooter,
+            'records'       => $records,
+            'nombre_sede'   => $nombre_sede,
+            'nombre_puesto' => $nombre_puesto,
         ];
 
         $pdf = PDF::loadView('pdfs.vehiculos', $dataReport)->setPaper('a4', 'landscape');
@@ -199,6 +203,8 @@ class ReportesController extends Controller
         $fecha_inicial = $_GET["fecha_inicial"]." 00:00:00";
         $fecha_final = $_GET["fecha_final"]." 23:59:59";
         $user_id = $_GET["user_id"];
+        $nombre_sede = $_GET["nombre_sede"];
+        $nombre_puesto = $_GET["nombre_puesto"];
         $records = [];
         $imagenHeader = '';
         $imagenFooter = '';
@@ -233,6 +239,8 @@ class ReportesController extends Controller
             'img_header' => $imagenHeader,
             'img_footer' => $imagenFooter,
             'records' => $records,
+            'nombre_sede'   => $nombre_sede,
+            'nombre_puesto' => $nombre_puesto,
         ];
 
         $pdf = PDF::loadView('pdfs.visitantes', $dataReport)->setPaper('a4', 'landscape');

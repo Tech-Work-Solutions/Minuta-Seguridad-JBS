@@ -58,8 +58,15 @@
   <div class="main-content">
   @if (!empty($img_header))
     <div class="content-header header">
-      <img src="{{ asset($img_header) }}" alt="JBS">
-      <h3>Reporte de visitantes</h3>
+      @if (!empty($img_header))
+        <img src="{{ asset($img_header) }}" alt="JBS">
+      @endif
+      <?php
+        $nombre_sede = ($nombre_sede != "" || $nombre_sede != null ) ? $nombre_sede : "" ;
+        $nombre_puesto = ($nombre_puesto != "" || $nombre_puesto != null ) ? $nombre_puesto : "" ;
+        $ubicacionReporte = ($nombre_sede && $nombre_puesto) ? "del puesto: " . $nombre_puesto . " - " . "sede: " . $nombre_sede : "";
+      ?>
+      <h3>Reporte de visitantes {{$ubicacionReporte}}</h3>
       <hr>
     </div>
   @endif
@@ -77,12 +84,18 @@
             <th>Entrada o salida</th>
             <th>Destino</th>
             <th>Observaciones</th>
+            <th>Audio</th>
+            <th>Video</th>
             <th>Foto</th>
           </tr>
         </thead>
         <tbody>
 			    @foreach($records as $record)
-          <?php $foto = ($record->foto != "" || $record->foto != null ) ? $record->foto : "" ;  ?>
+          <?php 
+            $foto = ($record->foto != "" || $record->foto != null ) ? $record->foto : "" ;
+            $audio = ($record->audio != "" || $record->audio != null ) ? $record->audio : "" ;
+            $video = ($record->video != "" || $record->video != null) ? $record->video : "";
+          ?>
           <tr>
             <td>{{ $record->created_at }}</td>
             <td>{{ strtoupper($record->user->name) }}</td>
@@ -94,6 +107,16 @@
             <td>{{ $record->entrada_salida == 'E' ? 'ENTRADA' : 'SALIDA' }}</td>
             <td>{{ $record->destino }}</td>
             <td>{{ $record->observaciones }}</td>
+            <td>
+              @if ($audio)
+                <p><a href="{{ asset($audio) }}" target="_blank">Escuchar audio</a></p>
+              @endif
+            </td>
+            <td>
+              @if ($video)
+                <p><a href="{{ asset($video) }}" target="_blank">Ver video</a></p>
+              @endif
+            </td>
             <td width="185px">
               @if ($record->foto != "" || $record->foto != null)
               <div class="div-img">
