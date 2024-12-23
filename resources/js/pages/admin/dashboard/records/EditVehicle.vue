@@ -120,7 +120,7 @@
                <div class="flex flex-col w-full">
                   <div class="flex flex-col lg:flex-row lg:flex-wrap w-full justify-center">
 
-                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4" v-if="hasPermission('Adjuntar foto')">
                         <label
                            class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                            <em class="fas fa-cloud-upload-alt fa-3x"></em>
@@ -139,7 +139,7 @@
                         </div>
                      </div>
 
-                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4" v-if="hasPermission('Grabar audio')">
                         <label
                            class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                            <em class="fas fa-music fa-3x"></em>
@@ -160,7 +160,7 @@
                         </div>
                      </div>
 
-                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4">
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4" v-if="hasPermission('Grabar video')">
                         <label
                            class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                            <em class="fas fa-video fa-3x"></em>
@@ -232,6 +232,7 @@ export default {
          audioPreview: null,
          video: '',
          videoPreview: null,
+         permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario')|| '[]'),
       };
    },
 
@@ -259,6 +260,14 @@ export default {
    },
 
    methods: {
+      hasPermission(permissionName) {
+         const allPermission = this.permisosFormulario.some(permiso => permiso.nombre === "all");
+         if (allPermission) {
+         return true;
+         }
+         return this.permisosFormulario.some(permiso => permiso.nombre === permissionName);
+      },
+
       async getVehicles() {
          await axios.get('/api/getVehiculos').then((response) => {
             this.vehicles = response.data;
