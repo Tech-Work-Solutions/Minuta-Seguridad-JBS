@@ -24,16 +24,45 @@
       margin-top: -7px;
       color: #27196E;
     }
+    .div-img {
+      width: 100%;
+      text-align: center;
+    }
+    .header {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+      max-height: 80px;
+    }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .footer img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      max-height: 70px;
+    }
     
   </style>
 </head>
 <body>
   <div class="main-content">
-    <div class="content-header">
-      <img src="{{ asset('img/logo2.png') }}" alt="JBS" width="220px">
+  @if (!empty($img_header))
+    <div class="content-header header">
+      <img src="{{ asset($img_header) }}" alt="JBS">
       <h3>Reporte de visitantes</h3>
       <hr>
-    </div> 
+    </div>
+  @endif
     <div class="content-body">
       <table>
         <thead>
@@ -42,7 +71,7 @@
             <th>Guarda</th>
             <th>Tipo</th>
             <th>Visitante/empleado</th>
-            <th>Docuemento</th>
+            <th>Documento</th>
             <th>EPS</th>
             <th>ARL</th>
             <th>Entrada o salida</th>
@@ -77,6 +106,11 @@
         </tbody>
       </table>
     </div>
+  @if (!empty($img_footer))
+    <div class="footer">
+      <img src="{{ asset($img_footer) }}" alt="Footer Image">
+    </div>
+  @endif
   </div>
 </body>
 </html>

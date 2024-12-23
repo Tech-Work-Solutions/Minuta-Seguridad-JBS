@@ -147,6 +147,11 @@ class ReportesController extends Controller
         $tipo = $_GET["tipo"];
         $value_id = $_GET["value_id"];
         $records = [];
+        $imagenHeader = '';
+        $imagenFooter = '';
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+
         if($tipo === 'TODOS') {
             $records = Record_vehicle::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
                                     ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
@@ -172,7 +177,17 @@ class ReportesController extends Controller
             $record->volqueta->nombre;
             $record->user->name;
         }
-        $pdf = PDF::loadView('pdfs.vehiculos', compact('records'))->setPaper('a4', 'landscape');
+
+        $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
+
+        $dataReport = [
+            'img_header' => $imagenHeader,
+            'img_footer' => $imagenFooter,
+            'records' => $records,
+        ];
+
+        $pdf = PDF::loadView('pdfs.vehiculos', $dataReport)->setPaper('a4', 'landscape');
         return $pdf->download('ReporteVehiculos.pdf');
     }
 
@@ -181,6 +196,11 @@ class ReportesController extends Controller
         $fecha_final = $_GET["fecha_final"]." 23:59:59";
         $user_id = $_GET["user_id"];
         $records = [];
+        $imagenHeader = '';
+        $imagenFooter = '';
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+
         if ($user_id === "TODOS"){
             $records = Record_person::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
                                     ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
@@ -201,7 +221,17 @@ class ReportesController extends Controller
             $record->person->eps;
             $record->person->tipo_documento;
         }
-        $pdf = PDF::loadView('pdfs.visitantes', compact('records'))->setPaper('a4', 'landscape');
+
+        $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
+
+        $dataReport = [
+            'img_header' => $imagenHeader,
+            'img_footer' => $imagenFooter,
+            'records' => $records,
+        ];
+
+        $pdf = PDF::loadView('pdfs.visitantes', $dataReport)->setPaper('a4', 'landscape');
         return $pdf->download('ReporteVisitantes.pdf');
     }
 
