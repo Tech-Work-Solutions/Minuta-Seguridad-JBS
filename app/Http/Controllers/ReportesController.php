@@ -130,7 +130,7 @@ class ReportesController extends Controller
         }
         //var_dump($obj);
         
-        $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
         $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
 
         $dataReport = [
@@ -184,7 +184,7 @@ class ReportesController extends Controller
             $record->user->name;
         }
 
-        $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
         $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
 
         $dataReport = [
@@ -232,7 +232,7 @@ class ReportesController extends Controller
             $record->person->tipo_documento;
         }
 
-        $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
         $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
 
         $dataReport = [
@@ -252,7 +252,7 @@ class ReportesController extends Controller
         $imagenFooter = '';
         $extensionesImagenes = config('constantes.extensiones_imagenes');
         $fileService = new FileService();
-        $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
         $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
 
         return response()->json(
@@ -268,13 +268,13 @@ class ReportesController extends Controller
         $fileService = new FileService();
 
         if ($request->file('img_header') ) {
-            $imagenHeader = $fileService->getArchivo('img/logo2', $extensionesImagenes);
+            $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
             
             if ($imagenHeader) {
                 $fileService->eliminarArchivo($imagenHeader);
             }
     
-            $fileService->guardarArchivo($request->file('img_header'), "/img/", 'logo2');
+            $fileService->guardarArchivo($request->file('img_header'), "/img/", 'img_header');
         }
 
         if ($request->file('img_footer') ) {

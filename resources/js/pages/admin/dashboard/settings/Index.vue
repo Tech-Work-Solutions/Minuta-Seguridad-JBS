@@ -88,7 +88,7 @@
                   <a class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
                      v-on:click="toggleTabs(12)"
                      v-bind:class="{ 'text-gray-600 bg-white': openTab !== 12, 'text-white bg-blue-500': openTab === 12 }">
-                     <em class="fas fa-image"></em> Imagen reporte
+                     <em class="fas fa-image"></em> Reportes
                   </a>
                </li>
             </ul>

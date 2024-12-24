@@ -99,7 +99,7 @@ export default {
                 this.submited = false;
                 this.formData.img_header = '';
                 this.formData.img_footer = '';
-                this.$toaster.success('Tarea completada con éxito.');
+                this.$toaster.success('Registro creado con éxito.');
             } catch (errors) {
                 this.spinner = false;
                 this.submited = false;
@@ -132,23 +132,7 @@ export default {
             }
             reader.readAsDataURL(file);
         },
-
-        async validarDatos() {
-            this.submited = true;
-            this.$v.$touch();
-            if (this.$v.$invalid) {
-                this.spinner = false;
-                return false;
-            }
-            await this.registrar();
-        },
     },
-
-    validations: {
-        formData: {
-        }
-    },
-
     computed: {
         imagenMinutaHeader() {
             return this.imgMinutaHeader;

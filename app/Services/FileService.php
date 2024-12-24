@@ -11,13 +11,9 @@ class FileService
         }
 
         if (!$nombre) {
-            // obtenemos el nombre del archivo
             $nombre = $file->getClientOriginalName();
-            // Crear un nombre único para evitar conflictos
             $f = date("dmyHis");
-    
             $fileName = $f.$nombre;
-            //indicamos que queremos guardar un nuevo archivo en el disco local
             $file->move(public_path($carpeta), $fileName);
             return $carpeta.$f.$nombre;
         }
