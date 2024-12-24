@@ -6123,6 +6123,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6587,6 +6588,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 
 
 
@@ -7201,6 +7203,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 
 
 
@@ -8483,6 +8486,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -9258,6 +9262,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 
 
 
@@ -11304,6 +11309,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     toggleTabs: function toggleTabs(tabNumber) {
       this.openTab = tabNumber;
+
+      if (tabNumber === 11) {
+        this.$emit('tab-activated', 'sedes');
+      }
     }
   },
   components: {
@@ -12863,7 +12872,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getSedes();
     this.getClients();
   },
+  created: function created() {
+    this.$parent.$on('tab-activated', this.handleTabActivated);
+  },
   methods: {
+    handleTabActivated: function handleTabActivated(tabName) {
+      if (tabName === 'sedes') {
+        this.getClients();
+      }
+    },
     registrarSede: function registrarSede() {
       this.spiner = true;
 
@@ -12970,6 +12987,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return d.id === _this4.formData.cliente_id;
       });
     }
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$parent.$off('tab-activated', this.handleTabActivated);
   },
   validations: {
     formData: {

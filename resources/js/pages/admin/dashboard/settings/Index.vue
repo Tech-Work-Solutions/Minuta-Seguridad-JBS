@@ -182,6 +182,9 @@ export default {
    methods: {
       toggleTabs: function(tabNumber){
          this.openTab = tabNumber
+         if (tabNumber === 11) {
+            this.$emit('tab-activated', 'sedes');
+         }
       }
    },
 

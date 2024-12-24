@@ -199,8 +199,17 @@
       this.getSedes(); 
       this.getClients();
     },
+
+    created() {
+      this.$parent.$on('tab-activated', this.handleTabActivated);
+    },
   
     methods: {
+      handleTabActivated(tabName) {
+        if (tabName === 'sedes') {
+          this.getClients();
+        }
+      },
       registrarSede(){
           this.spiner = true;
           if(this.formData.estado === true){
@@ -263,6 +272,10 @@
       onChange() {
          const client = this.clients.find((d) => d.id === this.formData.cliente_id);
       },
+    },
+
+    beforeDestroy() {
+      this.$parent.$off('tab-activated', this.handleTabActivated);
     },
   
     validations: {
