@@ -5982,7 +5982,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -6156,7 +6157,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       audioPreview: null,
       video: '',
       videoPreview: null,
-      sede: {}
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
@@ -6208,6 +6210,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_2__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getSubjects: function getSubjects() {
       var _this2 = this;
 
@@ -6413,13 +6418,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       subject_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       },
       ubicacion_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       },
       anotaciones: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       }
     }
   },
@@ -6456,9 +6461,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -6697,7 +6703,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       audio: '',
       audioPreview: null,
       video: '',
-      videoPreview: null
+      videoPreview: null,
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
@@ -6727,6 +6734,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_2__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getVehicles: function getVehicles() {
       var _this2 = this;
 
@@ -6904,7 +6914,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     fecha: function fecha(d) {
-      return moment__WEBPACK_IMPORTED_MODULE_2___default()(d).format('DD-MM-YYYY HH:mm:ss');
+      return moment__WEBPACK_IMPORTED_MODULE_3___default()(d).format('DD-MM-YYYY HH:mm:ss');
     },
     obtenerImagen: function obtenerImagen(e) {
       var file = e.target.files[0];
@@ -6990,19 +7000,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       vehicle_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       driver_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       volqueta_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       origin_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -7039,9 +7049,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -7352,7 +7363,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       audioPreview: null,
       video: '',
       videoPreview: null,
-      sede: {}
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
@@ -7374,6 +7386,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getRecord();
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getRecord: function getRecord() {
       var _this = this;
 
@@ -7668,29 +7683,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       numero_documento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       tipo_documento_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       tipo: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       nombres: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       apellidos: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       eps_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       arl_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -7727,9 +7742,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -7960,6 +7976,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -7974,7 +8000,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         user_id: '',
         audio: '',
         video: '',
-        sede_id: ''
+        sede_id: '',
+        latitud: '',
+        longitud: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -7986,7 +8014,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       show: false,
       audioPreview: null,
       videoPreview: null,
-      sede: {}
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
@@ -8027,6 +8056,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getSubjects: function getSubjects() {
       var _this2 = this;
 
@@ -8198,13 +8230,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
-        var datos;
+        var datos, _yield$getGeolocation, _yield$getGeolocation2, latitud, _yield$getGeolocation3, longitud;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
                 _this7.spiner = true;
                 datos = new FormData();
+                _context7.prev = 2;
+                _context7.next = 5;
+                return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.getGeolocation)();
+
+              case 5:
+                _yield$getGeolocation = _context7.sent;
+                _yield$getGeolocation2 = _yield$getGeolocation.latitud;
+                latitud = _yield$getGeolocation2 === void 0 ? null : _yield$getGeolocation2;
+                _yield$getGeolocation3 = _yield$getGeolocation.longitud;
+                longitud = _yield$getGeolocation3 === void 0 ? null : _yield$getGeolocation3;
+                datos.append('latitud', latitud);
+                datos.append('longitud', longitud);
+                _context7.next = 20;
+                break;
+
+              case 14:
+                _context7.prev = 14;
+                _context7.t0 = _context7["catch"](2);
+                _this7.spiner = false;
+                _this7.submited = false;
+
+                _this7.$toaster.error(_context7.t0);
+
+                return _context7.abrupt("return");
+
+              case 20:
                 datos.append('subject_id', _this7.formData.subject_id);
                 datos.append('ubicacion_id', _this7.formData.ubicacion_id);
                 datos.append('anotaciones', _this7.formData.anotaciones);
@@ -8213,7 +8272,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('audio', _this7.formData.audio);
                 datos.append('video', _this7.formData.video);
                 datos.append('sede_id', _this7.formData.sede_id);
-                _context7.next = 12;
+                _context7.next = 30;
                 return axios.post('/api/registerMinuta', datos).then(function (response) {
                   _this7.getRecordsMinutaByUser();
 
@@ -8227,6 +8286,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this7.formData.audio = '';
                   _this7.audioPreview = '';
                   _this7.formData.video = '';
+                  _this7.formData.latitud = '';
+                  _this7.formData.longitud = '';
                   _this7.videoPreview = '';
 
                   _this7.$toaster.success('Registro creado con éxito.');
@@ -8239,12 +8300,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(errors.response.data.errors);
                 });
 
-              case 12:
+              case 30:
               case "end":
                 return _context7.stop();
             }
           }
-        }, _callee7);
+        }, _callee7, null, [[2, 14]]);
       }))();
     },
     fecha: function fecha(d) {
@@ -8313,13 +8374,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       subject_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       ubicacion_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       anotaciones: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -8356,9 +8417,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -8693,7 +8755,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       show: false,
       audioPreview: null,
       videoPreview: null,
-      sede: {}
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
@@ -8715,6 +8778,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getRecordsVehiculosByUser();
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getVehicles: function getVehicles() {
       var _this = this;
 
@@ -9022,19 +9088,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       vehicle_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       driver_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       volqueta_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       origin_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -9071,9 +9137,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -9483,7 +9550,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       audioPreview: null,
       videoPreview: null,
-      sede: {}
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
@@ -9526,6 +9594,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getEps: function getEps() {
       var _this2 = this;
 
@@ -9831,29 +9902,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       numero_documento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       tipo_documento_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       tipo: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       nombres: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       apellidos: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       eps_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       arl_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -10008,6 +10079,14 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16906,6 +16985,76 @@ router.beforeEach(function (to, from, next) {
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+
+/***/ }),
+
+/***/ "./resources/js/utils/util.js":
+/*!************************************!*\
+  !*** ./resources/js/utils/util.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getGeolocation": () => (/* binding */ getGeolocation),
+/* harmony export */   "hasPermission": () => (/* binding */ hasPermission)
+/* harmony export */ });
+var getGeolocation = function getGeolocation() {
+  return new Promise(function (resolve, reject) {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var latitud = position.coords.latitude;
+        var longitud = position.coords.longitude;
+        resolve({
+          latitud: latitud,
+          longitud: longitud
+        });
+      }, function (error) {
+        var errorMessage = '';
+
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'El usuario denegó el acceso a la ubicación.';
+            break;
+
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'La información de ubicación no está disponible.';
+            break;
+
+          case error.TIMEOUT:
+            errorMessage = 'La solicitud para obtener la ubicación expiró.';
+            break;
+
+          default:
+            errorMessage = 'Ocurrió un error desconocido.';
+            break;
+        }
+
+        reject(new Error(errorMessage));
+      }, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      });
+    } else {
+      reject(new Error('La geolocalización no es soportada por este navegador.'));
+    }
+  });
+};
+var hasPermission = function hasPermission(permisosFormulario, permissionName) {
+  var allPermission = permisosFormulario.some(function (permiso) {
+    return permiso.nombre === "all";
+  });
+
+  if (allPermission) {
+    return true;
+  }
+
+  return permisosFormulario.some(function (permiso) {
+    return permiso.nombre === permissionName;
+  });
+};
 
 /***/ }),
 
@@ -73811,212 +73960,236 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.imagenMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("img", { attrs: { src: _vm.imagen } })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.imagenMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("img", {
+                                          attrs: { src: _vm.imagen }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      ),
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
+                              !_vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audio,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: { src: _vm.audio, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      ),
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
-                                },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                              !_vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.video,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: { src: _vm.video, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      )
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -74548,212 +74721,236 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.imagenMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("img", { attrs: { src: _vm.imagen } })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.imagenMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("img", {
+                                          attrs: { src: _vm.imagen }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      ),
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
+                              !_vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audio,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: { src: _vm.audio, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      ),
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
-                                },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                              !_vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.video,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: { src: _vm.video, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      )
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -75540,212 +75737,236 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.imagenMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("img", { attrs: { src: _vm.imagen } })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.imagenMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("img", {
+                                          attrs: { src: _vm.imagen }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      ),
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
+                              !_vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audio,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: { src: _vm.audio, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      ),
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
-                                },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                              !_vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.video,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: { src: _vm.video, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      )
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -76130,161 +76351,177 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                            },
-                            [
-                              _vm.audioPreview
-                                ? _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
                                 },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _vm.videoPreview
-                                ? _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.audioPreview
+                                    ? _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                            },
+                            [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.videoPreview
+                                    ? _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -76385,6 +76622,26 @@ var render = function() {
                               _vm._v(
                                 "\n                     " +
                                   _vm._s(item.ubicacion.nombre.toUpperCase()) +
+                                  "\n                  "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass:
+                                "text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2"
+                            },
+                            [
+                              _vm._v(
+                                "\n                     " +
+                                  _vm._s(
+                                    (item.latitud || "-") +
+                                      "/" +
+                                      (item.longitud || "-") +
+                                      " "
+                                  ) +
                                   "\n                  "
                               )
                             ]
@@ -76539,6 +76796,19 @@ var staticRenderFns = [
               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
           [_vm._v("\n                     Ubicación\n                  ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
+          },
+          [
+            _vm._v(
+              "\n                     Latitud/Longitud\n                  "
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -77083,161 +77353,177 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                            },
-                            [
-                              _vm.audioPreview
-                                ? _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
                                 },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _vm.videoPreview
-                                ? _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.audioPreview
+                                    ? _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                            },
+                            [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.videoPreview
+                                    ? _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -78326,161 +78612,177 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                            },
-                            [
-                              _vm.audioPreview
-                                ? _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
                                 },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _vm.videoPreview
-                                ? _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.audioPreview
+                                    ? _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                            },
+                            [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.videoPreview
+                                    ? _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -79498,6 +79800,19 @@ var render = function() {
                           },
                           [
                             _vm._v(
+                              "\n                Latitud/Longitud\n              "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          {
+                            staticClass:
+                              "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
+                          },
+                          [
+                            _vm._v(
                               "\n                Anotaciones\n              "
                             )
                           ]
@@ -79606,6 +79921,26 @@ var render = function() {
                               _vm._v(
                                 "\n                " +
                                   _vm._s(item.ubicacion.nombre.toUpperCase()) +
+                                  "\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass:
+                                "text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2"
+                            },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(
+                                    (item.latitud || "-") +
+                                      "/" +
+                                      (item.longitud || "-") +
+                                      " "
+                                  ) +
                                   "\n              "
                               )
                             ]

@@ -181,7 +181,6 @@ export default {
                      localStorage.setItem('puestos', JSON.stringify(clientes));
                      this.$router.push('/login/config_page');
                   } else {
-
                      localStorage.setItem('puesto', JSON.stringify({ id: this.sedes[0].cliente.id, nombre: this.sedes[0].cliente.nombre }));
                      localStorage.setItem('sede', JSON.stringify({ id: this.sedes[0].sede_id, nombre: this.sedes[0].sede_nombre }));
                      localStorage.setItem('permisosFormulario', this.sedes[0].cliente.permisos_formulario);
