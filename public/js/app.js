@@ -5982,7 +5982,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -6130,6 +6131,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6209,18 +6211,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    hasPermission: function hasPermission(permissionName) {
-      var allPermission = this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === "all";
-      });
-
-      if (allPermission) {
-        return true;
-      }
-
-      return this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === permissionName;
-      });
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_2__.hasPermission)(this.permisosFormulario, permissionName);
     },
     getSubjects: function getSubjects() {
       var _this2 = this;
@@ -6427,13 +6419,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       subject_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       },
       ubicacion_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       },
       anotaciones: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       }
     }
   },
@@ -6470,9 +6462,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -6681,6 +6674,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6742,18 +6736,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
-    hasPermission: function hasPermission(permissionName) {
-      var allPermission = this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === "all";
-      });
-
-      if (allPermission) {
-        return true;
-      }
-
-      return this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === permissionName;
-      });
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_2__.hasPermission)(this.permisosFormulario, permissionName);
     },
     getVehicles: function getVehicles() {
       var _this2 = this;
@@ -6932,7 +6916,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     fecha: function fecha(d) {
-      return moment__WEBPACK_IMPORTED_MODULE_2___default()(d).format('DD-MM-YYYY HH:mm:ss');
+      return moment__WEBPACK_IMPORTED_MODULE_3___default()(d).format('DD-MM-YYYY HH:mm:ss');
     },
     obtenerImagen: function obtenerImagen(e) {
       var file = e.target.files[0];
@@ -7018,19 +7002,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       vehicle_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       driver_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       volqueta_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       origin_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -7067,9 +7051,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -7339,6 +7324,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -7403,18 +7389,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getRecord();
   },
   methods: {
-    hasPermission: function hasPermission(permissionName) {
-      var allPermission = this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === "all";
-      });
-
-      if (allPermission) {
-        return true;
-      }
-
-      return this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === permissionName;
-      });
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
     },
     getRecord: function getRecord() {
       var _this = this;
@@ -7710,29 +7686,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       numero_documento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       tipo_documento_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       tipo: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       nombres: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       apellidos: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       eps_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       arl_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -8015,6 +7991,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8082,18 +8059,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    hasPermission: function hasPermission(permissionName) {
-      var allPermission = this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === "all";
-      });
-
-      if (allPermission) {
-        return true;
-      }
-
-      return this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === permissionName;
-      });
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
     },
     getSubjects: function getSubjects() {
       var _this2 = this;
@@ -8453,9 +8420,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -8761,6 +8729,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8813,18 +8782,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getRecordsVehiculosByUser();
   },
   methods: {
-    hasPermission: function hasPermission(permissionName) {
-      var allPermission = this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === "all";
-      });
-
-      if (allPermission) {
-        return true;
-      }
-
-      return this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === permissionName;
-      });
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
     },
     getVehicles: function getVehicles() {
       var _this = this;
@@ -9133,19 +9092,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       vehicle_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       driver_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       volqueta_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       origin_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -9182,9 +9141,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -9556,6 +9516,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -9638,18 +9599,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    hasPermission: function hasPermission(permissionName) {
-      var allPermission = this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === "all";
-      });
-
-      if (allPermission) {
-        return true;
-      }
-
-      return this.permisosFormulario.some(function (permiso) {
-        return permiso.nombre === permissionName;
-      });
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
     },
     getEps: function getEps() {
       var _this2 = this;
@@ -9956,29 +9907,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       numero_documento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       tipo_documento_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       tipo: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       nombres: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       apellidos: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       eps_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       arl_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -17051,7 +17002,8 @@ router.beforeEach(function (to, from, next) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getGeolocation": () => (/* binding */ getGeolocation)
+/* harmony export */   "getGeolocation": () => (/* binding */ getGeolocation),
+/* harmony export */   "hasPermission": () => (/* binding */ hasPermission)
 /* harmony export */ });
 var getGeolocation = function getGeolocation() {
   return new Promise(function (resolve, reject) {
@@ -17093,6 +17045,19 @@ var getGeolocation = function getGeolocation() {
     } else {
       reject(new Error('La geolocalización no es soportada por este navegador.'));
     }
+  });
+};
+var hasPermission = function hasPermission(permisosFormulario, permissionName) {
+  var allPermission = permisosFormulario.some(function (permiso) {
+    return permiso.nombre === "all";
+  });
+
+  if (allPermission) {
+    return true;
+  }
+
+  return permisosFormulario.some(function (permiso) {
+    return permiso.nombre === permissionName;
   });
 };
 
@@ -74000,7 +73965,7 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _vm.hasPermission("Adjuntar foto")
+                      _vm.verificarPermiso("Adjuntar foto")
                         ? _c(
                             "div",
                             {
@@ -74070,7 +74035,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar audio")
+                      _vm.verificarPermiso("Grabar audio")
                         ? _c(
                             "div",
                             {
@@ -74149,7 +74114,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar video")
+                      _vm.verificarPermiso("Grabar video")
                         ? _c(
                             "div",
                             {
@@ -74761,7 +74726,7 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _vm.hasPermission("Adjuntar foto")
+                      _vm.verificarPermiso("Adjuntar foto")
                         ? _c(
                             "div",
                             {
@@ -74831,7 +74796,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar audio")
+                      _vm.verificarPermiso("Grabar audio")
                         ? _c(
                             "div",
                             {
@@ -74910,7 +74875,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar video")
+                      _vm.verificarPermiso("Grabar video")
                         ? _c(
                             "div",
                             {
@@ -75777,7 +75742,7 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _vm.hasPermission("Adjuntar foto")
+                      _vm.verificarPermiso("Adjuntar foto")
                         ? _c(
                             "div",
                             {
@@ -75847,7 +75812,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar audio")
+                      _vm.verificarPermiso("Grabar audio")
                         ? _c(
                             "div",
                             {
@@ -75926,7 +75891,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar video")
+                      _vm.verificarPermiso("Grabar video")
                         ? _c(
                             "div",
                             {
@@ -76391,7 +76356,7 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _vm.hasPermission("Adjuntar foto")
+                      _vm.verificarPermiso("Adjuntar foto")
                         ? _c(
                             "div",
                             {
@@ -76444,7 +76409,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar audio")
+                      _vm.verificarPermiso("Grabar audio")
                         ? _c(
                             "div",
                             {
@@ -76502,7 +76467,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar video")
+                      _vm.verificarPermiso("Grabar video")
                         ? _c(
                             "div",
                             {
@@ -77393,7 +77358,7 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _vm.hasPermission("Adjuntar foto")
+                      _vm.verificarPermiso("Adjuntar foto")
                         ? _c(
                             "div",
                             {
@@ -77446,7 +77411,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar audio")
+                      _vm.verificarPermiso("Grabar audio")
                         ? _c(
                             "div",
                             {
@@ -77504,7 +77469,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar video")
+                      _vm.verificarPermiso("Grabar video")
                         ? _c(
                             "div",
                             {
@@ -78652,7 +78617,7 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _vm.hasPermission("Adjuntar foto")
+                      _vm.verificarPermiso("Adjuntar foto")
                         ? _c(
                             "div",
                             {
@@ -78705,7 +78670,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar audio")
+                      _vm.verificarPermiso("Grabar audio")
                         ? _c(
                             "div",
                             {
@@ -78763,7 +78728,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.hasPermission("Grabar video")
+                      _vm.verificarPermiso("Grabar video")
                         ? _c(
                             "div",
                             {

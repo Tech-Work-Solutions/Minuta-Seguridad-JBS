@@ -36,3 +36,10 @@ export const getGeolocation = () => {
         }
     });
 }
+export const hasPermission = (permisosFormulario, permissionName) => {    
+    const allPermission = permisosFormulario.some(permiso => permiso.nombre === "all");
+    if (allPermission) {
+        return true;
+    }
+    return permisosFormulario.some(permiso => permiso.nombre === permissionName);
+};
