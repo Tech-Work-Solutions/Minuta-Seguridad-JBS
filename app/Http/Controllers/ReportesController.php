@@ -8,6 +8,7 @@ use App\Models\Record_minuta;
 use App\Models\Record_person;
 use App\Models\Record_vehicle;
 use App\Models\User;
+use App\Services\FileService;
 
 class ReportesController extends Controller
 {
@@ -101,8 +102,14 @@ class ReportesController extends Controller
         $fecha_inicial = $_GET["fecha_inicial"]." 00:00:00";
         $fecha_final = $_GET["fecha_final"]." 23:59:59";
         $user_id = $_GET["user_id"];
-
+        $nombre_sede = $_GET["nombre_sede"];
+        $nombre_puesto = $_GET["nombre_puesto"];
         $records = [];
+        $imagenHeader = '';
+        $imagenFooter = '';
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+
         if ($user_id === "TODOS"){
             $records = Record_minuta::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
                                     ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
@@ -122,8 +129,19 @@ class ReportesController extends Controller
             $record->ubicacion;
         }
         //var_dump($obj);
+        
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
 
-        $pdf = PDF::loadView('pdfs.minuta', compact('records'))->setPaper('a4', 'landscape');
+        $dataReport = [
+            'img_header'    => $imagenHeader,
+            'img_footer'    => $imagenFooter,
+            'records'       => $records,
+            'nombre_sede'   => $nombre_sede,
+            'nombre_puesto' => $nombre_puesto,
+        ];
+
+        $pdf = PDF::loadView('pdfs.minuta', $dataReport)->setPaper('a4', 'landscape');
         return $pdf->download('ReporteMinutas.pdf');
     }
 
@@ -132,7 +150,14 @@ class ReportesController extends Controller
         $fecha_final = $_GET["fecha_final"]." 23:59:59";
         $tipo = $_GET["tipo"];
         $value_id = $_GET["value_id"];
+        $nombre_sede = $_GET["nombre_sede"];
+        $nombre_puesto = $_GET["nombre_puesto"];
         $records = [];
+        $imagenHeader = '';
+        $imagenFooter = '';
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+
         if($tipo === 'TODOS') {
             $records = Record_vehicle::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
                                     ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
@@ -158,7 +183,19 @@ class ReportesController extends Controller
             $record->volqueta->nombre;
             $record->user->name;
         }
-        $pdf = PDF::loadView('pdfs.vehiculos', compact('records'))->setPaper('a4', 'landscape');
+
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
+
+        $dataReport = [
+            'img_header'    => $imagenHeader,
+            'img_footer'    => $imagenFooter,
+            'records'       => $records,
+            'nombre_sede'   => $nombre_sede,
+            'nombre_puesto' => $nombre_puesto,
+        ];
+
+        $pdf = PDF::loadView('pdfs.vehiculos', $dataReport)->setPaper('a4', 'landscape');
         return $pdf->download('ReporteVehiculos.pdf');
     }
 
@@ -166,7 +203,14 @@ class ReportesController extends Controller
         $fecha_inicial = $_GET["fecha_inicial"]." 00:00:00";
         $fecha_final = $_GET["fecha_final"]." 23:59:59";
         $user_id = $_GET["user_id"];
+        $nombre_sede = $_GET["nombre_sede"];
+        $nombre_puesto = $_GET["nombre_puesto"];
         $records = [];
+        $imagenHeader = '';
+        $imagenFooter = '';
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+
         if ($user_id === "TODOS"){
             $records = Record_person::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
                                     ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
@@ -187,7 +231,63 @@ class ReportesController extends Controller
             $record->person->eps;
             $record->person->tipo_documento;
         }
-        $pdf = PDF::loadView('pdfs.visitantes', compact('records'))->setPaper('a4', 'landscape');
+
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
+
+        $dataReport = [
+            'img_header' => $imagenHeader,
+            'img_footer' => $imagenFooter,
+            'records' => $records,
+            'nombre_sede'   => $nombre_sede,
+            'nombre_puesto' => $nombre_puesto,
+        ];
+
+        $pdf = PDF::loadView('pdfs.visitantes', $dataReport)->setPaper('a4', 'landscape');
         return $pdf->download('ReporteVisitantes.pdf');
     }
+
+    public function getImagenesReporte() {
+        $imagenHeader = '';
+        $imagenFooter = '';
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
+
+        return response()->json(
+            [
+                "img_header" => $imagenHeader,
+                "img_footer" => $imagenFooter
+            ]
+        );
+    }
+    
+    public function updateImagenesReporte(Request $request) {
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+
+        if ($request->file('img_header') ) {
+            $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
+            
+            if ($imagenHeader) {
+                $fileService->eliminarArchivo($imagenHeader);
+            }
+    
+            $fileService->guardarArchivo($request->file('img_header'), "/img/", 'img_header');
+        }
+
+        if ($request->file('img_footer') ) {
+            $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
+            
+            if ($imagenFooter) {
+                $fileService->eliminarArchivo($imagenFooter);
+            }
+            
+            $fileService->guardarArchivo($request->file('img_footer'), '/img/', 'img_footer');
+        }
+        
+        return response()->json(["msg" => "Imagenes actualizadas"]);
+    }
+
 }

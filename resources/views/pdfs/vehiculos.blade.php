@@ -24,16 +24,50 @@
       margin-top: -7px;
       color: #27196E;
     }
+    .div-img {
+      width: 100%;
+      text-align: center;
+    }
+    .header {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+      max-height: 80px;
+    }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .footer img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      max-height: 70px;
+    }
     
   </style>
 </head>
 <body>
   <div class="main-content">
-    <div class="content-header">
-      <img src="{{ asset('img/logo2.png') }}" alt="JBS" width="220px">
-      <h3>Reporte de vehículos</h3>
+    <div class="content-header header">
+      @if (!empty($img_header))
+        <img src="{{ asset($img_header) }}" alt="JBS">
+      @endif
+      <?php
+        $nombre_sede = ($nombre_sede != "" || $nombre_sede != null ) ? $nombre_sede : "" ;
+        $nombre_puesto = ($nombre_puesto != "" || $nombre_puesto != null ) ? $nombre_puesto : "" ;
+        $ubicacionReporte = ($nombre_sede && $nombre_puesto) ? "del puesto: " . $nombre_puesto . " - " . "sede: " . $nombre_sede : "";
+      ?>
+      <h3>Reporte de vehículos {{$ubicacionReporte}}</h3>
       <hr>
-    </div> 
+    </div>
     <div class="content-body">
       <table>
         <thead>
@@ -46,12 +80,18 @@
             <th>Tipo vehículo</th>
             <th>Entrada o salida</th>
             <th>Observaciones</th>
+            <th>Audio</th>
+            <th>Video</th>
             <th>Foto</th>
           </tr>
         </thead>
         <tbody>
 			    @foreach($records as $record)
-          <?php $foto = ($record->foto != "" || $record->foto != null ) ? $record->foto : "" ;  ?>
+          <?php 
+            $foto = ($record->foto != "" || $record->foto != null ) ? $record->foto : "" ;
+            $audio = ($record->audio != "" || $record->audio != null ) ? $record->audio : "" ;
+            $video = ($record->video != "" || $record->video != null) ? $record->video : "";
+          ?>
           <tr>
             <td>{{ $record->created_at }}</td>
             <td>{{ strtoupper($record->user->name) }}</td>
@@ -61,6 +101,16 @@
             <td>{{ $record->volqueta->nombre }}</td>
             <td>{{ $record->entrada_salida == 'E' ? 'ENTRADA' : 'SALIDA' }}</td>
             <td>{{ $record->observaciones }}</td>
+            <td>
+              @if ($audio)
+                <p><a href="{{ asset($audio) }}" target="_blank">Escuchar audio</a></p>
+              @endif
+            </td>
+            <td>
+              @if ($video)
+                <p><a href="{{ asset($video) }}" target="_blank">Ver video</a></p>
+              @endif
+            </td>
             <td width="185px">
               @if ($record->foto != "" || $record->foto != null)
               <div class="div-img">
@@ -73,6 +123,11 @@
         </tbody>
       </table>
     </div>
+  @if (!empty($img_footer))
+    <div class="footer">
+      <img src="{{ asset($img_footer) }}" alt="Footer Image">
+    </div>
+  @endif
   </div>
 </body>
 </html>
