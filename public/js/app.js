@@ -5365,8 +5365,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   _this2.$router.push('/login/config_page');
                 } else {
-                  localStorage.setItem('puesto', JSON.stringify(_this2.sedes[0].cliente.id));
-                  localStorage.setItem('sede', _this2.sedes[0].sede_id);
+                  localStorage.setItem('puesto', JSON.stringify({
+                    id: _this2.sedes[0].cliente.id,
+                    nombre: _this2.sedes[0].cliente.nombre
+                  }));
+                  localStorage.setItem('sede', JSON.stringify({
+                    id: _this2.sedes[0].sede_id,
+                    nombre: _this2.sedes[0].sede_nombre
+                  }));
                   localStorage.setItem('permisosFormulario', _this2.sedes[0].cliente.permisos_formulario);
                   localStorage.setItem('permisosMenu', _this2.sedes[0].cliente.permisos_menu);
 
@@ -5976,7 +5982,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -6121,6 +6128,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6134,7 +6143,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         imagen: '',
         user_id: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -6147,62 +6157,65 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       audio: '',
       audioPreview: null,
       video: '',
-      videoPreview: null
+      videoPreview: null,
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
     var _this = this;
 
-    var user = JSON.parse(localStorage.getItem('user'));
-    this.formData.user_id = user.id;
-    this.id_user = user.id;
-    var rol = localStorage.getItem('rol');
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var user, rol;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              user = JSON.parse(localStorage.getItem('user'));
+              _this.sede = JSON.parse(localStorage.getItem('sede'));
+              _this.formData.user_id = user.id;
+              _this.id_user = user.id;
+              rol = localStorage.getItem('rol');
 
-    if (rol !== 'ADMINISTRADOR') {
-      this.$router.push('/dashboard');
-      return;
-    }
+              if (!(rol !== 'ADMINISTRADOR')) {
+                _context.next = 8;
+                break;
+              }
 
-    this.show = true;
-    this.getSubjects();
-    this.getUbicaciones();
-    axios.get('/api/getRecordMinuta/' + this.formData.id).then(function (response) {
-      _this.imagen = response.data.foto;
-      _this.audio = response.data.audio;
-      _this.video = response.data.video;
-      _this.formData = response.data;
-    });
+              _this.$router.push('/dashboard');
+
+              return _context.abrupt("return");
+
+            case 8:
+              _this.show = true;
+
+              _this.getSubjects();
+
+              _context.next = 12;
+              return _this.getUbicaciones();
+
+            case 12:
+              axios.get('/api/getRecordMinuta/' + _this.formData.id).then(function (response) {
+                _this.imagen = response.data.foto;
+                _this.audio = response.data.audio;
+                _this.video = response.data.video;
+                _this.formData = response.data;
+              });
+
+            case 13:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_2__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getSubjects: function getSubjects() {
       var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('/api/getSubjects').then(function (response) {
-                  _this2.subjects = response.data;
-
-                  _this2.subjects.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    getUbicaciones: function getUbicaciones() {
-      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
@@ -6210,10 +6223,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.get('/api/getUbicaciones').then(function (response) {
-                  _this3.ubicaciones = response.data;
+                return axios.get('/api/getSubjects').then(function (response) {
+                  _this2.subjects = response.data;
 
-                  _this3.ubicaciones.forEach(function (item) {
+                  _this2.subjects.forEach(function (item) {
                     return item.text = item.nombre.toUpperCase();
                   });
                 })["catch"](function (errors) {
@@ -6228,14 +6241,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    actualizar: function actualizar() {
-      var _this4 = this;
+    getUbicaciones: function getUbicaciones() {
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var datos;
+        var _this3$sede;
+
+        var url, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
+              case 0:
+                url = "/api/getUbicaciones".concat((_this3$sede = _this3.sede) !== null && _this3$sede !== void 0 && _this3$sede.id ? "/?sede_id=".concat(_this3.sede.id) : '');
+                _context3.prev = 1;
+                _context3.next = 4;
+                return axios.get(url);
+
+              case 4:
+                response = _context3.sent;
+                _this3.ubicaciones = response.data;
+
+                _this3.ubicaciones.forEach(function (item) {
+                  return item.text = item.nombre.toUpperCase();
+                });
+
+                _context3.next = 12;
+                break;
+
+              case 9:
+                _context3.prev = 9;
+                _context3.t0 = _context3["catch"](1);
+                console.log(_context3.t0.response.data.errors);
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[1, 9]]);
+      }))();
+    },
+    actualizar: function actualizar() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var datos;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this4.spiner = true;
                 datos = new FormData();
@@ -6250,27 +6303,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('audioOrigin', _this4.audio);
                 datos.append('video', _this4.formData.video);
                 datos.append('videoOrigin', _this4.video);
-                _context3.next = 15;
-                return axios.post('/api/updateRecordMinuta', datos).then(function (response) {
-                  _this4.spiner = false;
-                  _this4.submited = false;
+                datos.append('sede_id', _this4.formData.sede_id);
+                _context4.prev = 14;
+                _context4.next = 17;
+                return axios.post('/api/updateRecordMinuta', datos);
 
-                  _this4.$toaster.success('Registro actualizado con éxito.');
-                })["catch"](function (errors) {
-                  _this4.spiner = false;
-                  _this4.submited = false;
+              case 17:
+                _this4.spiner = false;
+                _this4.submited = false;
 
-                  _this4.$toaster.error('Algo salió mal.');
+                _this4.$toaster.success('Registro actualizado con éxito.');
 
-                  console.log(errors.response.data.errors);
-                });
+                _context4.next = 28;
+                break;
 
-              case 15:
+              case 22:
+                _context4.prev = 22;
+                _context4.t0 = _context4["catch"](14);
+                _this4.spiner = false;
+                _this4.submited = false;
+
+                _this4.$toaster.error('Algo salió mal.');
+
+                console.log(_context4.t0.response.data.errors);
+
+              case 28:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4, null, [[14, 22]]);
       }))();
     },
     obtenerImagen: function obtenerImagen(e) {
@@ -6290,7 +6352,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.audioPreview = URL.createObjectURL(file);
         this.formData.audio = file;
       } else {
-        alert("Por favor selecciona un archivo de audio válido.");
+        this.$toaster.error("Por favor selecciona un archivo de audio válido.");
         this.audioPreview = null;
       }
     },
@@ -6306,7 +6368,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.videoPreview = URL.createObjectURL(file);
         this.formData.video = file;
       } else {
-        alert("Por favor selecciona un archivo de video válido.");
+        this.$toaster.error("Por favor selecciona un archivo de video válido.");
         this.videoPreview = null;
       }
     },
@@ -6322,27 +6384,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reader.readAsDataURL(file);
     },
     validarDatos: function validarDatos() {
-      this.submited = true;
-      this.$v.$touch();
+      var _this6 = this;
 
-      if (this.$v.$invalid) {
-        this.spiner = false;
-        return false;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this6.submited = true;
 
-      this.actualizar();
+                _this6.$v.$touch();
+
+                if (!_this6.$v.$invalid) {
+                  _context5.next = 5;
+                  break;
+                }
+
+                _this6.spiner = false;
+                return _context5.abrupt("return", false);
+
+              case 5:
+                _context5.next = 7;
+                return _this6.actualizar();
+
+              case 7:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
     }
   },
   validations: {
     formData: {
       subject_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       },
       ubicacion_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       },
       anotaciones: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
       }
     }
   },
@@ -6379,9 +6462,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -6590,6 +6674,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6620,7 +6705,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       audio: '',
       audioPreview: null,
       video: '',
-      videoPreview: null
+      videoPreview: null,
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
@@ -6650,6 +6736,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_2__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getVehicles: function getVehicles() {
       var _this2 = this;
 
@@ -6794,31 +6883,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('audioOrigin', _this7.audio);
                 datos.append('video', _this7.formData.video);
                 datos.append('videoOrigin', _this7.video);
-                _context5.next = 18;
-                return axios.post('/api/updateRecordVehicle', datos).then(function (response) {
-                  _this7.spiner = false;
-                  _this7.submited = false;
+                datos.append('sede_id', _this7.formData.sede_id);
+                _context5.prev = 17;
+                _context5.next = 20;
+                return axios.post('/api/updateRecordVehicle', datos);
 
-                  _this7.$toaster.success('Registro actualizado con exito.');
-                })["catch"](function (errors) {
-                  _this7.spiner = false;
-                  _this7.submited = false;
+              case 20:
+                _this7.spiner = false;
+                _this7.submited = false;
 
-                  _this7.$toaster.error('Algo salio mal.');
+                _this7.$toaster.success('Registro actualizado con éxito.');
 
-                  console.log(errors.response.data.errors);
-                });
+                _context5.next = 31;
+                break;
 
-              case 18:
+              case 25:
+                _context5.prev = 25;
+                _context5.t0 = _context5["catch"](17);
+                _this7.spiner = false;
+                _this7.submited = false;
+
+                _this7.$toaster.error('Algo salió mal.');
+
+                console.log(_context5.t0.response.data.errors);
+
+              case 31:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5);
+        }, _callee5, null, [[17, 25]]);
       }))();
     },
     fecha: function fecha(d) {
-      return moment__WEBPACK_IMPORTED_MODULE_2___default()(d).format('DD-MM-YYYY HH:mm:ss');
+      return moment__WEBPACK_IMPORTED_MODULE_3___default()(d).format('DD-MM-YYYY HH:mm:ss');
     },
     obtenerImagen: function obtenerImagen(e) {
       var file = e.target.files[0];
@@ -6837,7 +6935,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.audioPreview = URL.createObjectURL(file);
         this.formData.audio = file;
       } else {
-        alert("Por favor selecciona un archivo de audio válido.");
+        this.$toaster.error("Por favor selecciona un archivo de audio válido.");
         this.audioPreview = null;
       }
     },
@@ -6853,7 +6951,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.videoPreview = URL.createObjectURL(file);
         this.formData.video = file;
       } else {
-        alert("Por favor selecciona un archivo de video válido.");
+        this.$toaster.error("Por favor selecciona un archivo de video válido.");
         this.videoPreview = null;
       }
     },
@@ -6869,33 +6967,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reader.readAsDataURL(file);
     },
     validarDatos: function validarDatos() {
-      this.submited = true;
-      this.$v.$touch();
+      var _this9 = this;
 
-      if (this.$v.$invalid) {
-        this.spiner = false;
-        return false;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this9.submited = true;
 
-      this.actualizar();
+                _this9.$v.$touch();
+
+                if (!_this9.$v.$invalid) {
+                  _context6.next = 5;
+                  break;
+                }
+
+                _this9.spiner = false;
+                return _context6.abrupt("return", false);
+
+              case 5:
+                _context6.next = 7;
+                return _this9.actualizar();
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
     }
   },
   validations: {
     formData: {
       vehicle_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       driver_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       volqueta_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       origin_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -6932,9 +7051,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -7204,6 +7324,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -7222,7 +7343,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         tipo: '',
         imagen: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -7243,12 +7365,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       audio: '',
       audioPreview: null,
       video: '',
-      videoPreview: null
+      videoPreview: null,
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
     var user = JSON.parse(localStorage.getItem('user'));
+    this.sede = JSON.parse(localStorage.getItem('sede'));
     this.formData.user_id = user.id;
+    this.formData.sede_id = this.sede.id;
     var rol = localStorage.getItem('rol');
 
     if (rol !== 'ADMINISTRADOR') {
@@ -7263,6 +7389,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getRecord();
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getRecord: function getRecord() {
       var _this = this;
 
@@ -7430,27 +7559,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('audioOrigin', _this6.audio);
                 datos.append('video', _this6.formData.video);
                 datos.append('videoOrigin', _this6.video);
-                _context5.next = 22;
-                return axios.post('/api/updateRecordVisitante', datos).then(function (response) {
-                  _this6.spiner = false;
-                  _this6.submited = false;
+                datos.append('sede_id', _this6.formData.sede_id);
+                _context5.prev = 21;
+                _context5.next = 24;
+                return axios.post('/api/updateRecordVisitante', datos);
 
-                  _this6.$toaster.success('Registro actualizado con exito.');
-                })["catch"](function (errors) {
-                  _this6.spiner = false;
-                  _this6.submited = false;
+              case 24:
+                _this6.spiner = false;
+                _this6.submited = false;
 
-                  _this6.$toaster.error('Algo salio mal.');
+                _this6.$toaster.success('Registro actualizado con éxito.');
 
-                  console.log(errors.response.data.errors);
-                });
+                _context5.next = 35;
+                break;
 
-              case 22:
+              case 29:
+                _context5.prev = 29;
+                _context5.t0 = _context5["catch"](21);
+                _this6.spiner = false;
+                _this6.submited = false;
+
+                _this6.$toaster.error('Algo salió mal.');
+
+                console.log(_context5.t0.response.data.errors);
+
+              case 35:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5);
+        }, _callee5, null, [[21, 29]]);
       }))();
     },
     limpiar: function limpiar() {
@@ -7513,43 +7651,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reader.readAsDataURL(file);
     },
     validarDatos: function validarDatos() {
-      this.submited = true;
-      this.$v.$touch();
+      var _this8 = this;
 
-      if (this.$v.$invalid) {
-        this.spiner = false;
-        return false;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this8.submited = true;
 
-      this.actualizar();
+                _this8.$v.$touch();
+
+                if (!_this8.$v.$invalid) {
+                  _context6.next = 5;
+                  break;
+                }
+
+                _this8.spiner = false;
+                return _context6.abrupt("return", false);
+
+              case 5:
+                _context6.next = 7;
+                return _this8.actualizar();
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
     }
   },
   validations: {
     formData: {
       numero_documento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       tipo_documento_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       tipo: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       nombres: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       apellidos: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       eps_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       arl_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -7586,9 +7745,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -7819,6 +7979,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -7832,7 +8002,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         imagen: '',
         user_id: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: '',
+        latitud: '',
+        longitud: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -7843,52 +8016,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       id_user: '',
       show: false,
       audioPreview: null,
-      videoPreview: null
+      videoPreview: null,
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
-    var user = JSON.parse(localStorage.getItem('user'));
-    this.formData.user_id = user.id;
-    this.id_user = user.id;
+    var _this = this;
 
-    if (user.rol === 'ADMINISTRATIVO') {
-      this.$router.push('/dashboard');
-    }
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var user;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              user = JSON.parse(localStorage.getItem('user'));
+              _this.sede = JSON.parse(localStorage.getItem('sede'));
+              _this.formData.user_id = user.id;
+              _this.formData.sede_id = _this.sede.id;
+              _this.id_user = user.id;
 
-    this.show = true;
-    this.getSubjects();
-    this.getUbicaciones();
-    this.getRecordsMinutaByUser();
+              if (user.rol === 'ADMINISTRATIVO') {
+                _this.$router.push('/dashboard');
+              }
+
+              _this.show = true;
+
+              _this.getSubjects();
+
+              _context.next = 10;
+              return _this.getUbicaciones();
+
+            case 10:
+              _this.getRecordsMinutaByUser();
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
-    getSubjects: function getSubjects() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('/api/getSubjects').then(function (response) {
-                  _this.subjects = response.data;
-
-                  _this.subjects.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
     },
-    createAsunto: function createAsunto(query) {
+    getSubjects: function getSubjects() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -7897,24 +8071,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.post('/api/registerSubject', {
-                  nombre: query
-                }).then(function (response) {
-                  var item = response.data.res;
+                return axios.get('/api/getSubjects').then(function (response) {
+                  _this2.subjects = response.data;
 
-                  _this2.subjects.unshift({
-                    id: item.id,
-                    nombre: query.toUpperCase(),
-                    text: query.toUpperCase()
+                  _this2.subjects.forEach(function (item) {
+                    return item.text = item.nombre.toUpperCase();
                   });
-
-                  _this2.$toaster.success('Registro creado con exito.');
                 })["catch"](function (errors) {
-                  if (errors.response.data.errors && errors.response.data.errors.nombre) {
-                    _this2.$toaster.error(errors.response.data.errors.nombre[0]);
-                  } else {
-                    _this2.$toaster.error('Algo salio mal.');
-                  }
+                  console.log(errors.response.data.errors);
                 });
 
               case 2:
@@ -7925,7 +8089,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    getRecordsMinutaByUser: function getRecordsMinutaByUser() {
+    createAsunto: function createAsunto(query) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -7934,12 +8098,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios.post('/api/getRecordsMinutaByUser', {
-                  user_id: _this3.id_user
+                return axios.post('/api/registerSubject', {
+                  nombre: query
                 }).then(function (response) {
-                  _this3.datos = response.data;
+                  var item = response.data.res;
+
+                  _this3.subjects.unshift({
+                    id: item.id,
+                    nombre: query.toUpperCase(),
+                    text: query.toUpperCase()
+                  });
+
+                  _this3.$toaster.success('Registro creado con éxito.');
                 })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
+                  if (errors.response.data.errors && errors.response.data.errors.nombre) {
+                    _this3.$toaster.error(errors.response.data.errors.nombre[0]);
+                  } else {
+                    _this3.$toaster.error('Algo salió mal.');
+                  }
                 });
 
               case 2:
@@ -7950,7 +8126,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    getUbicaciones: function getUbicaciones() {
+    getRecordsMinutaByUser: function getRecordsMinutaByUser() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
@@ -7959,12 +8135,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return axios.get('/api/getUbicaciones').then(function (response) {
-                  _this4.ubicaciones = response.data;
-
-                  _this4.ubicaciones.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
+                return axios.post('/api/getRecordsMinutaByUser', {
+                  user_id: _this4.id_user
+                }).then(function (response) {
+                  _this4.datos = response.data;
                 })["catch"](function (errors) {
                   console.log(errors.response.data.errors);
                 });
@@ -7977,93 +8151,164 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    createUbicacion: function createUbicacion(query) {
+    getUbicaciones: function getUbicaciones() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var _this5$sede;
+
+        var url, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _context5.next = 2;
+                url = "/api/getUbicaciones".concat((_this5$sede = _this5.sede) !== null && _this5$sede !== void 0 && _this5$sede.id ? "/?sede_id=".concat(_this5.sede.id) : '');
+                _context5.prev = 1;
+                _context5.next = 4;
+                return axios.get(url);
+
+              case 4:
+                response = _context5.sent;
+                _this5.ubicaciones = response.data;
+
+                _this5.ubicaciones.forEach(function (item) {
+                  return item.text = item.nombre.toUpperCase();
+                });
+
+                _context5.next = 12;
+                break;
+
+              case 9:
+                _context5.prev = 9;
+                _context5.t0 = _context5["catch"](1);
+                console.log(_context5.t0.response.data.errors);
+
+              case 12:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[1, 9]]);
+      }))();
+    },
+    createUbicacion: function createUbicacion(query) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
                 return axios.post('/api/registerUbicacion', {
-                  nombre: query
+                  nombre: query,
+                  sede_id: _this6.sede.id
                 }).then(function (response) {
                   var item = response.data.res;
 
-                  _this5.ubicaciones.unshift({
+                  _this6.ubicaciones.unshift({
                     id: item.id,
                     nombre: query.toUpperCase(),
                     text: query.toUpperCase()
                   });
 
-                  _this5.$toaster.success('Registro creado con exito.');
+                  _this6.$toaster.success('Registro creado con éxito.');
                 })["catch"](function (errors) {
                   if (errors.response.data.errors && errors.response.data.errors.nombre) {
-                    _this5.$toaster.error(errors.response.data.errors.nombre[0]);
+                    _this6.$toaster.error(errors.response.data.errors.nombre[0]);
                   } else {
-                    _this5.$toaster.error('Algo salio mal.');
+                    _this6.$toaster.error('Algo salió mal.');
                   }
                 });
 
               case 2:
               case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
-    },
-    registrar: function registrar() {
-      var _this6 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        var datos;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _this6.spiner = true;
-                datos = new FormData();
-                datos.append('subject_id', _this6.formData.subject_id);
-                datos.append('ubicacion_id', _this6.formData.ubicacion_id);
-                datos.append('anotaciones', _this6.formData.anotaciones);
-                datos.append('user_id', _this6.formData.user_id);
-                datos.append('file', _this6.formData.imagen);
-                datos.append('audio', _this6.formData.audio);
-                datos.append('video', _this6.formData.video);
-                _context6.next = 11;
-                return axios.post('/api/registerMinuta', datos).then(function (response) {
-                  _this6.getRecordsMinutaByUser();
-
-                  _this6.spiner = false;
-                  _this6.submited = false;
-                  _this6.formData.subject_id = '';
-                  _this6.formData.ubicacion_id = '';
-                  _this6.formData.anotaciones = '';
-                  _this6.imgMinuta = '';
-                  _this6.formData.imagen = '';
-                  _this6.formData.audio = '';
-                  _this6.audioPreview = '';
-                  _this6.formData.video = '';
-                  _this6.videoPreview = '';
-
-                  _this6.$toaster.success('Registro creado con éxito.');
-                })["catch"](function (errors) {
-                  _this6.spiner = false;
-                  _this6.submited = false;
-
-                  _this6.$toaster.error('Algo salio mal.');
-
-                  console.log(errors.response.data.errors);
-                });
-
-              case 11:
-              case "end":
                 return _context6.stop();
             }
           }
         }, _callee6);
+      }))();
+    },
+    registrar: function registrar() {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        var datos, _yield$getGeolocation, _yield$getGeolocation2, latitud, _yield$getGeolocation3, longitud;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _this7.spiner = true;
+                datos = new FormData();
+                _context7.prev = 2;
+                _context7.next = 5;
+                return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.getGeolocation)();
+
+              case 5:
+                _yield$getGeolocation = _context7.sent;
+                _yield$getGeolocation2 = _yield$getGeolocation.latitud;
+                latitud = _yield$getGeolocation2 === void 0 ? null : _yield$getGeolocation2;
+                _yield$getGeolocation3 = _yield$getGeolocation.longitud;
+                longitud = _yield$getGeolocation3 === void 0 ? null : _yield$getGeolocation3;
+                datos.append('latitud', latitud);
+                datos.append('longitud', longitud);
+                _context7.next = 20;
+                break;
+
+              case 14:
+                _context7.prev = 14;
+                _context7.t0 = _context7["catch"](2);
+                _this7.spiner = false;
+                _this7.submited = false;
+
+                _this7.$toaster.error(_context7.t0);
+
+                return _context7.abrupt("return");
+
+              case 20:
+                datos.append('subject_id', _this7.formData.subject_id);
+                datos.append('ubicacion_id', _this7.formData.ubicacion_id);
+                datos.append('anotaciones', _this7.formData.anotaciones);
+                datos.append('user_id', _this7.formData.user_id);
+                datos.append('file', _this7.formData.imagen);
+                datos.append('audio', _this7.formData.audio);
+                datos.append('video', _this7.formData.video);
+                datos.append('sede_id', _this7.formData.sede_id);
+                _context7.next = 30;
+                return axios.post('/api/registerMinuta', datos).then(function (response) {
+                  _this7.getRecordsMinutaByUser();
+
+                  _this7.spiner = false;
+                  _this7.submited = false;
+                  _this7.formData.subject_id = '';
+                  _this7.formData.ubicacion_id = '';
+                  _this7.formData.anotaciones = '';
+                  _this7.imgMinuta = '';
+                  _this7.formData.imagen = '';
+                  _this7.formData.audio = '';
+                  _this7.audioPreview = '';
+                  _this7.formData.video = '';
+                  _this7.formData.latitud = '';
+                  _this7.formData.longitud = '';
+                  _this7.videoPreview = '';
+
+                  _this7.$toaster.success('Registro creado con éxito.');
+                })["catch"](function (errors) {
+                  _this7.spiner = false;
+                  _this7.submited = false;
+
+                  _this7.$toaster.error('Algo salió mal.');
+
+                  console.log(errors.response.data.errors);
+                });
+
+              case 30:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, null, [[2, 14]]);
       }))();
     },
     fecha: function fecha(d) {
@@ -8086,7 +8331,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.audioPreview = URL.createObjectURL(file);
         this.formData.audio = file;
       } else {
-        alert("Por favor selecciona un archivo de audio válido.");
+        this.$toaster.error("Por favor selecciona un archivo de audio válido.");
         this.audioPreview = null;
       }
     },
@@ -8102,17 +8347,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.videoPreview = URL.createObjectURL(file);
         this.formData.video = file;
       } else {
-        alert("Por favor selecciona un archivo de video válido.");
+        this.$toaster.error("Por favor selecciona un archivo de video válido.");
         this.videoPreview = null;
       }
     },
     cargarImagen: function cargarImagen(file) {
-      var _this7 = this;
+      var _this8 = this;
 
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        _this7.imgMinuta = e.target.result;
+        _this8.imgMinuta = e.target.result;
       };
 
       reader.readAsDataURL(file);
@@ -8132,13 +8377,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       subject_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       ubicacion_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       anotaciones: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -8175,9 +8420,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -8483,6 +8729,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8496,7 +8743,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         imagen: '',
         entrada_salida: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -8510,12 +8758,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       id_user: '',
       show: false,
       audioPreview: null,
-      videoPreview: null
+      videoPreview: null,
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
     var user = JSON.parse(localStorage.getItem('user'));
+    this.sede = JSON.parse(localStorage.getItem('sede'));
     this.formData.user_id = user.id;
+    this.formData.sede_id = this.sede.id;
     this.id_user = user.id;
 
     if (user.rol === 'ADMINISTRATIVO') {
@@ -8530,6 +8782,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getRecordsVehiculosByUser();
   },
   methods: {
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
+    },
     getVehicles: function getVehicles() {
       var _this = this;
 
@@ -8577,12 +8832,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     text: query.toUpperCase()
                   });
 
-                  _this2.$toaster.success('Registro creado con exito.');
+                  _this2.$toaster.success('Registro creado con éxito.');
                 })["catch"](function (errors) {
                   if (errors.response.data.errors && errors.response.data.errors.placa) {
                     _this2.$toaster.error(errors.response.data.errors.placa[0]);
                   } else {
-                    _this2.$toaster.error('Algo salio mal.');
+                    _this2.$toaster.error('Algo salió mal.');
                   }
                 });
 
@@ -8732,7 +8987,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos.append('file', _this8.formData.imagen);
                 datos.append('audio', _this8.formData.audio);
                 datos.append('video', _this8.formData.video);
-                _context7.next = 14;
+                datos.append('sede_id', _this8.formData.sede_id);
+                _context7.next = 15;
                 return axios.post('/api/recordVehicle', datos).then(function (response) {
                   _this8.getRecordsVehiculosByUser();
 
@@ -8762,7 +9018,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(errors.response.data.errors);
                 });
 
-              case 14:
+              case 15:
               case "end":
                 return _context7.stop();
             }
@@ -8836,19 +9092,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       vehicle_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       driver_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       volqueta_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       origin_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -8885,9 +9141,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind/dist/components */ "./node_modules/vue-tailwind/dist/components.js");
 /* harmony import */ var vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_tailwind_dist_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../js/utils/util */ "./resources/js/utils/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -9256,8 +9513,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
+
 
 
 
@@ -9278,7 +9534,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         tipo: '',
         imagen: '',
         audio: '',
-        video: ''
+        video: '',
+        sede_id: ''
       },
       imgMinuta: '',
       spiner: false,
@@ -9297,214 +9554,283 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         text: 'VISITANTE'
       }],
       audioPreview: null,
-      videoPreview: null
+      videoPreview: null,
+      sede: {},
+      permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]')
     };
   },
   mounted: function mounted() {
-    var user = JSON.parse(localStorage.getItem('user'));
-    this.formData.user_id = user.id;
+    var _this = this;
 
-    if (user.rol === 'ADMINISTRATIVO') {
-      this.$router.push('/dashboard');
-    }
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var user;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              user = JSON.parse(localStorage.getItem('user'));
+              _this.sede = JSON.parse(localStorage.getItem('sede'));
+              _this.formData.user_id = user.id;
+              _this.formData.sede_id = _this.sede.id;
 
-    this.show = true;
-    this.getEps();
-    this.getArls();
-    this.getTipoDocumentos();
-    this.getRecordsVisitantesByUser();
+              if (user.rol === 'ADMINISTRATIVO') {
+                _this.$router.push('/dashboard');
+              }
+
+              _this.show = true;
+              _context.next = 8;
+              return _this.getEps();
+
+            case 8:
+              _context.next = 10;
+              return _this.getArls();
+
+            case 10:
+              _this.getTipoDocumentos();
+
+              _this.getRecordsVisitantesByUser();
+
+            case 12:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
-    getEps: function getEps() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('/api/getEps').then(function (response) {
-                  _this.epss = response.data;
-
-                  _this.epss.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+    verificarPermiso: function verificarPermiso(permissionName) {
+      return (0,_js_utils_util__WEBPACK_IMPORTED_MODULE_3__.hasPermission)(this.permisosFormulario, permissionName);
     },
-    getArls: function getArls() {
+    getEps: function getEps() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return axios.get('/api/getArls').then(function (response) {
-                  _this2.arls = response.data;
+                _context2.prev = 0;
+                _context2.next = 3;
+                return axios.get('/api/getEps');
 
-                  _this2.arls.forEach(function (item) {
-                    return item.text = item.nombre.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
+              case 3:
+                response = _context2.sent;
+                _this2.epss = response.data;
+
+                _this2.epss.forEach(function (item) {
+                  return item.text = item.nombre.toUpperCase();
                 });
 
-              case 2:
+                _context2.next = 11;
+                break;
+
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0.response.data.errors);
+
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[0, 8]]);
       }))();
     },
-    getTipoDocumentos: function getTipoDocumentos() {
+    getArls: function getArls() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
-                return axios.get('/api/getDocumentos').then(function (response) {
-                  _this3.tipoDocumentos = response.data;
+                _context3.prev = 0;
+                _context3.next = 3;
+                return axios.get('/api/getArls');
 
-                  _this3.tipoDocumentos.forEach(function (item) {
-                    return item.text = item.documento.toUpperCase();
-                  });
-                })["catch"](function (errors) {
-                  console.log(errors.response.data.errors);
+              case 3:
+                response = _context3.sent;
+                _this3.arls = response.data;
+
+                _this3.arls.forEach(function (item) {
+                  return item.text = item.nombre.toUpperCase();
                 });
 
-              case 2:
+                _context3.next = 11;
+                break;
+
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](0);
+                console.log(_context3.t0.response.data.errors);
+
+              case 11:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[0, 8]]);
       }))();
     },
-    getRecordsVisitantesByUser: function getRecordsVisitantesByUser() {
+    getTipoDocumentos: function getTipoDocumentos() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
+                _context4.prev = 0;
+                _context4.next = 3;
+                return axios.get('/api/getDocumentos');
+
+              case 3:
+                response = _context4.sent;
+                _this4.tipoDocumentos = response.data;
+
+                _this4.tipoDocumentos.forEach(function (item) {
+                  return item.text = item.documento.toUpperCase();
+                });
+
+                _context4.next = 11;
+                break;
+
+              case 8:
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](0);
+                console.log(_context4.t0.response.data.errors);
+
+              case 11:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[0, 8]]);
+      }))();
+    },
+    getRecordsVisitantesByUser: function getRecordsVisitantesByUser() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
                 return axios.post('/api/getRecordsVisitantesByUser', {
-                  user_id: _this4.formData.user_id
+                  user_id: _this5.formData.user_id
                 }).then(function (response) {
-                  _this4.datos = response.data;
+                  _this5.datos = response.data;
                 })["catch"](function (errors) {
                   console.log(errors.response.data.errors);
                 });
 
               case 2:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
     searchPerson: function searchPerson() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.load = true;
       axios.post('/api/getPerson', {
         numero_documento: this.formData.numero_documento
       }).then(function (resp) {
         if (resp.data && resp.data !== '') {
-          _this5.formData.tipo_documento_id = resp.data.tipo_documento_id;
-          _this5.formData.tipo = resp.data.tipo;
-          _this5.formData.nombres = resp.data.nombres;
-          _this5.formData.apellidos = resp.data.apellidos;
-          _this5.formData.eps_id = resp.data.eps_id;
-          _this5.formData.arl_id = resp.data.arl_id;
+          _this6.formData.tipo_documento_id = resp.data.tipo_documento_id;
+          _this6.formData.tipo = resp.data.tipo;
+          _this6.formData.nombres = resp.data.nombres;
+          _this6.formData.apellidos = resp.data.apellidos;
+          _this6.formData.eps_id = resp.data.eps_id;
+          _this6.formData.arl_id = resp.data.arl_id;
         } else {
-          _this5.limpiar();
+          _this6.limpiar();
 
-          _this5.$toaster.info('El usuario no se encuentra registrado en la base de datos');
+          _this6.$toaster.info('El usuario no se encuentra registrado en la base de datos');
         }
 
-        _this5.load = false;
+        _this6.load = false;
       });
     },
     registrar: function registrar() {
-      var _this6 = this;
+      var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
         var datos;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _this6.spiner = true;
+                _this7.spiner = true;
                 datos = new FormData();
-                datos.append('observaciones', _this6.formData.anotaciones);
-                datos.append('entrada_salida', _this6.formData.entrada_salida);
-                datos.append('numero_documento', _this6.formData.numero_documento);
-                datos.append('tipo_documento_id', _this6.formData.tipo_documento_id);
-                datos.append('tipo', _this6.formData.tipo);
-                datos.append('eps_id', _this6.formData.eps_id);
-                datos.append('arl_id', _this6.formData.arl_id);
-                datos.append('destino', _this6.formData.destino);
-                datos.append('nombres', _this6.formData.nombres);
-                datos.append('apellidos', _this6.formData.apellidos);
-                datos.append('user_id', _this6.formData.user_id);
-                datos.append('file', _this6.formData.imagen);
-                datos.append('audio', _this6.formData.audio);
-                datos.append('video', _this6.formData.video);
-                _context5.next = 18;
-                return axios.post('/api/recordVisitante', datos).then(function (response) {
-                  _this6.getRecordsVisitantesByUser();
+                datos.append('observaciones', _this7.formData.anotaciones);
+                datos.append('entrada_salida', _this7.formData.entrada_salida);
+                datos.append('numero_documento', _this7.formData.numero_documento);
+                datos.append('tipo_documento_id', _this7.formData.tipo_documento_id);
+                datos.append('tipo', _this7.formData.tipo);
+                datos.append('eps_id', _this7.formData.eps_id);
+                datos.append('arl_id', _this7.formData.arl_id);
+                datos.append('destino', _this7.formData.destino);
+                datos.append('nombres', _this7.formData.nombres);
+                datos.append('apellidos', _this7.formData.apellidos);
+                datos.append('user_id', _this7.formData.user_id);
+                datos.append('file', _this7.formData.imagen);
+                datos.append('audio', _this7.formData.audio);
+                datos.append('video', _this7.formData.video);
+                datos.append('sede_id', _this7.formData.sede_id);
+                _context6.prev = 17;
+                _context6.next = 20;
+                return axios.post('/api/recordVisitante', datos);
 
-                  _this6.spiner = false;
-                  _this6.submited = false;
+              case 20:
+                _this7.getRecordsVisitantesByUser();
 
-                  _this6.limpiar();
+                _this7.spiner = false;
+                _this7.submited = false;
 
-                  _this6.formData.destino = '';
-                  _this6.formData.numero_documento = '';
-                  _this6.formData.entrada_salida = '';
-                  _this6.formData.anotaciones = '';
-                  _this6.imgMinuta = '';
-                  _this6.formData.imagen = '';
-                  _this6.formData.audio = '';
-                  _this6.audioPreview = '';
-                  _this6.formData.video = '';
-                  _this6.videoPreview = '';
+                _this7.limpiar();
 
-                  _this6.$toaster.success('Registro creado con éxito.');
-                })["catch"](function (errors) {
-                  _this6.spiner = false;
-                  _this6.submited = false;
+                _this7.formData.destino = '';
+                _this7.formData.numero_documento = '';
+                _this7.formData.entrada_salida = '';
+                _this7.formData.anotaciones = '';
+                _this7.imgMinuta = '';
+                _this7.formData.imagen = '';
+                _this7.formData.audio = '';
+                _this7.audioPreview = '';
+                _this7.formData.video = '';
+                _this7.videoPreview = '';
 
-                  _this6.$toaster.error('Algo salió mal.');
+                _this7.$toaster.success('Registro creado con éxito.');
 
-                  console.log(errors.response.data.errors);
-                });
+                _context6.next = 43;
+                break;
 
-              case 18:
+              case 37:
+                _context6.prev = 37;
+                _context6.t0 = _context6["catch"](17);
+                _this7.spiner = false;
+                _this7.submited = false;
+
+                _this7.$toaster.error('Algo salió mal.');
+
+                console.log(_context6.t0.response.data.errors);
+
+              case 43:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5);
+        }, _callee6, null, [[17, 37]]);
       }))();
     },
     limpiar: function limpiar() {
@@ -9556,12 +9882,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     cargarImagen: function cargarImagen(file) {
-      var _this7 = this;
+      var _this8 = this;
 
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        _this7.imgMinuta = e.target.result;
+        _this8.imgMinuta = e.target.result;
       };
 
       reader.readAsDataURL(file);
@@ -9581,29 +9907,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   validations: {
     formData: {
       numero_documento: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required,
-        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.numeric
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required,
+        numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.numeric
       },
       tipo_documento_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       tipo: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       nombres: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       apellidos: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       entrada_salida: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       eps_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       },
       arl_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_4__.required
       }
     }
   },
@@ -9758,6 +10084,13 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13559,22 +13892,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       submited: false,
       formData: {
-        nombre: ''
+        nombre: '',
+        sede_id: 0
       },
-      puestos: [],
+      ubicaciones: [],
       search: '',
-      spiner: false
+      spiner: false,
+      sede: {}
     };
   },
   mounted: function mounted() {
-    this.spiner = false;
-    this.getUbicaciones();
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var sede;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.spiner = false;
+              sede = JSON.parse(localStorage.getItem("sede"));
+
+              if (!(sede !== null && sede !== void 0 && sede.id)) {
+                _context.next = 7;
+                break;
+              }
+
+              _this.sede = sede;
+              _this.formData.sede_id = sede.id;
+              _context.next = 7;
+              return _this.getUbicaciones();
+
+            case 7:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
     registrarUbicacion: function registrarUbicacion() {
@@ -13582,59 +13949,115 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.validarDatos();
     },
     validarDatos: function validarDatos() {
-      this.submited = true;
-      this.$v.$touch();
+      var _this2 = this;
 
-      if (this.$v.$invalid) {
-        this.spiner = false;
-        return false;
-      }
-
-      this.register();
-    },
-    register: function register() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.next = 2;
-                return axios.post('/api/registerUbicacion', _this.formData).then(function (response) {
-                  _this.spiner = false;
-                  _this.submited = false;
-                  _this.formData.nombre = '';
+                _this2.submited = true;
 
-                  _this.$toaster.success('Registro creado con exito.');
+                _this2.$v.$touch();
 
-                  _this.getUbicaciones();
-                })["catch"](function (errors) {
-                  _this.spiner = false;
+                if (!_this2.$v.$invalid) {
+                  _context2.next = 5;
+                  break;
+                }
 
-                  if (errors.response.data.errors && errors.response.data.errors.nombre) {
-                    _this.$toaster.error(errors.response.data.errors.nombre[0]);
-                  } else {
-                    _this.$toaster.error('Algo salio mal.');
-                  }
-                });
+                _this2.spiner = false;
+                return _context2.abrupt("return", false);
 
-              case 2:
+              case 5:
+                _context2.next = 7;
+                return _this2.register();
+
+              case 7:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
+      }))();
+    },
+    register: function register() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return axios.post('/api/registerUbicacion', _this3.formData);
+
+              case 3:
+                _this3.spiner = false;
+                _this3.submited = false;
+                _this3.formData.nombre = '';
+
+                _this3.$toaster.success('Registro creado con éxito.');
+
+                _context3.next = 9;
+                return _this3.getUbicaciones();
+
+              case 9:
+                _context3.next = 15;
+                break;
+
+              case 11:
+                _context3.prev = 11;
+                _context3.t0 = _context3["catch"](0);
+                _this3.spiner = false;
+
+                if (_context3.t0.response.data.errors && _context3.t0.response.data.errors.nombre) {
+                  _this3.$toaster.error(_context3.t0.response.data.errors.nombre[0]);
+                } else {
+                  _this3.$toaster.error('Algo salió mal.');
+                }
+
+              case 15:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 11]]);
       }))();
     },
     getUbicaciones: function getUbicaciones() {
-      var _this2 = this;
+      var _this4 = this;
 
-      axios.get('/api/getUbicaciones').then(function (response) {
-        _this2.puestos = response.data;
-      })["catch"](function (errors) {
-        console.log(errors.response.data.errors);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var _this4$sede, url, ubicaciones;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                url = "/api/getUbicaciones".concat((_this4$sede = _this4.sede) !== null && _this4$sede !== void 0 && _this4$sede.id ? "/?sede_id=".concat(_this4.sede.id) : '');
+                _context4.next = 4;
+                return axios.get(url);
+
+              case 4:
+                ubicaciones = _context4.sent;
+                _this4.ubicaciones = ubicaciones.data;
+                _context4.next = 11;
+                break;
+
+              case 8:
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](0);
+                console.log(_context4.t0.response.data.errors);
+
+              case 11:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[0, 8]]);
+      }))();
     }
   },
   validations: {
@@ -13645,11 +14068,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   computed: {
-    searchPuesto: function searchPuesto() {
-      var _this3 = this;
+    searchUbicacion: function searchUbicacion() {
+      var _this5 = this;
 
-      return this.puestos.filter(function (p) {
-        return p.nombre.toUpperCase().includes(_this3.search.toUpperCase());
+      return this.ubicaciones.filter(function (p) {
+        return p.nombre.toUpperCase().includes(_this5.search.toUpperCase());
       });
     }
   }
@@ -16567,6 +16990,76 @@ router.beforeEach(function (to, from, next) {
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+
+/***/ }),
+
+/***/ "./resources/js/utils/util.js":
+/*!************************************!*\
+  !*** ./resources/js/utils/util.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getGeolocation": () => (/* binding */ getGeolocation),
+/* harmony export */   "hasPermission": () => (/* binding */ hasPermission)
+/* harmony export */ });
+var getGeolocation = function getGeolocation() {
+  return new Promise(function (resolve, reject) {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var latitud = position.coords.latitude;
+        var longitud = position.coords.longitude;
+        resolve({
+          latitud: latitud,
+          longitud: longitud
+        });
+      }, function (error) {
+        var errorMessage = '';
+
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'El usuario denegó el acceso a la ubicación.';
+            break;
+
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'La información de ubicación no está disponible.';
+            break;
+
+          case error.TIMEOUT:
+            errorMessage = 'La solicitud para obtener la ubicación expiró.';
+            break;
+
+          default:
+            errorMessage = 'Ocurrió un error desconocido.';
+            break;
+        }
+
+        reject(new Error(errorMessage));
+      }, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      });
+    } else {
+      reject(new Error('La geolocalización no es soportada por este navegador.'));
+    }
+  });
+};
+var hasPermission = function hasPermission(permisosFormulario, permissionName) {
+  var allPermission = permisosFormulario.some(function (permiso) {
+    return permiso.nombre === "all";
+  });
+
+  if (allPermission) {
+    return true;
+  }
+
+  return permisosFormulario.some(function (permiso) {
+    return permiso.nombre === permissionName;
+  });
+};
 
 /***/ }),
 
@@ -73370,7 +73863,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                        Puesto:\n                     "
+                              "\n                        Ubicación:\n                     "
                             )
                           ]
                         ),
@@ -73395,7 +73888,7 @@ var render = function() {
                     _vm.submited && !_vm.$v.formData.ubicacion_id.required
                       ? _c("p", { staticClass: "text-red-500 text-sm" }, [
                           _vm._v(
-                            "Seleccione un\n                     puesto o ubicación"
+                            "\n                     Seleccione una ubicación\n                  "
                           )
                         ])
                       : _vm._e()
@@ -73472,212 +73965,236 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.imagenMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("img", { attrs: { src: _vm.imagen } })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.imagenMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("img", {
+                                          attrs: { src: _vm.imagen }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      ),
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
+                              !_vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audio,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: { src: _vm.audio, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      ),
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
-                                },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                              !_vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.video,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: { src: _vm.video, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      )
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -74209,212 +74726,236 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.imagenMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("img", { attrs: { src: _vm.imagen } })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.imagenMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("img", {
+                                          attrs: { src: _vm.imagen }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      ),
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
+                              !_vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audio,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: { src: _vm.audio, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      ),
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
-                                },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                              !_vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.video,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: { src: _vm.video, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      )
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -75201,212 +75742,236 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.imagenMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("img", { attrs: { src: _vm.imagen } })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.imagenMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("img", {
+                                          attrs: { src: _vm.imagen }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      ),
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
+                              !_vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audio,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.audioMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: { src: _vm.audio, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.audioMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      ),
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
                             {
                               staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
                               ),
                               _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
-                                },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                              !_vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.video,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.videoMinuta
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                    },
+                                    [
+                                      _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            alt: "",
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ]
-                          ),
-                          _vm._v(" "),
-                          !_vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: { src: _vm.video, controls: "" }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.videoMinuta
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                                },
-                                [
-                                  _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        alt: "",
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      )
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -75644,7 +76209,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                        Puesto:\n                     "
+                              "\n                        Ubicación:\n                     "
                             )
                           ]
                         ),
@@ -75682,7 +76247,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                 Crear puesto: " +
+                                                  "\n                                 Crear Ubicación: " +
                                                     _vm._s(query) +
                                                     "\n                              "
                                                 )
@@ -75697,7 +76262,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            3861746225
+                            3693811378
                           ),
                           model: {
                             value: _vm.formData.ubicacion_id,
@@ -75714,7 +76279,7 @@ var render = function() {
                     _vm.submited && !_vm.$v.formData.ubicacion_id.required
                       ? _c("p", { staticClass: "text-red-500 text-sm" }, [
                           _vm._v(
-                            "Seleccione un\n                     puesto o\n                     ubicación"
+                            "Seleccione\n                     una\n                     ubicación"
                           )
                         ])
                       : _vm._e()
@@ -75791,161 +76356,177 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                            },
-                            [
-                              _vm.audioPreview
-                                ? _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
                                 },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _vm.videoPreview
-                                ? _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.audioPreview
+                                    ? _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                            },
+                            [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.videoPreview
+                                    ? _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -76046,6 +76627,26 @@ var render = function() {
                               _vm._v(
                                 "\n                     " +
                                   _vm._s(item.ubicacion.nombre.toUpperCase()) +
+                                  "\n                  "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass:
+                                "text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2"
+                            },
+                            [
+                              _vm._v(
+                                "\n                     " +
+                                  _vm._s(
+                                    (item.latitud || "-") +
+                                      "/" +
+                                      (item.longitud || "-") +
+                                      " "
+                                  ) +
                                   "\n                  "
                               )
                             ]
@@ -76199,7 +76800,20 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     Puesto\n                  ")]
+          [_vm._v("\n                     Ubicación\n                  ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
+          },
+          [
+            _vm._v(
+              "\n                     Latitud/Longitud\n                  "
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -76226,7 +76840,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     audio\n                  ")]
+          [_vm._v("\n                     Audio\n                  ")]
         ),
         _vm._v(" "),
         _c(
@@ -76235,7 +76849,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     video\n                  ")]
+          [_vm._v("\n                     Video\n                  ")]
         )
       ])
     ])
@@ -76744,161 +77358,177 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                            },
-                            [
-                              _vm.audioPreview
-                                ? _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
                                 },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _vm.videoPreview
-                                ? _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.audioPreview
+                                    ? _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                            },
+                            [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.videoPreview
+                                    ? _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -77272,7 +77902,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     audio\n                  ")]
+          [_vm._v("\n                     Audio\n                  ")]
         ),
         _vm._v(" "),
         _c(
@@ -77281,7 +77911,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     video\n                  ")]
+          [_vm._v("\n                     Video\n                  ")]
         )
       ])
     ])
@@ -77987,161 +78617,177 @@ var render = function() {
                         "flex flex-col lg:flex-row lg:flex-wrap w-full justify-center"
                     },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", {
-                                staticClass: "fas fa-cloud-upload-alt fa-3x"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar foto")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "image/*" },
-                                on: { change: _vm.obtenerImagen }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                      _vm.verificarPermiso("Adjuntar foto")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _c("figure", [
-                                _c("img", {
-                                  attrs: { src: _vm.imagenMinuta, alt: "" }
-                                })
-                              ])
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-music fa-3x" }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Audio")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: { type: "file", accept: "audio/*" },
-                                on: { change: _vm.obtenerAudio }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
-                            },
-                            [
-                              _vm.audioPreview
-                                ? _c("figure", [
-                                    _c("audio", {
-                                      attrs: {
-                                        src: _vm.audioMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
-                        },
-                        [
-                          _c(
-                            "label",
-                            {
-                              staticClass:
-                                "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
-                            },
-                            [
-                              _c("em", { staticClass: "fas fa-video fa-3x" }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "mt-2 text-sm font-semibold" },
-                                [_vm._v("Adjuntar Video")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "opacity-0",
-                                attrs: {
-                                  type: "file",
-                                  accept: "video/mp4,video/x-m4v,video/*"
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
                                 },
-                                on: { change: _vm.obtenerVideo }
-                              })
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-cloud-upload-alt fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar foto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "image/*" },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _c("figure", [
+                                    _c("img", {
+                                      attrs: { src: _vm.imagenMinuta, alt: "" }
+                                    })
+                                  ])
+                                ]
+                              )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c(
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar audio")
+                        ? _c(
                             "div",
                             {
                               staticClass:
-                                "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
                             },
                             [
-                              _vm.videoPreview
-                                ? _c("figure", [
-                                    _c("video", {
-                                      attrs: {
-                                        src: _vm.videoMinuta,
-                                        controls: ""
-                                      }
-                                    })
-                                  ])
-                                : _vm._e()
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-music fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Audio")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: { type: "file", accept: "audio/*" },
+                                    on: { change: _vm.obtenerAudio }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.audioPreview
+                                    ? _c("figure", [
+                                        _c("audio", {
+                                          attrs: {
+                                            src: _vm.audioMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.verificarPermiso("Grabar video")
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                            },
+                            [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150"
+                                },
+                                [
+                                  _c("em", {
+                                    staticClass: "fas fa-video fa-3x"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "mt-2 text-sm font-semibold"
+                                    },
+                                    [_vm._v("Adjuntar Video")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "opacity-0",
+                                    attrs: {
+                                      type: "file",
+                                      accept: "video/mp4,video/x-m4v,video/*"
+                                    },
+                                    on: { change: _vm.obtenerVideo }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full md:w-60 mt-4 p-12 md:p-0 rounded-md overflow-hidden"
+                                },
+                                [
+                                  _vm.videoPreview
+                                    ? _c("figure", [
+                                        _c("video", {
+                                          attrs: {
+                                            src: _vm.videoMinuta,
+                                            controls: ""
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   )
                 ]),
@@ -78608,7 +79254,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     audio\n                  ")]
+          [_vm._v("\n                     Audio\n                  ")]
         ),
         _vm._v(" "),
         _c(
@@ -78617,7 +79263,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                     video\n                  ")]
+          [_vm._v("\n                     Video\n                  ")]
         )
       ])
     ])
@@ -79144,7 +79790,24 @@ var render = function() {
                             staticClass:
                               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                           },
-                          [_vm._v("\n                Puesto\n              ")]
+                          [
+                            _vm._v(
+                              "\n                Ubicación\n              "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          {
+                            staticClass:
+                              "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
+                          },
+                          [
+                            _vm._v(
+                              "\n                Latitud/Longitud\n              "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
@@ -79184,7 +79847,7 @@ var render = function() {
                             staticClass:
                               "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                           },
-                          [_vm._v("\n                video\n              ")]
+                          [_vm._v("\n                Video\n              ")]
                         ),
                         _vm._v(" "),
                         _vm.rol == "ADMINISTRADOR"
@@ -79263,6 +79926,26 @@ var render = function() {
                               _vm._v(
                                 "\n                " +
                                   _vm._s(item.ubicacion.nombre.toUpperCase()) +
+                                  "\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass:
+                                "text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2"
+                            },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(
+                                    (item.latitud || "-") +
+                                      "/" +
+                                      (item.longitud || "-") +
+                                      " "
+                                  ) +
                                   "\n              "
                               )
                             ]
@@ -80017,7 +80700,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                Tipo vehículo:\n              "
+                            "\n                Tipo vehículo\n              "
                           )
                         ]
                       ),
@@ -80072,7 +80755,7 @@ var render = function() {
                           staticClass:
                             "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                         },
-                        [_vm._v("\n                video\n              ")]
+                        [_vm._v("\n                Video\n              ")]
                       ),
                       _vm._v(" "),
                       _vm.rol == "ADMINISTRADOR"
@@ -80823,7 +81506,7 @@ var render = function() {
                           staticClass:
                             "px-4 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                         },
-                        [_vm._v("\n                video\n              ")]
+                        [_vm._v("\n                Video\n              ")]
                       ),
                       _vm._v(" "),
                       _vm.rol == "ADMINISTRADOR"
@@ -84523,11 +85206,7 @@ var render = function() {
                         "block text-gray-600 text-sm font-semibold mb-2",
                       attrs: { htmlFor: "grid-password" }
                     },
-                    [
-                      _vm._v(
-                        "\n                Puesto o ubicación:\n              "
-                      )
-                    ]
+                    [_vm._v("\n                Ubicación:\n              ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -84570,9 +85249,59 @@ var render = function() {
                   _vm._v(" "),
                   _vm.submited && !_vm.$v.formData.nombre.required
                     ? _c("p", { staticClass: "text-red-500 text-sm" }, [
-                        _vm._v("Ingrese el nombre del puesto o ubicación")
+                        _vm._v(
+                          "Ingrese el nombre de la\n                ubicación"
+                        )
                       ])
                     : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-full" }, [
+                _c("div", { staticClass: "relative w-full mb-5" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block text-gray-600 text-sm font-semibold mb-2",
+                      attrs: { htmlFor: "grid-password" }
+                    },
+                    [_vm._v("\n                Sede:\n              ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "relative flex w-full flex-wrap items-stretch mb-3"
+                    },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: this.sede.nombre,
+                            expression: "this.sede.nombre"
+                          }
+                        ],
+                        staticClass:
+                          "px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10",
+                        attrs: { type: "text", disabled: "" },
+                        domProps: { value: this.sede.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(this.sede, "nombre", $event.target.value)
+                          }
+                        }
+                      })
+                    ]
+                  )
                 ])
               ])
             ]),
@@ -84625,7 +85354,7 @@ var render = function() {
                       { staticClass: "font-semibold text-lg text-white mb-2" },
                       [
                         _vm._v(
-                          "\n                Puestos/ubicaciones registrados\n              "
+                          "\n              Ubicaciones registradas\n            "
                         )
                       ]
                     ),
@@ -84665,14 +85394,17 @@ var render = function() {
                 staticClass: "items-center w-full bg-gray-100 border-collapse"
               },
               [
-                _vm._m(1),
+                _vm._m(2),
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.searchPuesto, function(puesto, index) {
+                  _vm._l(_vm.searchUbicacion, function(ubicacion, index) {
                     return _c(
                       "tr",
-                      { key: puesto.id, staticClass: "bg-gray-100 text-left" },
+                      {
+                        key: ubicacion.id,
+                        staticClass: "bg-gray-100 text-left"
+                      },
                       [
                         _c(
                           "td",
@@ -84698,7 +85430,7 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                " +
-                                _vm._s(puesto.nombre.toUpperCase()) +
+                                _vm._s(ubicacion.nombre.toUpperCase()) +
                                 "\n              "
                             )
                           ]
@@ -84727,7 +85459,20 @@ var staticRenderFns = [
         staticClass:
           "z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
       },
-      [_c("em", { staticClass: "fas fa-car" })]
+      [_c("em", { staticClass: "fas fa-building" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "span",
+      {
+        staticClass:
+          "z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
+      },
+      [_c("em", { staticClass: "fas fa-building" })]
     )
   },
   function() {
@@ -84742,7 +85487,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-center text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                  #\n                ")]
+          [_vm._v("\n                #\n              ")]
         ),
         _vm._v(" "),
         _c(
@@ -84751,7 +85496,7 @@ var staticRenderFns = [
             staticClass:
               "px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
           },
-          [_vm._v("\n                  Puesto/Ubicación\n                ")]
+          [_vm._v("\n                Ubicación\n              ")]
         )
       ])
     ])
