@@ -217,7 +217,9 @@ export default {
       showResult: true,
       modal: false,
       datosModal: {},
-      rol: localStorage.getItem('rol')
+      rol: localStorage.getItem('rol'),
+      sede: JSON.parse(localStorage.getItem('sede')) || {},
+      puesto: JSON.parse(localStorage.getItem('puesto')) || {},
     }
   },
   mounted() {
@@ -244,7 +246,7 @@ export default {
     },
 
     makePDF() {
-      location.href = '/api/pdf_recordMinuta?user_id=' + this.formData.user_id + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final;
+      location.href = '/api/pdf_recordMinuta?user_id=' + this.formData.user_id + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final + '&nombre_sede=' + this.sede.nombre + '&nombre_puesto=' + this.puesto.nombre;
     },
 
     fecha(d) {
