@@ -130,7 +130,7 @@ export default {
     } catch (error) {
       console.log(error);
     }
-    console.log(this.permisosMenu);
+
     if (this.permisosMenu?.length > 1) {
       this.permisosMenu.forEach((permiso) => {
         const nombre = permiso.nombre.toLowerCase();
