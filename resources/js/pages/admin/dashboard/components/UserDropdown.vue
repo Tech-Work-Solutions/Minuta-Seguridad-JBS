@@ -2,10 +2,12 @@
   <div>
     <a class="text-blueGray-500 block" href="#pablo" ref="btnDropdownRef" v-on:click="toggleDropdown($event)">
       <div class="items-center flex">
-        <p v-if="puesto.nombre" class="mx-2 text-white md:text-gray-600 text-sm uppercase">
+        <p v-if="puesto.nombre && puesto.nombre.toLocaleLowerCase() !== 'master'"
+          class="mx-2 text-white md:text-gray-600 text-sm uppercase">
           <b>Puesto:</b> {{ puesto.nombre }}
         </p>
-        <p v-if="sede.nombre" class="mx-2 text-white md:text-gray-600 text-sm uppercase">
+        <p v-if="sede.nombre && sede.nombre.toLocaleLowerCase() !== 'sede master'"
+          class="mx-2 text-white md:text-gray-600 text-sm uppercase">
           <b>Sede:</b> {{ sede.nombre }}
         </p>
         <p class="mx-2 text-white md:text-gray-600 text-sm uppercase">{{ currentUser.name }}</p>
