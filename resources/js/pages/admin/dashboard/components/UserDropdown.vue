@@ -39,7 +39,7 @@
         href="#"
         @click.prevent="changePuestoSede" 
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-        v-if="puestos.length > 1"
+        v-if="puestos.length > 1 || puestos[0].sedes.length > 1"
       >
         Cambiar de puesto
       </a>
