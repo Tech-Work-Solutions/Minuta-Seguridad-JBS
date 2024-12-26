@@ -27,22 +27,22 @@
               </div> 
               <div class="w-full">
                 <div class="relative w-full mb-5"> 
-                <label
-                  class="block text-gray-600 text-sm font-semibold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Nombre:
-                </label>
-                <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                  <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                      <em class="fas fa-user"></em>
-                  </span>
-                  <input 
-                      type="text" 
-                      v-model="formData.nombre"
-                      class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
-                </div>
-                <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nombre.required">Ingrese el nombre del puesto</p>
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Nombre:
+                  </label>
+                  <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                    <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <em class="fas fa-user"></em>
+                    </span>
+                    <input 
+                        type="text" 
+                        v-model="formData.nombre"
+                        class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
+                  </div>
+                  <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nombre.required">Ingrese el nombre del puesto</p>
                 </div>
               </div>
               <div class="w-full">
@@ -84,6 +84,9 @@
                     class="w-full"
                     :show-labels="false"
                   />
+                  <p class="text-red-500 text-sm" v-if="submited && !$v.selectedMenuOptions.required">
+                    Debe seleccionar al menos una opción de menú
+                  </p>
                 </div>
               </div>
               <div class="w-full">
@@ -105,7 +108,10 @@
                     placeholder="Selecciona las opciones"
                     class="w-full"
                     :show-labels="false"
-                  />                  
+                  />
+                  <p class="text-red-500 text-sm" v-if="submited && !$v.selectedFormOptions.required">
+                    Debe seleccionar al menos una opción multimedia
+                  </p>                 
                 </div>
               </div>             
             </div>
@@ -188,7 +194,7 @@
   </template>
   
   <script>
-  import { required } from 'vuelidate/lib/validators';
+  import { required, numeric } from 'vuelidate/lib/validators';
   import Multiselect from 'vue-multiselect';
   import 'vue-multiselect/dist/vue-multiselect.min.css';
   import '../../../../../../css/app.css';
@@ -242,11 +248,11 @@
           }));
           this.formData.permisos_formulario = JSON.stringify(this.selectedFormOptions)          
           this.formData.permisos_menu = JSON.stringify(this.selectedMenuOptions) 
-          if(this.formData.estado === true){
+          if (this.formData.estado === true) {
             this.formData.estado = 'ACTIVO';
-          } else {
+          } else if(this.formData.estado === false) {
             this.formData.estado = 'INACTIVO';
-          }           
+          }
           this.validarDatos()         
       },
       validarDatos(){
@@ -359,8 +365,14 @@
     validations: {
       formData: {
           nombre: { required },         
-          nit: { required },         
-      }
+          nit: { required, numeric },         
+      },
+      selectedFormOptions: {
+        required: (value) => value && value.length > 0,
+      },
+      selectedMenuOptions: {
+        required: (value) => value && value.length > 0,
+      },
     },
   
     computed: {
