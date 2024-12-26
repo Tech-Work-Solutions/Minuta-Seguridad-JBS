@@ -35,6 +35,14 @@
       >
         Cerrar sesión
       </a>
+      <a
+        href="#"
+        @click.prevent="changePuestoSede" 
+        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+        v-if="puestos.length > 1"
+      >
+        Cambiar de puesto
+      </a>
       
     </div>
   </div>
@@ -51,7 +59,8 @@ export default {
       dropdownPopoverShow: false,
       image: '',
       token: localStorage.getItem('token'),
-      currentUser: {}
+      currentUser: {},
+      puestos: JSON.parse(localStorage.getItem("puestos")|| '[]')
     };
   },
   methods: {
@@ -68,26 +77,38 @@ export default {
     },
 
     logout(){
-         window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-         axios.post('api/logout').then((response) => {
-          const itemsToRemove = [
-              'token',
-              'rol',
-              'user',
-              'puesto',
-              'sede',
-              'permisosMenu',
-              'permisosFormulario',
-              'puestos'
-          ];
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+        axios.post('api/logout').then((response) => {
+        const itemsToRemove = [
+            'token',
+            'rol',
+            'user',
+            'puesto',
+            'sede',
+            'permisosMenu',
+            'permisosFormulario',
+            'puestos'
+        ];
 
-          itemsToRemove.forEach(item => localStorage.removeItem(item));
-          this.$router.push('/')
-         }).catch((errors) => {
-            console.log(errors)
-         });
-         window.axios.defaults.headers.common['Authorization'] = null;
-      }
+        itemsToRemove.forEach(item => localStorage.removeItem(item));
+        this.$router.push('/')
+        }).catch((errors) => {
+          console.log(errors)
+        });
+        window.axios.defaults.headers.common['Authorization'] = null;
+    },
+    
+    changePuestoSede(){
+      const itemsToRemove = [    
+            'puesto',
+            'sede',
+            'permisosMenu',
+            'permisosFormulario'
+        ];
+
+        itemsToRemove.forEach(item => localStorage.removeItem(item));
+        this.$router.push('/login/config_page')
+    }
   },
 
   mounted(){  
@@ -99,8 +120,7 @@ export default {
               console.log(errors.response.data.errors)
           });
           window.axios.defaults.headers.common['Authorization'] = null;
-      }                   
-        
+      }
     }
 };
 </script>

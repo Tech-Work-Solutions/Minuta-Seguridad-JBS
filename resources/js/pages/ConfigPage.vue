@@ -147,7 +147,6 @@ export default {
                     console.error("Sede seleccionada no encontrada.");
                 }
             }
-            localStorage.removeItem('puestos');
             this.$router.push('/dashboard');
         }
     },
