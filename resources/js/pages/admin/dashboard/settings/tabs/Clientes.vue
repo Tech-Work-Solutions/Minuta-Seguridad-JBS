@@ -61,6 +61,9 @@
                 <multiselect v-model="selectedMenuOptions" :options="menuOptions" :multiple="true" :searchable="true"
                   :close-on-select="false" label="nombre" track-by="id" placeholder="Selecciona las opciones"
                   class="w-full" :show-labels="false" />
+                  <p class="text-red-500 text-sm" v-if="submited && !$v.selectedMenuOptions.required">
+                    Debe seleccionar al menos una opción de menú
+                  </p>
               </div>
             </div>
             <div class="w-full">
@@ -72,6 +75,9 @@
                   :close-on-select="false" label="nombre" track-by="id" placeholder="Selecciona las opciones"
                   class="w-full" :show-labels="false" />
               </div>
+              <p class="text-red-500 text-sm" v-if="submited && !$v.selectedFormOptions.required">
+                Debe seleccionar al menos una opción multimedia
+              </p> 
             </div>
           </div>
           <div class="flex mb-4 mt-5">
@@ -141,7 +147,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required, numeric } from 'vuelidate/lib/validators';
 import Multiselect from 'vue-multiselect';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 import '../../../../../../css/app.css';
@@ -197,7 +203,7 @@ export default {
       this.formData.permisos_menu = JSON.stringify(this.selectedMenuOptions)
       if (this.formData.estado === true) {
         this.formData.estado = 'ACTIVO';
-      } else {
+      } else if(this.formData.estado === false) {
         this.formData.estado = 'INACTIVO';
       }
       this.validarDatos()
@@ -312,8 +318,14 @@ export default {
   validations: {
     formData: {
       nombre: { required },
-      nit: { required },
-    }
+      nit: { required, numeric },         
+      },
+      selectedFormOptions: {
+        required: (value) => value && value.length > 0,
+      },
+      selectedMenuOptions: {
+        required: (value) => value && value.length > 0,
+      },
   },
 
   computed: {
