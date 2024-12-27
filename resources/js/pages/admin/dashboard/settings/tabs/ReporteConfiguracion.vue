@@ -47,6 +47,13 @@
                             <p v-if="!spinner">Guardar</p>
                             <p v-else><em class="fas fa-spinner fa-pulse"></em> Guardando...</p>
                         </button>
+
+                        <button
+                            class="bg-red-500 text-white hover:bg-red-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="button" @click="eliminarImagenes">
+                            <p v-if="!spinnerEliminar">Eliminar Imágenes</p>
+                            <p v-else><em class="fas fa-spinner fa-pulse"></em> Eliminando...</p>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -68,7 +75,7 @@ export default {
             imgMinutaFooter: '',
             imagenes: {},
             spinner: false,
-            submited: false,
+            spinnerEliminar: false,
         };
     },
 
@@ -96,17 +103,28 @@ export default {
             try {
                 await axios.post('/api/updateImagenesReporte', datos);
                 this.spinner = false;
-                this.submited = false;
                 this.formData.img_header = '';
                 this.formData.img_footer = '';
                 this.$toaster.success('Registro creado con éxito.');
             } catch (errors) {
                 this.spinner = false;
-                this.submited = false;
                 this.$toaster.error('Algo salió mal.');
                 console.log(errors.response.data.errors);
             }
-
+        },
+        async eliminarImagenes() {
+            this.spinnerEliminar = true;
+            try {
+                await axios.delete('/api/deleteImagenesReporte');
+                this.spinnerEliminar = false;
+                this.imgMinutaHeader = '';
+                this.imgMinutaFooter = '';
+                this.$toaster.success('Registro eliminado con éxito.');
+            } catch (errors) {
+                this.spinnerEliminar = false;
+                this.$toaster.error('Algo salió mal.');
+                console.log(errors.response.data.errors);
+            }
         },
         obtenerImagenHeader(e) {
             let file = e.target.files[0];

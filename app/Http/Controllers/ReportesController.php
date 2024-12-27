@@ -289,5 +289,24 @@ class ReportesController extends Controller
         
         return response()->json(["msg" => "Imagenes actualizadas"]);
     }
+    
+    public function deleteImagenesReporte() {
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $fileService = new FileService();
+        
+        $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
+            
+        if ($imagenHeader) {
+            $fileService->eliminarArchivo($imagenHeader);
+        }
+    
+        $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
+        
+        if ($imagenFooter) {
+            $fileService->eliminarArchivo($imagenFooter);
+        }
+        
+        return response()->json(["msg" => "Imagenes actualizadas"]);
+    }
 
 }

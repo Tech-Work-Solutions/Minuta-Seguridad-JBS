@@ -100,6 +100,7 @@ Route::get('pdf_recordVehicle', [ReportesController::class, 'pdf_recordVehicle']
 Route::get('pdf_recordVisitante', [ReportesController::class, 'pdf_recordVisitante']);
 Route::get('getImagenesReporte', [ReportesController::class, 'getImagenesReporte']);
 Route::post('updateImagenesReporte', [ReportesController::class, 'updateImagenesReporte']);
+Route::delete('deleteImagenesReporte', [ReportesController::class, 'deleteImagenesReporte']);
 
 Route::post('registerClients', [ClientsController::class, 'registerClients']);
 Route::get('getClients', [ClientsController::class, 'getClients']);
