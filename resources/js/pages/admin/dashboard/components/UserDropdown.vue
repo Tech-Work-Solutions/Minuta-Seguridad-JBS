@@ -26,6 +26,14 @@
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
         Cerrar sesión
       </a>
+      <a
+      href="#"
+        @click.prevent="changePuestoSede" 
+        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+        v-if="puestos.length > 1 || (puestos[0] && puestos[0].sedes && puestos[0].sedes.length > 1)"
+      >
+        Cambiar de puesto
+      </a>
 
     </div>
   </div>
@@ -45,6 +53,7 @@ export default {
       currentUser: {},
       sede: JSON.parse(localStorage.getItem('sede')) || {},
       puesto: JSON.parse(localStorage.getItem('puesto')) || {},
+      puestos: JSON.parse(localStorage.getItem("puestos")|| '[]')
     };
   },
   methods: {
@@ -80,6 +89,17 @@ export default {
         console.log(errors)
       });
       window.axios.defaults.headers.common['Authorization'] = null;
+    },
+
+    changePuestoSede(){
+      const itemsToRemove = [    
+            'puesto',
+            'sede',
+            'permisosMenu',
+            'permisosFormulario'
+        ];
+        itemsToRemove.forEach(item => localStorage.removeItem(item));
+        this.$router.push('/login/config_page')
     }
   },
 

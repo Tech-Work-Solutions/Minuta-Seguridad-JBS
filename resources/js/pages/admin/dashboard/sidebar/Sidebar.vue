@@ -6,7 +6,9 @@
       <!-- Toggler -->
       <button
         class="cursor-pointer text-white font-bold  md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
-        type="button" v-on:click="toggleCollapseShow('bg-gray-600 m-2 py-3 px-6')">
+        type="button"
+        v-on:click="toggleCollapseShow('bg-gray-600 m-2 py-3 px-6')"
+      >
         <i class="fas fa-bars"></i>
       </button>
       <!-- Brand -->
@@ -30,9 +32,12 @@
       <!-- Collapse -->
       <div
         class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded"
-        v-bind:class="collapseShow">
+        v-bind:class="collapseShow"
+      >
         <!-- Collapse header -->
-        <div class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-white">
+        <div
+          class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-white"
+        >
           <div class="flex flex-wrap">
             <div class="w-6/12">
               <router-link
@@ -68,7 +73,11 @@
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-          <li class="items-center" v-for="(opcion, index) in opcionesMenu" :key="index">
+          <li
+            class="items-center"
+            v-for="(opcion, index) in opcionesMenu"
+            :key="index"
+          >
             <router-link :to="{ name: opcion.label }" v-slot="{ href, isActive }">
               <a :href="href" @click.prevent="navegar(opcion.route)" class="text-xs uppercase py-3 font-bold block"
                 :class="[
@@ -88,7 +97,7 @@
 
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
-
+        
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
