@@ -44,6 +44,7 @@
       left: 0;
       right: 0;
       height: 70px;
+      margin-bottom: 70px;
     }
     .footer img {
       width: 100%;

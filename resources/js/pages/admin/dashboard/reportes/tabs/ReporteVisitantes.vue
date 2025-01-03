@@ -288,7 +288,7 @@ export default {
     },
 
     makePDF() {
-      location.href = '/api/pdf_recordVisitante?user_id=' + this.formData.user_id + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final + '&nombre_sede=' + this.sede.nombre + '&nombre_puesto=' + this.puesto.nombre;
+      location.href = '/api/pdf_recordVisitante?user_id=' + this.formData.user_id + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final + '&nombre_sede=' + this.sede.nombre + '&nombre_puesto=' + this.puesto.nombre + '&sede_id=' + this.sede.id;
     },
 
     validarDatos(action) {

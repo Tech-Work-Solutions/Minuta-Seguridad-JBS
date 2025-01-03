@@ -121,31 +121,35 @@ class ReportesController extends Controller
         $user_id = $_GET["user_id"];
         $nombre_sede = $_GET["nombre_sede"];
         $nombre_puesto = $_GET["nombre_puesto"];
+        $sede_id = $_GET["sede_id"];
         $records = [];
         $imagenHeader = '';
         $imagenFooter = '';
         $extensionesImagenes = config('constantes.extensiones_imagenes');
         $fileService = new FileService();
 
-        if ($user_id === "TODOS"){
-            $records = Record_minuta::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
-            
-        } else {
-            $records = Record_minuta::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                ->where('user_id', $user_id)
-                                ->orderBy('id', 'DESC')
-                                ->get();
+        $query = Record_minuta::query();
+
+        $query->where('created_at', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicial)))
+            ->where('created_at', '<=', date("Y-m-d H:i:s", strtotime($fecha_final)));
+
+        if ($user_id !== "TODOS") {
+            $query->where('user_id', $user_id);
         }
+
+        if ($nombre_sede !== "Sede master" && $sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $query->orderBy('id', 'DESC');
+
+        $records = $query->get();
+
         foreach($records as $record){
             $record->usuario->name;
             $record->asunto->nombre;
             $record->ubicacion;
         }
-        //var_dump($obj);
         
         $imagenHeader = $fileService->getArchivo('img/img_header', $extensionesImagenes);
         $imagenFooter = $fileService->getArchivo('img/img_footer', $extensionesImagenes);
@@ -169,30 +173,35 @@ class ReportesController extends Controller
         $value_id = $_GET["value_id"];
         $nombre_sede = $_GET["nombre_sede"];
         $nombre_puesto = $_GET["nombre_puesto"];
+        $sede_id = $_GET["sede_id"];
         $records = [];
         $imagenHeader = '';
         $imagenFooter = '';
         $extensionesImagenes = config('constantes.extensiones_imagenes');
         $fileService = new FileService();
 
-        if($tipo === 'TODOS') {
-            $records = Record_vehicle::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
-        }else{
+        $query = Record_vehicle::query();
+        $query->where('created_at', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicial)))
+        ->where('created_at', '<=', date("Y-m-d H:i:s", strtotime($fecha_final)));
+
+        if($tipo !== 'TODOS') {
             $column = '';
             if($tipo === 'VEHICULO') { $column = 'vehicle_id'; }
             else if($tipo === 'CONDUCTOR') { $column = 'driver_id'; }
             else if($tipo === 'PROCEDENCIA') { $column = 'origin_id'; }
             else if($tipo === 'GUARDA') { $column = 'user_id'; }
             else { $column = 'volqueta_id'; }
-            $records = Record_vehicle::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->where($column, $value_id)
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
+            $query->where($column, $value_id);
         }
+
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $query->orderBy('id', 'DESC');
+
+        $records = $query->get();
+
         foreach($records  as $record){
             $record->driver->nombre;
             $record->vehicle->placa;
@@ -222,25 +231,29 @@ class ReportesController extends Controller
         $user_id = $_GET["user_id"];
         $nombre_sede = $_GET["nombre_sede"];
         $nombre_puesto = $_GET["nombre_puesto"];
+        $sede_id = $_GET["sede_id"];
         $records = [];
         $imagenHeader = '';
         $imagenFooter = '';
         $extensionesImagenes = config('constantes.extensiones_imagenes');
         $fileService = new FileService();
 
-        if ($user_id === "TODOS"){
-            $records = Record_person::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
-            
-        }else {
-            $records = Record_person::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->where('user_id', $user_id)
-                                    ->orderBy('id', 'DESC')
-                                    ->get();            
+        $query = Record_person::query();
+
+        $query->where('created_at', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicial)))
+        ->where('created_at', '<=', date("Y-m-d H:i:s", strtotime($fecha_final)));
+
+        if ($user_id !== "TODOS") {
+            $query->where('user_id', $user_id);
         }
+
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $query->orderBy('id', 'DESC');
+
+        $records = $query->get();
         foreach($records as $record){
             $record->person;
             $record->user;
