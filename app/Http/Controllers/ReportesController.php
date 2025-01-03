@@ -47,25 +47,31 @@ class ReportesController extends Controller
     public function getReporteVehiculos(Request $request) {
         $fecha_inicial = $request->fecha_inicial.' 00:00:00';
         $fecha_final = $request->fecha_final.' 23:59:59';
+        $sede_id = $request->sede_id;
         $records = [];
-        if($request->tipo === 'TODOS') {
-            $records = Record_vehicle::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
-        }else{
+
+        $query = Record_vehicle::query();
+        $query->where('created_at', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicial)))
+        ->where('created_at', '<=', date("Y-m-d H:i:s", strtotime($fecha_final)));
+
+        if($request->tipo !== 'TODOS') {
             $column = '';
             if($request->tipo === 'VEHICULO') { $column = 'vehicle_id'; }
             else if($request->tipo === 'CONDUCTOR') { $column = 'driver_id'; }
             else if($request->tipo === 'PROCEDENCIA') { $column = 'origin_id'; }
             else if($request->tipo === 'GUARDA') { $column = 'user_id'; }
             else { $column = 'volqueta_id'; }
-            $records = Record_vehicle::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->where($column, $request->value_id)
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
+            $query->where($column, $request->value_id);
         }
+
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $query->orderBy('id', 'DESC');
+
+        $records = $query->get();
+        
         foreach($records  as $record){
             $record->driver->nombre;
             $record->vehicle->placa;
@@ -79,20 +85,26 @@ class ReportesController extends Controller
     public function getReporteVisitantes(Request $request) {
         $fecha_inicial = $request->fecha_inicial.' 00:00:00';
         $fecha_final = $request->fecha_final.' 23:59:59';
+        $sede_id = $request->sede_id;
         $records = [];
-        if ($request->user_id === "TODOS"){
-            $records = Record_person::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
-            
-        }else {
-            $records = Record_person::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->where('user_id', $request->user_id)
-                                    ->orderBy('id', 'DESC')
-                                    ->get();            
+
+        $query = Record_person::query();
+
+        $query->where('created_at', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicial)))
+        ->where('created_at', '<=', date("Y-m-d H:i:s", strtotime($fecha_final)));
+
+        if ($request->user_id !== "TODOS") {
+            $query->where('user_id', $request->user_id);
         }
+
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $query->orderBy('id', 'DESC');
+
+        $records = $query->get();
+
         foreach($records as $record){
             $record->person;
             $record->user;

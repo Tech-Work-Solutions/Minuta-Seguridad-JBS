@@ -313,12 +313,12 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     this.getVehiculos();
     this.getConductores();
     this.getProcedencias();
     this.getVolquetas();
-    this.getUsersGuardas();
+    await this.getUsersGuardas();
   },
 
   methods: {
@@ -347,10 +347,14 @@ export default {
       });
     },
     async getUsersGuardas() {
-      await axios.get('/api/getUsersGuardas').then((response) => {
-        this.guardas = response.data;
+      const url = `/api/getUsersGuardas${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `/?sede_id=${this.sede.id}` : ''}`;
+      try {
+        const guardas = await axios.get(url);
+        this.guardas = guardas.data;
         this.guardas.forEach(item => item.text = item.name.toUpperCase());
-      });
+      } catch (errors) {
+        console.log(errors.response.data.errors);
+      }
     },
     onChange() {
       this.formData.value_id = '';
@@ -377,6 +381,9 @@ export default {
     },
     async consultar() {
       this.spiner = true;
+      if (this.sede.nombre.toUpperCase() !== 'SEDE MASTER') {
+        this.formData.sede_id = this.sede.id;
+      }
       await axios.post('/api/getReporteVehiculos', this.formData).then((response) => {
         this.datos = response.data;
         if (this.datos.length > 0) { this.showResult = true }
