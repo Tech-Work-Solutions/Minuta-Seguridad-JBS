@@ -474,10 +474,10 @@ export default {
             this.$toaster.success('Registro creado con exito.');
          } catch (errors) {
             this.spiner = false;            
-            if (errors.response && errors.response.data.errors.email) {
-                  this.$toaster.error(errors.response.data.errors.email[0]);
+            if (errors.response && errors.response.data?.errors?.email) {
+               this.$toaster.error(errors.response.data.errors.email[0]);
             } else {
-                  this.$toaster.error('Ocurrió un error');
+               this.$toaster.error('Ocurrió un error');
             }
          }
       },
