@@ -194,7 +194,7 @@ class ReportesController extends Controller
             $query->where($column, $value_id);
         }
 
-        if ($sede_id) {
+        if ($nombre_sede !== "Sede master" && $sede_id) {
             $query->where('sede_id', $sede_id);
         }
 
@@ -247,7 +247,7 @@ class ReportesController extends Controller
             $query->where('user_id', $user_id);
         }
 
-        if ($sede_id) {
+        if ($nombre_sede !== "Sede master" && $sede_id) {
             $query->where('sede_id', $sede_id);
         }
 
