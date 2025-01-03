@@ -16,22 +16,27 @@ class ReportesController extends Controller
     public function getReporteMinuta(Request $request) {
         $fecha_inicial = $request->fecha_inicial." 00:00:00";
         $fecha_final = $request->fecha_final." 23:59:59";
-        //return $fecha_inicial;
+        $sede_id = $request->sede_id;
         $records = [];
-        if ($request->user_id === "TODOS"){
-            $records = Record_minuta::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                    ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
-            
-        } else {
-            $records = Record_minuta::where('created_at', '>=',  date("Y-m-d H:i:s",  strtotime($fecha_inicial)))
-                                ->where('created_at', '<=', date("Y-m-d H:i:s",  strtotime($fecha_final)))
-                                ->where('user_id', $request->user_id)
-                                ->orderBy('id', 'DESC')
-                                ->get();
+        
+        $query = Record_minuta::query();
+
+        $query->where('created_at', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicial)))
+            ->where('created_at', '<=', date("Y-m-d H:i:s", strtotime($fecha_final)));
+
+        if ($request->user_id !== "TODOS") {
+            $query->where('user_id', $request->user_id);
         }
-        foreach($records as $record){
+
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $query->orderBy('id', 'DESC');
+
+        $records = $query->get();
+
+        foreach ($records as $record) {
             $record->usuario->name;
             $record->asunto->nombre;
             $record->ubicacion;
