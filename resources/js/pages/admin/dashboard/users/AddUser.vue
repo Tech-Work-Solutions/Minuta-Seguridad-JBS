@@ -477,7 +477,7 @@ export default {
             if (errors.response && errors.response.data?.errors?.email) {
                this.$toaster.error(errors.response.data.errors.email[0]);
             } else {
-               this.$toaster.error('Ocurrió un error');
+               this.$toaster.error('La información proporcionada no es válida.');
             }
          }
       },
