@@ -468,12 +468,11 @@ export default {
             this.$router.push('/usuarios')
             this.$toaster.success('Registro actualizado con exito.')
          } catch (errors) {
-            this.spiner = false;
-            this.errors = errors.response.data.errors
-            if (errors.response.data.errors.email) {
+            this.spiner = false;            
+            if (errors.response && errors.response.data?.errors?.email) {
                this.$toaster.error(errors.response.data.errors.email[0]);
-            }else {
-               this.$toaster.error('Ocurrió un error');
+            } else {
+               this.$toaster.error('La información proporcionada no es válida.');
             }
          }
   
