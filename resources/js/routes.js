@@ -17,6 +17,7 @@ import EditRecordVehicle from './pages/admin/dashboard/records/EditVehicle.vue'
 import EditRecordVisitante from './pages/admin/dashboard/records/EditVisitante.vue'
 import ConfigPage from './pages/ConfigPage.vue'
 import Recurso404 from './pages/Recurso404.vue'
+import Hojadevida from './pages/admin/dashboard/recursosHumanos/Index.vue'
 
 Vue.use(VueRouter)
  
@@ -146,6 +147,15 @@ const routes = [
                 MainView: Settings
               }
             },
+            {
+              path: "/hojadevida",
+              name: "Hoja de vida",
+              meta: { requiresAuth :true },
+              components: {
+                default: Dashboard,
+                MainView: Hojadevida
+              }
+            },
         ]
     },
     {
@@ -153,7 +163,6 @@ const routes = [
       name: "Recurso404",
       component: Recurso404
     },
-    
 
 ]
 
