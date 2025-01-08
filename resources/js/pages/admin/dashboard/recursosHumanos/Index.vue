@@ -43,6 +43,7 @@ import EducacionAptitudes from './tabs/EducacionAptitudes.vue';
 import TrayectoriaEmpresas from './tabs/TrayectoriaEmpresas.vue';
 import ExperienciaLaboral from './tabs/ExperienciaLaboral.vue';
 import ReferenciasPersonales from './tabs/ReferenciasPersonales.vue';
+import AdministracionProcesoSeleccion from './tabs/AdministracionProcesoSeleccion.vue';
 
 export default {
     name: "tabs",
@@ -51,13 +52,14 @@ export default {
             openTab: 1,
             show: false,
             tabs: [
-                { label: 'Informacion General', icon: 'fas fa-car', component: 'InformacionGeneral' },
-                { label: 'Informacion Personal', icon: 'fas fa-user-shield', component: 'InformacionPersonal' },
-                { label: 'Informacion Familiar', icon: 'fas fa-globe', component: 'InformacionFamiliar' },
-                { label: 'Educacion y Aptitudes', icon: 'fas fa-caravan', component: 'EducacionAptitudes' },
-                { label: 'Trayectoria Empresas', icon: 'fas fa-hospital-alt', component: 'TrayectoriaEmpresas' },
+                { label: 'Información General', icon: 'fas fa-user-shield', component: 'InformacionGeneral' },
+                { label: 'Información Personal', icon: 'fas fa-user-shield', component: 'InformacionPersonal' },
+                { label: 'Información Familiar', icon: 'fas fa-user-shield', component: 'InformacionFamiliar' },
+                { label: 'Educación y Aptitudes', icon: 'fas fa-caravan', component: 'EducacionAptitudes' },
+                { label: 'Trayectoria Empresas', icon: 'fas fa-building', component: 'TrayectoriaEmpresas' },
                 { label: 'Experiencia Laboral', icon: 'fas fa-building', component: 'ExperienciaLaboral' },
-                { label: 'Referencias Personales', icon: 'fas fa-pen-fancy', component: 'ReferenciasPersonales' },
+                { label: 'Referencias Personales', icon: 'fas fa-user-shield', component: 'ReferenciasPersonales' },
+                { label: 'Administración Proceso de Selección', icon: 'fas fa-pen-fancy', component: 'AdministracionProcesoSeleccion' },
             ],
         };
     },
@@ -86,6 +88,7 @@ export default {
         TrayectoriaEmpresas,
         ExperienciaLaboral,
         ReferenciasPersonales,
+        AdministracionProcesoSeleccion,
     },
 };
 </script>
