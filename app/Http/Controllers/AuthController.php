@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Users_sede;
 
 class AuthController extends Controller
 {
@@ -86,8 +87,23 @@ class AuthController extends Controller
             ->get();
     }
 
-    public function getUsersGuardas(){
-        return User::where('estado', '1')->where('rol', 'GUARDA DE SEGURIDAD')->orderBy('name')->get();
+    public function getUsersGuardas(Request $request){
+        $sedeId = $request->input('sede_id');
+
+        $query = User::query();
+
+        $query->where('estado', '1')
+            ->where('rol', 'GUARDA DE SEGURIDAD');
+
+        if ($sedeId) {
+            $query->whereHas('user_sedes', function ($subQuery) use ($sedeId) {
+                $subQuery->where('sede_id', $sedeId);
+            });
+        }
+
+        $query->orderBy('name');
+
+        return $query->get();
     }
 
     public function getUser($id){

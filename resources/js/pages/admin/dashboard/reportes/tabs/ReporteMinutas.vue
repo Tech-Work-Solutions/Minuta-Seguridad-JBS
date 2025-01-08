@@ -222,20 +222,27 @@ export default {
       puesto: JSON.parse(localStorage.getItem('puesto')) || {},
     }
   },
-  mounted() {
-    this.getUsersGuardas();
+  async mounted() {
+    await this.getUsersGuardas();
   },
 
   methods: {
     async getUsersGuardas() {
-      await axios.get('/api/getUsersGuardas').then((response) => {
-        this.guardas = response.data;
+      const url = `/api/getUsersGuardas${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `/?sede_id=${this.sede.id}` : ''}`;
+      try {
+        const guardas = await axios.get(url);
+        this.guardas = guardas.data;
         this.guardas.forEach(item => item.text = item.name.toUpperCase());
         this.guardas.unshift({ id: 'TODOS', text: 'TODOS' });
-      });
+      } catch (errors) {
+        console.log(errors.response.data.errors);
+      }
     },
     async consultar() {
       this.spiner = true;
+      if (this.sede.nombre.toUpperCase() !== 'SEDE MASTER') {
+        this.formData.sede_id = this.sede.id;
+      }
       await axios.post('/api/getReporteMinuta', this.formData).then((response) => {
         this.datos = response.data;
         if (this.datos.length > 0) { this.showResult = true }
@@ -246,7 +253,7 @@ export default {
     },
 
     makePDF() {
-      location.href = '/api/pdf_recordMinuta?user_id=' + this.formData.user_id + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final + '&nombre_sede=' + this.sede.nombre + '&nombre_puesto=' + this.puesto.nombre;
+      location.href = '/api/pdf_recordMinuta?user_id=' + this.formData.user_id + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final + '&nombre_sede=' + this.sede.nombre + '&nombre_puesto=' + this.puesto.nombre + '&sede_id=' + this.sede.id;
     },
 
     fecha(d) {

@@ -313,12 +313,12 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     this.getVehiculos();
     this.getConductores();
     this.getProcedencias();
     this.getVolquetas();
-    this.getUsersGuardas();
+    await this.getUsersGuardas();
   },
 
   methods: {
@@ -347,10 +347,14 @@ export default {
       });
     },
     async getUsersGuardas() {
-      await axios.get('/api/getUsersGuardas').then((response) => {
-        this.guardas = response.data;
+      const url = `/api/getUsersGuardas${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `/?sede_id=${this.sede.id}` : ''}`;
+      try {
+        const guardas = await axios.get(url);
+        this.guardas = guardas.data;
         this.guardas.forEach(item => item.text = item.name.toUpperCase());
-      });
+      } catch (errors) {
+        console.log(errors.response.data.errors);
+      }
     },
     onChange() {
       this.formData.value_id = '';
@@ -377,6 +381,9 @@ export default {
     },
     async consultar() {
       this.spiner = true;
+      if (this.sede.nombre.toUpperCase() !== 'SEDE MASTER') {
+        this.formData.sede_id = this.sede.id;
+      }
       await axios.post('/api/getReporteVehiculos', this.formData).then((response) => {
         this.datos = response.data;
         if (this.datos.length > 0) { this.showResult = true }
@@ -391,7 +398,7 @@ export default {
     },
 
     makePDF() {
-      location.href = '/api/pdf_recordVehicle?value_id=' + this.formData.value_id + '&tipo=' + this.formData.tipo + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final + '&nombre_sede=' + this.sede.nombre + '&nombre_puesto=' + this.puesto.nombre;
+      location.href = '/api/pdf_recordVehicle?value_id=' + this.formData.value_id + '&tipo=' + this.formData.tipo + '&fecha_inicial=' + this.formData.fecha_inicial + '&fecha_final=' + this.formData.fecha_final + '&nombre_sede=' + this.sede.nombre + '&nombre_puesto=' + this.puesto.nombre + '&sede_id=' + this.sede.id;
     },
 
     validarDatos(action) {
