@@ -23,4 +23,5 @@ export const OPCIONES_MENU_ADMIN = [
     { label: "Reportes", route: "/reportes", icon: "fa-chart-bar" },
     { label: "Configuraciones", route: "/configuraciones", icon: "fa-cogs" },
     { label: "Usuarios", route: "/usuarios", icon: "fa-users-cog" },
+    { label: "Hoja de vida", route: "/hojadevida", icon: "fa-paperclip" },
 ];
