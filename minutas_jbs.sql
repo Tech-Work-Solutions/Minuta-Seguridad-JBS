@@ -640,7 +640,7 @@ CREATE TABLE `users` (
   `ciudad` varchar(255) NOT NULL,
   `telefono_uno` varchar(15) NOT NULL,
   `telefono_dos` varchar(15) DEFAULT NULL,
-  `numero_documento` varchar(20) NOT NULL,
+  `numero_documento` varchar(20) NOT NULL UNIQUE,
   `tipo_documento_id` bigint(20) UNSIGNED NOT NULL,
   `estado` varchar(2) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
@@ -654,11 +654,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `rol`, `fecha_nacimiento`, `direccion`, `ciudad`, `telefono_uno`, `telefono_dos`, `numero_documento`, `tipo_documento_id`, `estado`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'ADMINISTRADOR', 'admin@seguridadjbs.com', NULL, '$2y$10$k2/wtZUL02rFhEMg4CpyaOvXuiyZYG/ba.JhS9bwtJRKk9Qg0LPWu', 'ADMINISTRADOR', '2004-05-05', 'PASTO 2', 'PASTO', '3124564445', '312155645', '123456', 1, '1', NULL, '2021-11-27 01:24:55', '2022-02-12 15:24:52'),
-(2, 'JOSE LUIS OSPINA', 'joseospina@seguridadjbs.com', NULL, '$2y$10$NSApH.Uqnt2Z7UqHWL.BieRLGNN2tZwfO7A/e72CBRgSOtP4os74m', 'ADMINISTRATIVO', '1989-12-31', 'TUMACO', 'TUMACO', '123456', NULL, '111111111', 1, '1', NULL, '2022-02-12 14:33:28', '2022-02-12 15:33:44'),
-(3, 'HENRY FERNANDO  OSPINA M', 'henryospina@seguridadjbs.com', NULL, '$2y$10$SVTSSsiTrREzg7AXQ3Poo.aPZF1h7mEv4SlDxngKo4L.Obxe5AbCu', 'ADMINISTRATIVO', '2001-01-01', 'CALI', 'CALI', '3173639130', NULL, '123456', 1, '1', NULL, '2022-02-12 14:45:43', '2022-02-12 15:33:36'),
-(4, 'Registros', 'registros@seguridadjbs.com', NULL, '$2y$10$AkNZVX4.1JeLAS.gxUFRn.pBUiSSIN.0wzvZI7kakF6TVIzz8A6aq', 'REGISTROS', '2000-01-12', 'CALI', 'CALI', '123456789', NULL, '2222222', 1, '1', NULL, '2022-02-12 15:32:32', '2022-02-12 15:32:32'),
-(5, 'ADMINISTRADOR2', 'oskre2193@gmail.com', NULL, '$2y$10$Z2jP6Bgz7ytfim65ip61seYFGiWAl.3d34FCf4ak8ObJFezwBDy/q', 'ADMINISTRADOR', '2003-05-05', 'PASTO 2', 'PASTO', '3124564445', '312155645', '123456', 1, '1', NULL, '2021-11-27 06:24:55', '2022-02-12 20:24:52'),
-(11, 'Oscar', 'oscarerazo2110@gmail.com', NULL, '$2y$10$uLvTy.yYLuUHX9LJDl9a3.xq.NRj0qNNBxQWJ0LcYf.Fje12KwJVi', 'ADMINISTRADOR', '1998-10-21', 'el calvario', 'pasto', '3016561915', NULL, '1085308277', 1, '1', NULL, '2024-11-11 21:05:46', '2024-11-11 21:05:46');
+(2, 'ADMINISTRADOR2', 'oskre2193@gmail.com', NULL, '$2y$10$Z2jP6Bgz7ytfim65ip61seYFGiWAl.3d34FCf4ak8ObJFezwBDy/q', 'ADMINISTRADOR', '2003-05-05', 'PASTO 2', 'PASTO', '3124564445', '312155645', '123456', 1, '1', NULL, '2021-11-27 06:24:55', '2022-02-12 20:24:52');
 
 -- --------------------------------------------------------
 
@@ -679,9 +675,8 @@ CREATE TABLE `users_sedes` (
 --
 
 INSERT INTO `users_sedes` (`id`, `user_id`, `sede_id`, `created_at`, `updated_at`) VALUES
-(1, 5, 7, '2024-12-11 16:50:32', NULL),
-(3, 11, 4, '2024-12-11 21:46:46', NULL),
-(4, 11, 5, '2024-12-11 21:46:46', NULL);
+(1, 1, 7, '2024-12-11 16:50:32', NULL),
+(2, 2, 7, '2024-12-11 21:46:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -1035,7 +1030,7 @@ ALTER TABLE `ubicacions`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `users_sedes`
@@ -1111,7 +1106,8 @@ ALTER TABLE `ubicacions`
 -- Filtros para la tabla `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `users_tipo_documento_id_foreign` FOREIGN KEY (`tipo_documento_id`) REFERENCES `tipo_documentos` (`id`);
+  ADD CONSTRAINT `users_tipo_documento_id_foreign` FOREIGN KEY (`tipo_documento_id`) REFERENCES `tipo_documentos` (`id`),
+  ADD CONSTRAINT `numero_documento_unique` UNIQUE (`numero_documento`);
 
 --
 -- Filtros para la tabla `users_sedes`

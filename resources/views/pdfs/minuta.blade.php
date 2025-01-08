@@ -34,24 +34,27 @@
     }
     .header img {
       width: 100%;
-      max-width: 220px;
+      max-width: 1200px;
       height: auto;
-      max-height: 80px;
+      max-height: 200px;
     }
     .footer {
-      position: fixed;
+      position: absolute;
       bottom: 0;
-      width: 100%;
-      text-align: center;
-      margin-top: 20px;
+      left: 0;
+      right: 0;
+      height: 70px;
+      margin-bottom: 70px;
     }
     .footer img {
       width: 100%;
-      max-width: 200px;
+      max-width: 1200px;
       height: auto;
-      max-height: 70px;
+      max-height: 200px;
     }
-    
+    @page {
+      margin: 20mm;
+    }
   </style>
 </head>
 <body>

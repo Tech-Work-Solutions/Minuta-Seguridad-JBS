@@ -9,7 +9,7 @@ class UbicacionController extends Controller
 {
     public function registerUbicacion(Request $request){
         $request->validate([
-            'nombre'    => ['required', 'unique:ubicacions'],
+            'nombre'    => ['required'],
             'sede_id'   => ['required', 'numeric'],
         ]);
         $ubicacion = Ubicacion::create([

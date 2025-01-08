@@ -45,6 +45,7 @@
               <button type="button"
                 class="cursor-pointer text-white opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
                 v-on:click="toggleCollapseShow('hidden')">
+                v-on:click="toggleCollapseShow('hidden')">
                 <i class="fas fa-times"></i>
               </button>
             </div>
