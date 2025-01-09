@@ -168,6 +168,28 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `hojas_de_vida`
+--
+
+CREATE TABLE `hojas_de_vida` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `informacion_general` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información General' CHECK (json_valid(`informacion_General`)), 
+  `informacion_personal` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información personal' CHECK (json_valid(`informacion_personal`)), 
+  `informacion_familiar` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información familiar' CHECK (json_valid(`informacion_familiar`)), 
+  `educacion_aptitudes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información de la educacion y aptitudes' CHECK (json_valid(`educacion_aptitudes`)), 
+  `trayectoria_empresas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información de la trayectoria en las empresas' CHECK (json_valid(`trayectoria_empresas`)), 
+  `experiencia_laboral` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información de la experiencia laboral' CHECK (json_valid(`experiencia_laboral`)), 
+  `referencias_personales` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información de las referencias personales' CHECK (json_valid(`referencias_personales`)), 
+  `administracion_proceso_seleccion` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información de la administración del proceso de selección por el entrevistador' CHECK (json_valid(`administracion_proceso_seleccion`)), 
+  `soportes` varchar(255) DEFAULT NULL COMMENT 'Contiene la ruta del pdf con todos los soportes asociado a la hoja de vida minerva 1003',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `migrations`
 --
 
@@ -782,6 +804,13 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indices de la tabla `hojas_de_vida`
+--
+ALTER TABLE `hojas_de_vida`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hojas_de_vida_user_id_foreign` (`user_id`);
+
+--
 -- Indices de la tabla `migrations`
 --
 ALTER TABLE `migrations`
@@ -955,6 +984,12 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT de la tabla `hojas_de_vida`
+--
+ALTER TABLE `hojas_de_vida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla de hojas_de_vida';
+
+--
 -- AUTO_INCREMENT de la tabla `opciones_formulario`
 --
 ALTER TABLE `opciones_formulario`
@@ -1115,6 +1150,12 @@ ALTER TABLE `users`
 ALTER TABLE `users_sedes`
   ADD CONSTRAINT `users_sedes_sede_id_foreign` FOREIGN KEY (`sede_id`) REFERENCES `sedes` (`id`),
   ADD CONSTRAINT `users_sedes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `hojas_de_vida`
+--
+ALTER TABLE `hojas_de_vida`
+  ADD CONSTRAINT `hojas_de_vida_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
