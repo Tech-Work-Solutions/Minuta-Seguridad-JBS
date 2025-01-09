@@ -19,6 +19,7 @@ use App\Http\Controllers\SedesController;
 use App\Http\Controllers\OpcionesMenuController;
 use App\Http\Controllers\OpcionesFormularioController;
 use App\Http\Controllers\UsersSedeController;
+use App\Http\Controllers\HojaVidaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,5 +125,10 @@ Route::get('getSedesAndClientesByUser', [UsersSedeController::class, 'getSedesAn
 Route::post('registerUserSedes', [UsersSedeController::class,'registerUserSedes']);
 Route::post('updateUserSedes', [UsersSedeController::class, 'updateUserSedes']);
 Route::post('deleteAllUserSedes', [UsersSedeController::class, 'deleteAllUserSedes']);
+
+Route::get('getHv', [HojaVidaController::class, 'getHv']);
+Route::post('registerHv', [HojaVidaController::class,'registerHv']);
+Route::patch('updateHv', [HojaVidaController::class, 'updateHv']);
+Route::delete('deleteHv/{user_id}', [HojaVidaController::class, 'deleteHv']);
 
 /** Route::post('sendEmailUsuario', [AuthController::class, 'sendEmailUsuario']); */
