@@ -421,7 +421,7 @@ export default {
                 }
 
                 if (this.isUpdating) {
-                    await axios.put("/api/updateHv", formData);
+                    await axios.patch("/api/updateHv", formData);
                     this.spiner = false;
                     this.submited = false;
                     this.$toaster.success("Datos actualizados con éxito.");
