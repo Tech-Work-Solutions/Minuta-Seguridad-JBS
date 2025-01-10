@@ -64,7 +64,7 @@
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.codigoCargo.required">
-                        Ingrese el codigo de cargo
+                        Ingrese el código del cargo
                     </p>
                 </div>
                 <div>
@@ -136,7 +136,7 @@
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.telefono.required">
-                        Ingrese un numero de telefono
+                        Ingrese un número de teléfono
                     </p>
                 </div>
                 <div>
@@ -148,7 +148,7 @@
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.celular.required">
-                        Ingrese un numero de celular
+                        Ingrese un número de celular
                     </p>
                 </div>
                 <div>
@@ -217,7 +217,7 @@
             <h2 class="text-lg font-semibold text-gray-800 mt-8 mb-4">Documentación</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-600">Tipo cedula:</label>
+                    <label class="block text-sm font-medium text-gray-600">Tipo de cédula:</label>
                     <div class="flex items-center space-x-4">
                         <label>
                             <input
@@ -251,7 +251,7 @@
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cedula.required">
-                        Ingrese el numero de su documento
+                        Ingrese el número de su documento
                     </p>
                 </div>
                 <div>
@@ -316,7 +316,7 @@
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.tarjetaProfesional.required">
-                        Ingrese el numero de tarjeta profesional
+                        Ingrese el número de tarjeta profesional
                     </p>
                 </div>
                 <div>
@@ -354,7 +354,7 @@
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.licencia.required">
-                        Ingrese el numero de licencia
+                        Ingrese el número de licencia
                     </p>                 
                 </div>
 
@@ -367,7 +367,7 @@
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.categoriaLicencia.required">
-                        Ingrese la categoria de la licencia
+                        Ingrese la categoría de la licencia
                     </p> 
                 </div>
             </div>
@@ -429,7 +429,7 @@ export default {
         };
     },
 
-    mounted() {
+    async mounted() {
         this.spiner = false;
         this.setFechaSistema();
         const userObject = localStorage.getItem("user");
@@ -437,7 +437,7 @@ export default {
             const user = JSON.parse(userObject);
             this.userId = user.id;
         }
-        this.loadData();
+        await this.loadData();
     },
     methods: {
         setFechaSistema() {
@@ -519,8 +519,11 @@ export default {
 
         async loadData() {
             try {
-                const response = await axios.get("/api/getHv", {user_id: this.userId});
-                
+                const response = await axios.get(`/api/getHv`, {
+                    params: {
+                        user_id: this.userId,
+                    },
+                });                
                 const savedHv = response.data;
 
                 if (savedHv.length > 0) {
