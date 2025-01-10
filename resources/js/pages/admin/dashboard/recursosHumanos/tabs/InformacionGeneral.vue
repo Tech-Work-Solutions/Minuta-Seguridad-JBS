@@ -400,8 +400,8 @@ export default {
             default: '',
         },
         userId: {
-            type: String,
-            default: '',
+            type: Number,
+            default: 0,
         },
     },
     data() {
@@ -437,7 +437,6 @@ export default {
                 fotoPreview: null,
             },
             submited: false,
-            userId: null,
             isUpdating: false,
             spiner: false,
         };

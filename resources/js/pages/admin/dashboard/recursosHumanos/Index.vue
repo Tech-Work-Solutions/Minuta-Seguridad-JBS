@@ -75,6 +75,7 @@ export default {
             this.userId = user.id;
         }
         await this.loadData();
+        this.show = true;
     },
     methods: {
         toggleTabs(tabNumber) {
