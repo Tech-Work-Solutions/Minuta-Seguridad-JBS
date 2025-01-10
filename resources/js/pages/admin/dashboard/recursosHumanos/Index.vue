@@ -11,7 +11,7 @@
                 <!-- Tabs Navigation -->
                 <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
                     <li v-for="(tab, index) in tabs" :key="index"
-                        class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
+                        class="m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs">
                         <a class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
                             :class="tabClasses(index + 1)" @click="toggleTabs(index + 1)">
                             <em :class="tab.icon"></em> {{ tab.label }}
