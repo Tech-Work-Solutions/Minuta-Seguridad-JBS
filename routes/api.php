@@ -128,7 +128,7 @@ Route::post('deleteAllUserSedes', [UsersSedeController::class, 'deleteAllUserSed
 
 Route::get('getHv', [HojaVidaController::class, 'getHv']);
 Route::post('registerHv', [HojaVidaController::class,'registerHv']);
-Route::patch('updateHv', [HojaVidaController::class, 'updateHv']);
+Route::post('updateHv', [HojaVidaController::class, 'updateHv']);
 Route::delete('deleteHv/{user_id}', [HojaVidaController::class, 'deleteHv']);
 
 /** Route::post('sendEmailUsuario', [AuthController::class, 'sendEmailUsuario']); */

@@ -10,7 +10,7 @@ class HojaVidaController extends Controller
 {
     public function registerHv(Request $request){
         $request->validate([
-            'user_id' => ['required', 'unique:hojas_de_vida'],
+            'user_id' => ['required', 'numeric', 'unique:hojas_de_vida'],
             'informacion_general' => ['nullable'],
             'informacion_personal' => ['nullable'],
             'informacion_familiar' => ['nullable'],
@@ -61,7 +61,7 @@ class HojaVidaController extends Controller
         return $query->orderBy('user_id')->get();
     }
 
-    public function deleteHv($user_id){
+    public function deleteHv($user_id) {
 
         $record = Hoja_de_vida::where('user_id', $user_id)->first();
         if (!$record) {
@@ -84,21 +84,85 @@ class HojaVidaController extends Controller
     }
 
     public function updateHv(Request $request){
-        $request->validate([
-            'user_id' => ['required', 'unique:hojas_de_vida'],
-            'informacion_general' => ['nullable'],
-            'informacion_personal' => ['nullable'],
-            'informacion_familiar' => ['nullable'],
-            'educacion_aptitudes' => ['nullable'],
-            'trayectoria_empresas' => ['nullable'],
-            'experiencia_laboral' => ['nullable'],
-            'referencias_personales' => ['nullable'],
-            'administracion_proceso_seleccion' => ['nullable'],
-            'soportes' => ['nullable'],
-        ]
-    );
-        $user = User::where('user_id', $request->user_id);
-        $user->update();
-        return response()->json(['msg' => "Registro actualizado correctamente", 'user_id' => $user->id]);
+        try {
+            $request->validate([
+                'user_id' => ['required', 'numeric','exists:hojas_de_vida,user_id'],
+                'informacion_general' => ['nullable'],
+                'informacion_personal' => ['nullable'],
+                'informacion_familiar' => ['nullable'],
+                'educacion_aptitudes' => ['nullable'],
+                'trayectoria_empresas' => ['nullable'],
+                'experiencia_laboral' => ['nullable'],
+                'referencias_personales' => ['nullable'],
+                'administracion_proceso_seleccion' => ['nullable'],
+                'soportes' => ['nullable'],
+                'foto' => ['nullable'],
+                'firma' => ['nullable'],
+            ]);
+
+            $soportes = '';
+            $foto = '';
+            $firma = '';
+            $user_id = $request->user_id;
+            
+            $user = Hoja_de_vida::where('user_id', $request->user_id)->first();
+            if (!$user) {
+                return response()->json(['error' => 'Usuario no encontrado'], 404);
+            }
+            
+            $fileService = new FileService();
+            if ($user->foto !== $request->file('foto') && $request->file('foto')) {
+                $fileService->eliminarArchivo($user->foto);
+                $foto = $fileService->guardarArchivo($request->file('foto'), '/hvs/fotos/', $user_id);
+                $user->foto = $foto;
+                $user->update();
+            }
+            
+            if ($user->firma !== $request->file('firma') && $request->file('firma')) {
+                $fileService->eliminarArchivo($user->firma);
+                $firma = $fileService->guardarArchivo($request->file('firma'), '/hvs/firmas/', $user_id);
+                $user->firma = $firma;
+                $user->update();
+            }
+            
+            if ($user->soportes !== $request->file('soportes') && $request->file('soportes')) {
+                $fileService->eliminarArchivo($user->soportes);
+                $soportes = $fileService->guardarArchivo($request->file('soportes'), '/hvs/soportes/', $user_id);
+                $user->soportes = $soportes;
+                $user->update();
+            }
+    
+            $fieldsToUpdate = $request->only([
+                'informacion_general',
+                'informacion_personal',
+                'informacion_familiar',
+                'educacion_aptitudes',
+                'trayectoria_empresas',
+                'experiencia_laboral',
+                'referencias_personales',
+                'administracion_proceso_seleccion',
+            ]);
+
+            $user->update($fieldsToUpdate);
+    
+            return response()->json([
+                'msg' => 'Registro actualizado correctamente',
+                'user_id' => $user->user_id,
+                'updated_fields' => array_keys($fieldsToUpdate),
+                'updated_multimedia_files' => $soportes || $firma || $foto ? 'yes' : 'no',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'error' => 'Error de validación',
+                'messages' => $e->errors(),
+            ], 422);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ocurrió un error inesperado',
+                'details' => $e->getMessage(),
+            ], 500);
+        }
+     
     }
 }
