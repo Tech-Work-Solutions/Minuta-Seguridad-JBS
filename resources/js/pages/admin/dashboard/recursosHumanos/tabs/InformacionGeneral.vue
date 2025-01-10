@@ -390,6 +390,20 @@
 import { email,required } from 'vuelidate/lib/validators';
 
 export default {
+    props: {
+        informacion_general: {
+            type: Object,
+            default: () => ({}),
+        },
+        foto: {
+            type: String,
+            default: '',
+        },
+        userId: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             formData: {
@@ -432,11 +446,6 @@ export default {
     async mounted() {
         this.spiner = false;
         this.setFechaSistema();
-        const userObject = localStorage.getItem("user");
-        if (userObject) {
-            const user = JSON.parse(userObject);
-            this.userId = user.id;
-        }
         await this.loadData();
     },
     methods: {
@@ -518,32 +527,14 @@ export default {
         },
 
         async loadData() {
-            try {
-                const response = await axios.get(`/api/getHv`, {
-                    params: {
-                        user_id: this.userId,
-                    },
-                });                
-                const savedHv = response.data;
-
-                if (savedHv.length > 0) {
-                    this.isUpdating = true;
-                    const hv = savedHv[0];
-
-                    if (hv.informacion_general) {
-                        const informacionGeneral = JSON.parse(hv.informacion_general);
-                        Object.assign(this.formData, informacionGeneral);
-                    }
-                    if (hv.foto) {      
-                        this.formData.foto = hv.foto;
-                        this.formData.fotoPreview = hv.foto;
-                    }
-                }
-            } catch (error) {
-                console.error(error);
-                this.$toaster.error("Hubo un problema al cargar los datos.");
+            if (this.informacion_general && Object.keys(this.informacion_general).length > 0) {
+                this.isUpdating = true;
+                Object.assign(this.formData, this.informacion_general);
             }
-            
+            if (this.foto) {
+                this.formData.foto = this.foto;
+                this.formData.fotoPreview = this.foto;
+            }
         },
         validarDatos() {
             this.submited = true;
