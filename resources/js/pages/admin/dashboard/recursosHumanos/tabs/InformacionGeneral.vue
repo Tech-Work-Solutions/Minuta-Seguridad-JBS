@@ -136,7 +136,7 @@
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.telefono.required">
-                        Ingrese un número de telefono
+                        Ingrese un número de teléfono
                     </p>
                 </div>
                 <div>
