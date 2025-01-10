@@ -6,25 +6,42 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Fecha:</label>
                     <div class="flex space-x-2">
-                        <input
-                            v-model="formData.dia"
-                            type="number"
-                            placeholder="Día"
-                            class="w-1/3 px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                        />
-                        <input
-                            v-model="formData.mes"
-                            type="number"
-                            placeholder="Mes"
-                            class="w-1/3 px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                        />
-                        <input
-                            v-model="formData.anio"
-                            type="number"
-                            placeholder="Año"
-                            class="w-1/3 px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                        />
+                        <div class="w-1/3">
+                            <input
+                                v-model="formData.dia"
+                                type="number"
+                                placeholder="Día"
+                                class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            />
+                            <p class="text-red-500 text-sm mt-1" v-if="submited && !$v.formData.dia.required">
+                                Ingrese el día
+                            </p>
+                        </div>
+                        <div class="w-1/3">
+                            <input
+                                v-model="formData.mes"
+                                type="number"
+                                placeholder="Mes"
+                                class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            />
+                            <p class="text-red-500 text-sm mt-1" v-if="submited && !$v.formData.mes.required">
+                                Ingrese el mes
+                            </p>
+                        </div>
+                        <div class="w-1/3">
+                            <input
+                                v-model="formData.anio"
+                                type="number"
+                                placeholder="Año"
+                                class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            />
+                            <p class="text-red-500 text-sm mt-1" v-if="submited && !$v.formData.anio.required">
+                                Ingrese el año
+                            </p>
+                        </div>
                     </div>
+
+
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Empleo o cargo:</label>
@@ -34,6 +51,9 @@
                         placeholder="Cargo interesado"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.empleo.required">
+                        Ingrese el empleo o cargo
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Código cargo:</label>
@@ -43,6 +63,9 @@
                         placeholder="Código"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.codigoCargo.required">
+                        Ingrese el codigo de cargo
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Apellido(s):</label>
@@ -52,6 +75,9 @@
                         placeholder="Apellidos"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.apellido.required">
+                        Ingrese su apellido
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Nombre(s):</label>
@@ -61,13 +87,21 @@
                         placeholder="Nombres"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nombre.required">
+                        Ingrese su nombre
+                    </p>
                 </div>
                 <div class="lg:row-span-3 flex justify-center items-center lg:col-start-3">
-                    <label class="w-32 h-40 border rounded-lg bg-gray-100 flex flex-col justify-center items-center cursor-pointer relative">
-                        <span v-if="!formData.fotoPreview" class="text-sm text-gray-500">Cargar Foto</span>
-                        <img v-if="formData.fotoPreview" :src="formData.fotoPreview" class="absolute w-full h-full object-cover rounded-lg" />
-                        <input type="file" accept="image/*" @change="handleFileUpload" class="hidden" />
-                    </label>
+                    <div>
+                        <label class="w-32 h-40 border rounded-lg bg-gray-100 flex flex-col justify-center items-center cursor-pointer relative">
+                            <span v-if="!formData.fotoPreview" class="text-sm text-gray-500">Cargar Foto</span>
+                            <img v-if="formData.fotoPreview" :src="formData.fotoPreview" class="absolute w-full h-full object-cover rounded-lg" />
+                            <input type="file" accept="image/*" @change="handleFileUpload" class="hidden" />
+                        </label>
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.foto.required">
+                            Carge una foto
+                        </p>
+                    </div>                 
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Dirección:</label>
@@ -77,6 +111,9 @@
                         placeholder="Dirección y barrio"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.direccion.required">
+                        Ingrese la dirección
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Ciudad:</label>
@@ -86,6 +123,9 @@
                         placeholder="Ciudad"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ciudad.required">
+                        Ingrese la ciudad
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Teléfono:</label>
@@ -95,6 +135,9 @@
                         placeholder="Teléfono"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.telefono.required">
+                        Ingrese un numero de telefono
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Celular:</label>
@@ -104,6 +147,9 @@
                         placeholder="Celular"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.celular.required">
+                        Ingrese un numero de celular
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Correo Electrónico:</label>
@@ -113,7 +159,10 @@
                         placeholder="ejemplo@ejemplo.com"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
-                    <p class="text-red-500 text-sm" v-if="submited && $v.formData.correo.$invalid">
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.correo.required">
+                        Ingrese su correo electrónico
+                    </p>
+                    <p class="text-red-500 text-sm" v-else-if="submited && !$v.formData.correo.email">
                         El correo electrónico no es válido.
                     </p>
                 </div>
@@ -125,6 +174,9 @@
                         placeholder="Profesión, ocupación u oficio"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.profesion.required">
+                        Ingrese su profesión
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Nacionalidad:</label>
@@ -134,6 +186,9 @@
                         placeholder="Nacionalidad"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nacionalidad.required">
+                        Ingrese su nacionalidad
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Estado Civil:</label>
@@ -153,22 +208,16 @@
                         placeholder="Años de experiencia"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.experiencia.required">
+                        Ingrese los años de experiencia laboral
+                    </p>
                 </div>
             </div>
 
             <h2 class="text-lg font-semibold text-gray-800 mt-8 mb-4">Documentación</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-600">Cédula de ciudadanía:</label>
-                    <input
-                        v-model="formData.cedula"
-                        type="number"
-                        placeholder="Número de cédula"
-                        class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                    />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600">Tipo de cedula:</label>
+                    <label class="block text-sm font-medium text-gray-600">Tipo cedula:</label>
                     <div class="flex items-center space-x-4">
                         <label>
                             <input
@@ -186,12 +235,25 @@
                                 value="Extranjera"
                                 class="form-radio text-blue-600"
                             />
-                            Extranjera
+                            Extranjería
                         </label>
                     </div>
-                    
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.tipoCedula.required">
+                        Seleccione el tipo de documento
+                    </p>                    
                 </div>
-
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Número de documento:</label>
+                    <input
+                        v-model="formData.cedula"
+                        type="number"
+                        placeholder="Número de cédula"
+                        class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                    />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cedula.required">
+                        Ingrese el numero de su documento
+                    </p>
+                </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Expedida en:</label>
                     <input
@@ -200,12 +262,15 @@
                         placeholder="Lugar de expedición"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.expedidaEn.required">
+                        Ingrese el lugar de expedición
+                    </p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-600">Nº Libreta militar:</label>
+                    <label class="block text-sm font-medium text-gray-600">Libreta militar Nº:</label>
                     <input
                         v-model="formData.libreta"
-                        type="text"
+                        type="number"
                         placeholder="Número"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
@@ -214,7 +279,7 @@
                     <label class="block text-sm font-medium text-gray-600">Distrito Nº:</label>
                     <input
                         v-model="formData.distrito"
-                        type="text"
+                        type="number"
                         placeholder="Distrito de libreta"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
@@ -250,6 +315,9 @@
                         placeholder="Número de tarjeta"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.tarjetaProfesional.required">
+                        Ingrese el numero de tarjeta profesional
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">¿Tiene vehículo?:</label>
@@ -273,6 +341,9 @@
                             No
                         </label>
                     </div>
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.vehiculo.required">
+                        Seleccione una opción
+                    </p>
                 </div>
                 <div v-if="formData.vehiculo === 'Si'">
                     <label class="block text-sm font-medium text-gray-600">Licencia de conducción Nº:</label>
@@ -281,7 +352,10 @@
                         type="number"
                         placeholder="Número de licencia"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                    />                    
+                    />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.licencia.required">
+                        Ingrese el numero de licencia
+                    </p>                 
                 </div>
 
                 <div v-if="formData.vehiculo === 'Si'">
@@ -292,6 +366,9 @@
                         placeholder="Categoría"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
                     />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.categoriaLicencia.required">
+                        Ingrese la categoria de la licencia
+                    </p> 
                 </div>
             </div>
             <div class="flex mb-4 mt-5">
@@ -310,7 +387,7 @@
 </template>
 
 <script>
-import { email } from 'vuelidate/lib/validators';
+import { email,required } from 'vuelidate/lib/validators';
 
 export default {
     data() {
@@ -478,12 +555,40 @@ export default {
         },
     },
     validations: {
-        formData: {
-            correo: {
-                email: (value) => !value || email(value),
-            },
+    formData: {
+        dia: { required },
+        mes: { required },
+        anio: { required },
+        cedula: { required },
+        tipoCedula: { required },
+        correo: {required, email },
+        empleo: { required },
+        codigoCargo: { required },
+        nombre: { required },
+        apellido: { required },
+        direccion: { required },
+        ciudad: { required },
+        telefono: {
+            required: (value, formData) => !!value || !!formData.celular,
         },
+        celular: {
+            required: (value, formData) => !!value || !!formData.telefono,
+        },
+        profesion: { required },
+        nacionalidad: { required },
+        experiencia: { required },        
+        tarjetaProfesional: { required },
+        vehiculo: { required },
+        licencia: {
+            required: (value, formData) => formData.vehiculo === 'Si' ? !!value : true,
+        },
+        categoriaLicencia: {
+            required: (value, formData) => formData.vehiculo === 'Si' ? !!value : true,
+        },
+        expedidaEn: { required },
+        foto: { required },
     },
+},
 
 };
 </script>
