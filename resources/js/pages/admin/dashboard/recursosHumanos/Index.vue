@@ -102,7 +102,7 @@ export default {
                         tab.data.foto = hv.foto;
                         tab.data.soportes = hv.soportes;
                         tab.data.firma = hv.firma;
-                        tab.data.userId = this.userId;
+                        tab.data.user_id = this.userId;
                     });
                 }
             } catch (error) {

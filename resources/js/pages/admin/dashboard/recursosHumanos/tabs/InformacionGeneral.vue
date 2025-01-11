@@ -387,7 +387,7 @@
 </template>
 
 <script>
-import { email,required } from 'vuelidate/lib/validators';
+import { email, required } from 'vuelidate/lib/validators';
 
 export default {
     props: {
@@ -399,7 +399,7 @@ export default {
             type: String,
             default: '',
         },
-        userId: {
+        user_id: {
             type: Number,
             default: 0,
         },
@@ -471,7 +471,7 @@ export default {
                 this.spiner = true;
                 const formData = new FormData();
 
-                formData.append("user_id", this.userId);
+                formData.append("user_id", this.user_id);
                 formData.append("informacion_general", JSON.stringify({
                     dia: this.formData.dia,
                     mes: this.formData.mes,
