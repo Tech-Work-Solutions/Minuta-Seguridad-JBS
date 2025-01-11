@@ -399,7 +399,7 @@ export default {
             type: String,
             default: '',
         },
-        user_id: {
+        userId: {
             type: Number,
             default: 0,
         },
@@ -471,7 +471,7 @@ export default {
                 this.spiner = true;
                 const formData = new FormData();
 
-                formData.append("user_id", this.user_id);
+                formData.append("user_id", this.userId);
                 formData.append("informacion_general", JSON.stringify({
                     dia: this.formData.dia,
                     mes: this.formData.mes,

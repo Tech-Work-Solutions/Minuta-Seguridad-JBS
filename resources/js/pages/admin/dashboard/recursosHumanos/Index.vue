@@ -25,7 +25,7 @@
                         <div class="tab-content tab-space">
                             <div v-for="(tab, index) in tabs" :key="index"
                                 :class="{ 'hidden': openTab !== index + 1, 'block': openTab === index + 1 }">
-                                <component :is="tab.component" v-bind="tab.data" />
+                                <component :is="tab.component" v-bind="tab.data" :userId="userId" />
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,6 @@ export default {
                         tab.data.foto = hv.foto;
                         tab.data.soportes = hv.soportes;
                         tab.data.firma = hv.firma;
-                        tab.data.user_id = this.userId;
                     });
                 }
             } catch (error) {
