@@ -13,9 +13,9 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Profesión, ocupación u oficio:</label>
-                    <input v-model="formData.ocupacion" type="text" placeholder="Ocupación de la pareja"
+                    <input v-model="formData.profesion" type="text" placeholder="Ocupación de la pareja"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
-                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.ocupacion.required">
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.profesion.required">
                         Ingrese la Profesión, ocupación u oficio
                     </p>
                 </div>
@@ -92,16 +92,28 @@
                     <label class="block text-sm font-medium text-gray-600">Nombre(s) Padre(s):</label>
                     <input v-model="fam.nombres" type="text" placeholder="Nombre"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
+                    <p class="text-red-500 text-sm"
+                        v-if="submited && !$v.formData.padres.$each[index].nombres.required">
+                        Ingrese los nombres de los padres
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Profesión, ocupación u oficio:</label>
-                    <input v-model="fam.ocupacion" type="text" placeholder="Ocupación"
+                    <input v-model="fam.profesion" type="text" placeholder="Profesión"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
+                    <p class="text-red-500 text-sm"
+                        v-if="submited && !$v.formData.padres.$each[index].profesion.required">
+                        Ingrese la profesion de los padres
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Teléfono(s):</label>
-                    <input v-model="fam.telefono" type="text" placeholder="Telefono"
+                    <input v-model="fam.telefono" type="text" placeholder="Teléfono"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
+                    <p class="text-red-500 text-sm"
+                        v-if="submited && !$v.formData.padres.$each[index].telefono.required">
+                        Ingrese el teléfono de los padres
+                    </p>
                 </div>
             </div>
 
@@ -114,13 +126,21 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Profesión, ocupación u oficio:</label>
-                    <input v-model="fam.ocupacion" type="text" placeholder="Ocupación"
+                    <input v-model="fam.profesion" type="text" placeholder="Profesión"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
+                    <p class="text-red-500 text-sm"
+                        v-if="submited && !$v.formData.hermanos.$each[index].profesion.required">
+                        Ingrese la profesion de los hermanos
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Teléfono(s):</label>
-                    <input v-model="fam.telefono" type="text" placeholder="Telefono"
+                    <input v-model="fam.telefono" type="text" placeholder="Teléfono"
                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
+                    <p class="text-red-500 text-sm"
+                        v-if="submited && !$v.formData.hermanos.$each[index].telefono.required">
+                        Ingrese el teléfono de los hermanos
+                    </p>
                 </div>
             </div>
 
@@ -156,7 +176,7 @@ export default {
         return {
             formData: {
                 nombre: "",
-                ocupacion: "",
+                profesion: "",
                 empresa: "",
                 cargo: "",
                 direccion: "",
@@ -168,24 +188,24 @@ export default {
                 padres: [
                     {
                         nombres: "",
-                        ocupacion: "",
+                        profesion: "",
                         telefono: "",
                     },
                     {
                         nombres: "",
-                        ocupacion: "",
+                        profesion: "",
                         telefono: "",
                     }
                 ],
                 hermanos: [
                     {
                         nombres: "",
-                        ocupacion: "",
+                        profesion: "",
                         telefono: "",
                     },
                     {
                         nombres: "",
-                        ocupacion: "",
+                        profesion: "",
                         telefono: "",
                     }
                 ],
@@ -196,9 +216,9 @@ export default {
         };
     },
 
-    async mounted() {
+    mounted() {
         this.spiner = false;
-        await this.loadData();
+        this.loadData();
     },
     methods: {
         async handleSubmit() {
@@ -212,7 +232,7 @@ export default {
                 formData.append("user_id", this.userId);
                 formData.append("informacion_familiar", JSON.stringify({
                     nombre: this.formData.nombre,
-                    ocupacion: this.formData.ocupacion,
+                    profesion: this.formData.profesion,
                     empresa: this.formData.empresa,
                     cargo: this.formData.cargo,
                     direccion: this.formData.direccion,
@@ -231,7 +251,6 @@ export default {
                     this.submited = false;
                     this.$toaster.success("Datos actualizados con éxito.");
                 } else {
-                    console.log('enviando: ', formData);
                     await axios.post("/api/registerHv", formData);
                     this.isUpdating = true;
                     this.spiner = false;
@@ -246,7 +265,7 @@ export default {
             }
         },
 
-        async loadData() {
+        loadData() {
             if (this.informacion_familiar && Object.keys(this.informacion_familiar).length > 0) {
                 this.isUpdating = true;
                 Object.assign(this.formData, this.informacion_familiar);
@@ -268,7 +287,7 @@ export default {
     validations: {
         formData: {
             nombre: { required },
-            ocupacion: { required },
+            profesion: { required },
             empresa: { required },
             cargo: { required },
             direccion: { required },
@@ -277,6 +296,25 @@ export default {
             numPersonas: { required },
             parentescos: { required },
             edades: { required },
+            padres: {
+                $each: {
+                    nombres: { required },
+                    profesion: { required },
+                    telefono: { required },
+                },
+            },
+            hermanos: {
+                $each: {
+                    nombres: {},
+                    profesion: {
+                        required: (value, { nombres }) => !nombres || required(value)
+                    },
+                    telefono: {
+                        required: (value, { nombres }) => !nombres || required(value)
+                    },
+                },
+            },
+
         },
     },
 
