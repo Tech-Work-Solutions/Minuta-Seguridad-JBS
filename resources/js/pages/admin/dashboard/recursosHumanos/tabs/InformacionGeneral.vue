@@ -362,10 +362,10 @@
                     <label class="block text-sm font-medium text-gray-600">Categoría de licencia:</label>                    
 
                     <multiselect v-model="formData.selectedCategorias" :options="formData.categoriasLicencia" :multiple="true" :searchable="true"
-                        :close-on-select="false" label="nombre" track-by="id" placeholder="Selecciona las categorias"
+                        :close-on-select="false" label="nombre" track-by="id" placeholder="Seleccione las categorías"
                         class="w-full" :show-labels="false" />
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.selectedCategorias.required">
-                        Debe seleccionar al menos una categoria
+                        Debe seleccionar al menos una categoría
                     </p>
                 </div>
             </div>
