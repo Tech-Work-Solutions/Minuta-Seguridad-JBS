@@ -359,16 +359,14 @@
                 </div>
 
                 <div v-if="formData.vehiculo === 'Si'">
-                    <label class="block text-sm font-medium text-gray-600">Categoría de licencia:</label>
-                    <input
-                        v-model="formData.categoriaLicencia"
-                        type="text"
-                        placeholder="Categoría"
-                        class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                    />
-                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.categoriaLicencia.required">
-                        Ingrese la categoría de la licencia
-                    </p> 
+                    <label class="block text-sm font-medium text-gray-600">Categoría de licencia:</label>                    
+
+                    <multiselect v-model="formData.selectedCategorias" :options="formData.categoriasLicencia" :multiple="true" :searchable="true"
+                        :close-on-select="false" label="nombre" track-by="id" placeholder="Selecciona las categorias"
+                        class="w-full" :show-labels="false" />
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.selectedCategorias.required">
+                        Debe seleccionar al menos una categoria
+                    </p>
                 </div>
             </div>
             <div class="flex mb-4 mt-5">
@@ -388,8 +386,16 @@
 
 <script>
 import { email, required } from 'vuelidate/lib/validators';
+import Multiselect from 'vue-multiselect';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
+import '../../../../../../css/app.css';
+import { CATEGORIAS_LICENCIA } from '../../../../../constants';
+
 
 export default {
+    components: {
+        Multiselect
+    },
     props: {
         informacion_general: {
             type: Object,
@@ -427,7 +433,7 @@ export default {
                 libreta: "",
                 vehiculo: "",
                 licencia: "",
-                categoriaLicencia: "",
+                categoriasLicencia: CATEGORIAS_LICENCIA,
                 expedidaEn: "",
                 tarjetaProfesional: "",
                 expedida_en: "",
@@ -435,6 +441,7 @@ export default {
                 claseLibreta: "",
                 foto: null,
                 fotoPreview: null,
+                selectedCategorias: [],
             },
             submited: false,
             isUpdating: false,
@@ -495,7 +502,7 @@ export default {
                     claseLibreta: this.formData.claseLibreta,
                     vehiculo: this.formData.vehiculo,
                     licencia: this.formData.licencia,
-                    categoriaLicencia: this.formData.categoriaLicencia,
+                    selectedCategorias: this.formData.selectedCategorias,
                     expedidaEn: this.formData.expedidaEn,
                     tarjetaProfesional: this.formData.tarjetaProfesional,
                     distrito: this.formData.distrito,
@@ -533,6 +540,30 @@ export default {
             if (this.foto) {
                 this.formData.foto = this.foto;
                 this.formData.fotoPreview = this.foto;
+            }
+
+            const userObject = localStorage.getItem("user");
+            if (userObject) {
+                const user = JSON.parse(userObject);
+                if (!this.formData.cedula) {
+                    this.formData.cedula = user.numero_documento;                    
+                }
+
+                if (!this.formData.direccion) {
+                    this.formData.direccion = user.direccion;
+                }
+
+                if (!this.formData.nombre) {
+                    this.formData.nombre = user.name;
+                }
+
+                if (!this.formData.correo) {
+                    this.formData.correo = user.email;
+                }
+
+                if (!this.formData.telefono) {
+                    this.formData.telefono = user.telefono_uno;
+                }  
             }
         },
         validarDatos() {
@@ -572,14 +603,16 @@ export default {
         experiencia: { required },        
         tarjetaProfesional: { required },
         vehiculo: { required },
+        expedidaEn: { required },
+        foto: { required },
         licencia: {
             required: (value, formData) => formData.vehiculo === 'Si' ? !!value : true,
         },
-        categoriaLicencia: {
-            required: (value, formData) => formData.vehiculo === 'Si' ? !!value : true,
-        },
-        expedidaEn: { required },
-        foto: { required },
+        selectedCategorias: {
+            required: (value, formData) => {
+                return formData.vehiculo === 'Si' ? value && value.length > 0 : true;
+            },
+        }
     },
 },
 
