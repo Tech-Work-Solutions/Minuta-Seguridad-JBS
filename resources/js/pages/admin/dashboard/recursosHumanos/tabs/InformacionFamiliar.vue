@@ -87,7 +87,7 @@
             </div>
 
             <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-2 py-2" v-for="(fam, index) in formData.padres"
-                :key="index">
+                :key="index + 'p'">
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Nombre(s) Padre(s):</label>
                     <input v-model="fam.nombres" type="text" placeholder="Nombre"
@@ -106,7 +106,7 @@
             </div>
 
             <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-2 py-2" v-for="(fam, index) in formData.hermanos"
-                :key="index">
+                :key="index + 'h'">
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Nombre(s) Hermano(s):</label>
                     <input v-model="fam.nombres" type="text" placeholder="Nombre"
