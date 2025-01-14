@@ -409,6 +409,11 @@ export default {
             type: Number,
             default: 0,
         },
+        hasHv: {
+            type: Boolean,
+            default: false,
+        },
+
     },
     data() {
         return {
@@ -447,6 +452,15 @@ export default {
             isUpdating: false,
             spiner: false,
         };
+    },
+
+    watch: {
+        "formData.vehiculo"(newValue) {
+        if (newValue === "No") {
+            this.formData.licencia = "";
+            this.formData.selectedCategorias = [];
+        }
+        },
     },
 
     async mounted() {
@@ -533,7 +547,7 @@ export default {
         },
 
         async loadData() {
-            if (this.informacion_general && Object.keys(this.informacion_general).length > 0) {
+            if (this.informacion_general && Object.keys(this.informacion_general).length > 0 || this.hasHv) {
                 this.isUpdating = true;
                 Object.assign(this.formData, this.informacion_general);
             }
