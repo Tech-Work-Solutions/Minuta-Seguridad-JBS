@@ -25,7 +25,7 @@
                         <div class="tab-content tab-space">
                             <div v-for="(tab, index) in tabs" :key="index"
                                 :class="{ 'hidden': openTab !== index + 1, 'block': openTab === index + 1 }">
-                                <component :is="tab.component" v-bind="tab.data" :userId="userId" />
+                                <component :is="tab.component" v-bind="tab.data" :userId="userId" :hasHv="hasHv" />
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,8 @@ export default {
                 { label: 'Referencias Personales', icon: 'fas fa-user-shield', component: 'ReferenciasPersonales', data: {}, key: 'referencias_personales' },
                 { label: 'Administración Proceso de Selección', icon: 'fas fa-pen-fancy', component: 'AdministracionProcesoSeleccion', data: {}, key: 'administracion_proceso_seleccion' },
             ],
-            userId: null
+            userId: null,
+            hasHv: false
         };
     },
     async mounted() {
@@ -97,6 +98,7 @@ export default {
 
                 if (savedHv.length > 0) {
                     const hv = savedHv[0];
+                    this.hasHv = true;
                     this.tabs.forEach(tab => {
                         tab.data[tab.key] = JSON.parse(hv[tab.key]);
                         tab.data.foto = hv.foto;
