@@ -19,7 +19,7 @@ class FileService
         }
         $extension = $file->getClientOriginalExtension();
         $file->move(public_path($carpeta), $nombre.".".$extension);
-        return $carpeta.$nombre.$extension;
+        return $carpeta.$nombre.".".$extension;
     }
 
     public function eliminarArchivo($ruta)

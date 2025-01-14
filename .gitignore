@@ -4,6 +4,7 @@
 /public/img
 /public/audios
 /public/videos
+/public/hvs
 /storage/*.key
 /vendor
 .env
