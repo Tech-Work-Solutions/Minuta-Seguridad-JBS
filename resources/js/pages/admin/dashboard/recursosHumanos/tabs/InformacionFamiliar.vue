@@ -171,6 +171,10 @@ export default {
             type: Number,
             default: 0,
         },
+        hasHv: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -266,7 +270,7 @@ export default {
         },
 
         loadData() {
-            if (this.informacion_familiar && Object.keys(this.informacion_familiar).length > 0) {
+            if (this.informacion_familiar && Object.keys(this.informacion_familiar).length > 0 || this.hasHv) {
                 this.isUpdating = true;
                 Object.assign(this.formData, this.informacion_familiar);
             }
