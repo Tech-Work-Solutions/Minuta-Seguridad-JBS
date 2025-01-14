@@ -9,10 +9,8 @@
                 desempeñado.
             </p>
 
-            <!-- Form Container -->
             <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
                 <div class="grid grid-cols-1 gap-2">
-                    <!-- Empresas por Actividades Económicas -->
                     <div>
                         <h2 class="text-lg font-semibold text-blue-600 mb-4">
                             Empresas por Actividades Económicas (*)
@@ -47,7 +45,6 @@
                         </div>
                     </div>
 
-                    <!-- Área de la Empresa -->
                     <div>
                         <h2 class="text-lg font-semibold text-blue-600 mb-4">
                             Área de la Empresa
@@ -242,7 +239,7 @@ export default {
                     actividadesEconomicas: this.formData.actividadesEconomicas,
                     areasEmpresa: this.formData.areasEmpresa,
                 }));
-                console.log(this.formData);
+
                 if (this.isUpdating) {
                     await axios.post("/api/updateHv", formData);
                     this.spiner = false;
@@ -263,15 +260,24 @@ export default {
             }
         },
         async loadData() {
-            console.log(this.trayectoria_empresas, this.hasHv)
             if (this.trayectoria_empresas && Object.keys(this.trayectoria_empresas).length > 0 || this.hasHv) {
                 this.isUpdating = true;
                 Object.assign(this.formData, this.trayectoria_empresas);
             }
         },
+        hasAtLeastOneTrue() {
+            const minCheckActividadEconomica = Object.values(this.formData.actividadesEconomicas).some(value => value === true);
+            const minCheckAreasEmpresa = Object.values(this.formData.areasEmpresa).some(value => value === true);
+            return minCheckActividadEconomica || minCheckAreasEmpresa;
+
+        },
         validarDatos() {
             this.submited = true;
             this.$v.$touch();
+            if (!this.hasAtLeastOneTrue()) {
+                this.$toaster.error("Debes seleccionar al menos una actividad y un área. Por favor, corrígelos.");
+                return false;
+            }
 
             if (this.$v.$invalid) {
                 this.$toaster.error("Hay errores en el formulario. Por favor, corrígelos.");
