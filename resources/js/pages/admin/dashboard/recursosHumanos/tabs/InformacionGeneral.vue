@@ -449,6 +449,15 @@ export default {
         };
     },
 
+    watch: {
+        "formData.vehiculo"(newValue) {
+        if (newValue === "No") {
+            this.formData.licencia = "";
+            this.formData.selectedCategorias = [];
+        }
+        },
+    },
+
     async mounted() {
         this.spiner = false;
         this.setFechaSistema();
