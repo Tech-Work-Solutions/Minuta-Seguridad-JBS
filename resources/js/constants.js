@@ -3,9 +3,9 @@ export const ROLES = {
     ADMINISTRATIVO: "ADMINISTRATIVO",
     ADMINISTRADOR: "ADMINISTRADOR",
 };
-  
+
 export const OPCIONES_MENU_GUARDA = ["minuta", "vehiculos", "visitantes"];
-  
+
 export const ICONOS_MAP = {
     minuta: "fa-file-signature",
     vehiculos: "fa-car",
@@ -14,9 +14,8 @@ export const ICONOS_MAP = {
     configuraciones: "fa-cogs",
     usuarios: "fa-users-cog",
 };
-  
-export const OPCIONES_MENU_ADMIN = [
 
+export const OPCIONES_MENU_ADMIN = [
     { label: "Minuta", route: "/minuta", icon: "fa-file-signature" },
     { label: "Vehiculos", route: "/vehiculos", icon: "fa-car" },
     { label: "Visitantes", route: "/visitantes", icon: "fa-users" },
@@ -27,3 +26,62 @@ export const OPCIONES_MENU_ADMIN = [
 ];
 
 export const CATEGORIAS_LICENCIA = [{id:1,nombre:"A1"}, {id:2,nombre:"A2"}, {id:3,nombre:"B1"}, {id:4,nombre:"B2"}, {id:5,nombre:"B3"}, {id:6,nombre:"C1"}, {id:7,nombre:"C2"}, {id:8,nombre:"C3"}];
+
+export const ACTIVIDADES_ECONOMICAS = [
+    { label: 'AGRICULTURA', key: 'agricultura', tipo: 'main',},
+    { label: 'GANADERÍA / AVICULTURA', key: 'ganaderia', tipo: 'main',},
+    { label: 'MINERÍA', key: 'mineria', tipo: 'main',},
+    { label: 'HIDROCARBUROS', key: 'hidrocarburos', tipo: 'main',},
+    { label: 'INDUSTRIA', key: 'industria', tipo: 'main',},
+    { label: 'Alimentos y Bebidas', key: 'alimentos', tipo: 'sub',},
+    { label: 'Tabaco', key: 'tabaco', tipo: 'sub',},
+    { label: 'Textiles y Confecciones', key: 'textiles', tipo: 'sub',},
+    { label: 'Cuero y Calzado', key: 'cuerocalzado', tipo: 'sub',},
+    { label: 'Papel y Cartón', key: 'papel', tipo: 'sub',},
+    { label: 'Editorial y Artes Gráficas', key: 'editorial', tipo: 'sub',},
+    { label: 'Químico y Farmacéutico', key: 'quimico', tipo: 'sub',},
+    { label: 'Caucho y Plástico', key: 'caucho', tipo: 'sub',},
+    { label: 'Vidrio, Cerámica y Cemento', key: 'vidrio', tipo: 'sub',},
+    { label: 'Metalurgia', key: 'metalurgia', tipo: 'sub',},
+    { label: 'Maquinaria', key: 'maquinaria', tipo: 'sub',},
+    { label: 'Automotores', key: 'automotores', tipo: 'sub',},
+    { label: 'Muebles', key: 'muebles', tipo: 'sub',},
+    { label: 'Reciclaje', key: 'reciclaje', tipo: 'sub',},
+    { label: 'ELECTRICIDAD / Gas / Agua', key: 'electricidad', tipo: 'main',},
+    { label: 'CONSTRUCCIÓN', key: 'construccion', tipo: 'main',},
+    { label: 'COMERCIO', key: 'comercio', tipo: 'main',},
+    { label: 'HOTELES Y RESTAURANTES', key: 'hoteles', tipo: 'main',},
+    { label: 'TRANSPORTE Y ALMACENAMIENTO', key: 'transporte', tipo: 'main',},
+    { label: 'COMUNICACIONES', key: 'comunicaciones', tipo: 'main',},
+    { label: 'FINANCIERO', key: 'financiero', tipo: 'main',},
+    { label: 'INMOBILIARIO', key: 'inmobiliario', tipo: 'main',},
+    { label: 'INFORMATICO', key: 'informatico', tipo: 'main',},
+    { label: 'SALUD', key: 'salud', tipo: 'main',},
+    { label: 'EDUCACION', key: 'educacion', tipo: 'main',},
+    { label: 'SEGUROS', key: 'seguros', tipo: 'main',},
+    { label: 'TURISMO / RECREACION', key: 'turismo', tipo: 'main',},
+    { label: 'OTROS SERVICIOS', key: 'otrosServicios', tipo: 'main',},
+    { label: 'Asesorías Profesionales', key: 'asesorias', tipo: 'sub',},
+    { label: 'Servicios Temporales', key: 'servicios', tipo: 'sub',},
+    { label: 'Seguridad Vigilancia', key: 'seguridad', tipo: 'sub',},
+];
+
+export const AREAS_EMPRESA = [
+    { label: 'Administración', key: 'administracion' },
+    { label: 'Auditoría', key: 'auditoria' },
+    { label: 'Bodega', key: 'bodega' },
+    { label: 'Compras', key: 'compras' },
+    { label: 'Contabilidad', key: 'contabilidad' },
+    { label: 'Costos', key: 'costos' },
+    { label: 'Crédito y Cobranza', key: 'credito' },
+    { label: 'Diseño', key: 'diseño' },
+    { label: 'Finanzas', key: 'finanzas' },
+    { label: 'Gerencia General', key: 'gerencia' },
+    { label: 'Impuestos', key: 'impuestos' },
+    { label: 'Mercadeo', key: 'mercadeo' },
+    { label: 'Producción', key: 'produccion' },
+    { label: 'Publicidad', key: 'publicidad' },
+    { label: 'Personal', key: 'personal' },
+    { label: 'Sistemas', key: 'sistemas' },
+    { label: 'Tesorería', key: 'tesoreria' }
+];
