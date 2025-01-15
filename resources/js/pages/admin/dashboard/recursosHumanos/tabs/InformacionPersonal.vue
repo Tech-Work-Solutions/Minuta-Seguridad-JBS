@@ -1,6 +1,6 @@
 <template>
     <div class="p-6 bg-gray-100">
-        <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-600">¿Está trabajando actualmente?</label>
@@ -427,7 +427,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-600">Hace cuánto tiempo reside ahi?</label>
+                            <label class="block text-sm font-medium text-gray-600">¿Hace cuánto tiempo reside ahi?</label>
                             <input
                                 v-model="formData.tiempoEnVivienda"
                                 type="text"
@@ -442,7 +442,7 @@
                 <div class="col-span-full">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-600">¿Actualmente tiene algún ingreso adicional? </label>
+                            <label class="block text-sm font-medium text-gray-600">¿Actualmente tiene algún ingreso <br> adicional? </label>
                             <div class="flex items-center space-x-4">
                                 <label>
                                     <input
@@ -469,7 +469,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-600">Descríbalo e indique su valor mensual </label>
+                            <label class="block text-sm font-medium text-gray-600">Descríbalo e indique su valor <br> mensual </label>
                             <input
                                 v-model="formData.detalleIngresos"
                                 type="text"
@@ -482,7 +482,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-600">Cuánto suman sus obligaciones económicas mensuales</label>
+                            <label class="block text-sm font-medium text-gray-600">¿Cuánto suman sus obligaciones económicas mensuales?</label>
                             <input
                                 v-model="formData.totalObligaciones"
                                 type="number"
@@ -774,6 +774,93 @@ export default {
             spiner: false,
         };
     },
+    watch: {
+        "formData.trabajandoActualmente"(newValue) {
+            if (newValue === "No") {
+                this.$nextTick(() => {
+                    this.formData.empresa = "";
+                    this.formData.tipoContrato = "";
+                    this.formData.estadoLaboral = "";
+                });
+            }
+        },
+        "formData.solicitoEnLaEmpresa"(newValue) {
+            if (newValue === "No") {
+                this.$nextTick(() => {
+                    this.formData.dia = "";
+                    this.formData.mes = "";
+                    this.formData.anio = "";
+                });
+            }
+        },
+        "formData.recomendado"(newValue) {
+            if (newValue === "No") {
+                this.$nextTick(() => {
+                    this.formData.nombreRecomienda = "";
+                    this.formData.dependenciaRecomienda = "";
+                });
+            }
+        },
+        "formData.tieneParientes"(newValue) {
+            if (newValue === "No") {
+                this.$nextTick(() => {
+                    this.formData.nombrePariente = "";
+                    this.formData.dependenciaPariente = "";
+                });
+            }
+        },
+        "formData.fuenteVacante"(newValue) {
+            if (newValue !== "Otro") {
+                this.$nextTick(() => {
+                    this.formData.otroMedio = "";
+                });
+            }
+        },
+        "formData.casaPropia"(newValue) {
+            if (newValue !== "Alquilada") {
+                this.$nextTick(() => {
+                    this.formData.arrendador = "";
+                    this.formData.telefonoArrendador = "";
+                });
+            }
+        },
+        "formData.ingresoAdicional"(newValue) {
+            if (newValue === "No") {                
+                this.$nextTick(() => {
+                    this.formData.detalleIngresos = "";
+                    this.formData.conceptoObligaciones = "";
+                });
+            }
+        },
+        "formData.totalObligaciones"(newValue) {
+            if (newValue === "No") {
+                this.$nextTick(() => {
+                    this.formData.conceptoObligaciones = "";
+                });
+            }
+        },
+        "formData.tuvoReconocimientos"(newValue) {
+            if (newValue === "No") {
+                this.$nextTick(() => {
+                    this.formData.reconocimientos = "";
+                });                
+            }
+        },
+        "formData.perteneceAsociaciones"(newValue) {
+            if (newValue === "No") {
+                this.$nextTick(() => {
+                    this.formData.asociaciones = "";
+                });
+            }
+        },
+        "formData.practicaDeporte"(newValue) {
+            if (newValue === "No") {
+                this.$nextTick(() => {
+                    this.formData.deportes = "";
+                });
+            }
+        },
+    },
     async mounted() {        
         this.spiner = false;
         await this.loadData();
@@ -848,16 +935,13 @@ export default {
             }
         },
         async loadData() {
-
-            if (this.informacion_personal && Object.keys(this.informacion_personal).length > 0 && this.hasHv) {
+            if (this.informacion_personal && Object.keys(this.informacion_personal).length > 0 || this.hasHv) {
                 this.isUpdating = true;
                 Object.assign(this.formData, this.informacion_personal);
             }
-
             if (this.formData.fuenteVacante && this.formData.fuenteVacante === 'Agencia') {
                 this.formData.fuenteVacante = "por medio de agencia"
             }
-
         },
 
         validarDatos() {
