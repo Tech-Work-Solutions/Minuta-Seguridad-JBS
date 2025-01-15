@@ -16,7 +16,7 @@
                             <!-- Column 1 -->
                             <div>
                                 <label class="flex items-center" v-for="(tab, index) in opcionesActividades.firstColumn"
-                                    :key="tab.label">
+                                    :class="getClassForTab(tab)" :key="tab.label">
                                     <input type="checkbox" class="mr-2"
                                         v-model="formData.actividadesEconomicas[tab.key]" />
                                     {{ tab.label }}
@@ -27,7 +27,8 @@
                             <div>
 
                                 <label class="flex items-center"
-                                    v-for="(tab, index) in opcionesActividades.secondColumn" :key="tab.label">
+                                    v-for="(tab, index) in opcionesActividades.secondColumn"
+                                    :class="getClassForTab(tab)" :key="tab.label">
                                     <input type="checkbox" class="mr-2"
                                         v-model="formData.actividadesEconomicas[tab.key]" />
                                     {{ tab.label }}
@@ -43,12 +44,15 @@
                                         class="ml-2 w-full py-2 px-3 border rounded-lg text-gray-700 focus:outline-none"
                                         v-model="formData.actividadesEconomicas.empresasOpcionales" />
                                 </label>
+                                <p class="text-red-500 text-sm" v-if="submited && hasErrorOtrasEmpresas">
+                                    Ingrese en empresa trabajó
+                                </p>
                             </div>
 
                             <div>
 
                                 <label class="flex items-center" v-for="(tab, index) in opcionesActividades.thirdColumn"
-                                    :key="tab.label">
+                                    :class="getClassForTab(tab)" :key="tab.label">
                                     <input type="checkbox" class="mr-2"
                                         v-model="formData.actividadesEconomicas[tab.key]" />
                                     {{ tab.label }}
@@ -64,6 +68,9 @@
                                         class="ml-2 w-full py-2 px-3 border rounded-lg text-gray-700 focus:outline-none"
                                         v-model="formData.actividadesEconomicas.sectoresOpcionales" />
                                 </label>
+                                <p class="text-red-500 text-sm" v-if="submited && hasErrorOtrosSectores">
+                                    Ingrese en qué sector trabajó
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -76,7 +83,7 @@
                             <!-- Column 1 -->
                             <div>
                                 <label class="flex items-center" v-for="(tab, index) in opcionesAreas.firstColumn"
-                                    :key="tab.label">
+                                    :class="getClassForTab(tab)" :key="tab.label">
                                     <input type="checkbox" class="mr-2" v-model="formData.areasEmpresa[tab.key]" />
                                     {{ tab.label }}
                                 </label>
@@ -84,7 +91,7 @@
                             <!-- Column 2 -->
                             <div>
                                 <label class="flex items-center" v-for="(tab, index) in opcionesAreas.secondColumn"
-                                    :key="tab.label">
+                                    :class="getClassForTab(tab)" :key="tab.label">
                                     <input type="checkbox" class="mr-2" v-model="formData.areasEmpresa[tab.key]" />
                                     {{ tab.label }}
                                 </label>
@@ -97,6 +104,9 @@
                                         class="ml-2 w-full py-2 px-3 border rounded-lg text-gray-700 focus:outline-none"
                                         v-model="formData.areasEmpresa.areasOpcionales" />
                                 </label>
+                                <p class="text-red-500 text-sm" v-if="submited && hasErrorOtrasAreas">
+                                    Ingrese en qué área trabajó
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -215,6 +225,9 @@ export default {
             submited: false,
             isUpdating: false,
             spiner: false,
+            hasErrorOtrosSectores: false,
+            hasErrorOtrasEmpresas: false,
+            hasErrorOtrasAreas: false,
         }
     },
     watch: {
@@ -222,15 +235,26 @@ export default {
             if (newValue === false) {
                 this.formData.actividadesEconomicas.sectoresOpcionales = "";
             }
+            if (newValue === false && this.hasErrorOtrosSectores) {
+                this.hasErrorOtrosSectores = false;
+            }
         },
         "formData.actividadesEconomicas.otrasEmpresas"(newValue) {
             if (newValue === false) {
                 this.formData.actividadesEconomicas.empresasOpcionales = "";
             }
+
+            if (newValue === false && this.hasErrorOtrasEmpresas) {
+                this.hasErrorOtrasEmpresas = false;
+            }
         },
         "formData.areasEmpresa.otrasAreas"(newValue) {
             if (newValue === false) {
                 this.formData.areasEmpresa.areasOpcionales = "";
+            }
+
+            if (newValue === false && this.hasErrorOtrasAreas) {
+                this.hasErrorOtrasAreas = false;
             }
         },
     },
@@ -283,14 +307,56 @@ export default {
         hasAtLeastOneTrue() {
             const minCheckActividadEconomica = Object.values(this.formData.actividadesEconomicas).some(value => value === true);
             const minCheckAreasEmpresa = Object.values(this.formData.areasEmpresa).some(value => value === true);
-            return minCheckActividadEconomica || minCheckAreasEmpresa;
+            return minCheckActividadEconomica && minCheckAreasEmpresa;
+        },
+        checkRequiredOtherOptions() {
+            const { otrosSectores, sectoresOpcionales, otrasEmpresas, empresasOpcionales } = this.formData.actividadesEconomicas;
+            const { otrasAreas, areasOpcionales, } = this.formData.areasEmpresa;
+            this.hasErrorOtrosSectores = otrosSectores && sectoresOpcionales === "" ? true : false;
+            this.hasErrorOtrasAreas = otrasAreas && areasOpcionales === "" ? true : false;
+            this.hasErrorOtrasEmpresas = otrasEmpresas && empresasOpcionales === "" ? true : false;
+            return this.hasErrorOtrosSectores || this.hasErrorOtrasAreas || this.hasErrorOtrasEmpresas
+        },
+        hasSubchecksEmpty(formData) {
+            const { industria, otrosServicios, ...rest } = formData.actividadesEconomicas;
+            const subActividades = [
+                'alimentos', 'tabaco', 'textiles', 'cuerocalzado',
+                'papel', 'editorial', 'quimico', 'caucho',
+                'vidrio', 'metalurgia', 'maquinaria', 'automotores',
+                'muebles', 'reciclaje'
+            ];
 
+            const subServicios = [
+                'asesorias', 'servicios', 'seguridad'
+            ];
+            const hasAtLeastOneTrueSubActividad = subActividades.some(key => rest[key]);
+            const hasAtLeastOneTrueSubServicio = subServicios.some(key => rest[key]);
+
+            if (industria && !hasAtLeastOneTrueSubActividad || !industria && hasAtLeastOneTrueSubActividad) {
+                return true
+            }
+
+            if (otrosServicios && !hasAtLeastOneTrueSubServicio || !otrosServicios && hasAtLeastOneTrueSubServicio) {
+                return true
+            }
+            return false;
+        },
+        getClassForTab(tab) {
+            return {
+                'pl-5': tab.tipo === 'sub'
+            };
         },
         validarDatos() {
             this.submited = true;
             this.$v.$touch();
-            if (!this.hasAtLeastOneTrue()) {
-                this.$toaster.error("Debes seleccionar al menos una actividad y un área. Por favor, corrígelos.");
+
+            if (this.checkRequiredOtherOptions()) {
+                this.$toaster.error("Hay errores en el formulario other, Por favor, corrígelos.");
+                return false;
+            }
+
+            if (this.hasSubchecksEmpty(this.formData)) {
+                this.$toaster.error("Ha dejado incompleto Industria o un subServicio, favor completar.");
                 return false;
             }
 
@@ -298,6 +364,12 @@ export default {
                 this.$toaster.error("Hay errores en el formulario. Por favor, corrígelos.");
                 return false;
             }
+
+            if (!this.hasAtLeastOneTrue()) {
+                this.$toaster.error("Debes seleccionar al menos una actividad y un área. Por favor, corrígelos.");
+                return false;
+            }
+
 
             return true;
         },
