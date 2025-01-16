@@ -121,10 +121,14 @@
                             respuestas informaciones anotadas por mí, en el presente formato son veraces.</p>
                     </div>
                 </div>
-                <div class="mt-6">
-                    <label for="firma" class="font-semibold">Firma del solicitante:</label>
-                    <input type="text" id="firma" class="border p-2 w-full" v-model="formData.firma"
-                        placeholder="Nombre del solicitante">
+                <div class="my-6">
+                    <label
+                        class="md:w-64 h-10 border rounded-lg bg-gray-100 flex flex-col justify-center items-center cursor-pointer relative">
+                        <span v-if="!formData.firmaPreview" class="text-sm text-gray-500">Cargar Foto</span>
+                        <img v-if="formData.firmaPreview" :src="formData.firmaPreview"
+                            class="absolute w-full h-full rounded-lg" />
+                        <input type="file" accept="image/*" @change="handleFileUpload" class="hidden" />
+                    </label>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.firma.required">
                         Debe subir la imagén de su firma
                     </p>
@@ -217,8 +221,12 @@ export default {
                     firma: this.formData.firma,
                     firmaPreview: this.formData.firmaPreview,
                     cc: this.formData.cc,
-
                 }));
+
+                if (this.formData.firma) {
+                    formData.append("firma", this.formData.firma);
+                }
+
                 if (this.isUpdating) {
                     await axios.post("/api/updateHv", formData);
                     this.spiner = false;
@@ -237,11 +245,24 @@ export default {
                 this.$toaster.error("Hubo un problema al guardar los datos.");
             }
         },
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.formData.firma = file;
+                this.formData.firmaPreview = URL.createObjectURL(file);
+            }
+        },
         loadData() {
             if (this.referencias_personales && Object.keys(this.referencias_personales).length > 0 || this.hasHv) {
                 this.isUpdating = true;
                 Object.assign(this.formData, this.referencias_personales);
             }
+
+            if (this.firma) {
+                this.formData.firma = this.firma;
+                this.formData.fotoPreview = this.firma;
+            }
+
         },
         validarDatos() {
             this.submited = true;
