@@ -1,7 +1,6 @@
 <template>
     <div class="p-6 bg-gray-100">
         <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
-            <!-- Personal References Section -->
             <div>
                 <p class="font-semibold mb-2 text-blue-600">Relacione dos nombres de personas distintas a familiares o
                     empleadores:
@@ -47,7 +46,6 @@
                 </div>
             </div>
 
-            <!-- Emergency Contact Section -->
             <div>
                 <p class="font-semibold mb-2 text-blue-600">Nombre de un familiar que podamos contactar en caso de no
                     localizarlo a
@@ -93,13 +91,11 @@
                 </div>
             </div>
 
-            <!-- Verification Section -->
             <div class="mb-6">
                 <p class="font-semibold mb-2">Verificación (Espacio exclusivo para el entrevistador):</p>
                 <textarea class="w-full border p-2 h-24" v-model="formData.verificacionEntrevistador"></textarea>
             </div>
 
-            <!-- Footer Section -->
             <div class="text-sm border-t pt-4">
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-6">
