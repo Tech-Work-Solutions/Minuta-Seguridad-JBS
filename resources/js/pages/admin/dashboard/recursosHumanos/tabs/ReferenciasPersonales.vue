@@ -1,53 +1,102 @@
 <template>
-    <div class="bg-gray-100 p-6">
-        <div id="app" class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-            <h1 class="text-center text-xl font-bold text-blue-600 mb-4">VII. REFERENCIAS PERSONALES</h1>
-
+    <div class="p-6 bg-gray-100">
+        <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
             <!-- Personal References Section -->
-            <div class="mb-6">
-                <p class="font-semibold mb-2">Relacione dos nombres de personas distintas a familiares o empleadores:
+            <div>
+                <p class="font-semibold mb-2 text-blue-600">Relacione dos nombres de personas distintas a familiares o
+                    empleadores:
                 </p>
-                <div class="grid grid-cols-12 gap-2 text-sm" v-for="(reference, index) in formData.references"
-                    :key="index">
-                    <div class="col-span-3 font-medium">Nombre</div>
-                    <div class="col-span-3 font-medium">Ocupación</div>
-                    <div class="col-span-3 font-medium">Dirección</div>
-                    <div class="col-span-3 font-medium">Teléfono</div>
-
-                    <input type="text" class="col-span-3 border p-2" v-model="reference.name" placeholder="Nombre">
-                    <input type="text" class="col-span-3 border p-2" v-model="reference.occupation"
-                        placeholder="Ocupación">
-                    <input type="text" class="col-span-3 border p-2" v-model="reference.address"
-                        placeholder="Dirección">
-                    <input type="text" class="col-span-3 border p-2" v-model="reference.phone" placeholder="Teléfono">
+                <div class="grid md:grid-cols-1 lg:grid-cols-4 gap-2 py-2"
+                    v-for="(reference, index) in formData.referencias" :key="index">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Nombre</label>
+                        <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            v-model="reference.nombres" placeholder="Nombre">
+                        <p class="text-red-500 text-sm"
+                            v-if="submited && !$v.formData.referencias.$each[index].nombres.required">
+                            Ingrese los nombres del {{ index === 0 ? 'primer' : 'segundo' }} contacto de emergencia
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Ocupación</label>
+                        <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            v-model="reference.ocupacion" placeholder="Ocupación">
+                        <p class="text-red-500 text-sm"
+                            v-if="submited && !$v.formData.referencias.$each[index].ocupacion.required">
+                            Ingrese la ocupación del {{ index === 0 ? 'primer' : 'segundo' }} contacto de emergencia
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Dirección</label>
+                        <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            v-model="reference.direccion" placeholder="Dirección">
+                        <p class="text-red-500 text-sm"
+                            v-if="submited && !$v.formData.referencias.$each[index].direccion.required">
+                            Ingrese la dirección del {{ index === 0 ? 'primer' : 'segundo' }} contacto de emergencia
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Teléfono</label>
+                        <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            v-model="reference.telefono" placeholder="Teléfono">
+                        <p class="text-red-500 text-sm"
+                            v-if="submited && !$v.formData.referencias.$each[index].telefono.required">
+                            Ingrese el teléfono del {{ index === 0 ? 'primer' : 'segundo' }} contacto de emergencia
+                        </p>
+                    </div>
                 </div>
             </div>
 
             <!-- Emergency Contact Section -->
-            <div class="mb-6">
-                <p class="font-semibold mb-2">Nombre de un familiar que podamos contactar en caso de no localizarlo a
+            <div>
+                <p class="font-semibold mb-2 text-blue-600">Nombre de un familiar que podamos contactar en caso de no
+                    localizarlo a
                     usted directamente:</p>
-                <div class="grid grid-cols-12 gap-2 text-sm">
-                    <div class="col-span-3 font-medium">Nombre</div>
-                    <div class="col-span-3 font-medium">Ocupación</div>
-                    <div class="col-span-3 font-medium">Dirección</div>
-                    <div class="col-span-3 font-medium">Teléfono</div>
+                <div class="grid md:grid-cols-1 lg:grid-cols-4 gap-2 py-2">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Nombre</label>
+                        <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            v-model="formData.contactoEmergencia.nombres" placeholder="Nombre">
+                        <p class="text-red-500 text-sm"
+                            v-if="submited && !$v.formData.contactoEmergencia.nombres.required">
+                            Ingrese el nombres del contacto de emergencia
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Ocupación</label>
+                        <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            v-model="formData.contactoEmergencia.ocupacion" placeholder="Ocupación">
+                        <p class="text-red-500 text-sm"
+                            v-if="submited && !$v.formData.contactoEmergencia.ocupacion.required">
+                            Ingrese la ocupación del contacto de emergencia
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Dirección</label>
+                        <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            v-model="formData.contactoEmergencia.direccion" placeholder="Dirección">
+                        <p class="text-red-500 text-sm"
+                            v-if="submited && !$v.formData.contactoEmergencia.direccion.required">
+                            Ingrese la dirección del contacto de emergencia
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Teléfono</label>
+                        <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                            v-model="formData.contactoEmergencia.telefono" placeholder="Teléfono">
+                        <p class="text-red-500 text-sm"
+                            v-if="submited && !$v.formData.contactoEmergencia.telefono.required">
+                            Ingrese el télefono del contacto de emergencia
+                        </p>
+                    </div>
 
-                    <input type="text" class="col-span-3 border p-2" v-model="formData.emergencyContact.name"
-                        placeholder="Nombre">
-                    <input type="text" class="col-span-3 border p-2" v-model="formData.emergencyContact.occupation"
-                        placeholder="Ocupación">
-                    <input type="text" class="col-span-3 border p-2" v-model="formData.emergencyContact.address"
-                        placeholder="Dirección">
-                    <input type="text" class="col-span-3 border p-2" v-model="formData.emergencyContact.phone"
-                        placeholder="Teléfono">
                 </div>
             </div>
 
             <!-- Verification Section -->
             <div class="mb-6">
                 <p class="font-semibold mb-2">Verificación (Espacio exclusivo para el entrevistador):</p>
-                <textarea class="w-full border p-2 h-24" v-model="formData.verification"></textarea>
+                <textarea class="w-full border p-2 h-24" v-model="formData.verificacionEntrevistador"></textarea>
             </div>
 
             <!-- Footer Section -->
@@ -55,8 +104,8 @@
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-6">
                         <div class="flex items-center space-x-2 mb-2">
-                            <input type="checkbox" id="authorize" class="w-4 h-4" v-model="formData.authorize">
-                            <label for="authorize">Autorizo pedir información de mi Hoja de Vida sin ninguna
+                            <input type="checkbox" class="w-4 h-4" v-model="formData.autorizacion">
+                            <label>Autorizo pedir información de mi Hoja de Vida sin ninguna
                                 restricción.</label>
                         </div>
                         <p class="font-semibold text-blue-600">¡Importante!</p>
@@ -73,61 +122,171 @@
                     </div>
                 </div>
                 <div class="mt-6">
-                    <label for="signature" class="font-semibold">Firma del solicitante:</label>
-                    <input type="text" id="signature" class="border p-2 w-full" v-model="formData.signature"
+                    <label for="firma" class="font-semibold">Firma del solicitante:</label>
+                    <input type="text" id="firma" class="border p-2 w-full" v-model="formData.firma"
                         placeholder="Nombre del solicitante">
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.firma.required">
+                        Debe subir la imagén de su firma
+                    </p>
                     <label for="id" class="font-semibold mt-2 block">C.C.:</label>
                     <input type="text" id="id" class="border p-2 w-full" v-model="formData.cc" placeholder="C.C.">
+                    <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cc.required">
+                        Debe ingresar la cédula
+                    </p>
                 </div>
             </div>
 
-            <button class="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
-        </div>
+            <button
+                class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="submit">
+                <p v-if="!spiner && !isUpdating">Guardar</p>
+                <p v-else-if="!spiner && isUpdating">Actualizar</p>
+                <p v-else-if="spiner && !isUpdating"><em class="fas fa-spinner fa-pulse"></em> Guardando...</p>
+                <p v-else><em class="fas fa-spinner fa-pulse"></em> Actualizando...</p>
+            </button>
+        </form>
     </div>
 </template>
 
 <script>
-import { TRichSelect } from 'vue-tailwind/dist/components';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
+    props: {
+        referencias_personales: {
+            type: Object,
+            default: () => ({}),
+        },
+        firma: {
+            type: String,
+            default: '',
+        },
+        userId: {
+            type: Number,
+            default: 0,
+        },
+        hasHv: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             formData: {
-                references: [
-                    { name: '', occupation: '', address: '', phone: '' },
-                    { name: '', occupation: '', address: '', phone: '' },
+                referencias: [
+                    { nombres: '', ocupacion: '', direccion: '', telefono: '' },
+                    { nombres: '', ocupacion: '', direccion: '', telefono: '' },
                 ],
-                emergencyContact: {
-                    name: '',
-                    occupation: '',
-                    address: '',
-                    phone: '',
+                contactoEmergencia: {
+                    nombres: '',
+                    ocupacion: '',
+                    direccion: '',
+                    telefono: '',
                 },
-                signature: '',
+                verificacionEntrevistador: '',
+                autorizacion: false,
+                firma: null,
+                firmaPreview: null,
                 cc: '',
-                authorize: false,
-
             },
-
+            submited: false,
+            isUpdating: false,
+            spiner: false,
         };
     },
 
     async mounted() {
+        this.spiner = false;
+        await this.loadData();
     },
 
     methods: {
+        async handleSubmit() {
+            try {
+                if (!this.validarDatos()) {
+                    return;
+                }
+                this.spiner = true;
+                const formData = new FormData();
+                formData.append("user_id", this.userId);
+                formData.append("referencias_personales", JSON.stringify({
+                    referencias: this.formData.referencias,
+                    contactoEmergencia: this.formData.contactoEmergencia,
+                    verificacionEntrevistador: this.formData.verificacionEntrevistador,
+                    autorizacion: this.formData.autorizacion,
+                    firma: this.formData.firma,
+                    firmaPreview: this.formData.firmaPreview,
+                    cc: this.formData.cc,
+
+                }));
+                if (this.isUpdating) {
+                    await axios.post("/api/updateHv", formData);
+                    this.spiner = false;
+                    this.submited = false;
+                    this.$toaster.success("Datos actualizados con éxito.");
+                } else {
+                    await axios.post("/api/registerHv", formData);
+                    this.isUpdating = true;
+                    this.spiner = false;
+                    this.submited = false;
+                    this.$toaster.success("Datos registrados con éxito.");
+                }
+            } catch (error) {
+                this.spiner = false;
+                console.error(error);
+                this.$toaster.error("Hubo un problema al guardar los datos.");
+            }
+        },
+        loadData() {
+            if (this.referencias_personales && Object.keys(this.referencias_personales).length > 0 || this.hasHv) {
+                this.isUpdating = true;
+                Object.assign(this.formData, this.referencias_personales);
+            }
+        },
+        validarDatos() {
+            this.submited = true;
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                this.$toaster.error("Hay errores en el formulario. Por favor, corrígelos.");
+                return false;
+            }
+
+            if (!this.formData.autorizacion) {
+                this.$toaster.error("Debes autorizar la recolección de información de tu hoja de vida.");
+                return false;
+
+            }
+            return true;
+        },
+
     },
 
     validations: {
         formData: {
-        }
+            firma: { required },
+            cc: { required },
+            referencias: {
+                $each: {
+                    nombres: { required },
+                    ocupacion: { required },
+                    direccion: { required },
+                    telefono: { required },
+                },
+            },
+            contactoEmergencia: {
+                nombres: { required },
+                ocupacion: { required },
+                direccion: { required },
+                telefono: { required },
+            },
+        },
     },
 
     computed: {
 
     },
 
-    components: { TRichSelect }
+    components: {}
 
 }
 </script>
