@@ -11,7 +11,7 @@
                 <!-- Tabs Navigation -->
                 <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
                     <li v-for="(tab, index) in tabs" :key="index"
-                        class="m-2 last:mr-0 flex-auto text-center cursor-pointer">
+                        class="m-2 last:mr-0 flex-auto text-center cursor-pointer max-w-xs">
                         <a class="text-sm font-bold px-5 py-3 shadow-lg rounded block leading-normal"
                             :class="tabClasses(index + 1)" @click="toggleTabs(index + 1)">
                             <em :class="tab.icon"></em> {{ tab.label }}
@@ -25,7 +25,7 @@
                         <div class="tab-content tab-space">
                             <div v-for="(tab, index) in tabs" :key="index"
                                 :class="{ 'hidden': openTab !== index + 1, 'block': openTab === index + 1 }">
-                                <component :is="tab.component" />
+                                <component :is="tab.component" v-bind="tab.data" :userId="userId" :hasHv="hasHv" />
                             </div>
                         </div>
                     </div>
@@ -52,22 +52,30 @@ export default {
             openTab: 1,
             show: false,
             tabs: [
-                { label: 'Información General', icon: 'fas fa-user-shield', component: 'InformacionGeneral' },
-                { label: 'Información Personal', icon: 'fas fa-user-shield', component: 'InformacionPersonal' },
-                { label: 'Información Familiar', icon: 'fas fa-user-shield', component: 'InformacionFamiliar' },
-                { label: 'Educación y Aptitudes', icon: 'fas fa-caravan', component: 'EducacionAptitudes' },
-                { label: 'Trayectoria Empresas', icon: 'fas fa-building', component: 'TrayectoriaEmpresas' },
-                { label: 'Experiencia Laboral', icon: 'fas fa-building', component: 'ExperienciaLaboral' },
-                { label: 'Referencias Personales', icon: 'fas fa-user-shield', component: 'ReferenciasPersonales' },
-                { label: 'Administración Proceso de Selección', icon: 'fas fa-pen-fancy', component: 'AdministracionProcesoSeleccion' },
+                { label: 'Información General', icon: 'fas fa-user-shield', component: 'InformacionGeneral', data: {}, key: 'informacion_general' },
+                { label: 'Información Personal', icon: 'fas fa-user-shield', component: 'InformacionPersonal', data: {}, key: 'informacion_personal' },
+                { label: 'Información Familiar', icon: 'fas fa-user-shield', component: 'InformacionFamiliar', data: {}, key: 'informacion_familiar' },
+                { label: 'Educación y Aptitudes', icon: 'fas fa-caravan', component: 'EducacionAptitudes', data: {}, key: 'educacion_aptitudes' },
+                { label: 'Trayectoria Empresas', icon: 'fas fa-building', component: 'TrayectoriaEmpresas', data: {}, key: 'trayectoria_empresas' },
+                { label: 'Experiencia Laboral', icon: 'fas fa-building', component: 'ExperienciaLaboral', data: {}, key: 'experiencia_laboral' },
+                { label: 'Referencias Personales', icon: 'fas fa-user-shield', component: 'ReferenciasPersonales', data: {}, key: 'referencias_personales' },
+                { label: 'Administración Proceso de Selección', icon: 'fas fa-pen-fancy', component: 'AdministracionProcesoSeleccion', data: {}, key: 'administracion_proceso_seleccion' },
             ],
+            userId: null,
+            hasHv: false
         };
     },
-    mounted() {
+    async mounted() {
         const rol = localStorage.getItem('rol');
         if (rol === 'GUARDA DE SEGURIDAD') {
             this.$router.push('/dashboard');
         }
+        const userObject = localStorage.getItem("user");
+        if (userObject) {
+            const user = JSON.parse(userObject);
+            this.userId = user.id;
+        }
+        await this.loadData();
         this.show = true;
     },
     methods: {
@@ -79,6 +87,29 @@ export default {
                 ? 'text-white bg-blue-500'
                 : 'text-gray-600 bg-white';
         },
+        async loadData() {
+            try {
+                const response = await axios.get(`/api/getHv`, {
+                    params: {
+                        user_id: this.userId,
+                    },
+                });
+                const savedHv = response.data;
+                if (savedHv.length > 0) {
+                    const hv = savedHv[0];
+                    this.hasHv = true;
+                    this.tabs.forEach(tab => {
+                        tab.data[tab.key] = JSON.parse(hv[tab.key]);
+                        tab.data.foto = hv.foto;
+                        tab.data.soportes = hv.soportes;
+                        tab.data.firma = hv.firma;
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                this.$toaster.error("Hubo un problema al cargar los datos.");
+            }
+        }
     },
     components: {
         InformacionGeneral,
