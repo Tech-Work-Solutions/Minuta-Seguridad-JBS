@@ -95,6 +95,9 @@
                 v-model="formData.intesidadHoraria"
                 :disabled="!formData.nombreDelPrograma"
               />
+              <p class="text-red-500 text-sm" v-if="submited && !$v.formData.intesidadHoraria.required">
+                Ingrese la intensidad horaria.
+              </p>
             </div>
             <div class="col-span-3">
               <label class="block text-sm font-medium text-gray-600">Nombre del programa</label>
@@ -114,6 +117,9 @@
                 v-model="formData.institucion"
                 :disabled="!formData.nombreDelPrograma"
               />
+              <p class="text-red-500 text-sm" v-if="submited && !$v.formData.institucion.required">
+                Ingrese la intensidad horaria.
+              </p>
             </div>
           </div>
         </div>
@@ -159,7 +165,7 @@
               </p>
             </div>
             <div class="col-span-1 sm:col-span-2">
-              <label class="block text-sm font-medium text-gray-600">Duración (años, semestres, meses)</label>
+              <label class="block text-sm font-medium text-gray-600">Duración<br class="hidden sm:inline"> (años, semestres, meses)</label>
               <input
                 type="text"
                 class="w-full p-1 border border-gray-300 rounded mt-1"
@@ -256,11 +262,11 @@
                   <td class="border border-gray-300 p-2 text-center">
                     <div class="flex space-x-2">
                       <label class="mr-2">R</label>
-                      <input type="radio" v-model="formData.nivelP1" value="R" class="mr-2" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP1" value="R" class="mr-2" :disabled="!formData.programa1"/>
                       <label class="mr-2">B</label>
-                      <input type="radio" v-model="formData.nivelP1" value="B" class="mr-2" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP1" value="B" class="mr-2" :disabled="!formData.programa1"/>
                       <label class="mr-2">MB</label>
-                      <input type="radio" v-model="formData.nivelP1" value="MB" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP1" value="MB" :disabled="!formData.programa1"/>
                     </div>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nivelP1.required">
                       Seleccione una opción.
@@ -280,11 +286,11 @@
                   <td class="border border-gray-300 p-2 text-center">
                     <div class="flex space-x-2">
                       <label class="mr-2">R</label>
-                      <input type="radio" v-model="formData.nivelP3" value="R" class="mr-2" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP3" value="R" class="mr-2" :disabled="!formData.programa3"/>
                       <label class="mr-2">B</label>
-                      <input type="radio" v-model="formData.nivelP3" value="B" class="mr-2" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP3" value="B" class="mr-2" :disabled="!formData.programa3"/>
                       <label class="mr-2">MB</label>
-                      <input type="radio" v-model="formData.nivelP3" value="MB" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP3" value="MB" :disabled="!formData.programa3"/>
                     </div>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nivelP3.required">
                       Seleccione una opción.
@@ -306,11 +312,11 @@
                   <td class="border border-gray-300 p-2 text-center">
                     <div class="flex space-x-2">
                       <label class="mr-2">R</label>
-                      <input type="radio" v-model="formData.nivelP2" value="R" class="mr-2" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP2" value="R" class="mr-2" :disabled="!formData.programa2"/>
                       <label class="mr-2">B</label>
-                      <input type="radio" v-model="formData.nivelP2" value="B" class="mr-2" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP2" value="B" class="mr-2" :disabled="!formData.programa2"/>
                       <label class="mr-2">MB</label>
-                      <input type="radio" v-model="formData.nivelP2" value="MB" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP2" value="MB" :disabled="!formData.programa2"/>
                     </div>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nivelP2.required">
                       Seleccione una opción.
@@ -330,11 +336,11 @@
                   <td class="border border-gray-300 p-2 text-center">
                     <div class="flex space-x-2">
                       <label class="mr-2">R</label>
-                      <input type="radio" v-model="formData.nivelP4" value="R" class="mr-2" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP4" value="R" class="mr-2" :disabled="!formData.programa4"/>
                       <label class="mr-2">B</label>
-                      <input type="radio"v-model="formData.nivelP4" value="B" class="mr-2" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio"v-model="formData.nivelP4" value="B" class="mr-2" :disabled="!formData.programa4"/>
                       <label class="mr-2">MB</label>
-                      <input type="radio" v-model="formData.nivelP4" value="MB" :disabled="formData.sistemas === 'No'||!formData.sistemas"/>
+                      <input type="radio" v-model="formData.nivelP4" value="MB" :disabled="!formData.programa4"/>
                     </div>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nivelP4.required">
                       Seleccione una opción.
@@ -400,7 +406,7 @@
                       <label class="mr-2">B</label>
                       <input type="radio" v-model="formData.lecturaI1" value="B" class="mr-2" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
                       <label class="mr-2">MB</label>
-                      <input type="radio" v-model="formData.lecturaI1" value="MB" />
+                      <input type="radio" v-model="formData.lecturaI1" value="MB" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
                     </div>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.lecturaI1.required">
                       Seleccione una opción.
@@ -450,11 +456,11 @@
                   <td class="border border-gray-300 p-2 text-center">
                     <div class="flex space-x-2">
                       <label class="mr-2">R</label>
-                      <input type="radio" v-model="formData.lecturaI2" value="R" class="mr-2" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.lecturaI2" value="R" class="mr-2" :disabled="!formData.idioma2"/>
                       <label class="mr-2">B</label>
-                      <input type="radio" v-model="formData.lecturaI2" value="B" class="mr-2" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.lecturaI2" value="B" class="mr-2" :disabled="!formData.idioma2"/>
                       <label class="mr-2">MB</label>
-                      <input type="radio" v-model="formData.lecturaI2" value="MB" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.lecturaI2" value="MB" :disabled="!formData.idioma2"/>
                     </div>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.lecturaI2.required">
                       Seleccione una opción.
@@ -463,11 +469,11 @@
                   <td class="border border-gray-300 p-2 text-center">
                     <div class="flex space-x-2">
                       <label class="mr-2">R</label>
-                      <input type="radio" v-model="formData.escrituraI2" value="R" class="mr-2" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.escrituraI2" value="R" class="mr-2" :disabled="!formData.idioma2"/>
                       <label class="mr-2">B</label>
-                      <input type="radio" v-model="formData.escrituraI2" value="B" class="mr-2" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.escrituraI2" value="B" class="mr-2" :disabled="!formData.idioma2"/>
                       <label class="mr-2">MB</label>
-                      <input type="radio" v-model="formData.escrituraI2" value="MB" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.escrituraI2" value="MB" :disabled="!formData.idioma2"/>
                     </div>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.escrituraI2.required">
                       Seleccione una opción.
@@ -476,11 +482,11 @@
                   <td class="border border-gray-300 p-2 text-center">
                     <div class="flex space-x-2">
                       <label class="mr-2">R</label>
-                      <input type="radio" v-model="formData.habladoI2" value="R" class="mr-2" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.habladoI2" value="R" class="mr-2" :disabled="!formData.idioma2"/>
                       <label class="mr-2">B</label>
-                      <input type="radio" v-model="formData.habladoI2" value="B" class="mr-2" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.habladoI2" value="B" class="mr-2" :disabled="!formData.idioma2"/>
                       <label class="mr-2">MB</label>
-                      <input type="radio" v-model="formData.habladoI2" value="MB" :disabled="formData.idiomas === 'No'||!formData.idiomas"/>
+                      <input type="radio" v-model="formData.habladoI2" value="MB" :disabled="!formData.idioma2"/>
                     </div>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.habladoI2.required">
                       Seleccione una opción.
@@ -809,7 +815,6 @@ export default {
           habladoI2: {
               required: (value, formData) => formData.idioma2 !== '' ? !!value : true,
           },
-          nombreDelPrograma: { required },
           intesidadHoraria: {
               required: (value, formData) => formData.nombreDelPrograma !== '' ? !!value : true,
           },         
@@ -833,6 +838,11 @@ export default {
 
     .table-auto input[type="text"] {
       width: 98px !important;
+      padding: 0.75rem;
+    }
+
+    .table-auto select {
+      width: 123px !important;
       padding: 0.75rem;
     }
   }
