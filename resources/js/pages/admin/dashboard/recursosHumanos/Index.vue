@@ -25,7 +25,7 @@
                         <div class="tab-content tab-space">
                             <div v-for="(tab, index) in tabs" :key="index"
                                 :class="{ 'hidden': openTab !== index + 1, 'block': openTab === index + 1 }">
-                                <component :is="tab.component" v-bind="tab.data" :userId="userId" :hasHv="hasHv"/>
+                                <component :is="tab.component" v-bind="tab.data" :userId="userId" :hasHv="hasHv" />
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@ export default {
             openTab: 1,
             show: false,
             tabs: [
-            { label: 'Información General', icon: 'fas fa-user-shield', component: 'InformacionGeneral', data: {}, key: 'informacion_general' },
+                { label: 'Información General', icon: 'fas fa-user-shield', component: 'InformacionGeneral', data: {}, key: 'informacion_general' },
                 { label: 'Información Personal', icon: 'fas fa-user-shield', component: 'InformacionPersonal', data: {}, key: 'informacion_personal' },
                 { label: 'Información Familiar', icon: 'fas fa-user-shield', component: 'InformacionFamiliar', data: {}, key: 'informacion_familiar' },
                 { label: 'Educación y Aptitudes', icon: 'fas fa-caravan', component: 'EducacionAptitudes', data: {}, key: 'educacion_aptitudes' },
