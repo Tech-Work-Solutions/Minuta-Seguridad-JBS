@@ -30,7 +30,7 @@ export const CATEGORIAS_LICENCIA = [{id:1,nombre:"A1"}, {id:2,nombre:"A2"}, {id:
 
 export const NIVELES_ESTUDIO = [
     { id: 1, name: "Primaria", key: "primaria" },
-    { id: 2, name: "Bachillerato", elemento: "select", values: ["Clasico", "Técnico", "Comercial", "Otro"], key: "bachillerato" },
-    { id: 3, name: "Educación Superior", elemento: "select", values: ["Técnico", "Tecnológico", "profesional"], key: "educacionSuperior" },
+    { id: 2, name: "Bachillerato", elemento: "select", values: ["Clásico", "Técnico", "Comercial", "Otro"], key: "bachillerato" },
+    { id: 3, name: "Educación Superior", elemento: "select", values: ["Técnico", "Tecnológico", "Profesional"], key: "educacionSuperior" },
     { id: 4, name: "Postgrados", key: "postgrados" },
 ];
