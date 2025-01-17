@@ -96,40 +96,45 @@
                 <textarea class="w-full border p-2 h-24" v-model="formData.verificacionEntrevistador"></textarea>
             </div>
 
-            <div class="text-sm border-t pt-4">
-                <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-6">
-                        <div class="flex items-center space-x-2 mb-2">
-                            <input type="checkbox" class="w-4 h-4" v-model="formData.autorizacion">
-                            <label>Autorizo pedir información de mi Hoja de Vida sin ninguna
-                                restricción.</label>
-                        </div>
-                        <p class="font-semibold text-blue-600">¡Importante!</p>
-                        <p>Este es un formato de distribución GRATUITA, puede buscarlo en la Web, puede imprimir o
-                            enviar este formato por correo electrónico sin restricciones.</p>
-                    </div>
-                    <div class="col-span-6">
-                        <p class="mb-2">Nota importante:</p>
-                        <p class="text-gray-600 text-sm">Favor no llamar por teléfono, ni concurrir a preguntar por el
-                            resultado de esta solicitud. Nosotros le avisaremos, gracias.</p>
-                        <p class="mt-4 font-semibold">Certificación:</p>
-                        <p class="text-gray-600 text-sm">Para todos los efectos legales, certifico que todas las
-                            respuestas informaciones anotadas por mí, en el presente formato son veraces.</p>
-                    </div>
+            <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+
+                <div class="flex items-center space-x-2 mb-2">
+                    <input type="checkbox" class="w-4 h-4" v-model="formData.autorizacion">
+                    <label>Autorizo pedir información de mi Hoja de Vida sin ninguna
+                        restricción.</label>
                 </div>
-                <div class="my-6">
+                <div>
+                    <p class="font-semibold text-blue-600">¡Importante!</p>
+                    <p>Este es un formato de distribución GRATUITA, puede buscarlo en la Web, puede imprimir o
+                        enviar este formato por correo electrónico sin restricciones.</p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <p class="mb-2">Nota importante:</p>
+                    <p class="text-gray-600 text-sm">Favor no llamar por teléfono, ni concurrir a preguntar por el
+                        resultado de esta solicitud. Nosotros le avisaremos, gracias.</p>
+                </div>
+                <div>
+                    <p class="mt-4 font-semibold">Certificación:</p>
+                    <p class="text-gray-600 text-sm">Para todos los efectos legales, certifico que todas las
+                        respuestas informaciones anotadas por mí, en el presente formato son veraces.</p>
+                </div>
+                <div>
                     <label
                         class="md:w-64 h-10 border rounded-lg bg-gray-100 flex flex-col justify-center items-center cursor-pointer relative">
-                        <span v-if="!formData.firmaPreview" class="text-sm text-gray-500">Cargar Foto</span>
+                        <span v-if="!formData.firmaPreview" class="text-sm text-gray-500">Firma del solicitante</span>
                         <img v-if="formData.firmaPreview" :src="formData.firmaPreview"
-                            class="absolute w-full h-full rounded-lg" />
+                            class="w-full h-full rounded-lg" />
                         <input type="file" accept="image/*" @change="handleFileUpload" class="hidden" />
                     </label>
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.firma.required">
                         Debe subir la imagén de su firma
                     </p>
                     <label for="id" class="font-semibold mt-2 block">C.C.:</label>
-                    <input type="text" id="id" class="border p-2 w-full" v-model="formData.cc" placeholder="C.C.">
+                    <input type="number" id="id"
+                        class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
+                        v-model="formData.cc" placeholder="C.C.">
                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cc.required">
                         Debe ingresar la cédula
                     </p>
@@ -214,8 +219,6 @@ export default {
                     contactoEmergencia: this.formData.contactoEmergencia,
                     verificacionEntrevistador: this.formData.verificacionEntrevistador,
                     autorizacion: this.formData.autorizacion,
-                    firma: this.formData.firma,
-                    firmaPreview: this.formData.firmaPreview,
                     cc: this.formData.cc,
                 }));
 
@@ -256,7 +259,7 @@ export default {
 
             if (this.firma) {
                 this.formData.firma = this.firma;
-                this.formData.fotoPreview = this.firma;
+                this.formData.firmaPreview = this.firma;
             }
 
         },
@@ -298,12 +301,5 @@ export default {
             },
         },
     },
-
-    computed: {
-
-    },
-
-    components: {}
-
 }
 </script>
