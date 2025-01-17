@@ -95,7 +95,6 @@ export default {
                     },
                 });
                 const savedHv = response.data;
-
                 if (savedHv.length > 0) {
                     const hv = savedHv[0];
                     this.hasHv = true;
