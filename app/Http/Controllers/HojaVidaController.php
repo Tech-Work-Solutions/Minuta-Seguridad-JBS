@@ -22,16 +22,19 @@ class HojaVidaController extends Controller
             'soportes' => ['nullable'],
             'foto' => ['nullable'],
             'firma' => ['nullable'],
+            'firma_autorizador' => ['nullable'],
         ]);
 
         $soportes = '';
         $foto = '';
         $firma = '';
+        $firma_autorizador = '';
         $user_id = $request->user_id;
         $fileService = new FileService();
         $soportes = $fileService->guardarArchivo($request->file('soportes'), '/hvs/soportes/', $user_id);
         $foto = $fileService->guardarArchivo($request->file('foto'), '/hvs/fotos/', $user_id);
         $firma = $fileService->guardarArchivo($request->file('firma'), '/hvs/firmas/', $user_id);
+        $firma_autorizador = $fileService->guardarArchivo($request->file('firma_autorizador'), '/hvs/firmasAutorizacion/', $user_id);
 
         $hojaDeVida = Hoja_de_vida::create([
             'user_id' => $request->user_id,
@@ -45,6 +48,7 @@ class HojaVidaController extends Controller
             'administracion_proceso_seleccion' => $request->administracion_proceso_seleccion,
             'foto' => $foto,
             'firma' => $firma,
+            'firma_autorizador' => $firma_autorizador,
             'soportes' => $soportes,
         
         ]);
@@ -79,6 +83,11 @@ class HojaVidaController extends Controller
         if ($record->firma) {
             $fileService->eliminarArchivo($record->firma);
         }
+        
+        if ($record->firma_autorizador) {
+            $fileService->eliminarArchivo($record->firma_autorizador);
+        }
+        
         $record->delete();
         return response()->json(['msg' => 'Registro eliminado']);
     }
@@ -98,11 +107,13 @@ class HojaVidaController extends Controller
                 'soportes' => ['nullable'],
                 'foto' => ['nullable'],
                 'firma' => ['nullable'],
+                'firma_autorizador' => ['nullable'],
             ]);
 
             $soportes = '';
             $foto = '';
             $firma = '';
+            $firma_autorizador = '';
             $user_id = $request->user_id;
             
             $user = Hoja_de_vida::where('user_id', $request->user_id)->first();
@@ -122,6 +133,13 @@ class HojaVidaController extends Controller
                 $fileService->eliminarArchivo($user->firma);
                 $firma = $fileService->guardarArchivo($request->file('firma'), '/hvs/firmas/', $user_id);
                 $user->firma = $firma;
+                $user->update();
+            }
+            
+            if ($user->firma_autorizador !== $request->file('firma_autorizador') && $request->file('firma_autorizador')) {
+                $fileService->eliminarArchivo($user->firma_autorizador);
+                $firma_autorizador = $fileService->guardarArchivo($request->file('firma_autorizador'), '/hvs/firmasAutorizacion/', $user_id);
+                $user->firma_autorizador = $firma_autorizador;
                 $user->update();
             }
             
@@ -149,7 +167,7 @@ class HojaVidaController extends Controller
                 'msg' => 'Registro actualizado correctamente',
                 'user_id' => $user->user_id,
                 'updated_fields' => array_keys($fieldsToUpdate),
-                'updated_multimedia_files' => $soportes || $firma || $foto ? 'yes' : 'no',
+                'updated_multimedia_files' => $soportes || $firma || $foto || $firma_autorizador ? 'yes' : 'no',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
