@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gray-100 p-6">
-        <form class="bg-white rounded-lg shadow p-6">
+        <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
 
             <table class="table-auto w-full items-center bg-gray-100 border-collapse">
                 <thead>
@@ -30,36 +30,36 @@
                         </td>
                         <td colspan="2" class="border border-gray-300 p-2">
                             <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                                <input type="date" v-model="asistencia.dia"
+                                <input type="date" v-model="asistencia.dia" :disabled="!asistencia.nombre"
                                     class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
                             </div>
                         </td>
                         <td colspan="2" class="border border-gray-300 p-2">
                             <div class="relative flex w-full flex-wrap items-stretch mb-3">
                                 <input type="time" id="appt" name="appt" min="07:00" max="18:00"
-                                    v-model="asistencia.hora"
+                                    v-model="asistencia.hora" :disabled="!asistencia.nombre"
                                     class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
                             </div>
                         </td>
                         <td colspan="2" class="border border-gray-300 p-2">
                             <div class="relative flex w-full flex-wrap items-stretch mb-3">
-
                                 <input type="radio" name="asistencia" value="Si" class="form-radio text-blue-600"
-                                    v-model="asistencia.asistio">
+                                    :disabled="!asistencia.nombre" v-model="asistencia.asistio">
 
                             </div>
                         </td>
                         <td colspan="2" class="border border-gray-300 p-2">
                             <div class="relative flex w-full flex-wrap items-stretch mb-3">
                                 <label>
-                                    <input type="radio" name="asistencia" value="No" class="form-radio text-blue-600"
-                                        v-model="asistencia.asistio">
+                                    <input type="radio" name="asistencia" value="No" :disabled="!asistencia.nombre"
+                                        class="form-radio text-blue-600" v-model="asistencia.asistio">
                                 </label>
                             </div>
                         </td>
                         <td colspan="3" class="border border-gray-300 p-2">
                             <div class="relative flex w-full flex-wrap items-stretch mb-3">
                                 <input type="time" id="appt" name="appt" min="07:00" max="18:00"
+                                    :disabled="!asistencia.nombre || asistencia.asistio === 'No'"
                                     class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
                             </div>
                         </td>
@@ -190,10 +190,10 @@
                         <label class="block font-medium text-gray-700">Candidato elegible próximamente</label>
                         <div class="flex items-center space-x-4">
                             <label><input type="radio" name="seleccionado" value="Si" class="form-radio text-blue-600"
-                                    v-model="formData.proximamenteSeleccionado">
+                                    v-model="formData.candidatoProximo">
                                 Sí</label>
                             <label><input type="radio" name="seleccionado" value="No" class="form-radio text-blue-600"
-                                    v-model="formData.proximamenteSeleccionado">
+                                    v-model="formData.candidatoProximo">
                                 No</label>
                         </div>
                     </div>
@@ -245,7 +245,7 @@
                     </div>
                     <div>
                         <label class="block font-medium text-gray-700">Firma de quien Autoriza Contratación</label>
-                        <input type="text" v-model="formData.firmaAutorizador"
+                        <input type="text" v-model="formData.firma_autorizador"
                             class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none">
                     </div>
                 </div>
@@ -268,6 +268,25 @@
 import { TRichSelect } from 'vue-tailwind/dist/components';
 
 export default {
+    props: {
+        administracion_proceso_seleccion: {
+            type: Object,
+            default: () => ({}),
+        },
+        firma_autorizador: {
+            type: String,
+            default: '',
+        },
+        userId: {
+            type: Number,
+            default: 0,
+        },
+        hasHv: {
+            type: Boolean,
+            default: false,
+        },
+
+    },
     data() {
         return {
             formData: {
@@ -330,7 +349,7 @@ export default {
                     segundoEntrevistador: ''
                 },
                 candidatoSeleccionado: 'No',
-                proximamenteSeleccionado: 'No',
+                candidatoProximo: 'No',
                 conclusionPrimerEntrevistador: '',
                 conclusionSegundoEntrevistador: '',
                 fechaContratacion: '',
@@ -340,29 +359,105 @@ export default {
                 verificadorReferencia: '',
                 primerEntrevistador: '',
                 segundoEntrevistador: '',
-                firmaAutorizador: '',
+                firma_autorizador: null,
+                firma_autorizador_preview: null,
             },
-
+            submited: false,
+            isUpdating: false,
+            spiner: false,
         };
     },
 
-    async mounted() {
+    mounted() {
+        this.spiner = false;
+        this.loadData();
     },
 
     methods: {
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.formData.firma_autorizador = file;
+                this.formData.firma_autorizador_preview = URL.createObjectURL(file);
+            }
+        },
+        async handleSubmit() {
+            try {
+                if (!this.validarDatos()) {
+                    return;
+                }
+                this.spiner = true;
+                const formData = new FormData();
+
+                formData.append("user_id", this.userId);
+                formData.append("administracion_proceso_seleccion", JSON.stringify({
+                    asistencias: this.formData.asistencias,
+                    aspectos: this.formData.aspectos,
+                    otroAspecto: this.formData.otroAspecto,
+                    candidatoSeleccionado: this.formData.candidatoSeleccionado,
+                    candidatoProximo: this.formData.candidatoProximo,
+                    conclusionPrimerEntrevistador: this.formData.conclusionPrimerEntrevistador,
+                    conclusionSegundoEntrevistador: this.formData.conclusionSegundoEntrevistador,
+                    fechaContratacion: this.formData.fechaContratacion,
+                    sueldo: this.formData.sueldo,
+                    cargo: this.formData.cargo,
+                    tipoContrato: this.formData.tipoContrato,
+                    verificadorReferencia: this.formData.verificadorReferencia,
+                    primerEntrevistador: this.formData.primerEntrevistador,
+                    segundoEntrevistador: this.formData.segundoEntrevistador,
+                }));
+
+                if (this.formData.firma_autorizador) {
+                    formData.append("firma_autorizador", this.formData.firma_autorizador);
+                }
+                console.log(this.formData)
+                if (this.isUpdating) {
+                    //await axios.post("/api/updateHv", formData);
+                    this.spiner = false;
+                    this.submited = false;
+                    this.$toaster.success("Datos actualizados con éxito.");
+                } else {
+                    //await axios.post("/api/registerHv", formData);
+                    this.isUpdating = true;
+                    this.spiner = false;
+                    this.submited = false;
+                    this.$toaster.success("Datos registrados con éxito.");
+                }
+
+            } catch (error) {
+                this.spiner = false;
+                console.error(error);
+                this.$toaster.error("Hubo un problema al guardar los datos.");
+            }
+        },
+
+        async loadData() {
+            if (this.administracion_proceso_seleccion && Object.keys(this.administracion_proceso_seleccion).length > 0 || this.hasHv) {
+                this.isUpdating = true;
+                Object.assign(this.formData, this.administracion_proceso_seleccion);
+            }
+            if (this.firma_autorizador) {
+                this.formData.firma_autorizador = this.firma_autorizador;
+                this.formData.firma_autorizador_preview = this.firma_autorizador;
+            }
+        },
+        validarDatos() {
+            this.submited = true;
+            this.$v.$touch();
+
+            if (this.$v.$invalid) {
+                this.$toaster.error("Hay errores en el formulario. Por favor, corrígelos.");
+                return false;
+            }
+
+            return true;
+        },
     },
 
     validations: {
         formData: {
         }
     },
-
-    computed: {
-
-    },
-
-    components: { TRichSelect }
-
 }
 </script>
 

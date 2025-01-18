@@ -103,6 +103,7 @@ export default {
                         tab.data.foto = hv.foto;
                         tab.data.soportes = hv.soportes;
                         tab.data.firma = hv.firma;
+                        tab.data.firma_autorizador = hv.firma_autorizador;
                     });
                 }
             } catch (error) {
