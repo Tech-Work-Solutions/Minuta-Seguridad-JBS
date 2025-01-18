@@ -5,17 +5,17 @@
 
                 <table class="table-auto w-full text-sm border-collapse border border-gray-300">
                     <thead>
-                        <tr class="bg-blue-800 text-white">
+                        <tr>
                             <th colspan="4" rowspan="3" class="border border-gray-300 p-2">Nombres del entrevistador
                             </th>
                             <th colspan="4" rowspan="2" class="border border-gray-300 p-2">Entrevista</th>
                             <th colspan="7" class="border border-gray-300 p-2">Observaciones</th>
                         </tr>
-                        <tr class="bg-blue-800 text-white">
+                        <tr>
                             <th colspan="4" class="border border-gray-300 p-2">Asistió a entrevista</th>
                             <th colspan="3" rowspan="2" class="border border-gray-300 p-2">Hora de Llegada</th>
                         </tr>
-                        <tr class="bg-blue-800 text-white">
+                        <tr>
                             <th colspan="2" class="border border-gray-300 p-2">Día</th>
                             <th colspan="2" class="border border-gray-300 p-2">Hora</th>
                             <th colspan="2" class="border border-gray-300 p-2">Si</th>
@@ -98,7 +98,7 @@
                     <p class="text-sm text-gray-500">(R - Regular, B - Bien, MB - Muy Bien)</p>
                     <table class="w-full mt-4 table-auto border-collapse border border-gray-300 text-sm">
                         <thead>
-                            <tr class="bg-blue-800 text-white">
+                            <tr>
                                 <th class="border border-gray-300 p-2">Aspectos</th>
                                 <th class="border border-gray-300 p-2">Primer Entrevistador</th>
                                 <th class="border border-gray-300 p-2">Segundo Entrevistador</th>
@@ -275,9 +275,17 @@
                             class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block font-medium text-gray-700">Firma de quien Autoriza Contratación</label>
-                        <input type="text" v-model="formData.firma_autorizador"
-                            class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none">
+
+                        <label class="block font-medium text-gray-700">Firma de Contratación</label>
+                        <label
+                            class="h-10 border rounded-lg bg-gray-100 flex flex-col justify-center items-center cursor-pointer relative">
+
+                            <span v-if="!formData.firma_autorizador_preview" class="text-sm text-gray-500">Firma
+                                Autorización</span>
+                            <img v-if="formData.firma_autorizador_preview" :src="formData.firma_autorizador_preview"
+                                class="w-full h-full rounded-lg" />
+                            <input type="file" accept="image/*" @change="handleFileUpload" class="hidden" />
+                        </label>
                     </div>
                 </div>
             </div>
@@ -296,7 +304,6 @@
 </template>
 
 <script>
-import { TRichSelect } from 'vue-tailwind/dist/components';
 import { required } from 'vuelidate/lib/validators';
 
 export default {
@@ -442,14 +449,14 @@ export default {
                 if (this.formData.firma_autorizador) {
                     formData.append("firma_autorizador", this.formData.firma_autorizador);
                 }
-                console.log(this.formData)
+
                 if (this.isUpdating) {
-                    //await axios.post("/api/updateHv", formData);
+                    await axios.post("/api/updateHv", formData);
                     this.spiner = false;
                     this.submited = false;
                     this.$toaster.success("Datos actualizados con éxito.");
                 } else {
-                    //await axios.post("/api/registerHv", formData);
+                    await axios.post("/api/registerHv", formData);
                     this.isUpdating = true;
                     this.spiner = false;
                     this.submited = false;
