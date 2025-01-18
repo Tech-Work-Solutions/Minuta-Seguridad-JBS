@@ -2,7 +2,7 @@
     <div v-if="show">
         <div class="flex flex-wrap items-center">
             <h1 class="text-xl text-gray-500 pl-5 mr-5 font-bold">
-                <i class="fas fa-cogs"></i> Hoja de vida
+                <i class="fas fa-paperclip"></i> Hoja de vida
             </h1>
         </div>
         <br>
