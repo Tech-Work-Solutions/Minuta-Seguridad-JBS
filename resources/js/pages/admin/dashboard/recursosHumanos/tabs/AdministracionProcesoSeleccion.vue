@@ -102,11 +102,15 @@
                                 <th class="border border-gray-300 p-2">Aspectos</th>
                                 <th class="border border-gray-300 p-2">Primer Entrevistador</th>
                                 <th class="border border-gray-300 p-2">Segundo Entrevistador</th>
+                                <th class="border border-gray-300 p-2">Aspectos</th>
+                                <th class="border border-gray-300 p-2">Primer Entrevistador</th>
+                                <th class="border border-gray-300 p-2">Segundo Entrevistador</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(aspecto, index) in formData.aspectos" :key="index">
-                                <td class="border border-gray-300 p-2">{{ aspecto.nombre }}</td>
+                                <td class="border border-gray-300 p-2">{{ aspecto.nombre }}
+                                </td>
                                 <td class="border border-gray-300 p-2 text-center">
                                     <label>
                                         <input type="radio" :name="'primerEntrevistador-' + index" value="R"
@@ -136,49 +140,54 @@
                                         MB
                                     </label>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td class="border border-gray-300 p-2">
+                                <td class="border border-gray-300 p-2"
+                                    v-if="aspecto.nombre2 && aspecto.nombre2 !== 'Otro'">
+
+                                    {{ aspecto.nombre2 }}
+
+                                </td>
+                                <td class="border border-gray-300 p-2" v-if="aspecto.nombre2 === 'Otro'">
+
+                                    <input type="text" placeholder="Ingrese el aspecto"
+                                        v-model="aspecto.nombreInputOtro"
+                                        class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
+
+                                </td>
+                                <td class="border border-gray-300 p-2 text-center" v-if="aspecto.nombre2">
                                     <label>
-                                        <input type="text" placeholder="Ingrese el aspecto"
-                                            v-model="formData.otroAspecto.nombres"
-                                            class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
+                                        <input type="radio" :name="'primerEntrevistador-' + index" value="R"
+                                            v-model="aspecto.primerEntrevistador2" class="form-radio text-blue-600" /> R
+                                    </label>
+                                    <label>
+                                        <input type="radio" :name="'primerEntrevistador-' + index" value="B"
+                                            v-model="aspecto.primerEntrevistador2" class="form-radio text-blue-600" /> B
+                                    </label>
+                                    <label>
+                                        <input type="radio" :name="'primerEntrevistador-' + index" value="MB"
+                                            v-model="aspecto.primerEntrevistador2" class="form-radio text-blue-600" />
+                                        MB
                                     </label>
                                 </td>
-                                <td class="border border-gray-300 p-2 text-center">
+
+                                <td class="border border-gray-300 p-2 text-center" v-if="aspecto.nombre2">
                                     <label>
-                                        <input type="radio" value="R" v-model="formData.otroAspecto.primerEntrevistador"
-                                            class="form-radio text-blue-600" /> R
+                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="R"
+                                            v-model="aspecto.segundoEntrevistador2" class="form-radio text-blue-600" />
+                                        R
                                     </label>
                                     <label>
-                                        <input type="radio" value="B" v-model="formData.otroAspecto.primerEntrevistador"
-                                            class="form-radio text-blue-600" /> B
+                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="B"
+                                            v-model="aspecto.segundoEntrevistador2" class="form-radio text-blue-600" />
+                                        B
                                     </label>
                                     <label>
-                                        <input type="radio" value="MB"
-                                            v-model="formData.otroAspecto.primerEntrevistador"
-                                            class="form-radio text-blue-600" /> MB
-                                    </label>
-                                </td>
-                                <td class="border border-gray-300 p-2 text-center">
-                                    <label>
-                                        <input type="radio" value="R"
-                                            v-model="formData.otroAspecto.segundoEntrevistador"
-                                            class="form-radio text-blue-600" /> R
-                                    </label>
-                                    <label>
-                                        <input type="radio" value="B"
-                                            v-model="formData.otroAspecto.segundoEntrevistador"
-                                            class="form-radio text-blue-600" /> B
-                                    </label>
-                                    <label>
-                                        <input type="radio" value="MB"
-                                            v-model="formData.otroAspecto.segundoEntrevistador"
-                                            class="form-radio text-blue-600" />
+                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="MB"
+                                            v-model="aspecto.segundoEntrevistador2" class="form-radio text-blue-600" />
                                         MB
                                     </label>
                                 </td>
                             </tr>
+
 
                         </tbody>
                     </table>
@@ -349,44 +358,37 @@ export default {
                     {
                         nombre: 'Puntualidad',
                         primerEntrevistador: '',
-                        segundoEntrevistador: ''
+                        segundoEntrevistador: '',
+                        nombre2: 'Desempeño en cargos anteriores',
+                        primerEntrevistador2: '',
+                        segundoEntrevistador2: '',
                     },
                     {
                         nombre: 'Presentacion',
                         primerEntrevistador: '',
-                        segundoEntrevistador: ''
+                        segundoEntrevistador: '',
+                        nombre2: 'Aceptables motivos de retiro cargos anteriores',
+                        primerEntrevistador2: '',
+                        segundoEntrevistador2: '',
                     },
                     {
                         nombre: 'Aspectos de vigor y salud',
                         primerEntrevistador: '',
-                        segundoEntrevistador: ''
+                        segundoEntrevistador: '',
+                        nombre2: 'Se ajusta al perfil',
+                        primerEntrevistador2: '',
+                        segundoEntrevistador2: '',
                     },
                     {
                         nombre: 'Facilidad de expresión',
                         primerEntrevistador: '',
-                        segundoEntrevistador: ''
-                    },
-                    {
-                        nombre: 'Desempeño en cargos anteriores',
-                        primerEntrevistador: '',
-                        segundoEntrevistador: ''
-                    },
-                    {
-                        nombre: 'Aceptables motivos de retiro cargos anteriores',
-                        primerEntrevistador: '',
-                        segundoEntrevistador: ''
-                    },
-                    {
-                        nombre: 'Se ajusta al perfil',
-                        primerEntrevistador: '',
-                        segundoEntrevistador: ''
+                        segundoEntrevistador: '',
+                        nombre2: 'Otro',
+                        nombreInputOtro: '',
+                        primerEntrevistador2: '',
+                        segundoEntrevistador2: '',
                     },
                 ],
-                otroAspecto: {
-                    nombres: '',
-                    primerEntrevistador: '',
-                    segundoEntrevistador: ''
-                },
                 candidatoSeleccionado: 'No',
                 candidatoProximo: 'No',
                 conclusionPrimerEntrevistador: '',
