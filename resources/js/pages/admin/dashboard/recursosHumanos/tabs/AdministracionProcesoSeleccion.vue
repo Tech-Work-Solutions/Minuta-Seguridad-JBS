@@ -26,7 +26,7 @@
                         <tr v-for="(asistencia, index) in formData.asistencias" :key="index">
                             <td colspan="4" class="border border-gray-300 p-2">
                                 <div>
-                                    <input type="text" placeholder="Código" v-model="asistencia.nombres"
+                                    <input type="text" placeholder="Nombre Entrevistador" v-model="asistencia.nombres"
                                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
                                     <p class="text-red-500 text-sm"
                                         v-if="submited && !$v.formData.asistencias[0].nombres.required && index === 0">
@@ -243,23 +243,27 @@
                     <div>
                         <label class="block font-medium text-gray-700">Contrátese a partir del</label>
                         <input type="date" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                            v-model="formData.fechaContratacion">
+                            v-model="formData.fechaContratacion"
+                            :disabled="formData.candidatoSeleccionado === 'No' && formData.candidatoProximo === 'No'">
                     </div>
                     <div>
                         <label class="block font-medium text-gray-700">Sueldo</label>
                         <input type="number" placeholder="$"
                             class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                            v-model="formData.sueldo">
+                            v-model="formData.sueldo"
+                            :disabled="formData.candidatoSeleccionado === 'No' && formData.candidatoProximo === 'No'">
                     </div>
                     <div>
                         <label class="block font-medium text-gray-700">Cargo</label>
                         <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                            v-model="formData.cargo">
+                            v-model="formData.cargo"
+                            :disabled="formData.candidatoSeleccionado === 'No' && formData.candidatoProximo === 'No'">
                     </div>
                     <div>
                         <label class="block font-medium text-gray-700">Tipo de Contrato</label>
                         <input type="text" class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none"
-                            v-model="formData.tipoContrato">
+                            v-model="formData.tipoContrato"
+                            :disabled="formData.candidatoSeleccionado === 'No' && formData.candidatoProximo === 'No'">
                     </div>
                 </div>
             </div>
