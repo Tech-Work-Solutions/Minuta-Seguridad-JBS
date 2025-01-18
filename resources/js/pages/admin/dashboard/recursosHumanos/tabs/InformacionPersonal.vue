@@ -770,7 +770,6 @@ export default {
             },
             submited: false,
             isUpdating: false,
-            userId: null,
             spiner: false,
         };
     },

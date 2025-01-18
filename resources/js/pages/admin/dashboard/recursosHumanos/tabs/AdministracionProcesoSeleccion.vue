@@ -1,157 +1,188 @@
 <template>
     <div class="bg-gray-100 p-6">
         <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
+            <div class="overflow-x-auto mt-4">
 
-            <table class="table-auto w-full items-center bg-gray-100 border-collapse">
-                <thead>
-                    <tr class="bg-blue-800 text-white">
-                        <th colspan="4" rowspan="3" class="border border-gray-300 p-2">Nombres del entrevistador</th>
-                        <th colspan="4" rowspan="2" class="border border-gray-300 p-2">Entrevista</th>
-                        <th colspan="7" class="border border-gray-300 p-2">Observaciones</th>
-                    </tr>
-                    <tr class="bg-blue-800 text-white">
-                        <th colspan="4" class="border border-gray-300 p-2">Asistió a entrevista</th>
-                        <th colspan="3" rowspan="2" class="border border-gray-300 p-2">Hora de Llegada</th>
-                    </tr>
-                    <tr class="bg-blue-800 text-white">
-                        <th colspan="2" class="border border-gray-300 p-2">Día</th>
-                        <th colspan="2" class="border border-gray-300 p-2">Hora</th>
-                        <th colspan="2" class="border border-gray-300 p-2">Si</th>
-                        <th colspan="2" class="border border-gray-300 p-2">No</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(asistencia, index) in formData.asistencias" :key="index">
-                        <td colspan="4" class="border border-gray-300 p-2">
-                            <div>
-                                <input type="text" placeholder="Código" v-model="asistencia.nombre"
-                                    class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
-                            </div>
-                        </td>
-                        <td colspan="2" class="border border-gray-300 p-2">
-                            <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                                <input type="date" v-model="asistencia.dia" :disabled="!asistencia.nombre"
-                                    class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
-                            </div>
-                        </td>
-                        <td colspan="2" class="border border-gray-300 p-2">
-                            <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                                <input type="time" id="appt" name="appt" min="07:00" max="18:00"
-                                    v-model="asistencia.hora" :disabled="!asistencia.nombre"
-                                    class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
-                            </div>
-                        </td>
-                        <td colspan="2" class="border border-gray-300 p-2">
-                            <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                                <input type="radio" name="asistencia" value="Si" class="form-radio text-blue-600"
-                                    :disabled="!asistencia.nombre" v-model="asistencia.asistio">
-
-                            </div>
-                        </td>
-                        <td colspan="2" class="border border-gray-300 p-2">
-                            <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                                <label>
-                                    <input type="radio" name="asistencia" value="No" :disabled="!asistencia.nombre"
-                                        class="form-radio text-blue-600" v-model="asistencia.asistio">
-                                </label>
-                            </div>
-                        </td>
-                        <td colspan="3" class="border border-gray-300 p-2">
-                            <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                                <input type="time" id="appt" name="appt" min="07:00" max="18:00"
-                                    :disabled="!asistencia.nombre || asistencia.asistio === 'No'"
-                                    class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-
-            <!-- Evaluation Table -->
-            <div class="mt-6">
-                <h2 class="text-lg font-bold text-gray-800">Algunos Aspectos Importantes para el Cargo</h2>
-                <p class="text-sm text-gray-500">(R - Regular, B - Bien, MB - Muy Bien)</p>
-                <table class="w-full mt-4 table-auto border-collapse border border-gray-300 text-sm">
+                <table class="table-auto w-full text-sm border-collapse border border-gray-300">
                     <thead>
                         <tr class="bg-blue-800 text-white">
-                            <th class="border border-gray-300 p-2">Aspectos</th>
-                            <th class="border border-gray-300 p-2">Primer Entrevistador</th>
-                            <th class="border border-gray-300 p-2">Segundo Entrevistador</th>
+                            <th colspan="4" rowspan="3" class="border border-gray-300 p-2">Nombres del entrevistador
+                            </th>
+                            <th colspan="4" rowspan="2" class="border border-gray-300 p-2">Entrevista</th>
+                            <th colspan="7" class="border border-gray-300 p-2">Observaciones</th>
+                        </tr>
+                        <tr class="bg-blue-800 text-white">
+                            <th colspan="4" class="border border-gray-300 p-2">Asistió a entrevista</th>
+                            <th colspan="3" rowspan="2" class="border border-gray-300 p-2">Hora de Llegada</th>
+                        </tr>
+                        <tr class="bg-blue-800 text-white">
+                            <th colspan="2" class="border border-gray-300 p-2">Día</th>
+                            <th colspan="2" class="border border-gray-300 p-2">Hora</th>
+                            <th colspan="2" class="border border-gray-300 p-2">Si</th>
+                            <th colspan="2" class="border border-gray-300 p-2">No</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(aspecto, index) in formData.aspectos" :key="index">
-                            <td class="border border-gray-300 p-2">{{ aspecto.nombre }}</td>
-                            <td class="border border-gray-300 p-2 text-center">
-                                <label>
-                                    <input type="radio" :name="'primerEntrevistador-' + index" value="R"
-                                        v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> R
-                                </label>
-                                <label>
-                                    <input type="radio" :name="'primerEntrevistador-' + index" value="B"
-                                        v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> B
-                                </label>
-                                <label>
-                                    <input type="radio" :name="'primerEntrevistador-' + index" value="MB"
-                                        v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> MB
-                                </label>
-                            </td>
-                            <td class="border border-gray-300 p-2 text-center">
-                                <label>
-                                    <input type="radio" :name="'segundoEntrevistador-' + index" value="R"
-                                        v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" /> R
-                                </label>
-                                <label>
-                                    <input type="radio" :name="'segundoEntrevistador-' + index" value="B"
-                                        v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" /> B
-                                </label>
-                                <label>
-                                    <input type="radio" :name="'segundoEntrevistador-' + index" value="MB"
-                                        v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" /> MB
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border border-gray-300 p-2">
-                                <label>
-                                    <input type="text" placeholder="Código" v-model="formData.otroAspecto.nombre"
+                        <tr v-for="(asistencia, index) in formData.asistencias" :key="index">
+                            <td colspan="4" class="border border-gray-300 p-2">
+                                <div>
+                                    <input type="text" placeholder="Código" v-model="asistencia.nombres"
                                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
-                                </label>
+                                    <p class="text-red-500 text-sm"
+                                        v-if="submited && !$v.formData.asistencias[0].nombres.required && index === 0">
+                                        Ingrese un entrevistador.
+                                    </p>
+                                </div>
                             </td>
-                            <td class="border border-gray-300 p-2 text-center">
-                                <label>
-                                    <input type="radio" value="R" v-model="formData.otroAspecto.primerEntrevistador"
-                                        class="form-radio text-blue-600" /> R
-                                </label>
-                                <label>
-                                    <input type="radio" value="B" v-model="formData.otroAspecto.primerEntrevistador"
-                                        class="form-radio text-blue-600" /> B
-                                </label>
-                                <label>
-                                    <input type="radio" value="MB" v-model="formData.otroAspecto.primerEntrevistador"
-                                        class="form-radio text-blue-600" /> MB
-                                </label>
+                            <td colspan="2" class="border border-gray-300 p-2">
+                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                    <input type="date" v-model="asistencia.dia" :disabled="!asistencia.nombres"
+                                        class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
+                                    <p class="text-red-500 text-sm"
+                                        v-if="submited && !$v.formData.asistencias[0].dia.required && index === 0">
+                                        Ingrese el día de la entrevista.
+                                    </p>
+                                </div>
                             </td>
-                            <td class="border border-gray-300 p-2 text-center">
-                                <label>
-                                    <input type="radio" value="R" v-model="formData.otroAspecto.segundoEntrevistador"
-                                        class="form-radio text-blue-600" /> R
-                                </label>
-                                <label>
-                                    <input type="radio" value="B" v-model="formData.otroAspecto.segundoEntrevistador"
-                                        class="form-radio text-blue-600" /> B
-                                </label>
-                                <label>
-                                    <input type="radio" value="MB" v-model="formData.otroAspecto.segundoEntrevistador"
-                                        class="form-radio text-blue-600" />
-                                    MB
-                                </label>
+                            <td colspan="2" class="border border-gray-300 p-2">
+                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                    <input type="time" id="appt" name="appt" min="07:00" max="18:00"
+                                        v-model="asistencia.hora" :disabled="!asistencia.nombres"
+                                        class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
+                                    <p class="text-red-500 text-sm"
+                                        v-if="submited && !$v.formData.asistencias[0].hora.required && index === 0">
+                                        Ingrese la hora de la entrevista.
+                                    </p>
+                                </div>
+                            </td>
+                            <td colspan="2" class="border border-gray-300 p-2">
+                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                    <input type="radio" name="asistencia" value="Si" class="form-radio text-blue-600"
+                                        :disabled="!asistencia.nombres" v-model="asistencia.asistio">
+                                    <p class="text-red-500 text-sm"
+                                        v-if="submited && !$v.formData.asistencias[0].asistio.required && index === 0">
+                                        Elija si asistió el postulante.
+                                    </p>
+                                </div>
+                            </td>
+                            <td colspan="2" class="border border-gray-300 p-2">
+                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                    <label>
+                                        <input type="radio" name="asistencia" value="No" :disabled="!asistencia.nombres"
+                                            class="form-radio text-blue-600" v-model="asistencia.asistio">
+                                        <p class="text-red-500 text-sm"
+                                            v-if="submited && !$v.formData.asistencias[0].asistio.required && index === 0">
+                                            Elija una opción.
+                                        </p>
+                                    </label>
+                                </div>
+                            </td>
+                            <td colspan="3" class="border border-gray-300 p-2">
+                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                    <input type="time" id="appt" name="appt" min="07:00" max="18:00"
+                                        :disabled="!asistencia.nombres || asistencia.asistio === 'No'"
+                                        class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
+                                </div>
                             </td>
                         </tr>
-
                     </tbody>
+
                 </table>
+            </div>
+
+            <!-- Evaluation Table -->
+            <div class="overflow-x-auto mt-4">
+
+                <div class="mt-6">
+                    <h2 class="text-lg font-bold text-gray-800">Algunos Aspectos Importantes para el Cargo</h2>
+                    <p class="text-sm text-gray-500">(R - Regular, B - Bien, MB - Muy Bien)</p>
+                    <table class="w-full mt-4 table-auto border-collapse border border-gray-300 text-sm">
+                        <thead>
+                            <tr class="bg-blue-800 text-white">
+                                <th class="border border-gray-300 p-2">Aspectos</th>
+                                <th class="border border-gray-300 p-2">Primer Entrevistador</th>
+                                <th class="border border-gray-300 p-2">Segundo Entrevistador</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(aspecto, index) in formData.aspectos" :key="index">
+                                <td class="border border-gray-300 p-2">{{ aspecto.nombre }}</td>
+                                <td class="border border-gray-300 p-2 text-center">
+                                    <label>
+                                        <input type="radio" :name="'primerEntrevistador-' + index" value="R"
+                                            v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> R
+                                    </label>
+                                    <label>
+                                        <input type="radio" :name="'primerEntrevistador-' + index" value="B"
+                                            v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> B
+                                    </label>
+                                    <label>
+                                        <input type="radio" :name="'primerEntrevistador-' + index" value="MB"
+                                            v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> MB
+                                    </label>
+                                </td>
+                                <td class="border border-gray-300 p-2 text-center">
+                                    <label>
+                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="R"
+                                            v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" /> R
+                                    </label>
+                                    <label>
+                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="B"
+                                            v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" /> B
+                                    </label>
+                                    <label>
+                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="MB"
+                                            v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" />
+                                        MB
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 p-2">
+                                    <label>
+                                        <input type="text" placeholder="Ingrese el aspecto"
+                                            v-model="formData.otroAspecto.nombres"
+                                            class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
+                                    </label>
+                                </td>
+                                <td class="border border-gray-300 p-2 text-center">
+                                    <label>
+                                        <input type="radio" value="R" v-model="formData.otroAspecto.primerEntrevistador"
+                                            class="form-radio text-blue-600" /> R
+                                    </label>
+                                    <label>
+                                        <input type="radio" value="B" v-model="formData.otroAspecto.primerEntrevistador"
+                                            class="form-radio text-blue-600" /> B
+                                    </label>
+                                    <label>
+                                        <input type="radio" value="MB"
+                                            v-model="formData.otroAspecto.primerEntrevistador"
+                                            class="form-radio text-blue-600" /> MB
+                                    </label>
+                                </td>
+                                <td class="border border-gray-300 p-2 text-center">
+                                    <label>
+                                        <input type="radio" value="R"
+                                            v-model="formData.otroAspecto.segundoEntrevistador"
+                                            class="form-radio text-blue-600" /> R
+                                    </label>
+                                    <label>
+                                        <input type="radio" value="B"
+                                            v-model="formData.otroAspecto.segundoEntrevistador"
+                                            class="form-radio text-blue-600" /> B
+                                    </label>
+                                    <label>
+                                        <input type="radio" value="MB"
+                                            v-model="formData.otroAspecto.segundoEntrevistador"
+                                            class="form-radio text-blue-600" />
+                                        MB
+                                    </label>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Conclusions -->
@@ -266,6 +297,7 @@
 
 <script>
 import { TRichSelect } from 'vue-tailwind/dist/components';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
     props: {
@@ -292,14 +324,14 @@ export default {
             formData: {
                 asistencias: [
                     {
-                        nombre: '',
+                        nombres: '',
                         dia: '',
                         hora: '',
                         asistio: '',
                         horaLlegada: '',
                     },
                     {
-                        nombre: '',
+                        nombres: '',
                         dia: '',
                         hora: '',
                         asistio: '',
@@ -344,7 +376,7 @@ export default {
                     },
                 ],
                 otroAspecto: {
-                    nombre: '',
+                    nombres: '',
                     primerEntrevistador: '',
                     segundoEntrevistador: ''
                 },
@@ -456,6 +488,23 @@ export default {
 
     validations: {
         formData: {
+            asistencias: {
+                0: {
+                    nombres: { required },
+                    dia: {
+                        required: (value, formData) => formData.nombres ? !!value : true,
+                    },
+                    hora: {
+                        required: (value, formData) => formData.nombres ? !!value : true,
+                    },
+                    asistio: {
+                        required: (value, formData) => formData.nombres ? !!value : true,
+                    },
+                    horaLlegada: {
+                        required: (value, formData) => formData.asistio === 'Si' ? !!value : true,
+                    },
+                },
+            },
         }
     },
 }
