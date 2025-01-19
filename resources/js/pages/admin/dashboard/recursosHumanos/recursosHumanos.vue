@@ -2,12 +2,6 @@
     <div v-if="show">
         <div class="flex flex-wrap items-center">
             <h1 class="text-xl text-gray-500 pl-5 mr-5 font-bold"><i class="fas fa-users"></i> Usuarios</h1>
-            <router-link :to="{ name: 'AddUser' }" title="Agregar usuario">
-                <div
-                    class="text-center inline-flex items-center justify-center w-10 h-10 shadow-lg rounded-full bg-blue-500 hover:bg-blue-700 ease-linear transition-all duration-150">
-                    <i class="fas fa-plus font-bold text-white"></i>
-                </div>
-            </router-link>
         </div>
 
         <div class="rounded-t mb-0 mt-5 px-4 py-3 border-0 bg-blue-500">
@@ -84,7 +78,7 @@
                                     </div>
                                 </router-link>
 
-                                <div @click="openModal(user)" title="Eliminar hoja de vida"
+                                <div @click="openModal(user)" title="Limpiar hoja de vida"
                                     class="text-center inline-flex cursor-pointer items-center justify-center w-10 h-10 shadow-lg rounded-full bg-red-500 hover:bg-red-600 ease-linear transition-all duration-150">
                                     <i class="fas fa-trash font-bold text-white"></i>
                                 </div>
@@ -132,9 +126,10 @@ export default {
         openModal(user) {
             this.datos = {
                 id: user.id,
-                url: '/api/deleteUser',
+                requestType: 'delete',
+                url: `/api/deleteHv/${user.id}`,
                 title: 'Eliminar Hoja de vida',
-                message: '¿Está seguro de eliminar la hoja de vide de ' + user.name + '?'
+                message: '¿Está seguro de limpiar la hoja de vida de ' + user.name + '?'
             }
             this.modal = true;
         },
@@ -145,13 +140,9 @@ export default {
         closeModalSuccess(value) {
             this.getUsers();
             this.modal = value;
-            this.$toaster.success('Se eliminó correctamente el usuario seleccionado')
+            this.$toaster.success('Se limpió correctamente la hoja de vida seleccionada');
         }
-
     },
-
     components: { Modal }
-
-
 }
 </script>
