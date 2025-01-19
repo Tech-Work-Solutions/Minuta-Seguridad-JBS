@@ -129,7 +129,7 @@
 
 <script>
 import { TRichSelect } from 'vue-tailwind/dist/components';
-import { ACTIVIDADES_ECONOMICAS, AREAS_EMPRESA } from '../../../../../constants';
+import { ACTIVIDADES_ECONOMICAS, AREAS_EMPRESA } from '../../../../../../constants';
 
 export default {
     props: {
