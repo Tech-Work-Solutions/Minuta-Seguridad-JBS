@@ -192,6 +192,24 @@ CREATE TABLE `hojas_de_vida` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `calendarios`
+--
+CREATE TABLE `calendarios` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
+  `estado` enum('APROBADO','PENDIENTE','RECHAZADO') NOT NULL DEFAULT 'APROBADO',
+  `tipo` enum('TURNO','PERMISO') NOT NULL DEFAULT 'TURNO',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `migrations`
 --
 
@@ -780,6 +798,13 @@ ALTER TABLE `arls`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `calendarios`
+--
+ALTER TABLE `calendarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `calendarios_user_id_foreign` (`user_id`);
+
+--
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
@@ -954,6 +979,12 @@ ALTER TABLE `volquetas`
 --
 ALTER TABLE `arls`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `calendarios`
+--
+ALTER TABLE `calendarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla de calendarios';
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -1158,6 +1189,13 @@ ALTER TABLE `users_sedes`
 --
 ALTER TABLE `hojas_de_vida`
   ADD CONSTRAINT `hojas_de_vida_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `calendarios`
+--
+ALTER TABLE `calendarios`
+  ADD CONSTRAINT `calendarios_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
