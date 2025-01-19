@@ -21,4 +21,9 @@ class Calendario extends Model
         return $this->belongsTo('App\Models\User', 'user_id');
     }
 
+    public function user_sedes()
+    {
+        return $this->hasMany('App\Models\Users_sede', 'user_id', 'user_id');
+    }
+
 }
