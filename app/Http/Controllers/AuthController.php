@@ -7,6 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Users_sede;
+use App\Http\Controllers\HojaVidaController;
 
 class AuthController extends Controller
 {
@@ -110,9 +111,10 @@ class AuthController extends Controller
         return User::findOrFail($id);
     }
 
-    public function deleteUser(Request $request){
+    public function deleteUser(Request $request, HojaVidaController $hojaVidaController){
         $user = User::findOrFail($request->id);
         $user->estado = '2';
+        $hojaVidaController->deleteHv($request->id);
         $user->update();
         return response()->json(['msg' => "Registro eliminado correctamente"]);
     }
