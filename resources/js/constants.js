@@ -22,7 +22,8 @@ export const OPCIONES_MENU_ADMIN = [
     { label: "Reportes", route: "/reportes", icon: "fa-chart-bar" },
     { label: "Configuraciones", route: "/configuraciones", icon: "fa-cogs" },
     { label: "Usuarios", route: "/usuarios", icon: "fa-users-cog" },
-    { label: "Hoja de vida", route: "/hojadevida", icon: "fa-paperclip" },
+    { label: "HojaDeVida", route: "/hojadevida/", icon: "fa-paperclip" },
+    { label: "GestionarHojadevida", route: "/gestionhojadevida/", icon: "fa-paperclip" },
 ];
 
 export const CATEGORIAS_LICENCIA = [{id:1,nombre:"A1"}, {id:2,nombre:"A2"}, {id:3,nombre:"B1"}, {id:4,nombre:"B2"}, {id:5,nombre:"B3"}, {id:6,nombre:"C1"}, {id:7,nombre:"C2"}, {id:8,nombre:"C3"}];
