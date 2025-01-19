@@ -284,6 +284,7 @@ import Multiselect from 'vue-multiselect';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 import '../../../../../../../css/app.css';
 import { CATEGORIAS_LICENCIA } from '../../../../../../constants';
+import { EventBus } from '../../../../../../utils/util.js';
 
 
 export default {
@@ -356,7 +357,14 @@ export default {
             }
         },
     },
-
+    created() {
+        EventBus.$on('alreadyHasHv', (value) => {
+            this.isUpdating = value || this.hasHv;
+        });
+    },
+    beforeDestroy() {
+        EventBus.$off('alreadyHasHv');
+    },
     async mounted() {
         this.spiner = false;
         this.setFechaSistema();
@@ -428,6 +436,7 @@ export default {
                 } else {
                     await axios.post("/api/registerHv", formData);
                     this.isUpdating = true;
+                    this.sendEvent();
                     this.spiner = false;
                     this.submited = false;
                     this.$toaster.success("Datos registrados con éxito.");
@@ -439,7 +448,9 @@ export default {
                 this.$toaster.error("Hubo un problema al guardar los datos.");
             }
         },
-
+        sendEvent() {
+            EventBus.$emit('alreadyHasHv', true);
+        },
         async loadData() {
             try {
                 if (this.informacion_general && Object.keys(this.informacion_general).length > 0 || this.hasHv) {
