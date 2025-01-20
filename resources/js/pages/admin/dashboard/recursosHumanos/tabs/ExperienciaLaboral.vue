@@ -262,6 +262,180 @@
                     </div>
                 </div>
             </div>
+            <div class="p-4 border-t border-gray-300">
+                <label class="block text-sm font-medium text-gray-600 mt-6">
+                    INFORMACIÓN DE SEGURIDAD SOCIAL (Relacione las entidades a las que actualmente está afiliado)
+                </label>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-6">
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            ¿Entidad promotora de salud (EPS)?
+                        </label>
+                        <div class="flex space-x-2">
+                            <label>
+                            <input type="radio" v-model="formData.entidadPromotora" value="Si" class="mr-2" /> Si
+                            </label>
+                            <label class="ml-4">
+                            <input type="radio" v-model="formData.entidadPromotora" value="No" class="mr-2" /> No
+                            </label>
+                        </div>
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.entidadPromotora.required">
+                            Seleccione una opción.
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            ¿Cuál?
+                        </label>
+                        <input 
+                            v-model="formData.cualEntidad" 
+                            type="text" 
+                            placeholder="Cual"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            :disabled="formData.entidadPromotora !== 'Si'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualEntidad.required">
+                            Ingrese la entidad promotora
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            Fecha de afiliación
+                        </label>
+                        <input 
+                            v-model="formData.fechaAfiliacion" 
+                            type="date" 
+                            placeholder="Fecha de afiliación"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            :disabled="formData.entidadPromotora !== 'Si'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacion.required">
+                            Ingrese la fecha de afiliación
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            Tipo de afiliado
+                        </label>
+                        <div class="flex space-x-2">
+                            <label>
+                            <input type="radio" v-model="formData.tipoAfiliado" value="Cotizante" class="mr-2" :disabled="formData.entidadPromotora !== 'Si'"/> Cotizante
+                            </label>
+                            <label class="ml-4">
+                            <input type="radio" v-model="formData.tipoAfiliado" value="Beneficiario" class="mr-2" :disabled="formData.entidadPromotora !== 'Si'"/> Beneficiario
+                            </label>
+                        </div>
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.tipoAfiliado.required">
+                            Seleccione una opción.
+                        </p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            ¿Fondo de pensiones?
+                        </label>
+                        <div class="flex space-x-2">
+                            <label>
+                            <input type="radio" v-model="formData.fondoPensiones" value="Si" class="mr-2" /> Si
+                            </label>
+                            <label class="ml-4">
+                            <input type="radio" v-model="formData.fondoPensiones" value="No" class="mr-2" /> No
+                            </label>
+                        </div>
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fondoPensiones.required">
+                            Seleccione una opción.
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            ¿Cuál?
+                        </label>
+                        <input 
+                            v-model="formData.cualFondo" 
+                            type="text" 
+                            placeholder="Cual"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            :disabled="formData.fondoPensiones !== 'Si'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualFondo.required">
+                            Ingrese el fondo de pensiones.
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            Fecha de afiliación
+                        </label>
+                        <input 
+                            v-model="formData.fechaAfiliacionFondo" 
+                            type="date" 
+                            placeholder="Fecha de afiliación"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                           :disabled="formData.fondoPensiones !== 'Si'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacionFondo.required">
+                            Ingrese la fecha de afiliación al fondo
+                        </p>
+                    </div>                    
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            ¿Fondo de cesantías? 
+                        </label>
+                        <div class="flex space-x-2">
+                            <label>
+                            <input type="radio" v-model="formData.fondoCesantias" value="Si" class="mr-2" /> Si
+                            </label>
+                            <label class="ml-4">
+                            <input type="radio" v-model="formData.fondoCesantias" value="No" class="mr-2" /> No
+                            </label>
+                        </div>
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fondoCesantias.required">
+                            Seleccione una opción.
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            ¿Cuál?
+                        </label>
+                        <input 
+                            v-model="formData.cualFondoCesantias" 
+                            type="text" 
+                            placeholder="Cual"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            :disabled="formData.fondoCesantias !== 'Si'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualFondoCesantias.required">
+                            Ingrese el fondo de cesantías.
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto flex flex-col justify-center h-full">
+                        <label class="block text-sm font-medium text-gray-600">
+                            Fecha de afiliación
+                        </label>
+                        <input 
+                            v-model="formData.fechaAfiliacionCesantias" 
+                            type="date" 
+                            placeholder="Fecha de afiliación"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            :disabled="formData.fondoCesantias !== 'Si'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacionCesantias.required">
+                            Ingrese la fecha de afiliación al fondo de cesantías.
+                        </p>
+                    </div>                    
+                </div>
+            </div>
+
             <div class="mb-4">
                 <label class="block font-medium text-gray-700">Soportes</label>
                 <div :class="{'mt-4': formData.soportesPreview, 'mt-2': !formData.soportesPreview}" class="h-auto">
@@ -329,9 +503,40 @@ export default {
             submited: false,
             isUpdating: false,
             spiner: false,
+            entidadPromotora: "",
+            cualEntidad: "",
+            fechaAfiliacion: "",
+            tipoAfiliado: "",
+            fondoPensiones: "",
+            cualFondo: "",
+            fechaAfiliacionFondo: "",
+            fondoCesantias: "",
+            cualFondoCesantias: "",
+            fechaAfiliacionCesantias: ""
         };
     },
 
+    watch: {
+        "formData.entidadPromotora"(newValue) {
+            if (newValue === "No") {
+                this.formData.cualEntidad = "";
+                this.formData.fechaAfiliacion = "";
+                this.formData.tipoAfiliado = "";
+            }
+        },
+        "formData.fondoPensiones"(newValue) {
+            if (newValue === "No") {
+                this.formData.cualFondo = "";
+                this.formData.fechaAfiliacionFondo = "";
+            }
+        },
+        "formData.fondoCesantias"(newValue) {
+            if (newValue === "No") {
+                this.formData.cualFondoCesantias = "";
+                this.formData.fechaAfiliacionCesantias = "";
+            }
+        },
+    },
     async mounted() {
         this.spiner = false;
         await this.loadData();
@@ -348,7 +553,6 @@ export default {
 
         async handleSubmit() {
             try {
-                console.log("formData antes de la validación", this.formData); 
                 if (!this.validarDatos()) {
                     return;
                 }
@@ -358,6 +562,16 @@ export default {
                 formData.append("user_id", this.userId);
                 formData.append("experiencia_laboral", JSON.stringify({
                     secciones: this.formData.secciones,
+                    entidadPromotora: this.formData.entidadPromotora,
+                    cualEntidad: this.formData.cualEntidad,
+                    fechaAfiliacion: this.formData.fechaAfiliacion,
+                    tipoAfiliado: this.formData.tipoAfiliado,
+                    fondoPensiones: this.formData.fondoPensiones,
+                    cualFondo: this.formData.cualFondo,
+                    fechaAfiliacionFondo: this.formData.fechaAfiliacionFondo,
+                    fondoCesantias: this.formData.fondoCesantias,
+                    cualFondoCesantias: this.formData.cualFondoCesantias,
+                    fechaAfiliacionCesantias: this.formData.fechaAfiliacionCesantias
                 }));
 
                 if (this.formData.soportes) {
@@ -416,8 +630,8 @@ export default {
                         }
                     },
                     telefono: {
-                        required: (value, section) => {
-                            return section.nombreEmpresa ? !!value : true;
+                        required: (value, formData) => {
+                            return formData.nombreEmpresa ? !!value : true;
                         }
                     },
                     cargo: {
@@ -493,6 +707,30 @@ export default {
                 }
             },
             soportes: { required },
+            entidadPromotora: { required },
+            cualEntidad: {
+                required: (value, formData) => formData.entidadPromotora === 'Si' ? !!value : true,
+            },
+            fechaAfiliacion: {
+                required: (value, formData) => formData.entidadPromotora === 'Si' ? !!value : true,
+            },            
+            tipoAfiliado: {
+                required: (value, formData) => formData.entidadPromotora === 'Si' ? !!value : true,
+            },
+            fondoPensiones: { required },
+            cualFondo: {
+                required: (value, formData) => formData.fondoPensiones === 'Si' ? !!value : true,
+            },
+            fechaAfiliacionFondo: {
+                required: (value, formData) => formData.fondoPensiones === 'Si' ? !!value : true,
+            }, 
+            fondoCesantias: { required },
+            cualFondoCesantias: {
+                required: (value, formData) => formData.fondoCesantias === 'Si' ? !!value : true,
+            },
+            fechaAfiliacionCesantias: {
+                required: (value, formData) => formData.fondoCesantias === 'Si' ? !!value : true,
+            } 
         }      
     },
 }
