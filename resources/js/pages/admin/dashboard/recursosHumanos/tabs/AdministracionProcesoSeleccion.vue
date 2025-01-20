@@ -6,10 +6,10 @@
                 <table class="table-auto w-full text-sm border-collapse border border-gray-300">
                     <thead>
                         <tr>
-                            <th colspan="4" rowspan="3" class="border border-gray-300 p-2">Nombres del entrevistador
+                            <th colspan="4" rowspan="3" class="border border-gray-300 p-2">NOMBRES DEL ENTREVISTADOR
                             </th>
-                            <th colspan="4" rowspan="2" class="border border-gray-300 p-2">Entrevista</th>
-                            <th colspan="7" class="border border-gray-300 p-2">Observaciones</th>
+                            <th colspan="4" rowspan="2" class="border border-gray-300 p-2">ENTREVISTA</th>
+                            <th colspan="7" class="border border-gray-300 p-2">OBSERVACIONES DEL ASPIRANTE</th>
                         </tr>
                         <tr>
                             <th colspan="4" class="border border-gray-300 p-2">Asistió a entrevista</th>
@@ -29,7 +29,7 @@
                                     <input type="text" placeholder="Nombre Entrevistador" v-model="asistencia.nombres"
                                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
                                     <p class="text-red-500 text-sm"
-                                        v-if="submited && !$v.formData.asistencias[0].nombres.required && index === 0">
+                                        v-if="submited && !$v.formData.asistencias[index].nombres.required">
                                         Ingrese un entrevistador.
                                     </p>
                                 </div>
@@ -39,7 +39,7 @@
                                     <input type="date" v-model="asistencia.dia" :disabled="!asistencia.nombres"
                                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
                                     <p class="text-red-500 text-sm"
-                                        v-if="submited && !$v.formData.asistencias[0].dia.required && index === 0">
+                                        v-if="submited && !$v.formData.asistencias[index].dia.required">
                                         Ingrese el día de la entrevista.
                                     </p>
                                 </div>
@@ -50,29 +50,31 @@
                                         v-model="asistencia.hora" :disabled="!asistencia.nombres"
                                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
                                     <p class="text-red-500 text-sm"
-                                        v-if="submited && !$v.formData.asistencias[0].hora.required && index === 0">
+                                        v-if="submited && !$v.formData.asistencias[index].hora.required">
                                         Ingrese la hora de la entrevista.
                                     </p>
                                 </div>
                             </td>
                             <td colspan="2" class="border border-gray-300 p-2">
-                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                                    <input type="radio" name="asistencia" value="Si" class="form-radio text-blue-600"
-                                        :disabled="!asistencia.nombres" v-model="asistencia.asistio">
+                                <div class="block w-full items-stretch mb-3" style="text-align: center;">
+                                    <input type="radio" :name="'asistencia' + index" value="Si"
+                                        class="form-radio text-blue-600" :disabled="!asistencia.nombres"
+                                        v-model="asistencia.asistio">
                                     <p class="text-red-500 text-sm"
-                                        v-if="submited && !$v.formData.asistencias[0].asistio.required && index === 0">
+                                        v-if="submited && !$v.formData.asistencias[index].asistio.required">
                                         Elija si asistió el postulante.
                                     </p>
                                 </div>
                             </td>
                             <td colspan="2" class="border border-gray-300 p-2">
-                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                <div class="block w-full items-stretch mb-3" style="text-align: center;">
                                     <label>
-                                        <input type="radio" name="asistencia" value="No" :disabled="!asistencia.nombres"
-                                            class="form-radio text-blue-600" v-model="asistencia.asistio">
+                                        <input type="radio" :name="'asistencia' + index" value="No"
+                                            :disabled="!asistencia.nombres" class="form-radio text-blue-600"
+                                            v-model="asistencia.asistio">
                                         <p class="text-red-500 text-sm"
-                                            v-if="submited && !$v.formData.asistencias[0].asistio.required && index === 0">
-                                            Elija una opción.
+                                            v-if="submited && !$v.formData.asistencias[index].asistio.required">
+                                            Elija si asistió el postulante.
                                         </p>
                                     </label>
                                 </div>
@@ -112,33 +114,43 @@
                                 <td class="border border-gray-300 p-2">{{ aspecto.nombre }}
                                 </td>
                                 <td class="border border-gray-300 p-2 text-center">
-                                    <label>
-                                        <input type="radio" :name="'primerEntrevistador-' + index" value="R"
-                                            v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> R
-                                    </label>
-                                    <label>
-                                        <input type="radio" :name="'primerEntrevistador-' + index" value="B"
-                                            v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> B
-                                    </label>
-                                    <label>
-                                        <input type="radio" :name="'primerEntrevistador-' + index" value="MB"
-                                            v-model="aspecto.primerEntrevistador" class="form-radio text-blue-600" /> MB
-                                    </label>
+                                    <div class="flex space-x-2">
+                                        <label>
+                                            <input type="radio" :name="'primerEntrevistador-' + index" value="R"
+                                                v-model="aspecto.primerEntrevistador"
+                                                class="form-radio text-blue-600" /> R
+                                        </label>
+                                        <label>
+                                            <input type="radio" :name="'primerEntrevistador-' + index" value="B"
+                                                v-model="aspecto.primerEntrevistador"
+                                                class="form-radio text-blue-600" /> B
+                                        </label>
+                                        <label>
+                                            <input type="radio" :name="'primerEntrevistador-' + index" value="MB"
+                                                v-model="aspecto.primerEntrevistador"
+                                                class="form-radio text-blue-600" /> MB
+                                        </label>
+                                    </div>
                                 </td>
                                 <td class="border border-gray-300 p-2 text-center">
-                                    <label>
-                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="R"
-                                            v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" /> R
-                                    </label>
-                                    <label>
-                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="B"
-                                            v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" /> B
-                                    </label>
-                                    <label>
-                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="MB"
-                                            v-model="aspecto.segundoEntrevistador" class="form-radio text-blue-600" />
-                                        MB
-                                    </label>
+                                    <div class="flex space-x-2">
+                                        <label>
+                                            <input type="radio" :name="'segundoEntrevistador-' + index" value="R"
+                                                v-model="aspecto.segundoEntrevistador"
+                                                class="form-radio text-blue-600" /> R
+                                        </label>
+                                        <label>
+                                            <input type="radio" :name="'segundoEntrevistador-' + index" value="B"
+                                                v-model="aspecto.segundoEntrevistador"
+                                                class="form-radio text-blue-600" /> B
+                                        </label>
+                                        <label>
+                                            <input type="radio" :name="'segundoEntrevistador-' + index" value="MB"
+                                                v-model="aspecto.segundoEntrevistador"
+                                                class="form-radio text-blue-600" />
+                                            MB
+                                        </label>
+                                    </div>
                                 </td>
                                 <td class="border border-gray-300 p-2"
                                     v-if="aspecto.nombre2 && aspecto.nombre2 !== 'Otro'">
@@ -154,37 +166,48 @@
 
                                 </td>
                                 <td class="border border-gray-300 p-2 text-center" v-if="aspecto.nombre2">
-                                    <label>
-                                        <input type="radio" :name="'primerEntrevistador-' + index" value="R"
-                                            v-model="aspecto.primerEntrevistador2" class="form-radio text-blue-600" /> R
-                                    </label>
-                                    <label>
-                                        <input type="radio" :name="'primerEntrevistador-' + index" value="B"
-                                            v-model="aspecto.primerEntrevistador2" class="form-radio text-blue-600" /> B
-                                    </label>
-                                    <label>
-                                        <input type="radio" :name="'primerEntrevistador-' + index" value="MB"
-                                            v-model="aspecto.primerEntrevistador2" class="form-radio text-blue-600" />
-                                        MB
-                                    </label>
+                                    <div class="flex space-x-2">
+                                        <label>
+                                            <input type="radio" :name="'primerEntrevistadorCl2-' + index" value="R"
+                                                v-model="aspecto.primerEntrevistador2"
+                                                class="form-radio text-blue-600" /> R
+                                        </label>
+                                        <label>
+                                            <input type="radio" :name="'primerEntrevistadorCl2-' + index" value="B"
+                                                v-model="aspecto.primerEntrevistador2"
+                                                class="form-radio text-blue-600" /> B
+                                        </label>
+                                        <label>
+                                            <input type="radio" :name="'primerEntrevistador-Cl2' + index" value="MB"
+                                                v-model="aspecto.primerEntrevistador2"
+                                                class="form-radio text-blue-600" />
+                                            MB
+                                        </label>
+                                    </div>
                                 </td>
 
                                 <td class="border border-gray-300 p-2 text-center" v-if="aspecto.nombre2">
-                                    <label>
-                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="R"
-                                            v-model="aspecto.segundoEntrevistador2" class="form-radio text-blue-600" />
-                                        R
-                                    </label>
-                                    <label>
-                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="B"
-                                            v-model="aspecto.segundoEntrevistador2" class="form-radio text-blue-600" />
-                                        B
-                                    </label>
-                                    <label>
-                                        <input type="radio" :name="'segundoEntrevistador-' + index" value="MB"
-                                            v-model="aspecto.segundoEntrevistador2" class="form-radio text-blue-600" />
-                                        MB
-                                    </label>
+                                    <div class="flex space-x-2">
+
+                                        <label>
+                                            <input type="radio" :name="'segundoEntrevistador-Cl2' + index" value="R"
+                                                v-model="aspecto.segundoEntrevistador2"
+                                                class="form-radio text-blue-600" />
+                                            R
+                                        </label>
+                                        <label>
+                                            <input type="radio" :name="'segundoEntrevistador-Cl2' + index" value="B"
+                                                v-model="aspecto.segundoEntrevistador2"
+                                                class="form-radio text-blue-600" />
+                                            B
+                                        </label>
+                                        <label>
+                                            <input type="radio" :name="'segundoEntrevistador-Cl2' + index" value="MB"
+                                                v-model="aspecto.segundoEntrevistador2"
+                                                class="form-radio text-blue-600" />
+                                            MB
+                                        </label>
+                                    </div>
                                 </td>
                             </tr>
 
@@ -213,7 +236,6 @@
 
             <!-- Final Selection -->
             <div class="mt-6 border-t pt-4">
-                <h2 class="text-lg font-bold text-gray-800">Selección Final</h2>
                 <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block font-medium text-gray-700">Candidato seleccionado definitivamente</label>
@@ -287,9 +309,10 @@
                         <input type="text" v-model="formData.segundoEntrevistador"
                             class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none">
                     </div>
-                    <div>
+                    <div class="mt-2">
 
-                        <label class="block font-medium text-gray-700">Firma de Contratación</label>
+                        <label class="block font-medium text-xs text-gray-700">Firma de quien autoriza
+                            contratación</label>
                         <label
                             class="h-10 border rounded-lg bg-gray-100 flex flex-col justify-center items-center cursor-pointer relative">
 
@@ -504,6 +527,21 @@ export default {
             asistencias: {
                 0: {
                     nombres: { required },
+                    dia: {
+                        required: (value, formData) => formData.nombres ? !!value : true,
+                    },
+                    hora: {
+                        required: (value, formData) => formData.nombres ? !!value : true,
+                    },
+                    asistio: {
+                        required: (value, formData) => formData.nombres ? !!value : true,
+                    },
+                    horaLlegada: {
+                        required: (value, formData) => formData.asistio === 'Si' ? !!value : true,
+                    },
+                },
+                1: {
+                    nombres: {},
                     dia: {
                         required: (value, formData) => formData.nombres ? !!value : true,
                     },
