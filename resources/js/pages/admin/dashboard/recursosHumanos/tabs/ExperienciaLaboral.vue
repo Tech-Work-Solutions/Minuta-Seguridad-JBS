@@ -19,7 +19,7 @@
                         <input 
                             v-model="section.direccion" 
                             type="text" 
-                            placeholder="direccion"
+                            placeholder="Dirección"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].direccion.required">
@@ -36,7 +36,7 @@
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].telefono.required">
-                            Ingrese el telefono.
+                            Ingrese el teléfono.
                         </p>
                     </div>
                 </div>
@@ -191,6 +191,7 @@
                             type="text" 
                             placeholder="Cuanto tiempo"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            :disabled="section.tipoContrato !== 'Fijo'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cuantoTiempo.required">
                             Ingrese el tiempo.
@@ -204,6 +205,7 @@
                             type="text" 
                             placeholder="Cuál"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            :disabled="section.tipoContrato !== 'Otro'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cual.required">
                             Ingrese el tipo de contrato.
@@ -256,9 +258,6 @@
                             placeholder="Verificación"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
                         />
-                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].verificacion.required">
-                            Campo requerido.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -536,6 +535,19 @@ export default {
                 this.formData.fechaAfiliacionCesantias = "";
             }
         },
+        "formData.secciones": {
+            deep: true,
+            handler(newSections) {
+                newSections.forEach((section) => {
+                    if (section.tipoContrato !== "Fijo") {
+                        section.cuantoTiempo = "";
+                    }
+                    if (section.tipoContrato !== "Otro") {
+                        section.cual = "";
+                    }
+                });
+            },
+        },
     },
     async mounted() {
         this.spiner = false;
@@ -695,11 +707,6 @@ export default {
                         }
                     },
                     jornadaTrabajo: {
-                        required: (value, formData) => {
-                            return formData.nombreEmpresa ? !!value : true;
-                        }
-                    },
-                    verificacion: {
                         required: (value, formData) => {
                             return formData.nombreEmpresa ? !!value : true;
                         }
