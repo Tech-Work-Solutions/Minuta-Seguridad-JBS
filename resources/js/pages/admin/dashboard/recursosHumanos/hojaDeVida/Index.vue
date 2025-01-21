@@ -66,7 +66,6 @@ export default {
         };
     },
     async mounted() {
-        console.log('Hoja de vida: ', { user: this.$route.params.id });
         const userIdByParam = this.$route.params.id;
         const rol = localStorage.getItem('rol');
         if (rol === 'GUARDA DE SEGURIDAD') {

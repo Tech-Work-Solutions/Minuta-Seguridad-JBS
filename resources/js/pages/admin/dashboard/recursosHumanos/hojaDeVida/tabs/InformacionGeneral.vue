@@ -464,13 +464,12 @@ export default {
 
                 const response = await axios.get('/api/getUser/' + this.userId);
                 let userObject = null;
-                console.log('user in general', response);
                 if (response && Object.keys(response.data).length > 0) {
-
                     userObject = response.data
                 } else {
                     userObject = JSON.parse(localStorage.getItem("user"));
                 }
+
                 if (userObject) {
                     const user = userObject;
                     if (!this.formData.cedula) {
@@ -496,38 +495,6 @@ export default {
             } catch (error) {
                 console.error(error);
                 this.$toaster.error("Hubo un problema al cargar los datos.");
-            }
-            if (this.informacion_general && Object.keys(this.informacion_general).length > 0 || this.hasHv) {
-                this.isUpdating = true;
-                Object.assign(this.formData, this.informacion_general);
-            }
-            if (this.foto) {
-                this.formData.foto = this.foto;
-                this.formData.fotoPreview = this.foto;
-            }
-
-            const userObject = localStorage.getItem("user");
-            if (userObject) {
-                const user = JSON.parse(userObject);
-                if (!this.formData.cedula) {
-                    this.formData.cedula = user.numero_documento;
-                }
-
-                if (!this.formData.direccion) {
-                    this.formData.direccion = user.direccion;
-                }
-
-                if (!this.formData.nombre) {
-                    this.formData.nombre = user.name;
-                }
-
-                if (!this.formData.correo) {
-                    this.formData.correo = user.email;
-                }
-
-                if (!this.formData.telefono) {
-                    this.formData.telefono = user.telefono_uno;
-                }
             }
         },
         validarDatos() {
