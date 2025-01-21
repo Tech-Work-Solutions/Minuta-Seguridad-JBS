@@ -183,7 +183,8 @@ CREATE TABLE `hojas_de_vida` (
   `referencias_personales` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información de las referencias personales' CHECK (json_valid(`referencias_personales`)), 
   `administracion_proceso_seleccion` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Contiene la información de la administración del proceso de selección por el entrevistador' CHECK (json_valid(`administracion_proceso_seleccion`)), 
   `foto` varchar(255) DEFAULT NULL COMMENT 'Contiene la ruta de la foto del usuario de la hoja de vida minerva 1003',
-  `firma` varchar(255) DEFAULT NULL COMMENT 'Contiene la ruta de la firma de la hoja de vidaa minerva 1003',
+  `firma` varchar(255) DEFAULT NULL COMMENT 'Contiene la ruta de la firma de la hoja de vida minerva 1003',
+  `firma_autorizador` varchar(255) DEFAULT NULL COMMENT 'Contiene la ruta de la firma de contratación de la hoja de vida minerva 1003',
   `soportes` varchar(255) DEFAULT NULL COMMENT 'Contiene la ruta del pdf con todos los soportes asociado a la hoja de vida minerva 1003',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
