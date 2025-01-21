@@ -27,6 +27,13 @@ export const OPCIONES_MENU_ADMIN = [
 
 export const CATEGORIAS_LICENCIA = [{id:1,nombre:"A1"}, {id:2,nombre:"A2"}, {id:3,nombre:"B1"}, {id:4,nombre:"B2"}, {id:5,nombre:"B3"}, {id:6,nombre:"C1"}, {id:7,nombre:"C2"}, {id:8,nombre:"C3"}];
 
+export const NIVELES_ESTUDIO = [
+    { id: 1, name: "Primaria", key: "primaria" },
+    { id: 2, name: "Bachillerato", elemento: "select", values: ["Clásico", "Técnico", "Comercial", "Otro"], key: "bachillerato" },
+    { id: 3, name: "Educación Superior", elemento: "select", values: ["Técnico", "Tecnológico", "Profesional"], key: "educacionSuperior" },
+    { id: 4, name: "Postgrados", key: "postgrados" },
+];
+
 export const ACTIVIDADES_ECONOMICAS = [
     { label: 'AGRICULTURA', key: 'agricultura', tipo: 'main',},
     { label: 'GANADERÍA / AVICULTURA', key: 'ganaderia', tipo: 'main',},
