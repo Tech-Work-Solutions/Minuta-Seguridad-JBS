@@ -83,8 +83,9 @@ export const AREAS_EMPRESA = [
     { label: 'Publicidad', key: 'publicidad' },
     { label: 'Personal', key: 'personal' },
     { label: 'Sistemas', key: 'sistemas' },
-    { label: 'Tesorería', key: 'tesoreria' }]
-    
+    { label: 'Tesorería', key: 'tesoreria' }
+];
+
 export const NIVELES_ESTUDIO = [
     { id: 1, name: "Primaria", key: "primaria" },
     { id: 2, name: "Bachillerato", elemento: "select", values: ["Clásico", "Técnico", "Comercial", "Otro"], key: "bachillerato" },
