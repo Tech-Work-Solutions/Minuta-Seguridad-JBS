@@ -2,7 +2,7 @@
     <div v-if="show">
         <div class="flex flex-wrap items-center">
             <h1 class="text-xl text-gray-500 pl-5 mr-5 font-bold">
-                <i class="fas fa-cogs"></i> Hoja de vida
+                <i class="fas fa-paperclip"></i> Hoja de vida
             </h1>
         </div>
         <br>
@@ -95,7 +95,6 @@ export default {
                     },
                 });
                 const savedHv = response.data;
-
                 if (savedHv.length > 0) {
                     const hv = savedHv[0];
                     this.hasHv = true;
@@ -104,6 +103,7 @@ export default {
                         tab.data.foto = hv.foto;
                         tab.data.soportes = hv.soportes;
                         tab.data.firma = hv.firma;
+                        tab.data.firma_autorizador = hv.firma_autorizador;
                     });
                 }
             } catch (error) {
