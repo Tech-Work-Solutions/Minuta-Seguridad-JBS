@@ -29,28 +29,28 @@
                                     <input type="text" placeholder="Nombre Entrevistador" v-model="asistencia.nombres"
                                         class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none" />
                                     <p class="text-red-500 text-sm"
-                                        v-if="submited && !$v.formData.asistencias[index].nombres.required">
+                                        v-if="submited && !$v.formData.asistencias.$each[index].nombres.required">
                                         Ingrese un entrevistador.
                                     </p>
                                 </div>
                             </td>
                             <td colspan="2" class="border border-gray-300 p-2">
-                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                <div class="block w-full items-stretch mb-3" style="text-align: center;">
                                     <input type="date" v-model="asistencia.dia" :disabled="!asistencia.nombres"
                                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
                                     <p class="text-red-500 text-sm"
-                                        v-if="submited && !$v.formData.asistencias[index].dia.required">
+                                        v-if="submited && !$v.formData.asistencias.$each[index].dia.required">
                                         Ingrese el día de la entrevista.
                                     </p>
                                 </div>
                             </td>
                             <td colspan="2" class="border border-gray-300 p-2">
-                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                <div class="block w-full items-stretch mb-3" style="text-align: center;">
                                     <input type="time" id="appt" name="appt" min="07:00" max="18:00"
                                         v-model="asistencia.hora" :disabled="!asistencia.nombres"
                                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
                                     <p class="text-red-500 text-sm"
-                                        v-if="submited && !$v.formData.asistencias[index].hora.required">
+                                        v-if="submited && !$v.formData.asistencias.$each[index].hora.required">
                                         Ingrese la hora de la entrevista.
                                     </p>
                                 </div>
@@ -61,7 +61,7 @@
                                         class="form-radio text-blue-600" :disabled="!asistencia.nombres"
                                         v-model="asistencia.asistio">
                                     <p class="text-red-500 text-sm"
-                                        v-if="submited && !$v.formData.asistencias[index].asistio.required">
+                                        v-if="submited && !$v.formData.asistencias.$each[index].asistio.required">
                                         Elija si asistió el postulante.
                                     </p>
                                 </div>
@@ -73,17 +73,22 @@
                                             :disabled="!asistencia.nombres" class="form-radio text-blue-600"
                                             v-model="asistencia.asistio">
                                         <p class="text-red-500 text-sm"
-                                            v-if="submited && !$v.formData.asistencias[index].asistio.required">
+                                            v-if="submited && !$v.formData.asistencias.$each[index].asistio.required">
                                             Elija si asistió el postulante.
                                         </p>
                                     </label>
                                 </div>
                             </td>
                             <td colspan="3" class="border border-gray-300 p-2">
-                                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                                <div class="block w-full items-stretch mb-3" style="text-align: center;">
                                     <input type="time" id="appt" name="appt" min="07:00" max="18:00"
                                         :disabled="!asistencia.nombres || asistencia.asistio === 'No'"
+                                        v-model="asistencia.horaLlegada"
                                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-32" />
+                                    <p class="text-red-500 text-sm"
+                                        v-if="submited && !$v.formData.asistencias.$each[index].horaLlegada.required">
+                                        Elija hora llegada si asistió el postulante.
+                                    </p>
                                 </div>
                             </td>
                         </tr>
@@ -292,7 +297,6 @@
 
             <!-- Footer -->
             <div class="mt-6">
-                <h2 class="text-lg font-bold text-gray-800">Referencias Verificadas</h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label class="block font-medium text-gray-700">Referencias verificadas por</label>
@@ -525,7 +529,7 @@ export default {
     validations: {
         formData: {
             asistencias: {
-                0: {
+                $each: {
                     nombres: { required },
                     dia: {
                         required: (value, formData) => formData.nombres ? !!value : true,
@@ -539,22 +543,7 @@ export default {
                     horaLlegada: {
                         required: (value, formData) => formData.asistio === 'Si' ? !!value : true,
                     },
-                },
-                1: {
-                    nombres: {},
-                    dia: {
-                        required: (value, formData) => formData.nombres ? !!value : true,
-                    },
-                    hora: {
-                        required: (value, formData) => formData.nombres ? !!value : true,
-                    },
-                    asistio: {
-                        required: (value, formData) => formData.nombres ? !!value : true,
-                    },
-                    horaLlegada: {
-                        required: (value, formData) => formData.asistio === 'Si' ? !!value : true,
-                    },
-                },
+                }
             },
         }
     },
