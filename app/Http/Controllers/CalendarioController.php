@@ -16,6 +16,9 @@ class CalendarioController extends Controller
     {
         try {
             $query = Calendario::query();
+
+            $query->with(['user:id,name']);
+
             $user_id = $request->query('user_id');
             $sede_id = $request->query('sede_id');
 
@@ -29,7 +32,16 @@ class CalendarioController extends Controller
                 });
             }
 
-            return $query->orderBy('user_id')->select('id', 'user_id', 'hora_inicio', 'hora_fin', 'fecha_inicio', 'fecha_fin', 'estado', 'tipo')->get();
+            $calendarios = $query->orderBy('user_id')
+            ->select('id', 'user_id', 'hora_inicio', 'hora_fin', 'fecha_inicio', 'fecha_fin', 'estado', 'tipo')
+            ->get()
+            ->map(function ($item) {
+                $item->name = $item->user ? $item->user->name : null;
+                unset($item->user);
+                return $item;
+            });
+
+            return $calendarios;
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'error' => 'Error de validación',
