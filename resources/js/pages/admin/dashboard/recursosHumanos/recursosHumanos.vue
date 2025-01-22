@@ -70,7 +70,7 @@
                         <td
                             class="text-gray-700 border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                             <div class="flex flex-wrap justify-center">
-                                <router-link :to="{ name: 'HojaDeVida', params: { id: user.id } }"
+                                <router-link :to="{ name: 'Hoja De Vida', params: { id: user.id } }"
                                     title="Editar hoja de vida">
                                     <div
                                         class="text-center mr-2 inline-flex items-center justify-center w-10 h-10 shadow-lg rounded-full bg-blue-500 hover:bg-blue-600 ease-linear transition-all duration-150">
@@ -106,10 +106,6 @@ export default {
     },
 
     mounted() {
-        const rol = localStorage.getItem('rol');
-        if (rol !== 'ADMINISTRADOR') {
-            this.$router.push('/dashboard');
-        }
         this.getUsers();
         this.show = true;
     },

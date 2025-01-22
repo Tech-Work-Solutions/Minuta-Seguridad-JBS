@@ -150,7 +150,7 @@ const routes = [
             },
             {
               path: "/gestionhojadevida",
-              name: "GestionarHojadevida",
+              name: "Gestionar Hoja de vida",
               meta: { requiresAuth :true },
               components: {
                 default: Dashboard,
@@ -159,7 +159,7 @@ const routes = [
             },
             {
               path: "/hojadevida/:id?",
-              name: "HojaDeVida",
+              name: "Hoja De Vida",
               meta: { requiresAuth :true },
               components: {
                 default: Dashboard,

@@ -77,7 +77,9 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`id`, `nit`, `nombre`, `email`, `created_at`, `updated_at`, `permisos_menu`, `permisos_formulario`, `img_header`, `img_footer`, `estado`) VALUES
 (1, '324654656', 'exito', 'exito@gmail.com', '2024-12-06 02:10:56', '2024-12-06 02:10:56', '[{\"id\":5,\"nombre\":\"Configuraciones\"},{\"id\":4,\"nombre\":\"Reportes\"},{\"id\":6,\"nombre\":\"Usuarios\"},{\"id\":2,\"nombre\":\"Vehiculos\"},{\"id\":3,\"nombre\":\"Visitantes\"}]', '[{\"id\":3,\"nombre\":\"Adjuntar foto\"},{\"id\":1,\"nombre\":\"Grabar audio\"}]', '/img/clientes/051224211056_headerfondo.jpg', '/img/clientes/051224211056_footerimages (2).jpg', 'ACTIVO'),
 (8, '3454', 'La merced', 'niño@gmail.com', '2024-12-08 16:48:27', '2024-12-08 16:48:27', '[{\"id\":6,\"nombre\":\"Usuarios\"},{\"id\":4,\"nombre\":\"Reportes\"},{\"id\":1,\"nombre\":\"Minuta\"}]', '[{\"id\":1,\"nombre\":\"Grabar audio\"}]', '/img/clientes/081224114827_headertado.jpg', '/img/clientes/081224114827_footerpruieba2.jpg', 'ACTIVO'),
-(13, '1232-master', 'master', 'master@gmail.com', '2024-12-11 16:08:42', '2024-12-11 16:10:03', '[{\"id\":0,\"nombre\":\"all\"}]', '[{\"id\":0,\"nombre\":\"all\"}]', NULL, NULL, 'MASTER');
+(13, '1232-master', 'master', 'master@gmail.com', '2024-12-11 16:08:42', '2024-12-11 16:10:03', '[{\"id\":0,\"nombre\":\"all\"}]', '[{\"id\":0,\"nombre\":\"all\"}]', NULL, NULL, 'MASTER'),
+(15, '12457863', 'Talento humano', 'talento@gmail.com', '2025-01-22 16:10:14', '2025-01-22 16:10:14', '[{\"id\":7,\"nombre\":\"Hoja De Vida\"},{\"id\":8,\"nombre\":\"Gestionar Hoja de vida\"},{\"id\":4,\"nombre\":\"Reportes\"}]', '[{\"id\":1,\"nombre\":\"Grabar audio\"},{\"id\":2,\"nombre\":\"Grabar video\"},{\"id\":3,\"nombre\":\"Adjuntar foto\"}]', NULL, NULL, 'ACTIVO');
+
 
 -- --------------------------------------------------------
 
@@ -272,9 +274,9 @@ INSERT INTO `opciones_menu` (`id`, `nombre`, `estado`, `created_at`, `updated_at
 (3, 'Visitantes', 'ACTIVO', '2024-12-05 17:33:34', NULL),
 (4, 'Reportes', 'ACTIVO', '2024-12-05 17:33:34', NULL),
 (5, 'Configuraciones', 'ACTIVO', '2024-12-05 17:33:34', NULL),
-(6, 'Usuarios', 'ACTIVO', '2024-12-05 17:33:34', NULL);
-(7, 'HojaDeVida', 'ACTIVO', '2025-01-19 17:33:34', NULL);
-(8, 'GestionarHojadevida', 'ACTIVO', '2025-01-19 17:33:34', NULL);
+(6, 'Usuarios', 'ACTIVO', '2024-12-05 17:33:34', NULL),
+(7, 'Hoja De Vida', 'ACTIVO', '2025-01-19 17:33:34', NULL),
+(8, 'Gestionar Hoja de vida', 'ACTIVO', '2025-01-19 17:33:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -583,7 +585,9 @@ INSERT INTO `sedes` (`id`, `nombre`, `telefono`, `cliente_id`, `direccion`, `est
 (4, 'Merced sede 2', '34546', 8, 'cra 23', 'ACTIVO', '2024-12-09 13:54:52', '2024-12-09 13:54:52'),
 (5, 'Merced sede', '35457', 8, 'cra 23', 'ACTIVO', '2024-12-10 15:43:04', '2024-12-10 15:43:04'),
 (6, 'Exito sede', '45645', 1, 'cra 34', 'ACTIVO', '2024-12-10 18:19:07', '2024-12-10 18:19:07'),
-(7, 'Sede master', '2314578', 13, NULL, 'MASTER', '2024-12-11 16:12:56', NULL);
+(7, 'Sede master', '2314578', 13, NULL, 'MASTER', '2024-12-11 16:12:56', NULL),
+(8, 'sede talento humano', NULL, 15, NULL, 'ACTIVO', '2025-01-22 16:10:36', '2025-01-22 16:10:36');
+
 
 -- --------------------------------------------------------
 
@@ -681,7 +685,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `rol`, `fecha_nacimiento`, `direccion`, `ciudad`, `telefono_uno`, `telefono_dos`, `numero_documento`, `tipo_documento_id`, `estado`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'ADMINISTRADOR', 'admin@seguridadjbs.com', NULL, '$2y$10$k2/wtZUL02rFhEMg4CpyaOvXuiyZYG/ba.JhS9bwtJRKk9Qg0LPWu', 'ADMINISTRADOR', '2004-05-05', 'PASTO 2', 'PASTO', '3124564445', '312155645', '123456', 1, '1', NULL, '2021-11-27 01:24:55', '2022-02-12 15:24:52'),
-(2, 'ADMINISTRADOR2', 'oskre2193@gmail.com', NULL, '$2y$10$Z2jP6Bgz7ytfim65ip61seYFGiWAl.3d34FCf4ak8ObJFezwBDy/q', 'ADMINISTRADOR', '2003-05-05', 'PASTO 2', 'PASTO', '3124564445', '312155645', '123456', 1, '1', NULL, '2021-11-27 06:24:55', '2022-02-12 20:24:52');
+(2, 'ADMINISTRADOR2', 'oskre2193@gmail.com', NULL, '$2y$10$Z2jP6Bgz7ytfim65ip61seYFGiWAl.3d34FCf4ak8ObJFezwBDy/q', 'ADMINISTRADOR', '2003-05-05', 'PASTO 2', 'PASTO', '3124564445', '312155645', '1234568', 1, '1', NULL, '2021-11-27 06:24:55', '2022-02-12 20:24:52'),
+(4, 'administrativo', 'administrativo@seguridadjbs.com', NULL, '$2y$10$MLV8pN6KgeKjf0sCt3DyzuNlafoMtzD9mnp8MsIMgAdM4VUVVv5V2', 'ADMINISTRATIVO', '1997-06-10', 'pasto', 'pasto', '2345346', NULL, '1231235645', 1, '1', NULL, '2025-01-22 16:12:33', '2025-01-22 16:12:33');
+
 
 -- --------------------------------------------------------
 
@@ -703,7 +709,8 @@ CREATE TABLE `users_sedes` (
 
 INSERT INTO `users_sedes` (`id`, `user_id`, `sede_id`, `created_at`, `updated_at`) VALUES
 (1, 1, 7, '2024-12-11 16:50:32', NULL),
-(2, 2, 7, '2024-12-11 21:46:46', NULL);
+(2, 2, 7, '2024-12-11 21:46:46', NULL),
+(6, 4, 8, '2025-01-22 16:12:33', '2025-01-22 16:12:33');
 
 -- --------------------------------------------------------
 
@@ -962,7 +969,7 @@ ALTER TABLE `arls`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla de clientes', AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla de clientes', AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `drivers`
@@ -1046,7 +1053,7 @@ ALTER TABLE `record_vehicles`
 -- AUTO_INCREMENT de la tabla `sedes`
 --
 ALTER TABLE `sedes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `subjects`
@@ -1070,13 +1077,13 @@ ALTER TABLE `ubicacions`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `users_sedes`
 --
 ALTER TABLE `users_sedes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `vehicles`
