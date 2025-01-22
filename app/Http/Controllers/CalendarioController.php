@@ -21,9 +21,19 @@ class CalendarioController extends Controller
 
             $user_id = $request->query('user_id');
             $sede_id = $request->query('sede_id');
+            $tipo = $request->query('tipo');
+            $estado = $request->query('estado');
 
             if ($user_id) {
                 $query->where('user_id', $user_id);
+            }
+            
+            if ($tipo) {
+                $query->where('tipo', $tipo);
+            }
+            
+            if ($estado) {
+                $query->where('estado', $estado);
             }
 
             if ($sede_id) {
