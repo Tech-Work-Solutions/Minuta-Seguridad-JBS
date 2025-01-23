@@ -14,7 +14,18 @@ class CalendarioController extends Controller
      */
     public function getCalendarios(Request $request)
     {
+        
         try {
+            $request->validate([
+                'user_id' => ['nullable', 'integer', 'exists:users,id'],
+                'sede_id' => ['nullable', 'integer', 'exists:sedes,id'],
+                'hora_inicio' => ['nullable', 'date_format:H:i'],
+                'hora_fin' => ['nullable', 'date_format:H:i', 'after:hora_inicio'],
+                'fecha_inicio' => ['nullable', 'date'],
+                'fecha_fin' => ['nullable', 'date', 'after_or_equal:fecha_inicio'],
+                'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
+                'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
+            ]);
             $query = Calendario::query();
 
             $query->with(['user:id,name']);
@@ -23,6 +34,24 @@ class CalendarioController extends Controller
             $sede_id = $request->query('sede_id');
             $tipo = $request->query('tipo');
             $estado = $request->query('estado');
+
+            $fecha_inicio = $request->query('fecha_inicio');
+            $fecha_fin = $request->query('fecha_fin');
+            
+            $fecha_inicio_with_time = $fecha_inicio."00:00:00";
+            $fecha_fin_with_time = $fecha_fin."23:59:59";
+
+            if ($fecha_inicio && $fecha_fin) {
+                $query->where('fecha_inicio', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicio_with_time)))
+                    ->where('fecha_fin', '<=', date("Y-m-d H:i:s", strtotime($fecha_fin_with_time)));
+            } else {
+                if ($fecha_inicio) {
+                    $query->where('fecha_inicio', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicio_with_time)));
+                }
+                if ($fecha_fin) {
+                    $query->where('fecha_fin', '<=', date("Y-m-d H:i:s", strtotime($fecha_fin_with_time)));
+                }
+            }
 
             if ($user_id) {
                 $query->where('user_id', $user_id);
