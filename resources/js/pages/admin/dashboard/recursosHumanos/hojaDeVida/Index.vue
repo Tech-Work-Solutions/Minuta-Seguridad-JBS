@@ -62,10 +62,11 @@ export default {
                 { label: 'Administración Proceso de Selección', icon: 'fas fa-pen-fancy', component: 'AdministracionProcesoSeleccion', data: {}, key: 'administracion_proceso_seleccion' },
             ],
             userId: null,
-            hasHv: false
+            hasHv: false,
         };
     },
     async mounted() {
+        const userIdByParam = this.$route.params.id;
         const rol = localStorage.getItem('rol');
         if (rol === 'GUARDA DE SEGURIDAD') {
             this.$router.push('/dashboard');
@@ -73,7 +74,7 @@ export default {
         const userObject = localStorage.getItem("user");
         if (userObject) {
             const user = JSON.parse(userObject);
-            this.userId = user.id;
+            this.userId = Number(userIdByParam) || user.id;
         }
         await this.loadData();
         this.show = true;
