@@ -38,18 +38,18 @@ class CalendarioController extends Controller
             $fecha_inicio = $request->query('fecha_inicio');
             $fecha_fin = $request->query('fecha_fin');
             
-            $fecha_inicio_with_time = $fecha_inicio."00:00:00";
-            $fecha_fin_with_time = $fecha_fin."23:59:59";
+            $fechaInicioWithTime = $fecha_inicio . " 00:00:00";
+            $fechaFinWithTime = $fecha_fin . " 23:59:59";
 
             if ($fecha_inicio && $fecha_fin) {
-                $query->where('fecha_inicio', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicio_with_time)))
-                    ->where('fecha_fin', '<=', date("Y-m-d H:i:s", strtotime($fecha_fin_with_time)));
+                $query->where('fecha_inicio', '>=', date("Y-m-d H:i:s", strtotime($fechaInicioWithTime)))
+                    ->where('fecha_fin', '<=', date("Y-m-d H:i:s", strtotime($fechaFinWithTime)));
             } else {
                 if ($fecha_inicio) {
-                    $query->where('fecha_inicio', '>=', date("Y-m-d H:i:s", strtotime($fecha_inicio_with_time)));
+                    $query->where('fecha_inicio', '>=', date("Y-m-d H:i:s", strtotime($fechaInicioWithTime)));
                 }
                 if ($fecha_fin) {
-                    $query->where('fecha_fin', '<=', date("Y-m-d H:i:s", strtotime($fecha_fin_with_time)));
+                    $query->where('fecha_fin', '<=', date("Y-m-d H:i:s", strtotime($fechaFinWithTime)));
                 }
             }
 
@@ -72,7 +72,6 @@ class CalendarioController extends Controller
             }
 
             $calendarios = $query->orderBy('user_id')
-            ->select('id', 'user_id', 'hora_inicio', 'hora_fin', 'fecha_inicio', 'fecha_fin', 'estado', 'tipo')
             ->get()
             ->map(function ($item) {
                 $item->name = $item->user ? $item->user->name : null;
