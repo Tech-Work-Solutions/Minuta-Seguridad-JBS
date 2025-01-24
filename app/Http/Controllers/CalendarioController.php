@@ -99,96 +99,126 @@ class CalendarioController extends Controller
 
     public function registerCalendario(Request $request)
     {
-        try {
-            $request->validate([
-                'calendarios' => ['required', 'array', 'min:1'],
-                'calendarios.*.user_id' => ['required', 'integer', 'exists:users,id'],
-                'calendarios.*.sede_id' => ['required', 'integer', 'exists:sedes,id'],
-                'calendarios.*.hora_inicio' => ['required', 'date_format:H:i'],
-                'calendarios.*.hora_fin' => ['required', 'date_format:H:i', 'after:calendarios.*.hora_inicio'],
-                'calendarios.*.fecha_inicio' => ['required', 'date'],
-                'calendarios.*.fecha_fin' => ['required', 'date', 'after_or_equal:calendarios.*.fecha_inicio'],
-                'calendarios.*.estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
-                'calendarios.*.tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
-                'calendarios.*.color' => ['nullable', 'string'],
-            ]);
-    
-            $calendariosData = [];
-            foreach ($request->calendarios as $calendario) {
-                $calendariosData[] = [
-                    'user_id' => $calendario['user_id'],
-                    'sede_id' => $calendario['sede_id'],
-                    'hora_inicio' => $calendario['hora_inicio'],
-                    'hora_fin' => $calendario['hora_fin'],
-                    'fecha_inicio' => $calendario['fecha_inicio'],
-                    'fecha_fin' => $calendario['fecha_fin'],
-                    'estado' => $calendario['estado'] ?? 'PENDIENTE',
-                    'tipo' => $calendario['tipo'] ?? 'PERMISO',
-                    'color' => $calendario['color'],
+        $calendarios = $request->calendarios;
+        $insertados = [];
+        $errores = [];
+
+        foreach ($calendarios as $index => $calendarioData) {
+            try {
+                $validatedData = \Validator::make($calendarioData, [
+                    'user_id' => ['required', 'integer', 'exists:users,id'],
+                    'sede_id' => ['required', 'integer', 'exists:sedes,id'],
+                    'hora_inicio' => ['required', 'date_format:H:i'],
+                    'hora_fin' => ['required', 'date_format:H:i', 'after:hora_inicio'],
+                    'fecha_inicio' => ['required', 'date'],
+                    'fecha_fin' => ['required', 'date', 'after_or_equal:fecha_inicio'],
+                    'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
+                    'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
+                    'color' => ['required', 'string'],
+                ])->validate();
+
+                $insertados[] = Calendario::create($validatedData);
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                // Registrar el error y el índice del calendario fallido
+                $errores[] = [
+                    'index' => $index,
+                    'error' => $e->errors()
                 ];
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Ocurrió un error inesperado',
+                    'details' => $e->getMessage(),
+                ], 500);
+            }
+        }
+
+        return response()->json([
+            'msg' => 'Proceso finalizado',
+            'insertados' => $insertados,
+            'errores' => $errores
+        ]);
+    }
+
+    public function updateCalendario(Request $request)
+    {
+        try {
+            $calendarios = $request->calendarios;
+            $actualizados = [];
+            $errores = [];
+
+            foreach ($calendarios as $index => $data) {
+                try {
+                
+                    $validatedData = \Validator::make($data, [
+                        'id' => ['required', 'integer', 'exists:calendarios,id'],
+                        'user_id' => ['required', 'integer', 'exists:users,id'],
+                        'sede_id' => ['required', 'integer', 'exists:sedes,id'],
+                        'hora_inicio' => ['nullable', 'date_format:H:i'],
+                        'hora_fin' => ['nullable', 'date_format:H:i', 'after:hora_inicio'],
+                        'fecha_inicio' => ['nullable', 'date'],
+                        'fecha_fin' => ['nullable', 'date', 'after_or_equal:fecha_inicio'],
+                        'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
+                        'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
+                        'color' => ['nullable', 'string'],
+                    ])->validate();
+
+                    $calendario = Calendario::findOrFail($validatedData['id']);
+                    $calendario->fill($validatedData);
+                    $calendario->save();
+
+                    $actualizados[] = $calendario;
+                } catch (\Illuminate\Validation\ValidationException $e) {
+                
+                    $errores[] = [
+                        'index' => $index,
+                        'error' => $e->errors()
+                    ];
+                } catch (\Exception $e) {
+                    $errores[] = [
+                        'index' => $index,
+                        'error' => $e->getMessage()
+                    ];
+                }
             }
 
-            $res = Calendario::insert($calendariosData);
-            
-            return response()->json(["msg" => "Registro exitoso", "res" => $res]);
-        }  catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
-                'error' => 'Error de validación',
-                'messages' => $e->errors(),
-            ], 422);
-    
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Ocurrió un error inesperado',
-                'details' => $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    public function updateCalendario(Request $request){
-        try {
-            $request->validate([
-                'id' => ['required', 'integer' , 'exists:calendarios,id'],
-                'hora_inicio' => ['nullable', 'date_format:H:i'],
-                'hora_fin' => ['nullable', 'date_format:H:i', 'after:hora_inicio'],
-                'fecha_inicio' => ['nullable', 'date'],
-                'fecha_fin' => ['nullable', 'date', 'after_or_equal:fecha_inicio'],
-                'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
-                'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
+                'msg' => 'Proceso completado',
+                'actualizados' => $actualizados,
+                'errores' => $errores
             ]);
-    
-            $calendario = Calendario::findOrFail($request->id);
-            $calendario->hora_inicio  = $request->hora_inicio;
-            $calendario->hora_fin     = $request->hora_fin;
-            $calendario->fecha_inicio = $request->fecha_inicio;
-            $calendario->fecha_fin    = $request->fecha_fin;
-            $calendario->estado       = $request->estado;
-            $calendario->tipo         = $request->tipo;
-    
-            $calendario->update();
-            return response()->json(['msg' => "Registro actualizado correctamente", 'calendario_id' => $calendario->id]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'error' => 'Error de validación',
-                'messages' => $e->errors(),
-            ], 422);
-    
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocurrió un error inesperado',
                 'details' => $e->getMessage(),
             ], 500);
         }
-        
     }
 
-    public function deleteCalendario($calendario_id) {
-
-        $record = Calendario::find($calendario_id);
-        if (!$record) {
-            return response()->json(['message' => 'Calendario no encontrado', 'calendario_id' => $calendario_id], 404);
+    public function deleteCalendario(Request $request) {
+        $request->validate([
+            'calendarioIds' => ['required', 'array'],
+            'calendarioIds.*' => ['integer', 'exists:calendarios,id']
+        ]);
+    
+        $ids = $request->calendarioIds;
+        $eliminados = [];
+        $noEncontrados = [];
+    
+        foreach ($ids as $id) {
+            $record = Calendario::find($id);
+            if ($record) {
+                $record->delete();
+                $eliminados[] = $id;
+            } else {
+                $noEncontrados[] = $id;
+            }
         }
-        $record->delete();
-        return response()->json(['msg' => 'Registro eliminado']);
+    
+        return response()->json([
+            'msg' => 'Proceso finalizado',
+            'eliminados' => $eliminados,
+            'no_encontrados' => $noEncontrados
+        ]);
     }
+
 }

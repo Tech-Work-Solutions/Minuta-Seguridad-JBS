@@ -135,6 +135,6 @@ Route::delete('deleteHv/{user_id}', [HojaVidaController::class, 'deleteHv']);
 Route::get('getCalendarios', [CalendarioController::class, 'getCalendarios']);
 Route::post('registerCalendario', [CalendarioController::class, 'registerCalendario']);
 Route::post('updateCalendario', [CalendarioController::class, 'updateCalendario']);
-Route::delete('deleteCalendario/{id}', [CalendarioController::class, 'deleteCalendario']);
+Route::delete('deleteCalendario', [CalendarioController::class, 'deleteCalendario']);
 
 /** Route::post('sendEmailUsuario', [AuthController::class, 'sendEmailUsuario']); */
