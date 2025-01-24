@@ -198,12 +198,14 @@ CREATE TABLE `hojas_de_vida` (
 CREATE TABLE `calendarios` (
   `id` int(11) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
+  `sede_id` bigint(20) UNSIGNED NOT NULL,
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `estado` enum('APROBADO','PENDIENTE','RECHAZADO') NOT NULL DEFAULT 'APROBADO',
   `tipo` enum('TURNO','PERMISO') NOT NULL DEFAULT 'TURNO',
+  `color` varchar(20) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1196,6 +1198,9 @@ ALTER TABLE `hojas_de_vida`
 --
 ALTER TABLE `calendarios`
   ADD CONSTRAINT `calendarios_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+ALTER TABLE `calendarios`
+  ADD CONSTRAINT `calendarios_sede_id_foreign` FOREIGN KEY (`sede_id`) REFERENCES `sedes` (`id`);
 
 COMMIT;
 

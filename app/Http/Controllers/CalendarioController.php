@@ -29,6 +29,7 @@ class CalendarioController extends Controller
             $query = Calendario::query();
 
             $query->with(['user:id,name']);
+            $query->with(['sedes:id,nombre']);
 
             $user_id = $request->query('user_id');
             $sede_id = $request->query('sede_id');
@@ -66,7 +67,7 @@ class CalendarioController extends Controller
             }
 
             if ($sede_id) {
-                $query->whereHas('user_sedes', function ($subQuery) use ($sede_id) {
+                $query->whereHas('sedes', function ($subQuery) use ($sede_id) {
                     $subQuery->where('sede_id', $sede_id);
                 });
             }
@@ -75,7 +76,9 @@ class CalendarioController extends Controller
             ->get()
             ->map(function ($item) {
                 $item->name = $item->user ? $item->user->name : null;
+                $item->nombreSede = $item->sedes ? $item->sedes->nombre : null;
                 unset($item->user);
+                unset($item->sedes);
                 return $item;
             });
 

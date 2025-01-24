@@ -14,16 +14,16 @@ class Calendario extends Model
         'fecha_inicio',
         'fecha_fin',
         'estado',
-        'tipo'
+        'tipo',
+        'color',
+        'sede_id',
     ];
 
     public function user(){
         return $this->belongsTo('App\Models\User', 'user_id');
     }
-
-    public function user_sedes()
-    {
-        return $this->hasMany('App\Models\Users_sede', 'user_id', 'user_id');
+    
+    public function sedes(){
+        return $this->belongsTo('App\Models\Sede', 'sede_id');
     }
-
 }
