@@ -86,7 +86,7 @@ export default {
             this.$emit('closeModalSuccess', false)
          } catch (errors) {
             if (errors.response.status === 404) {
-               this.$toaster.error('El usuario no tiene Hoja de vida activa');
+               this.$toaster.error('El usuario no tiene hoja de vida activa');
                this.$emit('closeModal', false);
             } else {
                this.$toaster.error('Algo salió mal. Vuelva a intentarlo');

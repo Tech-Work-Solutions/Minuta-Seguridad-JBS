@@ -124,7 +124,7 @@ export default {
                 id: user.id,
                 requestType: 'delete',
                 url: `/api/deleteHv/${user.id}`,
-                title: 'Eliminar Hoja de vida',
+                title: 'Eliminar hoja de vida',
                 message: '¿Está seguro de limpiar la hoja de vida de ' + user.name + '?'
             }
             this.modal = true;
