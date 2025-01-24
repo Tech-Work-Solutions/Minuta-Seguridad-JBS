@@ -70,7 +70,7 @@ class CalendarioController extends Controller
                     $subQuery->where('sede_id', $sede_id);
                 });
             }
-
+            // agregar el nombre de la sede. 
             $calendarios = $query->orderBy('user_id')
             ->get()
             ->map(function ($item) {
@@ -98,26 +98,36 @@ class CalendarioController extends Controller
     {
         try {
             $request->validate([
-                'user_id' => ['required', 'integer', 'exists:users,id'],
-                'hora_inicio' => ['required', 'date_format:H:i'],
-                'hora_fin' => ['required', 'date_format:H:i', 'after:hora_inicio'],
-                'fecha_inicio' => ['required', 'date'],
-                'fecha_fin' => ['required', 'date', 'after_or_equal:fecha_inicio'],
-                'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
-                'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
+                'calendarios' => ['required', 'array', 'min:1'],
+                'calendarios.*.user_id' => ['required', 'integer', 'exists:users,id'],
+                'calendarios.*.sede_id' => ['required', 'integer', 'exists:sedes,id'],
+                'calendarios.*.hora_inicio' => ['required', 'date_format:H:i'],
+                'calendarios.*.hora_fin' => ['required', 'date_format:H:i', 'after:calendarios.*.hora_inicio'],
+                'calendarios.*.fecha_inicio' => ['required', 'date'],
+                'calendarios.*.fecha_fin' => ['required', 'date', 'after_or_equal:calendarios.*.fecha_inicio'],
+                'calendarios.*.estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
+                'calendarios.*.tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
+                'calendarios.*.color' => ['nullable', 'string'],
             ]);
     
-            $calendario = Calendario::create([
-                'user_id' => $request->user_id,
-                'hora_inicio' => $request->hora_inicio,
-                'hora_fin' => $request->hora_fin,
-                'fecha_inicio' => $request->fecha_inicio,
-                'fecha_fin' => $request->fecha_fin,
-                'estado' => $request->estado,
-                'tipo' => $request->tipo,
-            ]);
+            $calendariosData = [];
+            foreach ($request->calendarios as $calendario) {
+                $calendariosData[] = [
+                    'user_id' => $calendario['user_id'],
+                    'sede_id' => $calendario['sede_id'],
+                    'hora_inicio' => $calendario['hora_inicio'],
+                    'hora_fin' => $calendario['hora_fin'],
+                    'fecha_inicio' => $calendario['fecha_inicio'],
+                    'fecha_fin' => $calendario['fecha_fin'],
+                    'estado' => $calendario['estado'] ?? 'PENDIENTE',
+                    'tipo' => $calendario['tipo'] ?? 'PERMISO',
+                    'color' => $calendario['color'],
+                ];
+            }
+
+            $res = Calendario::insert($calendariosData);
             
-            return response()->json(["msg" => "Registro exitoso", "res" => $calendario]);
+            return response()->json(["msg" => "Registro exitoso", "res" => $res]);
         }  catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'error' => 'Error de validación',
