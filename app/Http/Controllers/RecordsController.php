@@ -140,7 +140,7 @@ class RecordsController extends Controller
 
     public function getRecordsMinutaByUser(Request $request) {
         $fechaActual = date('Y-m-d');
-        $sede_id = $request->sede_id;
+        $sede_id = $request->query('sede_id');
         $query = Record_minuta::query();
 
         $query->where('created_at', '>=', $fechaActual.' 00:00:00')
