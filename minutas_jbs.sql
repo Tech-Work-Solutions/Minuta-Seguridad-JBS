@@ -206,6 +206,7 @@ CREATE TABLE `calendarios` (
   `estado` enum('APROBADO','PENDIENTE','RECHAZADO') NOT NULL DEFAULT 'APROBADO',
   `tipo` enum('TURNO','PERMISO') NOT NULL DEFAULT 'TURNO',
   `color` varchar(20) NOT NULL,
+  `descripcion` varchar(255) NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

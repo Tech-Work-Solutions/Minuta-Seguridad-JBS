@@ -71,7 +71,7 @@ class CalendarioController extends Controller
                     $subQuery->where('sede_id', $sede_id);
                 });
             }
-            // agregar el nombre de la sede. 
+
             $calendarios = $query->orderBy('user_id')
             ->get()
             ->map(function ($item) {
@@ -115,6 +115,7 @@ class CalendarioController extends Controller
                     'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
                     'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
                     'color' => ['required', 'string'],
+                    'descripcion' => ['nullable', 'string'],
                 ])->validate();
 
                 $insertados[] = Calendario::create($validatedData);
@@ -160,6 +161,7 @@ class CalendarioController extends Controller
                         'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
                         'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
                         'color' => ['nullable', 'string'],
+                        'descripcion' => ['nullable', 'string'],
                     ])->validate();
 
                     $calendario = Calendario::findOrFail($validatedData['id']);
