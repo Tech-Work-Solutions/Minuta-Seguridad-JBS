@@ -17,7 +17,7 @@ import EditRecordVehicle from './pages/admin/dashboard/records/EditVehicle.vue'
 import EditRecordVisitante from './pages/admin/dashboard/records/EditVisitante.vue'
 import ConfigPage from './pages/ConfigPage.vue'
 import Recurso404 from './pages/Recurso404.vue'
-import Hojadevida from './pages/admin/dashboard/recursosHumanos/Index.vue'
+import Turnos from './pages/admin/dashboard/turnos/GestionTurnos.vue'
 
 Vue.use(VueRouter)
  
@@ -148,12 +148,12 @@ const routes = [
               }
             },
             {
-              path: "/hojadevida",
-              name: "Hoja de vida",
+              path: "/turnos",
+              name: "Gestionar turnos",
               meta: { requiresAuth :true },
               components: {
                 default: Dashboard,
-                MainView: Hojadevida
+                MainView: Turnos
               }
             },
         ]
