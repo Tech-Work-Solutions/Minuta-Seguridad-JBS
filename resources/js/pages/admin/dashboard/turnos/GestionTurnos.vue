@@ -36,7 +36,7 @@
                     </template>
                     <v-list>
                       <v-list-item @click="type = 'day'">
-                        <v-list-item-title>Dia</v-list-item-title>
+                        <v-list-item-title>Día</v-list-item-title>
                       </v-list-item>
                       <v-list-item @click="type = 'week'">
                         <v-list-item-title>Semana</v-list-item-title>
@@ -45,7 +45,7 @@
                         <v-list-item-title>Mes</v-list-item-title>
                       </v-list-item>
                       <v-list-item @click="type = '4day'">
-                        <v-list-item-title>4 Dias</v-list-item-title>
+                        <v-list-item-title>4 Días</v-list-item-title>
                       </v-list-item>
                     </v-list>
                   </v-menu>
@@ -459,11 +459,11 @@
         this.newEvent.endDate = date;
       },
   
-      setDate(date) {
+      setDate() {
         this.dateMenu = false; 
       },
   
-      setEndDate(date) {
+      setEndDate() {
         this.dateMenuEnd = false;
       },
   
