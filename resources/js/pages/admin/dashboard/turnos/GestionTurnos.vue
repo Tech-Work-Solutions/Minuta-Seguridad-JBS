@@ -12,46 +12,48 @@
           <v-col>
             <v-sheet height="64">
               <v-toolbar flat>
-                <v-btn outlined class="mr-4" color="grey darken-2" @click="openDialog">
-                  Agregar Turno
-                </v-btn>
-                <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
-                  Hoy
-                </v-btn>
-                <v-btn fab text small color="grey darken-2" @click="prev">
-                  <v-icon small>mdi-chevron-left</v-icon>
-                </v-btn>
-                <v-btn fab text small color="grey darken-2" @click="next">
-                  <v-icon small>mdi-chevron-right</v-icon>
-                </v-btn>
-                <v-toolbar-title v-if="$refs.calendar">{{ $refs.calendar.title }}</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-menu bottom right>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
-                      <span>{{ typeToLabel[type] }}</span>
-                      <v-icon right>mdi-menu-down</v-icon>
-                    </v-btn>
-                  </template>
-                  <v-list>
-                    <v-list-item @click="type = 'day'">
-                      <v-list-item-title>Dia</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = 'week'">
-                      <v-list-item-title>Semana</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = 'month'">
-                      <v-list-item-title>Mes</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = '4day'">
-                      <v-list-item-title>4 Dias</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
+                <div class="flex overflow-x-auto space-x-2">
+                  <v-btn outlined class="mr-4" color="grey darken-2" @click="openDialog">
+                    Agregar Turno
+                  </v-btn>
+                  <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
+                    Hoy
+                  </v-btn>
+                  <v-btn fab text small color="grey darken-2" @click="prev">
+                    <v-icon small>mdi-chevron-left</v-icon>
+                  </v-btn>
+                  <v-btn fab text small color="grey darken-2" @click="next">
+                    <v-icon small>mdi-chevron-right</v-icon>
+                  </v-btn>
+                  <v-toolbar-title v-if="$refs.calendar">{{ $refs.calendar.title }}</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <v-menu bottom right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
+                        <span>{{ typeToLabel[type] }}</span>
+                        <v-icon right>mdi-menu-down</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item @click="type = 'day'">
+                        <v-list-item-title>Dia</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="type = 'week'">
+                        <v-list-item-title>Semana</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="type = 'month'">
+                        <v-list-item-title>Mes</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="type = '4day'">
+                        <v-list-item-title>4 Dias</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </div>
               </v-toolbar>
             </v-sheet>
 
-            <v-sheet height="600">
+            <v-sheet height="800">
               <v-calendar
                 ref="calendar"
                 v-model="focus"
@@ -64,7 +66,7 @@
                 @click:date="viewDay"
               ></v-calendar>
 
-              <v-dialog v-model="dialog" max-width="500px">
+              <v-dialog v-model="dialog" max-width="500px" @click:outside="resetForm">
                 <v-card>
                   <v-card-title>
                     <span class="headline">{{ isEditing ? 'Editar turno' : 'Asignación de turno' }}</span>
@@ -168,7 +170,7 @@
                           v-bind="attrs"
                           v-on="on"
                           label="Color del turno"
-                          :value="newEvent.color ? newEvent.color : ''"
+                          :value="newEvent.color"
                           readonly
                           append-icon="mdi-palette"
                           :error-messages="!$v.newEvent.color.$pending && !$v.newEvent.color.$model && $v.newEvent.color.$dirty ? ['Seleccione un color'] : []"
@@ -180,7 +182,7 @@
                   </v-card-text>
 
                   <v-card-actions>
-                    <v-btn text @click="dialog = false">Cancelar</v-btn>
+                    <v-btn text @click="resetForm">Cancelar</v-btn>
                     <v-btn color="primary" @click="submitForm">
                       {{ isEditing ? 'Actualizar' : 'Agregar' }}
                     </v-btn>
@@ -267,7 +269,7 @@
         typeToLabel: {
           month: 'Mes',
           week: 'Semana',
-          day: 'Dia',
+          day: 'Día',
           '4day': '4 Dias',
         },
         userId: null,
@@ -383,6 +385,16 @@
           this.updatedEvents = [];
           this.deletedEvents = [];
           this.dataLoaded = true;
+
+          if (
+            eventosAInsertar.length === 0 &&
+            eventosAActualizar.length === 0 &&
+            eventosAEliminar.length === 0
+          ) {
+            this.$toaster.error('No hay cambios para guardar');
+            this.spiner = false;
+            return;
+          }
           this.$toaster.success('Datos guardados correctamente');
 
         } catch (error) {
