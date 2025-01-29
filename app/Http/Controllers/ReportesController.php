@@ -9,6 +9,7 @@ use App\Models\Record_person;
 use App\Models\Record_vehicle;
 use App\Models\User;
 use App\Services\FileService;
+use App\Models\Hoja_de_vida;
 
 class ReportesController extends Controller
 {
@@ -338,5 +339,29 @@ class ReportesController extends Controller
         
         return response()->json(["msg" => "Imagenes actualizadas"]);
     }
+
+    public function pdf_hojaDeVida(Request $request) {
+        $user_id = $_GET["user_id"];
+        //$record = Hoja_de_vida::findOrFail($user_id);
+        $foto = '';
+        $firma = '';
+        $firmaAutorizador = '';
+
+        $fileService = new FileService();
+        $foto = $fileService->getArchivo('/hvs/fotos/'.$user_id, ['pdf']);
+        $firma = $fileService->getArchivo('/hvs/firmas/'.$user_id, ['pdf']);
+        $firmaAutorizador = $fileService->getArchivo('/hvs/firmasAutorizacion/'.$user_id, ['pdf']);
+
+        $dataReport = [
+            'foto' => $foto,
+            'firma' => $firma,
+            'firmaAutorizador' => $firmaAutorizador
+            
+        ];
+
+        $pdf = PDF::loadView('pdfs.hojadevida', $dataReport)->setPaper('letter', 'portrait');
+        return $pdf->download('HojaDeVida.pdf');
+    }
+
 
 }
