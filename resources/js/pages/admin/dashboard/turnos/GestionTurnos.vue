@@ -6,7 +6,7 @@
         <em class="fas fa-calendar-check"></em> Gestión de Turnos
       </h1>
     </div>
-    <form>
+    <form v-if="verFiltros">
       <div class="flex flex-wrap mx-2 mt-10 items-center w-full">
         <div class="w-full lg:w-3/12 px-4 mb-3">
           <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="userSelect">
@@ -68,7 +68,7 @@
             <v-sheet height="64">
               <v-toolbar flat>
                 <div class="flex overflow-x-auto space-x-2">
-                  <v-btn outlined class="mr-4" color="grey darken-2" @click="openDialog">
+                  <v-btn outlined class="mr-4" color="grey darken-2" @click="openDialog" v-if="verTodo">
                     Agregar Turno
                   </v-btn>
                   <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
@@ -257,12 +257,12 @@
                   :color="selectedEvent.color" 
                   dark
                   >
-                    <v-btn icon @click="editEvent">
+                    <v-btn icon @click="editEvent" v-if="verTodo">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-btn icon @click="deleteEvent">
+                    <v-btn icon @click="deleteEvent" v-if="verTodo">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-toolbar>
@@ -280,7 +280,7 @@
           </v-col>
         </v-row>
       </v-app>
-      <div class="flex mb-2 mt-1">
+      <div class="flex mb-2 mt-1" v-if="verTodo">
           <button
               class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="submit">
@@ -345,22 +345,29 @@
         dataLoaded: false,
         today: new Date().toISOString().substr(0, 10),
         colorMenu: false,
-        submited: false
+        submited: false,
+        verTodo: true,
+        verFiltros: true
       };
     },
     async mounted() {
         this.spiner = false;
         const rol = localStorage.getItem('rol');
-        if (rol === 'GUARDA DE SEGURIDAD') {
-            this.$router.push('/dashboard');
+        if (rol === 'GUARDA DE SEGURIDAD' || rol === 'ADMINISTRATIVO') {
+            this.verTodo = false;
         }
         const userObject = localStorage.getItem("user");
         if (userObject) {
             const user = JSON.parse(userObject);
             this.userId = user.id;
         }
-        await this.loadData();
-        await this.getUsers();
+        if(rol === 'GUARDA DE SEGURIDAD') {
+          this.verFiltros= false;
+          await this.loadData(this.userId);
+        }else {
+          await this.loadData();
+          await this.getUsers();
+        }        
     },
     methods: {
       submitForm() {
