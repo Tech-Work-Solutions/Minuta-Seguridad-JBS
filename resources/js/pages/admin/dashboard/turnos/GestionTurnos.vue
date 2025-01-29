@@ -6,6 +6,61 @@
         <em class="fas fa-calendar-check"></em> Gestión de Turnos
       </h1>
     </div>
+    <form>
+      <div class="flex flex-wrap mx-2 mt-10 items-center w-full">
+        <div class="w-full lg:w-3/12 px-4 mb-3">
+          <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="userSelect">
+            Buscar por usuario:
+          </label>
+          <t-rich-select
+            v-model="formData.user_id"
+            :options="users"
+            placeholder="Seleccione una opción"
+            class="w-full"
+          ></t-rich-select>
+        </div>
+
+        <div class="w-full lg:w-3/12 px-4 mb-3">
+          <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="startDate">
+            Desde:
+          </label>
+          <input
+            type="date"
+            v-model="formData.fecha_inicial"
+            class="w-full px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline"
+          />
+          <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fecha_inicial.required">
+            Ingrese una fecha inicial
+          </p>
+        </div>
+
+        <div class="w-full lg:w-3/12 px-4 mb-3">
+          <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="endDate">
+            Hasta:
+          </label>
+          <input
+            type="date"
+            v-model="formData.fecha_final"
+            class="w-full px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline"
+          />
+          <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fecha_final.required">
+            Ingrese una fecha final
+          </p>
+        </div>
+
+        <div class="w-full lg:w-3/12 px-4">
+          <button
+            class="w-full bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+            type="button"
+            @click="validarDatos"
+          >
+            <p v-if="!spiner"><em class="fas fa-search"></em> Buscar</p>
+            <p v-else><em class="fas fa-spinner fa-pulse"></em> Buscando...</p>
+          </button>
+        </div>
+      </div>
+    </form>
+
     <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
       <v-app>
         <v-row class="fill-height">
@@ -239,7 +294,8 @@
   
 <script>
   import '@mdi/font/css/materialdesignicons.css';
-  import { required, helpers } from 'vuelidate/lib/validators';
+  import { required } from 'vuelidate/lib/validators';
+  import { TRichSelect } from 'vue-tailwind/dist/components';
 
   export default {
     data() {
@@ -261,6 +317,11 @@
           user_id: null,
           sede_id: null
         },
+        formData: {
+          user_id: 'TODOS',
+          fecha_inicial: '',
+          fecha_final: ''
+        },
         dialog: false, 
         dateMenu: false, 
         dateMenuEnd: false,
@@ -273,7 +334,6 @@
           '4day': '4 Dias',
         },
         userId: null,
-        submited: false,
         isUpdating: false,
         spiner: false,
         users: [],
@@ -285,6 +345,7 @@
         dataLoaded: false,
         today: new Date().toISOString().substr(0, 10),
         colorMenu: false,
+        submited: false
       };
     },
     async mounted() {
@@ -304,7 +365,7 @@
     methods: {
       submitForm() {
         this.$v.$touch();
-        if (this.$v.$invalid) {
+        if (this.$v.newEvent.$invalid) {
           this.$toaster.error('Hay errores en el formulario. Por favor, corrígelos.');
           return;
         }
@@ -405,24 +466,25 @@
         }
       },
 
-      validarDatos() {
-          this.$v.$touch();
-
-          if (this.$v.$invalid) {
-              this.$toaster.error("Hay errores en el formulario. Por favor, corrígelos.");
-              return false;
-          }
-          return true;
+      async validarDatos() {
+        this.submited = true;
+        if (this.$v.formData.$invalid) {
+          this.$toaster.error("Hay errores en los filtros. Por favor, corrígelos.");
+          return false;
+        }
+        await this.loadData(this.formData.user_id, this.formData.fecha_inicial, this.formData.fecha_final);
       },
 
       async getUsers() {
           try {
               const responseUsers = await axios.get('/api/getUsers');
               this.users = responseUsers.data;
+              this.users.forEach(item => item.text = item.name.toUpperCase());
+              this.users.unshift({ id: 'TODOS', text: 'TODOS' });
           } catch (errors) {
               console.log(errors.response.data.errors)
           }
-      },      
+      },
       async getSedesByUser(userId) {        
           try {
               const response = await axios.get('/api/getSedesAndClientesByUser', {
@@ -544,34 +606,45 @@
         }
         this.resetForm();
       },
-      async loadData() {
+      async loadData(user_id = null, fecha_inicio = null, fecha_fin = null) {
         try {
-            const response = await axios.get(`/api/getCalendarios`);
-            const turnos = response.data;
+          this.spiner = true;
+          let url = `/api/getCalendarios`;
+          let params = {};
 
-            if (turnos.length > 0) {
-                this.events = turnos.map(turno => ({
-                    name: turno.descripcion,
-                    start: `${turno.fecha_inicio}T${turno.hora_inicio}`,
-                    end: `${turno.fecha_fin}T${turno.hora_fin}`,
-                    color: turno.color,
-                    user_id: turno.user_id,
-                    sede_id: turno.sede_id,
-                    id: turno.id
-                }));
-                this.originalEvents = JSON.parse(JSON.stringify(this.events));
-                this.dataLoaded = true;
-            } else {
-                this.events = [];
-                this.originalEvents = [];
-                this.newEvents = [];
-                this.updatedEvents = [];
-                this.deletedEvents = [];
-                this.dataLoaded = false;
-            }
+          if (user_id && user_id !== "TODOS") params.user_id = user_id;
+          if (fecha_inicio) params.fecha_inicio = fecha_inicio;
+          if (fecha_fin) params.fecha_fin = fecha_fin;
+
+          const response = await axios.get(url, { params });
+          const turnos = response.data;
+
+          if (turnos.length > 0) {
+            this.events = turnos.map(turno => ({
+              name: turno.descripcion,
+              start: `${turno.fecha_inicio}T${turno.hora_inicio}`,
+              end: `${turno.fecha_fin}T${turno.hora_fin}`,
+              color: turno.color,
+              user_id: turno.user_id,
+              sede_id: turno.sede_id,
+              id: turno.id
+            }));
+            this.originalEvents = JSON.parse(JSON.stringify(this.events));
+            this.dataLoaded = true;
+          } else {
+            this.events = [];
+            this.originalEvents = [];
+            this.newEvents = [];
+            this.updatedEvents = [];
+            this.deletedEvents = [];
+            this.dataLoaded = false;
+          }
+          this.spiner = false;
+          this.resetForm();
         } catch (error) {
-            console.error(error);
-            console.error("Hubo un problema al cargar los datos.");
+          this.spiner = false;
+          console.error(error);
+          console.error("Hubo un problema al cargar los datos.");
         }
       },
 
@@ -635,9 +708,14 @@
           user_id: { required },
           sede_id: { required },
           color: { required },
+        },
+        formData: {
+          fecha_inicial: { required },
+          fecha_final: { required },
         }
       };
-    }
+    },
+    components: { TRichSelect }
   };
 </script>
   
