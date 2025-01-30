@@ -154,7 +154,7 @@ export default {
           if (nombre === "reportes") {
             this.opcionesMenu.push({ label: permiso.nombre, route: '/' + nombre, icon: ICONOS_MAP[nombre], id: permiso.id });
           }
-          if (nombre === "gestionar turnos") {
+          if (nombre === "turnos") {
             this.opcionesMenu.push({ label: "Turnos", route: '/turnos', icon: "fa-paperclip", id: permiso.id });
           }
         }
