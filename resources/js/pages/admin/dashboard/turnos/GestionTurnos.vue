@@ -14,7 +14,7 @@
           </label>
           <t-rich-select
             v-model="formData.user_id"
-            :options="users"
+            :options="usersFiltros"
             placeholder="Seleccione una opción"
             class="w-full"
           ></t-rich-select>
@@ -337,6 +337,7 @@
         isUpdating: false,
         spiner: false,
         users: [],
+        usersFiltros: [],
         sedesByUser: [],
         newEvents: [],
         updatedEvents: [],
@@ -486,8 +487,9 @@
           try {
               const responseUsers = await axios.get('/api/getUsers');
               this.users = responseUsers.data;
-              this.users.forEach(item => item.text = item.name.toUpperCase());
-              this.users.unshift({ id: 'TODOS', text: 'TODOS' });
+              this.usersFiltros = [...responseUsers.data];
+              this.usersFiltros.forEach(item => item.text = item.name.toUpperCase());
+              this.usersFiltros.unshift({ id: 'TODOS', text: 'TODOS' });
           } catch (errors) {
               console.log(errors.response.data.errors)
           }

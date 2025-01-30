@@ -147,7 +147,7 @@ export default {
           if (OPCIONES_MENU_GUARDA.includes(nombre)) {
             this.opcionesMenu.push({ label: permiso.nombre, route: '/' + nombre, icon: ICONOS_MAP[nombre], id: permiso.id });
           }
-          if (nombre === "gestionar turnos") {
+          if (nombre === "turnos") {
             this.opcionesMenu.push({ label: "Turnos", route: '/turnos', icon: "fa-paperclip", id: permiso.id });
           }
         } else if (this.rol === ROLES.ADMINISTRATIVO) {

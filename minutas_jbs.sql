@@ -273,7 +273,7 @@ INSERT INTO `opciones_menu` (`id`, `nombre`, `estado`, `created_at`, `updated_at
 (4, 'Reportes', 'ACTIVO', '2024-12-05 17:33:34', NULL),
 (5, 'Configuraciones', 'ACTIVO', '2024-12-05 17:33:34', NULL),
 (6, 'Usuarios', 'ACTIVO', '2024-12-05 17:33:34', NULL);
-(7, 'Gestionar turnos', 'ACTIVO', '2022-01-29 17:33:34', NULL);
+(7, 'Turnos', 'ACTIVO', '2022-01-29 17:33:34', NULL);
 
 -- --------------------------------------------------------
 

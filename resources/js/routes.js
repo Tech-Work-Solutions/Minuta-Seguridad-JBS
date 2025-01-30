@@ -149,7 +149,7 @@ const routes = [
             },
             {
               path: "/turnos",
-              name: "Gestionar turnos",
+              name: "Turnos",
               meta: { requiresAuth :true },
               components: {
                 default: Dashboard,
