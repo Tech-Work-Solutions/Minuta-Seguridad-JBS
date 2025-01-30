@@ -105,6 +105,8 @@ Route::delete('deleteImagenesReporte', [ReportesController::class, 'deleteImagen
 
 Route::post('registerClients', [ClientsController::class, 'registerClients']);
 Route::get('getClients', [ClientsController::class, 'getClients']);
+Route::put('updateClient/{id}', [ClientsController::class, 'updateClient']);
+
 
 Route::post('registerSede', [SedesController::class, 'registerSede']);
 Route::get('getSedes', [SedesController::class, 'getSedes']);
