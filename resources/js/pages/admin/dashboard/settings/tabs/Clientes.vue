@@ -90,7 +90,7 @@
           </div>
           <div class="flex mb-4 mt-5" v-if="editar">
             <button
-              class="bg-green-500 text-white hover:bg-green-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button" @click="registrarCliente">
               <p v-if="!spiner">Actualizar</p>
               <p v-else><em class="fas fa-spinner fa-pulse"></em> Actualizando...</p>
