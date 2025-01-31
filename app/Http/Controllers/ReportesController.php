@@ -341,12 +341,21 @@ class ReportesController extends Controller
     }
 
     public function pdf_hojaDeVida(Request $request) {
-        $user_id = $_GET["user_id"];
-        // $record = Hoja_de_vida::findOrFail($user_id);
+        $user_id = $request->query('user_id');
+        $record = Hoja_de_vida::where('user_id', $user_id)->get();
         $foto = '';
         $firma = '';
         $firmaAutorizador = '';
-
+        foreach ($record as $rec) {
+            $rec->informacion_general = json_decode($rec->informacion_general, true) ?? [];
+            $rec->informacion_personal = json_decode($rec->informacion_personal, true) ?? [];
+            $rec->informacion_familiar = json_decode($rec->informacion_familiar, true) ?? [];
+            $rec->educacion_aptitudes = json_decode($rec->educacion_aptitudes, true) ?? [];
+            $rec->trayectoria_empresas = json_decode($rec->trayectoria_empresas, true) ?? [];
+            $rec->experiencia_laboral = json_decode($rec->experiencia_laboral, true) ?? [];
+            $rec->referencias_personales = json_decode($rec->referencias_personales, true) ?? [];
+            $rec->administracion_proceso_seleccion = json_decode($rec->administracion_proceso_seleccion, true) ?? [];
+        }
         $fileService = new FileService();
         $foto = $fileService->getArchivo('/hvs/fotos/'.$user_id, ['pdf']);
         $firma = $fileService->getArchivo('/hvs/firmas/'.$user_id, ['pdf']);
@@ -357,10 +366,12 @@ class ReportesController extends Controller
             'firma' => $firma,
             'firmaAutorizador' => $firmaAutorizador,
             'userId' => $user_id,
+            'record' => $record
         ];
 
         $pdf = PDF::loadView('pdfs.hojadevida', $dataReport)->setPaper('letter', 'portrait');
         return $pdf->download('HojaDeVida.pdf');
+        //return response()->json(["msg" => "Registro exitoso", "data" => $record]);
     }
 
 
