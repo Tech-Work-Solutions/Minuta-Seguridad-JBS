@@ -89,9 +89,10 @@ export default {
                this.$toaster.error('El usuario no tiene hoja de vida activa');
                this.$emit('closeModal', false);
             } else {
-               this.$toaster.error('Algo salió mal. Vuelva a intentarlo');
-               console.log(errors.response.data.errors);
-            }
+               const errorMessage = errors.response?.data?.msg || 'Algo salió mal. Vuelva a intentarlo';
+               this.$toaster.error(errorMessage);
+               console.log(errors.response?.data?.msg || errors);;
+            }            
          }
       }
    }
