@@ -247,13 +247,8 @@ export default {
         nombre: option.nombre
       })).sort((a, b) => a.id - b.id);
       this.formData.permisos_formulario = this.selectedFormOptions;
-      this.formData.permisos_menu = this.selectedMenuOptions;
-        
-      if (this.formData.estado === true) {
-        this.formData.estado = 'ACTIVO';
-      } else if(this.formData.estado === false) {
-        this.formData.estado = 'INACTIVO';
-      }
+      this.formData.permisos_menu = this.selectedMenuOptions;        
+      this.formData.estado = 'ACTIVO';
       this.validarDatos()
     },
     editarPuesto(idPuesto, index) {
