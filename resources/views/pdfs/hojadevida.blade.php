@@ -92,6 +92,11 @@
 </head>
 
 <body>
+	@php
+		$informacion_general = $record[0]->informacion_general ?? [];
+		$informacion_personal = $record[0]->informacion_personal ?? [];
+	@endphp
+
 	<div class="container">
 		<h3>HOJA DE VIDA - SOLICITUD DE EMPLEO {{$record[0]->user_id}}</h3>
 		<table>
@@ -104,11 +109,11 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="2">D: {{$record[0]->informacion_general['dia'] ?? ''}}  </td>
-					<td colspan="2">M: {{$record[0]->informacion_general['mes'] ?? ''}} </td>
-					<td colspan="2">A: {{$record[0]->informacion_general['anio'] ?? ''}} </td>
-					<td colspan="10">{{$record[0]->informacion_general['empleo'] ?? ''}}</td>
-					<td colspan="6">{{$record[0]->informacion_general['codigoCargo'] ?? ''}}</td>
+					<td colspan="2">D: {{$informacion_general['dia'] ?? ''}}  </td>
+					<td colspan="2">M: {{$informacion_general['mes'] ?? ''}} </td>
+					<td colspan="2">A: {{$informacion_general['anio'] ?? ''}} </td>
+					<td colspan="10">{{$informacion_general['empleo'] ?? ''}}</td>
+					<td colspan="6">{{$informacion_general['codigoCargo'] ?? ''}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -126,32 +131,32 @@
 					<td colspan="5" rowspan="8"></td>
 				</tr>
 				<tr>
-					<td colspan="8">{{$record[0]->informacion_general['nombre'] ?? ''}}</td>
-					<td colspan="8">{{$record[0]->informacion_general['apellido'] ?? ''}}</td>
+					<td colspan="8">{{$informacion_general['nombre'] ?? ''}}</td>
+					<td colspan="8">{{$informacion_general['apellido'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="10">Dirección domicilio / Barrio</td>
 					<td colspan="6">Ciudad</td>
 				</tr>
 				<tr>
-					<td colspan="10">{{$record[0]->informacion_general['direccion'] ?? ''}}</td>
-					<td colspan="6">{{$record[0]->informacion_general['ciudad'] ?? ''}}</td>
+					<td colspan="10">{{$informacion_general['direccion'] ?? ''}}</td>
+					<td colspan="6">{{$informacion_general['ciudad'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="8">Teléfono</td>
 					<td colspan="8">No. Celular</td>
 				</tr>
 				<tr>
-					<td colspan="8">{{$record[0]->informacion_general['telefono'] ?? ''}}</td>
-					<td colspan="8">{{$record[0]->informacion_general['celular'] ?? ''}}</td>
+					<td colspan="8">{{$informacion_general['telefono'] ?? ''}}</td>
+					<td colspan="8">{{$informacion_general['celular'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="8">Correo electrónico</td>
 					<td colspan="8">Nacionalidad</td>
 				</tr>
 				<tr>
-					<td colspan="8">{{$record[0]->informacion_general['correo'] ?? ''}}</td>
-					<td colspan="8">{{$record[0]->informacion_general['nacionalidad'] ?? ''}}</td>
+					<td colspan="8">{{$informacion_general['correo'] ?? ''}}</td>
+					<td colspan="8">{{$informacion_general['nacionalidad'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="10">Profesión, ocupación u oficio</td>
@@ -159,9 +164,9 @@
 					<td colspan="6">Años de experiencia laboral</td>
 				</tr>
 				<tr>
-					<td colspan="10">{{$record[0]->informacion_general['profesion'] ?? ''}}</td>
-					<td colspan="6">{{$record[0]->informacion_general['estadoCivil'] ?? ''}}</td>
-					<td colspan="6">{{$record[0]->informacion_general['experiencia'] ?? ''}}</td>
+					<td colspan="10">{{$informacion_general['profesion'] ?? ''}}</td>
+					<td colspan="6">{{$informacion_general['estadoCivil'] ?? ''}}</td>
+					<td colspan="6">{{$informacion_general['experiencia'] ?? ''}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -177,19 +182,19 @@
 			<tbody>
 				<tr>
 					<td colspan="4">Cedula de ciudadanía</td>
-					<td>{{$record[0]->informacion_general['tipoCedula'] && $record[0]->informacion_general['tipoCedula'] == 'Ciudadanía' ? 'X': ''}}</td>
-					<td colspan="5">N° {{$record[0]->informacion_general['cedula'] ?? ''}}</td>
-					<td colspan="5">(**) Libreta militar Nº {{$record[0]->informacion_general['libreta'] ?? ''}}</td>
+					<td>{{$informacion_general['tipoCedula'] && $informacion_general['tipoCedula'] == 'Ciudadanía' ? 'X': ''}}</td>
+					<td colspan="5">N° {{$informacion_general['cedula'] ?? ''}}</td>
+					<td colspan="5">(**) Libreta militar Nº {{$informacion_general['libreta'] ?? ''}}</td>
 					<td colspan="4">Primera clase</td>
-					<td>{{$record[0]->informacion_general['claseLibreta'] && $record[0]->informacion_general['claseLibreta'] == 'Primera' ? 'X' : ''}}</td>
+					<td>{{($informacion_general['claseLibreta'] ?? '') == 'Primera' ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">Extranjería</td>
-					<td>{{$record[0]->informacion_general['tipoCedula'] && $record[0]->informacion_general['tipoCedula'] == 'Extranjería' ? 'X': ''}}</td>
-					<td colspan="5">Expedida en: {{$record[0]->informacion_general['expedidaEn'] ?? ''}}</td>
-					<td colspan="5">Distrito Nº {{$record[0]->informacion_general['distrito'] ?? ''}}</td>
+					<td>{{$informacion_general['tipoCedula'] && $informacion_general['tipoCedula'] == 'Extranjería' ? 'X': ''}}</td>
+					<td colspan="5">Expedida en: {{$informacion_general['expedidaEn'] ?? ''}}</td>
+					<td colspan="5">Distrito Nº {{$informacion_general['distrito'] ?? ''}}</td>
 					<td colspan="4">Segunda clase</td>
-					<td>{{$record[0]->informacion_general['claseLibreta'] && $record[0]->informacion_general['claseLibreta'] == 'Segunda' ? 'X' : ''}}</td>
+					<td>{{($informacion_general['claseLibreta'] ?? '') == 'Segunda' ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="7">Tarjeta profesional Nº</td>
@@ -198,12 +203,12 @@
 					<td colspan="4">Categoría</td>
 				</tr>
 				<tr>
-					<td colspan="7"> {{$record[0]->informacion_general['tarjetaProfesional'] ?? ''}}</td>
-					<td colspan="2">Si {{$record[0]->informacion_general['vehiculo'] && $record[0]->informacion_general['vehiculo'] == 'Si' ? 'X': ''}} </td>
-					<td colspan="2">No {{$record[0]->informacion_general['vehiculo'] && $record[0]->informacion_general['vehiculo'] == 'No' ? 'X': ''}}</td>
-					<td colspan="5">{{$record[0]->informacion_general['licencia'] ?? ''}}</td>
+					<td colspan="7"> {{$informacion_general['tarjetaProfesional'] ?? ''}}</td>
+					<td colspan="2">Si {{($informacion_general['vehiculo'] ?? '') == 'Si' ? 'X': ''}} </td>
+					<td colspan="2">No {{($informacion_general['vehiculo'] ?? '') == 'No' ? 'X': ''}}</td>
+					<td colspan="5">{{$informacion_general['licencia'] ?? ''}}</td>
 					@php
-						$selectedCategorias = $record[0]->informacion_general['selectedCategorias'] ?? [];
+						$selectedCategorias = $informacion_general['selectedCategorias'] ?? [];
 						$categoriaNombres = implode(', ', array_map(function($categoria) {
 								return $categoria['nombre'];
 						}, $selectedCategorias));
