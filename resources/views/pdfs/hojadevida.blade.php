@@ -226,15 +226,15 @@
 				<tr>
 					<td colspan="4">¿Está trabajando actualmente?</td>
 					<td colspan="7">¿En qué empresa?</td>
-					<td colspan="4">Empleado</td>
+					<td colspan="4">Empleado {{($informacion_personal['estadoLaboral'] ?? '') == 'empleado' ? 'X' : ''}}</td>
 					<td colspan="7">Tipo de Contrato</td>
 				</tr>
 				<tr>
-					<td colspan="2">Si</td>
-					<td colspan="2">No</td>
-					<td colspan="7"></td>
-					<td colspan="4">Independiente</td>
-					<td colspan="7"></td>
+					<td colspan="2">Si {{($informacion_personal['trabajandoActualmente'] ?? '')  == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2">No {{($informacion_personal['trabajandoActualmente'] ?? '')  == 'no' ? 'X' : ''}}</td>
+					<td colspan="7">{{$informacion_personal['empresa'] ?? ''}}</td>
+					<td colspan="4">Independiente {{($informacion_personal['estadoLaboral'] ?? '') == 'independiente' ? 'X' : ''}}</td>
+					<td colspan="7">{{$informacion_personal['tipoContrato'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">¿Trabajó antes en
@@ -244,79 +244,79 @@
 					<td colspan="5">Fecha</td>
 					<td colspan="4">¿Lo recomienda alguien
 						de esta empresa?</td>
-					<td colspan="5">Nombre</td>
+					<td colspan="5">Nombre {{$informacion_personal['nombreRecomienda'] ?? ''}}</td>
 				</tr>
 				<tr>
-					<td colspan="2">Si</td>
-					<td colspan="2">No</td>
-					<td colspan="2">Si</td>
-					<td colspan="2">No</td>
-					<td>D</td>
-					<td>M</td>
-					<td colspan="3">A</td>
-					<td colspan="2">Si</td>
-					<td colspan="2">No</td>
-					<td colspan="5">Dependencia</td>
+					<td colspan="2">Si {{($informacion_personal['trabajoEnLaEmpresa'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2">No {{($informacion_personal['trabajoEnLaEmpresa'] ?? '') == 'no' ? 'X' : ''}}</td>
+					<td colspan="2">Si {{($informacion_personal['solicitoEnLaEmpresa'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2">No {{($informacion_personal['solicitoEnLaEmpresa'] ?? '') == 'no' ? 'X' : ''}}</td>
+					<td>D {{$informacion_personal['dia'] ?? ''}}</td>
+					<td>M {{$informacion_personal['mes'] ?? ''}}</td>
+					<td colspan="3">A {{$informacion_personal['anio'] ?? ''}}</td>
+					<td colspan="2">Si {{($informacion_personal['recomendado'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2">No {{($informacion_personal['recomendado'] ?? '') == 'no' ? 'X' : ''}}</td>
+					<td colspan="5">Dependencia {{$informacion_personal['dependenciaRecomienda'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4" rowspan="2">¿Tiene parientes
 						que trabajan en
 						esta empresa?</td>
-					<td>Si</td>
-					<td colspan="9">Nombre</td>
+					<td>Si {{($informacion_personal['tieneParientes'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="9">Nombre {{$informacion_personal['nombrePariente'] ?? ''}}</td>
 					<td colspan="8">¿Cómo tuvo conocimiento de la existencia de la vacante?</td>
 				</tr>
 				<tr>
-					<td>No</td>
-					<td colspan="9">Dependencia</td>
-					<td colspan="4">motivo: </td>
-					<td colspan="4">¿Cuál?</td>
+					<td>No {{($informacion_personal['tieneParientes'] ?? '') == 'no' ? 'X' : ''}}</td>
+					<td colspan="9">Dependencia {{$informacion_personal['dependenciaPariente'] ?? ''}}</td>
+					<td colspan="3">motivo: {{$informacion_personal['fuenteVacante'] ?? ''}} </td>
+					<td colspan="5">¿Cuál? {{$informacion_personal['otroMedio'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="6">¿En qué ciudad o población ha vivido la mayor parte de su vida?</td>
 					<td colspan="8">¿En qué ciudades o regiones del país ha trabajado?</td>
-					<td colspan="5" rowspan="2">¿Aceptaría trabajar en una ciudad o
+					<td colspan="4" rowspan="2">¿Aceptaría trabajar en una ciudad o
 						sitio distinto al inicialmente contratado?</td>
-					<td colspan="2">Si</td>
+					<td colspan="2">Si {{($informacion_personal['disponibleParaReubicacion'] ?? '') == "Si" ? 'X' : ''}}</td>
 				</tr>
 				<tr>
-					<td colspan="6"></td>
-					<td colspan="8"></td>
-					<td colspan="2">No</td>
+					<td colspan="6">{{$informacion_personal['residenciaPrincipal'] ?? ''}}</td>
+					<td colspan="8">{{$informacion_personal['zonasDeTrabajo'] ?? ''}}</td>
+					<td colspan="2">No {{($informacion_personal['disponibleParaReubicacion'] ?? '') == "no" ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="2">Vive en casa:</td>
-					<td colspan="2">¿Familiar?</td>
+					<td colspan="2">¿Familiar? {{($informacion_personal['casaPropia'] ?? '') == 'Familiar' ? 'X' : ''}}</td>
 					<td colspan="9">Nombre del arrendador</td>
 					<td colspan="4">Teléfono</td>
 					<td colspan="5">¿Hace cuánto tiempo reside en este lugar?</td>
 				</tr>
 				<tr>
-					<td colspan="2">¿Propia?</td>
-					<td colspan="2">¿Alquilada?</td>
-					<td colspan="9"></td>
-					<td colspan="4"></td>
-					<td colspan="5"></td>
+					<td colspan="2">¿Propia? {{($informacion_personal['casaPropia'] ?? '') == 'Propia' ? 'X' : ''}}</td>
+					<td colspan="2">¿Alquilada? {{($informacion_personal['casaPropia'] ?? '') == 'Alquilada' ? 'X' : ''}}</td>
+					<td colspan="9">{{$informacion_personal['arrendador'] ?? ''}}</td>
+					<td colspan="4">{{$informacion_personal['telefonoArrendador'] ?? ''}}</td>
+					<td colspan="5">{{$informacion_personal['tiempoEnVivienda'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="3" rowspan="2">¿Actualmente tiene algún
 						ingreso adicional?</td>
-					<td>Si</td>
+					<td>Si {{($informacion_personal['ingresoAdicional'] ?? '') == 'Si' ? 'X' : ''}}</td>
 					<td colspan="11">Descríbalo e indique su valor mensual</td>
 					<td colspan="7">¿Cuánto suman sus obligaciones económicas mensuales?</td>
 				</tr>
 				<tr>
-					<td>No</td>
-					<td colspan="11"></td>
-					<td colspan="7"></td>
+					<td>No {{($informacion_personal['ingresoAdicional'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td colspan="11">{{$informacion_personal['detalleIngresos'] ?? ''}}</td>
+					<td colspan="7">{{$informacion_personal['totalObligaciones'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="15">¿Por qué conceptos?</td>
 					<td colspan="7">¿Cuánto es su aspiración salarial?</td>
 				</tr>
 				<tr>
-					<td colspan="15"></td>
-					<td colspan="7"></td>
+					<td colspan="15">{{$informacion_personal['conceptoObligaciones'] ?? ''}}</td>
+					<td colspan="7">{{$informacion_personal['aspiracionSalarial'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="9">¿Cuál(es) es(son) su(s) principal(es) afición(es)?</td>
@@ -324,29 +324,29 @@
 					<td colspan="9">¿Cuál(es)?</td>
 				</tr>
 				<tr>
-					<td colspan="9"></td>
-					<td colspan="2">Si</td>
-					<td colspan="2">No</td>
-					<td colspan="9"></td>
+					<td colspan="9">{{$informacion_personal['aficiones'] ?? ''}}</td>
+					<td colspan="2">Si {{($informacion_personal['practicaDeporte'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2">No {{($informacion_personal['practicaDeporte'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td colspan="9">{{$informacion_personal['deportes'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="22">¿Alguna vez ha obtenido distinciones o reconocimientos por su desempeño en
 						actividades deportivas, culturales, sociales, etc.?</td>
 				</tr>
 				<tr>
-					<td colspan="2">Si</td>
-					<td colspan="2">No</td>
+					<td colspan="2">Si {{($informacion_personal['tuvoReconocimientos'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2">No {{($informacion_personal['tuvoReconocimientos'] ?? '') == 'No' ? 'X' : ''}}</td>
 					<td colspan="2">¿Cuál(es)?</td>
-					<td colspan="16"></td>
+					<td colspan="16">{{$informacion_personal['reconocimientos'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="22">¿Pertenece a algún tipo de asociación comunitaria, deportiva, cultural, etc.?</td>
 				</tr>
 				<tr>
-					<td colspan="2">Si</td>
-					<td colspan="2">No</td>
+					<td colspan="2">Si {{($informacion_personal['perteneceAsociaciones'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2">No {{($informacion_personal['perteneceAsociaciones'] ?? '') == 'No' ? 'X' : ''}}</td>
 					<td colspan="2">¿Cuál(es)?</td>
-					<td colspan="16"></td>
+					<td colspan="16">{{$informacion_personal['asociaciones'] ?? ''}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -362,15 +362,11 @@
 
 			</thead>
 			<tbody>
+				@foreach($informacion_personal['objetivos'] ?? [] as $objetivo)
 				<tr>
-					<td colspan="20"></td>
+					<td colspan="20">{{ $objetivo }}</td>
 				</tr>
-				<tr>
-					<td colspan="20"></td>
-				</tr>
-				<tr>
-					<td colspan="20"></td>
-				</tr>
+				@endforeach
 
 			</tbody>
 		</table>
