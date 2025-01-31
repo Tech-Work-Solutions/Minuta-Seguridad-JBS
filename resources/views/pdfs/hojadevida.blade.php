@@ -12,7 +12,7 @@
 			font-family: Arial, sans-serif;
 			background-color: #f4f4f4;
 			margin: 0;
-			padding: 20px;
+			padding: 1px;
 		}
 
 		.container {
@@ -29,21 +29,23 @@
 			text-align: center;
 			background: #007bff;
 			color: white;
-			padding: 3px;
+			padding: 1px;
 			border-radius: 5px;
+			margin-top: 0.2em;
+			margin-bottom: 0.2em;
 		}
 
 		table {
 			width: 100%;
 			border-collapse: collapse;
-			margin-top: 5px;
+			margin-top: 1px;
 		}
 
 		th,
 		td {
 			border: 1px solid #ddd;
 			border-radius: 5px;
-			padding: 3px;
+			padding: 2px;
 			font-size: 10px;
 		}
 
@@ -51,14 +53,6 @@
 			background: #007bff;
 			color: white;
 			text-align: left;
-		}
-
-		input,
-		select {
-			width: 100%;
-			padding: 6px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
 		}
 
 		.photo-upload {
@@ -69,24 +63,6 @@
 			border-radius: 5px;
 			cursor: pointer;
 			color: #007bff;
-		}
-
-		.buttons {
-			text-align: center;
-			margin-top: 20px;
-		}
-
-		button {
-			background: #007bff;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-
-		button:hover {
-			background: #0056b3;
 		}
 	</style>
 </head>
