@@ -155,11 +155,14 @@
                   class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
                   <div class="flex flex-wrap justify-center">
                     <button 
-                           class="bg-gray-300 text-white hover:bg-gray-400 font-bold p-3 rounded-full flex items-center justify-center disabled:opacity-50" 
-                           @click="editarPuesto(client.id, index)"
-                        >
-                        <i class="fas fa-pen"></i>
-                    </button>                    
+                      class="bg-gray-300 text-white hover:bg-gray-400 font-bold w-10 h-10 rounded-full flex items-center justify-center disabled:opacity-50"
+                      @click="editarPuesto(client.id, index)">
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <div @click="openModal(client)" title="Eliminar registro" v-if="puestoNombre === 'MASTER'"
+                      class="text-center cursor-pointer w-10 h-10 shadow-lg rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center">
+                      <i class="fas fa-trash font-bold text-white"></i>
+                    </div>
                   </div>
                 </td>
               </tr>
@@ -168,17 +171,19 @@
         </div>
       </div>
     </div>
+    <Modal :modal="modal" @closeModal="closeModal" @closeModalSuccess="closeModalSuccess" :datos="datosModal" />
   </div>
 </template>
 
 <script>
 import { required, numeric } from 'vuelidate/lib/validators';
 import Multiselect from 'vue-multiselect';
+import Modal from '../../components/ModalDelete.vue';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 import '../../../../../../css/app.css';
 export default {
   components: {
-    Multiselect
+    Multiselect, Modal
   },
   data() {
     return {
@@ -200,14 +205,14 @@ export default {
       selectedFormOptions: [],
       search: '',
       spiner: false,
-      reportHeaderImage: '',
-      reportFooterImage: '',
       rol: localStorage.getItem('rol'),
       puesto:'',
       editar: false,
       userId: null,
       puestoNombre: '',
       idPuesto: '',
+      modal: false,
+      datosModal: {},
     };
   },
 
@@ -262,6 +267,27 @@ export default {
       this.formData.nombre = this.clients[index].nombre;
       this.formData.email = this.clients[index].email;   
     },
+    openModal(puesto) {
+      this.datosModal = {
+        id: puesto.id,
+        url: '/api/deleteClient',
+        title: 'Eliminar registro',
+        message: '¿Está seguro de eliminar el puesto: ' + puesto.nombre + '?'
+      }
+      this.modal = true;
+    },
+    closeModal(value) {
+      this.modal = value
+    },
+    closeModalSuccess(value) {
+      if(this.puestoNombre === 'MASTER'){
+        this.getClients();
+      } else {
+        this.getClients(this.puesto.id);
+      } 
+      this.modal = value;
+      this.$toaster.success('Se eliminó correctamente el puesto seleccionado');
+    },
     async actualizarCliente () {
       try {
         const data = {
@@ -287,8 +313,6 @@ export default {
         this.formData.permisos_menu = '';
         this.selectedMenuOptions = [];
         this.selectedFormOptions = [];
-        this.reportHeaderImage = '';
-        this.reportFooterImage = '';
 
         if(this.puestoNombre === 'MASTER'){
           this.getClients();
@@ -345,8 +369,6 @@ export default {
             this.formOptions = [],
             this.selectedMenuOptions = [],
             this.selectedFormOptions = [];
-          this.reportHeaderImage = '';
-          this.reportFooterImage = '';
 
           this.$toaster.success('Registro creado con exito.');
           this.getClients();
@@ -389,9 +411,6 @@ export default {
         console.log(errors.response.data.errors)
       });
     },
-
-
-
   },
 
   validations: {

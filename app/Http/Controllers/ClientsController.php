@@ -82,4 +82,28 @@ class ClientsController extends Controller
             return response()->json(["msg" => "Error al actualizar", "error" => $e->getMessage()], 500);
         }
     }
+
+    public function deleteClient(Request $request) {
+        try {
+            $request->validate([
+                'id' => ['required', 'exists:clientes,id'],
+            ]);
+    
+            $client = Cliente::findOrFail($request->id);
+            $client->delete();
+    
+            return response()->json(["msg" => "Puesto eliminado con éxito"]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->errorInfo[1] == 1451) {
+                return response()->json([
+                    "msg" => "No se puede eliminar ya que tiene algunas dependencias."
+                ], 409);
+            }
+    
+            return response()->json(["msg" => "Error al eliminar el puesto", "error" => $e->getMessage()], 500);
+        } catch (\Exception $e) {
+            return response()->json(["msg" => "Error inesperado", "error" => $e->getMessage()], 500);
+        }
+    }    
+    
 }

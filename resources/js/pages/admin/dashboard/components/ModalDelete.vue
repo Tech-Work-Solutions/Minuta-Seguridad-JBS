@@ -81,8 +81,9 @@ export default {
             const response = await axios.post(this.datos.url, { id: this.datos.id });
             this.$emit('closeModalSuccess', false)
          } catch (errors) {
-            this.$toaster.error('Algo salio mal. Vuelva a intentarlo')
-            console.log(errors.response.data.errors)
+            const errorMessage = errors.response?.data?.msg || 'Algo salió mal. Vuelva a intentarlo';
+            this.$toaster.error(errorMessage);
+            console.log(errors.response?.data?.msg || errors);
          }
       }
    }
