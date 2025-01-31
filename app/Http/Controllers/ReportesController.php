@@ -342,7 +342,7 @@ class ReportesController extends Controller
 
     public function pdf_hojaDeVida(Request $request) {
         $user_id = $_GET["user_id"];
-        //$record = Hoja_de_vida::findOrFail($user_id);
+        // $record = Hoja_de_vida::findOrFail($user_id);
         $foto = '';
         $firma = '';
         $firmaAutorizador = '';
@@ -355,8 +355,8 @@ class ReportesController extends Controller
         $dataReport = [
             'foto' => $foto,
             'firma' => $firma,
-            'firmaAutorizador' => $firmaAutorizador
-            
+            'firmaAutorizador' => $firmaAutorizador,
+            'userId' => $user_id,
         ];
 
         $pdf = PDF::loadView('pdfs.hojadevida', $dataReport)->setPaper('letter', 'portrait');
