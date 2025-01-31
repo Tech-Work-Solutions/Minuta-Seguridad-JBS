@@ -14,7 +14,7 @@
                     class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <em class="fas fa-user"></em>
                   </span>
-                  <input type="text" v-model="formData.nit" :disabled="!editar || rol !== 'ADMINISTRADOR'"
+                  <input type="text" v-model="formData.nit" :disabled="puestoNombre !== 'MASTER' && !editar"
                     class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
                 </div>
                 <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nit.required">Ingrese el NIT</p>
@@ -31,7 +31,7 @@
                     class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <em class="fas fa-user"></em>
                   </span>
-                  <input type="text" v-model="formData.nombre" :disabled="!editar || puestoNombre !== 'MASTER'"
+                  <input type="text" v-model="formData.nombre" :disabled="puestoNombre !== 'MASTER' && !editar"
                     class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
                 </div>
                 <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nombre.required">Ingrese el nombre del
@@ -48,7 +48,7 @@
                     class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <em class="fas fa-user"></em>
                   </span>
-                  <input type="text" v-model="formData.email" :disabled="!editar || puestoNombre !== 'MASTER'"
+                  <input type="text" v-model="formData.email" :disabled="puestoNombre !== 'MASTER' && !editar"
                     class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
                 </div>
               </div>
@@ -60,7 +60,7 @@
                 </label>
                 <multiselect v-model="selectedMenuOptions" :options="menuOptions" :multiple="true" :searchable="true"
                   :close-on-select="false" label="nombre" track-by="id" placeholder="Selecciona las opciones"
-                  class="w-full" :show-labels="false" :disabled="!editar || puestoNombre !== 'MASTER'" />
+                  class="w-full" :show-labels="false" :disabled="puestoNombre !== 'MASTER' && !editar" />
                   <p class="text-red-500 text-sm" v-if="submited && !$v.selectedMenuOptions.required">
                     Debe seleccionar al menos una opción de menú
                   </p>
@@ -73,7 +73,7 @@
                 </label>
                 <multiselect v-model="selectedFormOptions" :options="formOptions" :multiple="true" :searchable="true"
                   :close-on-select="false" label="nombre" track-by="id" placeholder="Selecciona las opciones"
-                  class="w-full" :show-labels="false" :disabled="!editar || puestoNombre !== 'MASTER'"/>
+                  class="w-full" :show-labels="false" :disabled="puestoNombre !== 'MASTER' && !editar"/>
               </div>
               <p class="text-red-500 text-sm" v-if="submited && !$v.selectedFormOptions.required">
                 Debe seleccionar al menos una opción multimedia
@@ -104,10 +104,13 @@
         <div class="rounded-t mb-0 mt-5 px-4 py-3 border-0 bg-gray-600">
           <div class="flex flex-wrap items-center">
             <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-              <h3 class="font-semibold text-lg text-white mb-2">
+              <h3 class="font-semibold text-lg text-white mb-2" v-if="puestoNombre === 'MASTER'">
                 Puestos registrados
               </h3>
-              <input type="text" placeholder="Buscar..." v-model="search"
+              <h3 class="font-semibold text-lg text-white mb-2" v-else>
+                Puesto
+              </h3>
+              <input type="text" placeholder="Buscar..." v-model="search" v-if="puestoNombre === 'MASTER'"
                 class="px-2 py-2 placeholder-gray-400 text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
             </div>
           </div>
@@ -238,13 +241,8 @@ export default {
         id: option.id,
         nombre: option.nombre
       })).sort((a, b) => a.id - b.id);
-      if(this.editar) {
-        this.formData.permisos_formulario = this.selectedFormOptions;
-        this.formData.permisos_menu = this.selectedMenuOptions;
-      } else {
-        this.formData.permisos_formulario = JSON.stringify(this.selectedFormOptions)
-        this.formData.permisos_menu = JSON.stringify(this.selectedMenuOptions)
-      }
+      this.formData.permisos_formulario = this.selectedFormOptions;
+      this.formData.permisos_menu = this.selectedMenuOptions;
         
       if (this.formData.estado === true) {
         this.formData.estado = 'ACTIVO';
@@ -291,7 +289,12 @@ export default {
         this.selectedFormOptions = [];
         this.reportHeaderImage = '';
         this.reportFooterImage = '';
-        this.getClients(this.puesto.id);
+
+        if(this.puestoNombre === 'MASTER'){
+          this.getClients();
+        } else {
+          this.getClients(this.puesto.id);
+        } 
         this.$toaster.success('Registro Actualizado con exito.');
       } catch (errors) {
         this.spiner = false;
@@ -318,47 +321,45 @@ export default {
     },
 
     async register() {
-      const data = new FormData();
-      data.append('nit', this.formData.nit);
-      data.append('nombre', this.formData.nombre);
-      data.append('email', this.formData.email);
-      data.append('estado', this.formData.estado);
-      if (this.formData.img_header != null) {
-        data.append('img_header', this.formData.img_header);
-      }
-      if (this.formData.img_footer != null) {
-        data.append('img_footer', this.formData.img_footer);
-      }
-      data.append('permisos_formulario', this.formData.permisos_formulario);
-      data.append('permisos_menu', this.formData.permisos_menu);
+      try {
+        const data = {
+          nit: this.formData.nit,
+          nombre: this.formData.nombre,
+          email: this.formData.email,
+          estado: this.formData.estado,
+          permisos_formulario: this.selectedFormOptions,
+          permisos_menu: this.selectedMenuOptions
+        };
 
-      await axios.post('/api/registerClients', data).then((response) => {
-        this.spiner = false;
-        this.submited = false;
-        this.formData.nit = this.formData.nombre = this.formData.email = '';
-        this.formData.estado = true,
-          this.formData.permisos_formulario = '',
-          this.formData.permisos_menu = '',
+        await axios.post('/api/registerClients', data, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+          this.spiner = false;
+          this.submited = false;
+          this.formData.nit = this.formData.nombre = this.formData.email = '';
+          this.formData.estado = true,
+            this.formData.permisos_formulario = '',
+            this.formData.permisos_menu = '',
 
-          this.menuOptions = [],
-          this.formOptions = [],
-          this.selectedMenuOptions = [],
-          this.selectedFormOptions = [];
-        this.reportHeaderImage = '';
-        this.reportFooterImage = '';
+            this.menuOptions = [],
+            this.formOptions = [],
+            this.selectedMenuOptions = [],
+            this.selectedFormOptions = [];
+          this.reportHeaderImage = '';
+          this.reportFooterImage = '';
 
-        this.$toaster.success('Registro creado con exito.');
-        this.getClients();
-        this.getOpcionesMenu();
-        this.getOpcionesFormulario();
-      }).catch((errors) => {
+          this.$toaster.success('Registro creado con exito.');
+          this.getClients();
+          this.getOpcionesMenu();
+          this.getOpcionesFormulario();
+      } catch (errors) {
         this.spiner = false;
         if (errors.response.data.errors && errors.response.data.errors.nit) {
           this.$toaster.error(errors.response.data.errors.nit[0]);
         } else {
           this.$toaster.error('Algo salio mal.');
         }
-      });
+      }
     },
 
     async getClients(id = null) {

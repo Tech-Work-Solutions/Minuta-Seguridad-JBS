@@ -21,8 +21,8 @@ class ClientsController extends Controller
                 'nit'       => $request->nit,
                 'nombre'    => $request->nombre,
                 'email'     => $request->email,
-                'permisos_menu'    => $request->permisos_menu,
-                'permisos_formulario'    => $request->permisos_formulario,
+                'permisos_menu'    => json_encode($request->permisos_menu),
+                'permisos_formulario'    => json_encode($request->permisos_formulario),
                 'estado'    => $request->estado
             ]); 
             return response()->json(["msg" => "Registro exitoso", "res" => $client]); 
