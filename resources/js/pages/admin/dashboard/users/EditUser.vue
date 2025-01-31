@@ -566,3 +566,9 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.child-flex >*, .flex {
+    flex: 0 0 auto;
+}
+</style>

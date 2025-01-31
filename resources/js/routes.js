@@ -19,6 +19,7 @@ import ConfigPage from './pages/ConfigPage.vue'
 import Recurso404 from './pages/Recurso404.vue'
 import Hojadevida from './pages/admin/dashboard/recursosHumanos/hojaDeVida/Index.vue'
 import RecursosHumanos from './pages/admin/dashboard/recursosHumanos/recursosHumanos.vue'
+import Turnos from './pages/admin/dashboard/turnos/GestionTurnos.vue'
 
 Vue.use(VueRouter)
  
@@ -164,6 +165,16 @@ const routes = [
               components: {
                 default: Dashboard,
                 MainView: Hojadevida
+              }
+            },
+            {
+              
+              path: "/turnos",
+              name: "Turnos",
+              meta: { requiresAuth :true },
+              components: {
+                default: Dashboard,
+                MainView: Turnos
               }
             },
         ]
