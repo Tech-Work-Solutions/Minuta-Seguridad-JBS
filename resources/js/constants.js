@@ -13,6 +13,7 @@ export const ICONOS_MAP = {
     reportes: "fa-chart-bar",
     configuraciones: "fa-cogs",
     usuarios: "fa-users-cog",
+    turnos: "fa-calendar-check",
 };
 
 export const OPCIONES_MENU_ADMIN = [
