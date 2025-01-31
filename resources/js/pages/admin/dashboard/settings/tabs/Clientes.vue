@@ -90,7 +90,7 @@
           </div>
           <div class="flex mb-4 mt-5" v-if="editar">
             <button
-              class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              class="bg-green-500 text-white hover:bg-green-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button" @click="registrarCliente">
               <p v-if="!spiner">Actualizar</p>
               <p v-else><em class="fas fa-spinner fa-pulse"></em> Actualizando...</p>
@@ -155,7 +155,7 @@
                   class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
                   <div class="flex flex-wrap justify-center">
                     <button 
-                      class="bg-gray-300 text-white hover:bg-gray-400 font-bold w-10 h-10 rounded-full flex items-center justify-center disabled:opacity-50"
+                      class="bg-blue-500 hover:bg-blue-600 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center disabled:opacity-50"
                       @click="editarPuesto(client.id, index)">
                       <i class="fas fa-pen"></i>
                     </button>
