@@ -420,7 +420,119 @@
 	
 	<div class="container">
 		<h3>IV. EDUCACION Y APTITUDES</h3>
-		
+		<table>
+			<tbody>
+				<tr>
+					<td colspan="4">ESTUDIOS</td>
+					<td colspan="3">AÑO DE FINALIZACION</td>
+					<td colspan="2">AÑOS CURSADOS</td>
+					<td colspan="5">TITULO OBTENIDO</td>
+					<td colspan="6">NOMBRE DE LA INSTITUCION</td>
+					<td colspan="3">CIUDAD</td>
+				</tr>
+				<tr>
+					<td colspan="4">Primaria</td>
+					<td colspan="3">{{$educacion_aptitudes['primariaAnoFinalizacion'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['primariaAnosCursados'] ?? ''}}</td>
+					<td colspan="5">{{$educacion_aptitudes['primariaTitulo'] ?? ''}}</td>
+					<td colspan="6">{{$educacion_aptitudes['primariaInstitucion'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['primariaCiudad'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">Bachillerato: {{$educacion_aptitudes['bachilleratoSelect'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['bachilleratoAnoFinalizacion'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['bachilleratoAnosCursados'] ?? ''}}</td>
+					<td colspan="5">{{$educacion_aptitudes['bachilleratoTitulo'] ?? ''}}</td>
+					<td colspan="6">{{$educacion_aptitudes['bachilleratoInstitucion'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['bachilleratoCiudad'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">Educación Superior: {{$educacion_aptitudes['educacionSuperiorSelect'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['educacionSuperiorAnoFinalizacion'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['educacionSuperiorAnosCursados'] ?? ''}}</td>
+					<td colspan="5">{{$educacion_aptitudes['educacionSuperiorTitulo'] ?? ''}}</td>
+					<td colspan="6">{{$educacion_aptitudes['educacionSuperiorInstitucion'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['educacionSuperiorCiudad'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">Postgrados</td>
+					<td colspan="3">{{$educacion_aptitudes['postgradosAnoFinalizacion'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['postgradosAnosCursados'] ?? ''}}</td>
+					<td colspan="5">{{$educacion_aptitudes['postgradosTitulo'] ?? ''}}</td>
+					<td colspan="6">{{$educacion_aptitudes['postgradosInstitucion'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['postgradosCiudad'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4" rowspan="2">Otros: cursos, diplomados, seminarios</td>
+					<td colspan="4">Intensidad horaria</td>
+					<td colspan="8">Nombre del programa</td>
+					<td colspan="7">Institución</td>
+				</tr>
+				<tr>
+					<td colspan="4">{{$educacion_aptitudes['intesidadHoraria'] ?? ''}}</td>
+					<td colspan="8">{{$educacion_aptitudes['nombreDelPrograma'] ?? ''}}</td>
+					<td colspan="7">{{$educacion_aptitudes['institucion'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">¿Cursa estudios actualmente?</td>
+					<td colspan="9">¿Qué tipo de estudios?</td>
+					<td colspan="5">Duración (años, semestres, meses)</td>
+					<td colspan="5">Año / semestre que cursa</td>
+				</tr>
+				<tr>
+					<td colspan="2">Si {{($educacion_aptitudes['cursaEstudios'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2">No {{($educacion_aptitudes['cursaEstudios'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td colspan="9">{{$educacion_aptitudes['tipoEstudios'] ?? ''}}</td>
+					<td colspan="5">{{$educacion_aptitudes['duracionEstudios'] ?? ''}}</td>
+					<td colspan="5">{{$educacion_aptitudes['semestreCursa'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="15">Nombre de la institución</td>
+					<td colspan="8" rowspan="2">Horario {{$educacion_aptitudes['horario'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="15">{{$educacion_aptitudes['nombreInstitucion'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<th colspan="23">OTROS CONOCIMIENTOS: Indique el grado de dominio R- Regular, B- Bien, MB- Muy Bien</th>
+				</tr>
+				<tr>
+					<td colspan="5">Sistemas {{($educacion_aptitudes['sistemas'] ?? '') == 'Si' ? 'Si: X No' : 'Si: No: X'}}</td>
+					<td colspan="6">1. {{$educacion_aptitudes['programa1'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['nivelP1'] ?? ''}}</td>
+					<td colspan="7">3. {{$educacion_aptitudes['programa3'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['nivelP3'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="5">¿Programa(s) que maneja?</td>
+					<td colspan="6">2. {{$educacion_aptitudes['programa2'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['nivelP2'] ?? ''}}</td>
+					<td colspan="7">4. {{$educacion_aptitudes['programa4'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['nivelP4'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="5">Idiomas</td>
+					<td colspan="11"></td>
+					<td colspan="2">Lectura</td>
+					<td colspan="2">Escritura</td>
+					<td colspan="3">Hablado</td>
+				</tr>
+				<tr>
+					<td colspan="5">{{($educacion_aptitudes['idiomas'] ?? '') == 'Si' ? 'Si: X No' : 'Si: No: X'}}</td>
+					<td colspan="11">1. {{$educacion_aptitudes['idioma1'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['lecturaI1'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['escrituraI1'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['habladoI1'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="5">¿Qué idiomas(s) conoce?</td>
+					<td colspan="11">2. {{$educacion_aptitudes['idioma2'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['lecturaI2'] ?? ''}}</td>
+					<td colspan="2">{{$educacion_aptitudes['escrituraI2'] ?? ''}}</td>
+					<td colspan="3">{{$educacion_aptitudes['habladoI2'] ?? ''}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	
 	<div class="container">
