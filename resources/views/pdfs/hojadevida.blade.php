@@ -38,7 +38,7 @@
 		table {
 			width: 100%;
 			border-collapse: collapse;
-			margin-top: 1px;
+			margin-top: 0.5em;
 		}
 
 		th,
@@ -71,6 +71,9 @@
 	@php
 		$informacion_general = $record[0]->informacion_general ?? [];
 		$informacion_personal = $record[0]->informacion_personal ?? [];
+		$informacion_familiar = $record[0]->informacion_familiar ?? [];
+		$educacion_aptitudes = $record[0]->educacion_aptitudes ?? [];
+		$trayectoria_empresas = $record[0]->trayectoria_empresas ?? [];
 	@endphp
 
 	<div class="container">
@@ -251,7 +254,7 @@
 				<tr>
 					<td colspan="6">¿En qué ciudad o población ha vivido la mayor parte de su vida?</td>
 					<td colspan="8">¿En qué ciudades o regiones del país ha trabajado?</td>
-					<td colspan="4" rowspan="2">¿Aceptaría trabajar en una ciudad o
+					<td colspan="6" rowspan="2">¿Aceptaría trabajar en una ciudad o
 						sitio distinto al inicialmente contratado?</td>
 					<td colspan="2">Si {{($informacion_personal['disponibleParaReubicacion'] ?? '') == "Si" ? 'X' : ''}}</td>
 				</tr>
@@ -349,6 +352,80 @@
 	</div>
 
 	<hr>
+
+	<div class="container">
+		<h3>III. INFORMACION FAMILIAR</h3>
+		<table>
+			<tbody>
+				<tr>
+					<td colspan="7">Nombre esposa(o) o compañera(o)</td>
+					<td colspan="7">Profesión, ocupación u oficio</td>
+					<td colspan="6">Empresa donde trabaja</td>
+				</tr>
+				<tr>
+					<td colspan="7">{{$informacion_familiar['nombre'] ?? ''}}</td>
+					<td colspan="7">{{$informacion_familiar['profesion'] ?? ''}}</td>
+					<td colspan="6">{{$informacion_familiar['empresa'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="6">Cargo actual</td>
+					<td colspan="6">Dirección</td>
+					<td colspan="4">Teléfono</td>
+					<td colspan="4">Ciudad</td>
+				</tr>
+				<tr>
+					<td colspan="6">{{$informacion_familiar['cargo'] ?? ''}}</td>
+					<td colspan="6">{{$informacion_familiar['direccion'] ?? ''}}</td>
+					<td colspan="4">{{$informacion_familiar['telefono'] ?? ''}}</td>
+					<td colspan="4">{{$informacion_familiar['ciudad'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="6" rowspan="2">Nº de personas que dependen
+		económicamente del solicitante: {{$informacion_familiar['numPersonas'] ?? ''}}</td>
+					<td colspan="9">Parentesco</td>
+					<td colspan="5">Edades</td>
+				</tr>
+				<tr>
+					<td colspan="9">{{$informacion_familiar['parentescos'] ?? ''}}</td>
+					<td colspan="5">{{$informacion_familiar['edades'] ?? ''}}</td>
+				</tr>
+				@foreach($informacion_familiar['padres'] ?? [] as $padre)
+					<tr>
+						<td colspan="7">Nombre(s) padre(s)</td>
+						<td colspan="7">Profesión, ocupación u oficio</td>
+						<td colspan="6">Teléfono(s)</td>
+					</tr>
+					<tr>
+						<td colspan="7">{{$padre['nombres'] ?? ''}}</td>
+						<td colspan="7">{{$padre['profesion'] ?? ''}}</td>
+						<td colspan="6">{{$padre['telefono'] ?? ''}}</td>
+					</tr>
+				@endforeach
+
+				@foreach($informacion_familiar['hermanos'] ?? [] as $hermano)
+					<tr>
+						<td colspan="7">Nombre(s) hermano(s)</td>
+						<td colspan="7">Profesión, ocupación u oficio</td>
+						<td colspan="6">Teléfono(s)</td>
+					</tr>
+					<tr>
+						<td colspan="7">{{$hermano['nombres'] ?? ''}}</td>
+						<td colspan="7">{{$hermano['profesion'] ?? ''}}</td>
+						<td colspan="6">{{$hermano['telefono'] ?? ''}}</td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="container">
+		<h3>IV. EDUCACION Y APTITUDES</h3>
+		
+	</div>
+	
+	<div class="container">
+		<h3>V. TRAYECTORIA POR EMPRESAS</h3>
+	</div>
 
 </body>
 </html>
