@@ -55,6 +55,10 @@
 			text-align: left;
 		}
 
+		.pl {
+			padding-left: 8px
+		}
+
 		.photo-upload {
 			text-align: center;
 			border: 2px dashed #007bff;
@@ -488,7 +492,7 @@
 				</tr>
 				<tr>
 					<td colspan="15">Nombre de la institución</td>
-					<td colspan="8" rowspan="2">Horario {{$educacion_aptitudes['horario'] ?? ''}}</td>
+					<td colspan="8" rowspan="2">Horario: {{$educacion_aptitudes['horario'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="15">{{$educacion_aptitudes['nombreInstitucion'] ?? ''}}</td>
@@ -537,6 +541,175 @@
 	
 	<div class="container">
 		<h3>V. TRAYECTORIA POR EMPRESAS</h3>
+		<table>
+			<tbody>
+				<tr>
+					<th colspan="15">EMPRESAS POR ACTIVIDADES ECONOMICAS (*)</th>
+					<th colspan="9">AREA DE LA EMPRESA</th>
+				</tr>
+				<tr>
+					<td colspan="4">AGRICULTURA</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['agricultura'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4" class="pl">Metalurgia</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['metalurgia'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">FINANCIERO</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['financiero'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Administración</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['administracion'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="3">Personal</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['personal'] ?? '') ? 'X' : ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">GANADERIA / AVICULTURA</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['ganaderia'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4" class="pl">Maquinaria</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['maquinaria'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">INMOBILIARIO</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['inmobiliario'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Auditoría</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['auditoria'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="3">Sistemas</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['sistemas'] ?? '') ? 'X' : ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">MINERIA</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['mineria'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4" class="pl">Automotores</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['automotores'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">INFORMATICO</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['informatico'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Bodega</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['bodega'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="3">Tesorería</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['tesoreria'] ?? '') ? 'X' : ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">HIDROCARBUROS</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['hidrocarburos'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4" class="pl">Muebles</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['muebles'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">SALUD</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['salud'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Compras</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['compras'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="3">OTRAS (¿Cuáles?)</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['otrasAreas'] ?? '') ? 'X' : ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">INDUSTRIA</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['industria'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4" class="pl">Reciclaje</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['reciclaje'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">EDUCACION</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['educacion'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Contabilidad</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['contabilidad'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">{{$trayectoria_empresas['areasEmpresa']['areasOpcionales'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Alimentos y Bebidas</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['alimentos'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">OTROS (¿Cuáles?)</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['otrasEmpresas'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">SEGUROS</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['seguros'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Costos</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['costos'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Tabaco</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['tabaco'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">{{$trayectoria_empresas['actividadesEconomicas']['empresasOpcionales'] ?? ''}}</td>
+					<td></td>
+					<td colspan="4">TURISMO / RECREACION</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['turismo'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Crédito y Cobranzas</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['credito'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Textiles y Confecciones</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['textiles'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+					<td></td>
+					<td colspan="4">OTROS SERVICIOS</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['otrosServicios'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Diseño</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['diseño'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>					
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Cuero y Calzado</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['cuero'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">ELECTRICIDAD / GAS / AGUA</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['electricidad'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Asesorías Profesionales</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['asesorias'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Finanzas</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['finanzas'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Papel y Cartón</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['papel'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">CONSTRUCCION</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['construccion'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Servicios Temporales</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['servicios'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Gerencia General</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['gerencia'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Editorial y Artes Gráficas</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['editorial'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">COMERCIO</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['comercio'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Seguridad Vigilancia</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['seguridad'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Impuestos</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['impuestos'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Químico y Farmacéutico</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['quimico'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">HOTELES Y RESTAURANTES</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['hoteles'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">OTROS SECTORES</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['otrosSectores'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">Mercadeo</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['mercadeo'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Caucho y Plástico</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['caucho'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">TRANSPORTE Y ALMACENAMIENTO</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['transporte'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">{{$trayectoria_empresas['actividadesEconomicas']['sectoresOpcionales'] ?? ''}}</td>
+					<td></td>
+					<td colspan="4">Producción</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['produccion'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="pl">Vidrio, Cerámica y Cemento</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['vidrio'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4">COMUNICACIONES</td>
+					<td>{{($trayectoria_empresas['actividadesEconomicas']['comunicaciones'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+					<td></td>
+					<td colspan="4">Publicidad</td>
+					<td>{{($trayectoria_empresas['areasEmpresa']['publicidad'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="24" style="text-align: right;">(*) Resumen Clasificación Industrial Actividades Económicas</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
 </body>
