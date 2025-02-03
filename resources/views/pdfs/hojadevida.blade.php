@@ -841,32 +841,21 @@
 				<tr>
 					<th colspan="21">Relacione dos nombres de personas distintas a familiares o empleadores</th>
 				</tr>
-				<tr>
-					<td rowspan="2">1.-</td>
-					<td colspan="6">Nombre</td>
-					<td colspan="5">Ocupación</td>
-					<td colspan="5">Dirección</td>
-					<td colspan="4">Teléfono</td>
-				</tr>
-				<tr>
-					<td colspan="6"></td>
-					<td colspan="5"></td>
-					<td colspan="5"></td>
-					<td colspan="4"></td>
-				</tr>
-				<tr>
-					<td rowspan="2">2.-</td>
-					<td colspan="6">Nombre</td>
-					<td colspan="5">Ocupación</td>
-					<td colspan="5">Dirección</td>
-					<td colspan="4">Teléfono</td>
-				</tr>
-				<tr>
-					<td colspan="6"></td>
-					<td colspan="5"></td>
-					<td colspan="5"></td>
-					<td colspan="4"></td>
-				</tr>
+				@foreach($referencias_personales['referencias'] ?? [] as $index => $referencia)
+					<tr>
+						<td rowspan="2">{{ $index + 1 }}.-</td>
+						<td colspan="6">Nombre</td>
+						<td colspan="5">Ocupación</td>
+						<td colspan="5">Dirección</td>
+						<td colspan="4">Teléfono</td>
+					</tr>
+					<tr>
+						<td colspan="6"> {{$referencia['nombres'] ?? ''}}</td>
+						<td colspan="5"> {{$referencia['ocupacion'] ?? ''}}</td>
+						<td colspan="5"> {{$referencia['direccion'] ?? ''}}</td>
+						<td colspan="4"> {{$referencia['telefono'] ?? ''}}</td>
+					</tr>
+				@endforeach
 				<tr>
 					<th colspan="21">Nombre de un familiar que podamos contactar en caso de no localizarlo a usted directamente</th>
 				</tr>
@@ -878,10 +867,10 @@
 					<td colspan="4">Teléfono</td>
 				</tr>
 				<tr>
-					<td colspan="6"></td>
-					<td colspan="5"></td>
-					<td colspan="5"></td>
-					<td colspan="4"></td>
+					<td colspan="6">{{$referencias_personales['contactoEmergencia']['nombres'] ?? ''}}</td>
+					<td colspan="5">{{$referencias_personales['contactoEmergencia']['ocupacion'] ?? ''}}</td>
+					<td colspan="5">{{$referencias_personales['contactoEmergencia']['direccion'] ?? ''}}</td>
+					<td colspan="4">{{$referencias_personales['contactoEmergencia']['telefono'] ?? ''}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -892,7 +881,7 @@
 				</tr>
 				<tr>
 					<td>1.-</td>
-					<td colspan="19"></td>
+					<td colspan="19"> {{$referencias_personales['verificacionEntrevistador'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td>2.-</td>
@@ -906,51 +895,39 @@
 		</table>
 
 		<table>
-			<tbody>
-				<tr>
-					<td colspan="8" rowspan="3">Autorizo pedir información
-		de mi Hoja de Vida
-		sin ninguna restricción.</td>
-					<td colspan="2" rowspan="3"></td>
-					<td colspan="10">¡Importante!</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td colspan="10" rowspan="2">Este es un formato de distribución GRATUITA, puede buscarlo en la Web,
-		puede imprimir ó enviar este formato por correo electrónico sin restricciones.</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-				</tr>
-				<tr>
-					<td colspan="7">Nota importante</td>
-					<td colspan="7">Certificación</td>
-					<td colspan="6">Firma del solicitante</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td colspan="7" rowspan="4">Favor no llamar por teléfono, ni concurrir a
-		preguntar por el resultado de esta solicitud.
-		Nosotros le avisaremos, gracias.</td>
-					<td colspan="7" rowspan="4">Para todos los efectos legales, cerifico que
-		todas las respuestas e informaciones anotadas
-		por mi, en el presente formato son veraces.</td>
-					<td colspan="6" rowspan="3"></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-				</tr>
-				<tr>
-					<td colspan="6">C.C</td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+	<tbody>
+		<tr>
+			<td colspan="8" rowspan="2">Autorizo pedir información de mi Hoja de Vida sin
+ninguna restricción.</td>
+			<td colspan="2" rowspan="2">{{($referencias_personales['autorizacion'] ?? '') ? 'X' : ''}}</td>
+			<td colspan="11">¡Importante!</td>
+		</tr>
+		<tr>
+			<td colspan="11">Este es un formato de distribución GRATUITA, puede buscarlo en la Web,
+puede imprimir ó enviar este formato por correo electrónico sin restricciones.</td>
+		</tr>
+		<tr>
+			<th colspan="6">Nota importante</th>
+			<th colspan="6">Certificación</th>
+			<th colspan="9">Firma del solicitante</th>
+		</tr>
+		<tr>
+			<td colspan="6" rowspan="4">Favor no llamar por teléfono, ni concurrir a
+preguntar por el resultado de esta solicitud.
+Nosotros le avisaremos, gracias.</td>
+			<td colspan="6" rowspan="4">Para todos los efectos legales, certifico que todas las
+respuestas e informaciones anotadas por mi, en el
+presente formato son veraces.</td>
+			<td colspan="9" rowspan="3"></td>
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr>
+			<td colspan="9">C.C {{$referencias_personales['cc'] ?? ''}}</td>
+		</tr>
+
+	</tbody>
+</table>
 	</div>
 	
 	<div class="container">
