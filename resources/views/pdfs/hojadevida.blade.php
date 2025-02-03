@@ -78,6 +78,9 @@
 		$informacion_familiar = $record[0]->informacion_familiar ?? [];
 		$educacion_aptitudes = $record[0]->educacion_aptitudes ?? [];
 		$trayectoria_empresas = $record[0]->trayectoria_empresas ?? [];
+		$experiencia_laboral = $record[0]->experiencia_laboral ?? [];
+		$referencias_personales = $record[0]->referencias_personales ?? [];
+		$administracion_proceso_seleccion = $record[0]->administracion_proceso_seleccion ?? [];
 	@endphp
 
 	<div class="container">
@@ -710,6 +713,249 @@
 				</tr>
 			</tbody>
 		</table>
+	</div>
+
+	<hr>
+	
+	<div class="container">
+		<h3>VI. EXPERIENCIA LABORAL</h3>
+		<table>
+			<tbody>
+				@foreach($experiencia_laboral['secciones'] ?? [] as $seccion)
+				
+					<tr>
+						<td colspan="9">Nombre de la última o actual empresa</td>
+						<td colspan="7">Dirección</td>
+						<td colspan="4">Teléfono(s)</td>
+					</tr>
+					<tr>
+						<td colspan="9">{{$seccion['nombreEmpresa'] ?? ''}}</td>
+						<td colspan="7">{{$seccion['direccion'] ?? ''}}</td>
+						<td colspan="4">{{$seccion['telefono'] ?? ''}}</td>
+					</tr>
+					<tr>
+						<td colspan="5">Cargo</td>
+						<td colspan="7">Nombre de su jefe inmediato</td>
+						<td colspan="4">Fecha de ingreso</td>
+						<td colspan="4">Fecha de retiro</td>
+					</tr>
+					<tr>
+						<td colspan="5">{{$seccion['cargo'] ?? ''}}</td>
+						<td colspan="7">{{$seccion['jefeInmediato'] ?? ''}}</td>
+						<td colspan="4">{{$seccion['fechaIngreso'] ?? ''}}</td>
+						<td colspan="4">{{$seccion['fechaRetiro'] ?? ''}}</td>
+					</tr>
+					<tr>
+						<td colspan="4">Total tiempo servido</td>
+						<td colspan="4">Sueldo inicial</td>
+						<td colspan="4">Sueldo final o actual</td>
+						<td colspan="8">Cargo(s) desempeñado(s) por usted</td>
+					</tr>
+					<tr>
+						<td colspan="4">{{$seccion['tiempoServido'] ?? ''}}</td>
+						<td colspan="4">{{$seccion['sueldoInicial'] ?? ''}}</td>
+						<td colspan="4">{{$seccion['sueldoFinal'] ?? ''}}</td>
+						<td colspan="8">{{$seccion['cargoDesempeñado'] ?? ''}}</td>
+					</tr>
+					<tr>
+						<td colspan="20">Funciones realizadas</td>
+					</tr>
+					<tr>
+						<td colspan="20">{{$seccion['funcionesRealizadas'] ?? ''}}</td>
+					</tr>
+					
+					<tr>
+						<td colspan="20">Logros obtenidos</td>
+					</tr>
+					<tr>
+						<td colspan="20">{{$seccion['logrosObtenidos'] ?? ''}}</td>
+					</tr>
+					<tr>
+						<td colspan="3" rowspan="2">Tipo de contrato:</td>
+						<td colspan="2">Indefinido: {{($seccion['tipoContrato'] ?? '') == 'Indefinido' ? 'X' : ''}}</td>
+						<td colspan="4">¿Cuanto tiempo?</td>
+						<td colspan="4">Contrato directo con la empresa {{($seccion['tipoContrato'] ?? '') == 'Directo' ? 'X' : ''}}</td>
+						<td colspan="2" rowspan="2">Otro: {{($seccion['tipoContrato'] ?? '') == 'Otro' ? 'X' : ''}} </td>
+						<td colspan="5" rowspan="2">¿Cuál? {{$seccion['cual'] ?? ''}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Fijo: {{($seccion['tipoContrato'] ?? '') == 'Fijo' ? 'X' : ''}}</td>
+						<td colspan="4">{{$seccion['cuantoTiempo'] ?? ''}}</td>
+						<td colspan="4">Contrato por medio de agencia {{($seccion['tipoContrato'] ?? '') == 'Agencia' ? 'X' : ''}}</td>
+					</tr>
+					<tr>
+						<td colspan="11">Horario de trabajo: {{$seccion['horarioTrabajo'] ?? ''}}</td>
+						<td colspan="9">Jornada: {{$seccion['jornadaTrabajo'] ?? ''}}</td>
+					</tr>
+					<tr>
+						<td colspan="20">Motivo del retiro</td>
+					</tr>
+					<tr>
+						<td colspan="20">{{$seccion['motivoRetiro'] ?? ''}}</td>
+					</tr>
+					<tr>
+						<th colspan="9">Verificación (Espacio exclusivo para el entrevistador)</th>
+						<th colspan="11"> {{$seccion['verificacion'] ?? ''}}</th>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
+
+		<table>
+			<tbody>
+				<tr>
+					<th colspan="20">INFORMACIÓN DE SEGURIDAD SOCIAL (Relacione las entidades a las que actualmente esta afiliado)</th>
+				</tr>
+				<tr>
+					<td colspan="5">¿Entidad promotora de salud (EPS)?</td>
+					<td>Si {{($experiencia_laboral['entidadPromotora'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td>No {{($experiencia_laboral['entidadPromotora'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td colspan="5">¿Fondo de pensiones?</td>
+					<td>Si {{($experiencia_laboral['fondoPensiones'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td>No {{($experiencia_laboral['fondoPensiones'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td colspan="4">¿Fondo de cesantías?</td>
+					<td>Si {{($experiencia_laboral['fondoCesantias'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td>No {{($experiencia_laboral['fondoCesantias'] ?? '') == 'No' ? 'X' : ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="7">¿Cuál? {{$experiencia_laboral['cualEntidad'] ?? ''}}</td>
+					<td colspan="7">¿Cuál? {{$experiencia_laboral['cualFondo'] ?? ''}}</td>
+					<td colspan="6">¿Cuál? {{$experiencia_laboral['cualFondoCesantias'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="4">Fecha de afiliación {{$experiencia_laboral['fechaAfiliacion'] ?? ''}}</td>
+					<td colspan="3">Tipo: {{$experiencia_laboral['tipoAfiliado'] ?? ''}}</td>
+					<td colspan="7">Fecha de afiliación {{$experiencia_laboral['fechaAfiliacionFondo'] ?? ''}}</td>
+					<td colspan="6">Fecha de afiliación {{$experiencia_laboral['fechaAfiliacionCesantias'] ?? ''}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<hr>
+
+	<div class="container">
+		<h3>VII. REFERENCIAS PERSONALES</h3>
+		<table>
+			<tbody>
+				<tr>
+					<th colspan="21">Relacione dos nombres de personas distintas a familiares o empleadores</th>
+				</tr>
+				<tr>
+					<td rowspan="2">1.-</td>
+					<td colspan="6">Nombre</td>
+					<td colspan="5">Ocupación</td>
+					<td colspan="5">Dirección</td>
+					<td colspan="4">Teléfono</td>
+				</tr>
+				<tr>
+					<td colspan="6"></td>
+					<td colspan="5"></td>
+					<td colspan="5"></td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td rowspan="2">2.-</td>
+					<td colspan="6">Nombre</td>
+					<td colspan="5">Ocupación</td>
+					<td colspan="5">Dirección</td>
+					<td colspan="4">Teléfono</td>
+				</tr>
+				<tr>
+					<td colspan="6"></td>
+					<td colspan="5"></td>
+					<td colspan="5"></td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<th colspan="21">Nombre de un familiar que podamos contactar en caso de no localizarlo a usted directamente</th>
+				</tr>
+				<tr>
+					<td rowspan="2">3.-</td>
+					<td colspan="6">Nombre</td>
+					<td colspan="5">Ocupación</td>
+					<td colspan="5">Dirección</td>
+					<td colspan="4">Teléfono</td>
+				</tr>
+				<tr>
+					<td colspan="6"></td>
+					<td colspan="5"></td>
+					<td colspan="5"></td>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>
+		</table>
+		<table>
+			<tbody>
+				<tr>
+					<td colspan="20">Verificación (Espacio exclusivo para el entrevistador)</td>
+				</tr>
+				<tr>
+					<td>1.-</td>
+					<td colspan="19"></td>
+				</tr>
+				<tr>
+					<td>2.-</td>
+					<td colspan="19"></td>
+				</tr>
+				<tr>
+					<td>3.-</td>
+					<td colspan="19"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table>
+			<tbody>
+				<tr>
+					<td colspan="8" rowspan="3">Autorizo pedir información
+		de mi Hoja de Vida
+		sin ninguna restricción.</td>
+					<td colspan="2" rowspan="3"></td>
+					<td colspan="10">¡Importante!</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="10" rowspan="2">Este es un formato de distribución GRATUITA, puede buscarlo en la Web,
+		puede imprimir ó enviar este formato por correo electrónico sin restricciones.</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="7">Nota importante</td>
+					<td colspan="7">Certificación</td>
+					<td colspan="6">Firma del solicitante</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="7" rowspan="4">Favor no llamar por teléfono, ni concurrir a
+		preguntar por el resultado de esta solicitud.
+		Nosotros le avisaremos, gracias.</td>
+					<td colspan="7" rowspan="4">Para todos los efectos legales, cerifico que
+		todas las respuestas e informaciones anotadas
+		por mi, en el presente formato son veraces.</td>
+					<td colspan="6" rowspan="3"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="6">C.C</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="container">
+		<h3>VII. ADMINISTRACIÓN DE PROCESO DE SELECCIÓN</h3>
+		
 	</div>
 
 </body>
