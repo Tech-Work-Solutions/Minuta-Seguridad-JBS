@@ -626,7 +626,7 @@
           if (fecha_fin) params.fecha_fin = fecha_fin;
 
           const response = await axios.get(url, { params });
-          const turnos = response.data;
+          const turnos = response.data.filter((item) => item.tipo === 'TURNO');
 
           if (turnos.length > 0) {
             this.events = turnos.map(turno => ({
