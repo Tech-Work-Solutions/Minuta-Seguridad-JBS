@@ -45,7 +45,7 @@
 		td {
 			border: 1px solid #ddd;
 			border-radius: 5px;
-			padding: 2px;
+			padding: 0.5px;
 			font-size: 10px;
 		}
 
@@ -57,6 +57,10 @@
 
 		.pl {
 			padding-left: 8px
+		}
+
+		.txtCenter {
+			text-align: center;
 		}
 
 		.photo-upload {
@@ -932,7 +936,121 @@ presente formato son veraces.</td>
 	
 	<div class="container">
 		<h3>VII. ADMINISTRACIÓN DE PROCESO DE SELECCIÓN</h3>
-		
+		<table>
+			<tbody>
+				<tr>
+					<td colspan="2" rowspan="3" class="txtCenter">NOMBRE DEL ENTREVISTADOR</td>
+					<td colspan="2" rowspan="2" class="txtCenter">ENTREVISTA</td>
+					<td colspan="16" class="txtCenter">OBSERVACIONES DEL ASPIRANTE</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="txtCenter">Asistió a Entrevista</td>
+					<td colspan="14" rowspan="2" class="txtCenter">Hora de Llegada</td>
+				</tr>
+				<tr>
+					<td class="txtCenter">Día</td>
+					<td class="txtCenter">Hora</td>
+					<td colspan="1" class="txtCenter">Si</td>
+					<td colspan="1" class="txtCenter">No</td>
+				</tr>
+				@foreach($administracion_proceso_seleccion['asistencias'] ?? [] as $index => $asistencia)
+					<tr>
+						<td colspan="2">{{ $index + 1 }}.- {{$asistencia['nombres'] ?? ''}}</td>
+						<td >{{$asistencia['dia'] ?? ''}}</td>
+						<td>{{$asistencia['hora'] ?? ''}}</td>
+						<td colspan="1" class="txtCenter">{{($asistencia['asistio'] ?? '') == "Si" ? 'X' : ''}}</td>
+						<td colspan="1" class="txtCenter">{{($asistencia['asistio'] ?? '') == "No" ? 'X' : ''}}</td>
+						<td colspan="14">{{$asistencia['horaLlegada'] ?? ''}}</td>
+					</tr>
+				@endforeach
+				<tr>
+					<th colspan="20">ALGUNOS ASPECTOS IMPORTANTES PARA EL CARGO, R - Regular, B - Bien, MB - Muy Bien</th>
+				</tr>
+				<tr>
+					<td >Aspectos</td>
+					<td>Primer Entrevistador</td>
+					<td>Segundo Entrevistador</td>
+					<td >Aspectos</td>
+					<td>Primer Entrevistador</td>
+					<td>Segundo Entrevistador</td>
+					<td colspan="14">Otros aspectos</td>
+				</tr>
+				@foreach($administracion_proceso_seleccion['aspectos'] ?? [] as $index => $aspecto)
+					<tr>
+						<td >{{$aspecto['nombre'] ?? ''}}</td>
+						<td class="txtCenter">{{$aspecto['primerEntrevistador'] ?? ''}}</td>
+						<td class="txtCenter">{{$aspecto['segundoEntrevistador'] ?? ''}}</td>
+						<td>{{ ($aspecto['nombre2'] ?? '') == 'Otro' ? ($aspecto['nombreInputOtro'] ?? '') : ($aspecto['nombre2'] ?? '')}}</td>
+						<td class="txtCenter">{{$aspecto['primerEntrevistador2'] ?? ''}}</td>
+						<td class="txtCenter">{{$aspecto['segundoEntrevistador2'] ?? ''}}</td>
+						<td colspan="14"></td>
+					</tr>
+				
+				@endforeach
+
+				<tr>
+					<th colspan="20">CONCLUSIONES DE LA ENTREVISTA</th>
+				</tr>
+				<tr>
+					<td colspan="20">Primer entrevistador</td>
+				</tr>
+				<tr>
+					<td colspan="20">{{$administracion_proceso_seleccion['conclusionPrimerEntrevistador'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="20">Segundo entrevistador</td>
+				</tr>
+				<tr>
+					<td colspan="20">{{$administracion_proceso_seleccion['conclusionSegundoEntrevistador'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td rowspan="2">Candidato seleccionado definitivamante</td>
+					<td>Si</td>
+					<td>{{($administracion_proceso_seleccion['candidatoSeleccionado'] ?? '') == 'Si' ? 'X' :''}}</td>
+					<td >Contrátese a partir del</td>
+					<td colspan="8">Sueldo</td>
+				</tr>
+				<tr>
+					<td>No</td>
+					<td>{{($administracion_proceso_seleccion['candidatoSeleccionado'] ?? '') == 'No' ? 'X' :''}}</td>
+					<td>{{$administracion_proceso_seleccion['fechaContratacion'] ?? ''}}</td>
+					<td colspan="8">{{$administracion_proceso_seleccion['sueldo'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td rowspan="2">Candidato elegible próximamente</td>
+					<td>Si</td>
+					<td>{{($administracion_proceso_seleccion['candidatoProximo'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="4">Cargo</td>
+					<td colspan="6">Tipo de contrato</td>
+				</tr>
+				<tr>
+					<td>No</td>
+					<td>{{($administracion_proceso_seleccion['candidatoProximo'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td colspan="4">{{$administracion_proceso_seleccion['cargo'] ?? ''}}</td>
+					<td colspan="6">{{$administracion_proceso_seleccion['tipoContrato'] ?? ''}}</td>
+				</tr>
+				<tr>
+					<td colspan="3">Referencias verificadas por</td>
+					<td colspan="3">Primer entrevistador</td>
+					<td colspan="3">Segundo entrevistador</td>
+					<td colspan="11">Firma de quien autoriza contratación</td>
+				</tr>
+				<tr>
+					<td colspan="13" rowspan="2"></td>
+					<td></td>
+					<td colspan="4" rowspan="2"></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="3">{{$administracion_proceso_seleccion['verificadorReferencia'] ?? ''}}</td>
+					<td colspan="3">{{$administracion_proceso_seleccion['primerEntrevistador'] ?? ''}}</td>
+					<td colspan="3">{{$administracion_proceso_seleccion['segundoEntrevistador'] ?? ''}}</td>
+					<td colspan="11"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
 </body>
