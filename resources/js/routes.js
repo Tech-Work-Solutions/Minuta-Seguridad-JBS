@@ -18,6 +18,7 @@ import EditRecordVisitante from './pages/admin/dashboard/records/EditVisitante.v
 import ConfigPage from './pages/ConfigPage.vue'
 import Recurso404 from './pages/Recurso404.vue'
 import Hojadevida from './pages/admin/dashboard/recursosHumanos/Index.vue'
+import Permisos from './pages/admin/dashboard/gestionPermisos/gestionPermisos.vue'
 
 Vue.use(VueRouter)
  
@@ -154,6 +155,15 @@ const routes = [
               components: {
                 default: Dashboard,
                 MainView: Hojadevida
+              }
+            },
+            {
+              path: "/permisos",
+              name: "Permisos",
+              meta: { requiresAuth :true },
+              components: {
+                default: Dashboard,
+                MainView: Permisos
               }
             },
         ]
