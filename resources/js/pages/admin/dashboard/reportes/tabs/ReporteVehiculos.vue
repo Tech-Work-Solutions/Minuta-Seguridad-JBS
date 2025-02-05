@@ -347,7 +347,7 @@ export default {
       });
     },
     async getUsersGuardas() {
-      const url = `/api/getUsersGuardas${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `/?sede_id=${this.sede.id}` : ''}`;
+      const url = `/api/getUsersGuardas${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `?sede_id=${this.sede.id}` : ''}`;
       try {
         const guardas = await axios.get(url);
         this.guardas = guardas.data;
