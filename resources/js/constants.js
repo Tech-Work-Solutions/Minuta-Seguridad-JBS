@@ -14,6 +14,7 @@ export const ICONOS_MAP = {
     configuraciones: "fa-cogs",
     usuarios: "fa-users-cog",
     turnos: "fa-calendar-check",
+    permisos: "fa-calendar-plus",
 };
 
 export const OPCIONES_MENU_ADMIN = [
@@ -26,6 +27,7 @@ export const OPCIONES_MENU_ADMIN = [
     { label: "Hoja De Vida", route: "/hojadevida/", icon: "fa-paperclip" },
     { label: "Gestionar Hoja de vida", route: "/gestionhojadevida/", icon: "fa-paperclip" },
     { label: "Turnos", route: "/turnos/", icon: "fa-calendar-check" },
+    { label: "Permisos", route: "/permisos", icon: "fa-calendar-plus" },
 ];
 
 export const CATEGORIAS_LICENCIA = [{id:1,nombre:"A1"}, {id:2,nombre:"A2"}, {id:3,nombre:"B1"}, {id:4,nombre:"B2"}, {id:5,nombre:"B3"}, {id:6,nombre:"C1"}, {id:7,nombre:"C2"}, {id:8,nombre:"C3"}];
@@ -164,3 +166,6 @@ export const SECTIONS = [
         verificacion: '',
     }
 ]
+
+export const ESTADOS_PERMISO = [{ id: 'APROBADO', name: 'APROBADO' }, { id: 'PENDIENTE', name: 'PENDIENTE' }, { id: 'RECHAZADO', name: 'RECHAZADO' }];
+

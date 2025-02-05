@@ -20,6 +20,7 @@ import Recurso404 from './pages/Recurso404.vue'
 import Hojadevida from './pages/admin/dashboard/recursosHumanos/hojaDeVida/Index.vue'
 import RecursosHumanos from './pages/admin/dashboard/recursosHumanos/recursosHumanos.vue'
 import Turnos from './pages/admin/dashboard/turnos/GestionTurnos.vue'
+import Permisos from './pages/admin/dashboard/gestionPermisos/gestionPermisos.vue'
 
 Vue.use(VueRouter)
  
@@ -167,14 +168,22 @@ const routes = [
                 MainView: Hojadevida
               }
             },
-            {
-              
+            {              
               path: "/turnos",
               name: "Turnos",
               meta: { requiresAuth :true },
               components: {
                 default: Dashboard,
                 MainView: Turnos
+              }
+            },
+            {
+              path: "/permisos",
+              name: "Permisos",
+              meta: { requiresAuth :true },
+              components: {
+                default: Dashboard,
+                MainView: Permisos
               }
             },
         ]
