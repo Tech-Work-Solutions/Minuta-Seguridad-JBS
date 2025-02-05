@@ -266,29 +266,32 @@
                         max-width="-webkit-fill-available"
                         left
                         >
-                        <v-card color="grey lighten-4" min-width="300px" flat max-width="-webkit-fill-available">
-                            <v-toolbar 
-                            :color="selectedEvent.color" 
-                            dark
-                            >
-                            <v-btn icon @click="editEvent" v-if="esGuarda || gestionarPermiso">
-                                <v-icon>mdi-pencil</v-icon>
-                            </v-btn>
-                            <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                            <v-spacer></v-spacer>
-                            <v-btn icon @click="deleteEvent" v-if="esGuarda || gestionarPermiso">
-                                <v-icon>mdi-delete</v-icon>
-                            </v-btn>
-                            </v-toolbar>
-                            <v-card-text>
-                            <span v-html="`Estado solicitud: ${selectedEvent.estado}`"></span>
-                            </v-card-text>
-                            <v-card-actions>
-                            <v-btn text color="secondary" @click="selectedOpen = false">
-                                Cerrar
-                            </v-btn>
-                            </v-card-actions>
-                        </v-card>
+                            <v-card color="grey lighten-4" min-width="300px" flat max-width="-webkit-fill-available">
+                                <v-toolbar 
+                                :color="selectedEvent.color" 
+                                dark
+                                >
+                                    <v-btn icon @click="editEvent" v-if="esGuarda || gestionarPermiso">
+                                        <v-icon>mdi-pencil</v-icon>
+                                    </v-btn>
+                                    <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+                                    <v-spacer></v-spacer>
+                                    <v-btn icon @click="deleteEvent" v-if="esGuarda || gestionarPermiso">
+                                        <v-icon>mdi-delete</v-icon>
+                                    </v-btn>
+                                </v-toolbar>
+                                <v-card-text>
+                                    <span v-html="`Estado solicitud: ${selectedEvent.estado}`"></span>
+                                </v-card-text>
+                                <v-card-text v-if="!esGuarda">
+                                    <span v-html="`Usuario que solicita: ${getUserName(selectedEvent.user_id)}`"></span>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-btn text color="secondary" @click="selectedOpen = false">
+                                        Cerrar
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
                         </v-menu>
                     </v-sheet>
                     </v-col>
@@ -419,6 +422,10 @@
             } else {
                 this.addEvent();
             }
+        },
+        getUserName(userId) {
+            const user = this.users.find(user => user.id === userId);
+            return user ? user.name : 'Desconocido';
         },
   
         async handleSubmit() {
@@ -624,11 +631,10 @@
                 endDate: this.formatDateWithoutTime(this.selectedEvent.end),
                 startTime: new Date(this.selectedEvent.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
                 endTime: new Date(this.selectedEvent.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-                user_id: this.selectedEvent.user_id,  // Asegúrate de asignar el valor del evento
-                sede_id: this.selectedEvent.sede_id,  // Asegúrate de asignar el valor del evento
+                user_id: this.selectedEvent.user_id,
+                sede_id: this.selectedEvent.sede_id,
                 estado: this.selectedEvent.estado,
             };
-            
             await this.handleUserSelection(this.newEvent.user_id);
             this.isEditing = true;
             this.dialog = true;
