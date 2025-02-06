@@ -212,28 +212,6 @@
 
                       <v-time-picker v-model="newEvent.endTime" format="24hr" />
                     </v-menu>
-
-                    <v-menu
-                      v-model="colorMenu"
-                      :close-on-content-click="false"
-                      transition="slide-x-reverse-transition"
-                      min-width="auto"
-                      offset-y
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-bind="attrs"
-                          v-on="on"
-                          label="Color del turno"
-                          :value="newEvent.color"
-                          readonly
-                          append-icon="mdi-palette"
-                          :error-messages="!$v.newEvent.color.$pending && !$v.newEvent.color.$model && $v.newEvent.color.$dirty ? ['Seleccione un color'] : []"
-                        ></v-text-field>
-                      </template>
-
-                      <v-color-picker v-model="newEvent.color" hide-inputs></v-color-picker>
-                    </v-menu>
                   </v-card-text>
 
                   <v-card-actions>
@@ -550,13 +528,22 @@
           name: this.newEvent.name,
           start,
           end,
-          color: this.newEvent.color,
+          color: this.getRandomColor(),
           user_id: this.newEvent.user_id,
           sede_id: this.newEvent.sede_id,
         };
         this.events.push(newEvent);
         this.newEvents.push(newEvent);
         this.resetForm();
+      },
+
+      getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
       },
 
       resetForm() {
@@ -604,7 +591,7 @@
             name: this.newEvent.name,
             start,
             end,
-            color: this.newEvent.color,
+            color: this.getRandomColor(),
           };
 
           this.events.splice(index, 1, updatedEvent);
@@ -626,7 +613,7 @@
           if (fecha_fin) params.fecha_fin = fecha_fin;
 
           const response = await axios.get(url, { params });
-          const turnos = response.data;
+          const turnos = response.data.filter((item) => item.tipo === 'TURNO');
 
           if (turnos.length > 0) {
             this.events = turnos.map(turno => ({
@@ -716,7 +703,6 @@
           endTime: { required },
           user_id: { required },
           sede_id: { required },
-          color: { required },
         },
         formData: {
           fecha_inicial: { required },
