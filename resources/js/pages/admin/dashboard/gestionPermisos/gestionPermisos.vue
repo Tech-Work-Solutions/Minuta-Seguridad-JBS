@@ -217,28 +217,6 @@
             
                                     <v-time-picker v-model="newEvent.endTime" format="24hr" />
                                 </v-menu>
-            
-                                <v-menu
-                                    v-model="colorMenu"
-                                    :close-on-content-click="false"
-                                    transition="slide-x-reverse-transition"
-                                    min-width="auto"
-                                    offset-y
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        label="Color del permiso"
-                                        :value="newEvent.color"
-                                        readonly
-                                        append-icon="mdi-palette"
-                                        :error-messages="!$v.newEvent.color.$pending && !$v.newEvent.color.$model && $v.newEvent.color.$dirty ? ['Seleccione un color'] : []"
-                                    ></v-text-field>
-                                    </template>
-            
-                                    <v-color-picker v-model="newEvent.color" hide-inputs></v-color-picker>
-                                </v-menu>
                                 <v-select
                                     v-model="newEvent.estado"
                                     :items="estados"
@@ -281,10 +259,8 @@
                                     </v-btn>
                                 </v-toolbar>
                                 <v-card-text>
-                                    <span v-html="`Estado solicitud: ${selectedEvent.estado}`"></span>
-                                </v-card-text>
-                                <v-card-text v-if="!esGuarda">
-                                    <span v-html="`Usuario que solicita: ${getUserName(selectedEvent.user_id)}`"></span>
+                                  <div v-html="`Usuario que solicita: ${getUserName(selectedEvent.user_id)}`" v-if="!esGuarda"></div>
+                                  <div v-html="`Estado: ${selectedEvent.estado}`"></div>
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-btn text color="secondary" @click="selectedOpen = false">
@@ -403,8 +379,7 @@
                         this.$v.newEvent.startDate.$invalid ||
                         this.$v.newEvent.endDate.$invalid ||
                         this.$v.newEvent.startTime.$invalid ||
-                        this.$v.newEvent.endTime.$invalid ||
-                        this.$v.newEvent.color.$invalid;
+                        this.$v.newEvent.endTime.$invalid;
 
             if (!this.esGuarda) {
                 hasErrors = hasErrors ||
@@ -595,7 +570,7 @@
             name: this.newEvent.name,
             start,
             end,
-            color: this.newEvent.color,
+            color: this.esGuarda ? '#FFC107' : this.getEstadoColor(this.newEvent.estado),
             user_id: this.esGuarda ? this.userId : this.newEvent.user_id,
             sede_id: this.esGuarda ? this.sedeId : this.newEvent.sede_id,
             estado:  this.esGuarda ? 'PENDIENTE' : this.newEvent.estado
@@ -604,7 +579,20 @@
           this.newEvents.push(newEvent);
           this.resetForm();
         },
-  
+
+        getEstadoColor(estado) {
+          switch (estado) {
+            case "RECHAZADO":
+              return "red";
+            case "PENDIENTE":
+              return "#FFC107";
+            case "APROBADO":
+              return "green";
+            default:
+              return "gray";
+          }
+        },
+      
         resetForm() {
           this.dialog = false;
           this.isEditing = false;
@@ -654,7 +642,7 @@
               name: this.newEvent.name,
               start,
               end,
-              color: this.newEvent.color,
+              color: this.esGuarda ? '#FFC107' : getEstadoColor(this.newEvent.estado),
               estado: this.esGuarda ? 'PENDIENTE' : this.newEvent.estado
             };
 
@@ -774,7 +762,6 @@
             sede_id: {
                 required: () => !this.esGuarda
             },
-            color: { required },
             estado: {
                 required: () => !this.esGuarda
             },
