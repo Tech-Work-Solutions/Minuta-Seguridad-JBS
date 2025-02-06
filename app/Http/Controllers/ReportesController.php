@@ -357,9 +357,10 @@ class ReportesController extends Controller
             $rec->administracion_proceso_seleccion = json_decode($rec->administracion_proceso_seleccion, true) ?? [];
         }
         $fileService = new FileService();
-        $foto = $fileService->getArchivo('/hvs/fotos/'.$user_id, ['pdf']);
-        $firma = $fileService->getArchivo('/hvs/firmas/'.$user_id, ['pdf']);
-        $firmaAutorizador = $fileService->getArchivo('/hvs/firmasAutorizacion/'.$user_id, ['pdf']);
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $foto = $fileService->getArchivo('/hvs/fotos/'.$user_id, $extensionesImagenes);
+        $firma = $fileService->getArchivo('/hvs/firmas/'.$user_id, $extensionesImagenes);
+        $firmaAutorizador = $fileService->getArchivo('/hvs/firmasAutorizacion/'.$user_id, $extensionesImagenes);
 
         $dataReport = [
             'foto' => $foto,

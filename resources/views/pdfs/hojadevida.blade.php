@@ -72,6 +72,11 @@
 			cursor: pointer;
 			color: #007bff;
 		}
+
+		.div-img{
+			width: 100%;
+			text-align: center;
+		}
 	</style>
 </head>
 
@@ -115,46 +120,52 @@
 		<table>
 			<tbody>
 				<tr>
-					<td colspan="8">Apellido(s) del aspirante</td>
-					<td colspan="8">Nombre(s) del aspirante</td>
-					<td rowspan="8"></td>
-					<td colspan="5" rowspan="8"></td>
+					<td colspan="11">Apellido(s) del aspirante</td>
+					<td colspan="11">Nombre(s) del aspirante</td>
+					
+					<td  rowspan="8" style="width: 120px">
+						@if ($foto != "" || $foto != null)
+							<div class="div-img">
+								<img src="{{ asset($foto) }}" alt="-" width="100px">
+							</div>
+						@endif
+					</td>
 				</tr>
 				<tr>
-					<td colspan="8">{{$informacion_general['nombre'] ?? ''}}</td>
-					<td colspan="8">{{$informacion_general['apellido'] ?? ''}}</td>
+					<td colspan="11">{{$informacion_general['nombre'] ?? ''}}</td>
+					<td colspan="11">{{$informacion_general['apellido'] ?? ''}}</td>
 				</tr>
 				<tr>
-					<td colspan="10">Dirección domicilio / Barrio</td>
-					<td colspan="6">Ciudad</td>
+					<td colspan="13">Dirección domicilio / Barrio</td>
+					<td colspan="9">Ciudad</td>
 				</tr>
 				<tr>
-					<td colspan="10">{{$informacion_general['direccion'] ?? ''}}</td>
-					<td colspan="6">{{$informacion_general['ciudad'] ?? ''}}</td>
+					<td colspan="13">{{$informacion_general['direccion'] ?? ''}}</td>
+					<td colspan="9">{{$informacion_general['ciudad'] ?? ''}}</td>
 				</tr>
 				<tr>
-					<td colspan="8">Teléfono</td>
-					<td colspan="8">No. Celular</td>
+					<td colspan="11">Teléfono</td>
+					<td colspan="11">No. Celular</td>
 				</tr>
 				<tr>
-					<td colspan="8">{{$informacion_general['telefono'] ?? ''}}</td>
-					<td colspan="8">{{$informacion_general['celular'] ?? ''}}</td>
+					<td colspan="11">{{$informacion_general['telefono'] ?? ''}}</td>
+					<td colspan="11">{{$informacion_general['celular'] ?? ''}}</td>
 				</tr>
 				<tr>
-					<td colspan="8">Correo electrónico</td>
-					<td colspan="8">Nacionalidad</td>
+					<td colspan="11">Correo electrónico</td>
+					<td colspan="11">Nacionalidad</td>
 				</tr>
 				<tr>
-					<td colspan="8">{{$informacion_general['correo'] ?? ''}}</td>
-					<td colspan="8">{{$informacion_general['nacionalidad'] ?? ''}}</td>
+					<td colspan="11">{{$informacion_general['correo'] ?? ''}}</td>
+					<td colspan="11">{{$informacion_general['nacionalidad'] ?? ''}}</td>
 				</tr>
 				<tr>
-					<td colspan="10">Profesión, ocupación u oficio</td>
+					<td colspan="11">Profesión, ocupación u oficio</td>
 					<td colspan="6">(*) Estado civil</td>
 					<td colspan="6">Años de experiencia laboral</td>
 				</tr>
 				<tr>
-					<td colspan="10">{{$informacion_general['profesion'] ?? ''}}</td>
+					<td colspan="11">{{$informacion_general['profesion'] ?? ''}}</td>
 					<td colspan="6">{{$informacion_general['estadoCivil'] ?? ''}}</td>
 					<td colspan="6">{{$informacion_general['experiencia'] ?? ''}}</td>
 				</tr>
@@ -899,39 +910,37 @@
 		</table>
 
 		<table>
-	<tbody>
-		<tr>
-			<td colspan="8" rowspan="2">Autorizo pedir información de mi Hoja de Vida sin
-ninguna restricción.</td>
-			<td colspan="2" rowspan="2">{{($referencias_personales['autorizacion'] ?? '') ? 'X' : ''}}</td>
-			<td colspan="11">¡Importante!</td>
-		</tr>
-		<tr>
-			<td colspan="11">Este es un formato de distribución GRATUITA, puede buscarlo en la Web,
-puede imprimir ó enviar este formato por correo electrónico sin restricciones.</td>
-		</tr>
-		<tr>
-			<th colspan="6">Nota importante</th>
-			<th colspan="6">Certificación</th>
-			<th colspan="9">Firma del solicitante</th>
-		</tr>
-		<tr>
-			<td colspan="6" rowspan="4">Favor no llamar por teléfono, ni concurrir a
-preguntar por el resultado de esta solicitud.
-Nosotros le avisaremos, gracias.</td>
-			<td colspan="6" rowspan="4">Para todos los efectos legales, certifico que todas las
-respuestas e informaciones anotadas por mi, en el
-presente formato son veraces.</td>
-			<td colspan="9" rowspan="3"></td>
-		</tr>
-		<tr></tr>
-		<tr></tr>
-		<tr>
-			<td colspan="9">C.C {{$referencias_personales['cc'] ?? ''}}</td>
-		</tr>
+			<tbody>
+				<tr>
+					<td colspan="8" rowspan="2">Autorizo pedir información de mi Hoja de Vida sin ninguna restricción.</td>
+					<td colspan="2" rowspan="2">{{($referencias_personales['autorizacion'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="11">¡Importante!</td>
+				</tr>
+				<tr>
+					<td colspan="11">Este es un formato de distribución GRATUITA, puede buscarlo en la Web, puede imprimir ó enviar este formato por correo electrónico sin restricciones.</td>
+				</tr>
+				<tr>
+					<th colspan="6">Nota importante</th>
+					<th colspan="6">Certificación</th>
+					<th colspan="9">Firma del solicitante</th>
+				</tr>
+				<tr>
+					<td colspan="6" rowspan="4">Favor no llamar por teléfono, ni concurrir a
+		preguntar por el resultado de esta solicitud.
+		Nosotros le avisaremos, gracias.</td>
+					<td colspan="6" rowspan="4">Para todos los efectos legales, certifico que todas las
+		respuestas e informaciones anotadas por mi, en el
+		presente formato son veraces.</td>
+					<td colspan="9" rowspan="3"></td>
+				</tr>
+				<tr></tr>
+				<tr></tr>
+				<tr>
+					<td colspan="9">C.C {{$referencias_personales['cc'] ?? ''}}</td>
+				</tr>
 
-	</tbody>
-</table>
+			</tbody>
+		</table>
 	</div>
 	
 	<div class="container">
