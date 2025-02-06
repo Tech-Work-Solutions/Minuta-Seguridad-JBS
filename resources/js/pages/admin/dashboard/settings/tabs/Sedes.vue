@@ -18,6 +18,7 @@
                     :options="clients"
                     placeholder="Seleccione una opción"
                     @change="onChange"
+                    :disabled="rol !== 'ADMINISTRADOR' && !editar"
                     class="z-50"
                     >
                     </t-rich-select>
@@ -39,6 +40,7 @@
                     <input 
                         type="text" 
                         v-model="formData.nombre"
+                        :disabled="rol !== 'ADMINISTRADOR' && !editar"
                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                   </div>
                   <p class="text-red-500 text-sm" v-if="submited && !$v.formData.nombre.required">Ingrese el nombre de la sede</p>
@@ -60,6 +62,7 @@
                     <input 
                         type="text" 
                         v-model="formData.direccion"
+                        :disabled="rol !== 'ADMINISTRADOR' && !editar"
                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                   </div>
                 </div>
@@ -79,18 +82,27 @@
                     <input 
                         type="number" 
                         v-model="formData.telefono"
+                        :disabled="rol !== 'ADMINISTRADOR' && !editar"
                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                   </div>
                 </div>
               </div>              
             </div>
-            <div class="flex mb-4">
+            <div class="flex mb-4" v-if="rol === 'ADMINISTRADOR' && !editar">
               <button 
                   class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
                   type="button"
                   @click="registrarSede">
                   <p v-if="!spiner">Guardar</p>
                   <p v-else><em class="fas fa-spinner fa-pulse"></em> Guardando...</p>
+              </button>
+            </div>
+            <div class="flex mb-4 mt-5" v-if="editar">
+              <button
+                class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button" @click="registrarSede">
+                <p v-if="!spiner">Actualizar</p>
+                <p v-else><em class="fas fa-spinner fa-pulse"></em> Actualizando...</p>
               </button>
             </div>
           </form>
@@ -103,6 +115,7 @@
               <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                   <h3
                     class="font-semibold text-lg text-white mb-2"
+                    v-if="rol === 'ADMINISTRADOR'"
                   >
                     Sedes registradas
                   </h3>
@@ -110,58 +123,66 @@
                     type="text" 
                     placeholder="Buscar..."
                     v-model="search"
+                    v-if="rol === 'ADMINISTRADOR'"
                     class="px-2 py-2 placeholder-gray-400 text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
               </div>
             </div>
           </div>
           <div class="block w-full overflow-x-auto mb-12">
-            <!-- Projects table -->
             <table class="items-center w-full bg-gray-100 border-collapse">
               <thead>
                 <tr class="bg-gray-100 text-left">
                     <th
-                    class="px-4 text-center text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
-                    >
-                      #
-                    </th>
-                    <th
-                    class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
+                    class="px-3 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                     >
                       Puesto
                     </th>
                     <th
-                    class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
+                    class="px-3 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                     >
                       Direccion
                     </th>
                     <th
-                    class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
+                    class="px-3 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold "
                     >
                       Sede
+                    </th>
+                    <th
+                      class="px-3 text-blue-600 text-center border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold " v-if="rol === 'ADMINISTRADOR'">
+                      Acciones
                     </th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="bg-gray-100 text-left" v-for="(sede, index) in searchSede" :key="sede.id">
+                <tr class="bg-gray-100 text-left" v-for="(sede, index) in searchSede" :key="sede.id">                  
                   <td
-                    class="px-4 text-center text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
-                    >
-                    {{ index+1 }}
-                  </td>
-                  <td
-                    class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
+                    class="px-3 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
                     >
                     {{ sede.nombre ? sede.nombre.toUpperCase() : '' }}
                   </td>
                   <td
-                    class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
+                    class="px-3 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
                     >
                     {{ sede.direccion ? sede.direccion.toUpperCase() : '' }}
                   </td>
                   <td
-                    class="px-4 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
+                    class="px-3 text-gray-700 border-gray-300 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap"
                     >
                     {{ sede.client ? sede.client.toUpperCase() : '' }}
+                  </td>
+                  <td 
+                    class="px-3 text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
+                    <div class="flex flex-wrap justify-center"  v-if="rol === 'ADMINISTRADOR'">
+                      <button 
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center disabled:opacity-50"
+                        @click="editarSede(sede.id, index)">
+                        <i class="fas fa-pen"></i>
+                      </button>
+                      <div @click="openModal(sede)" title="Eliminar registro"
+                        class="text-center cursor-pointer w-10 h-10 shadow-lg rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center">
+                        <i class="fas fa-trash font-bold text-white"></i>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -169,12 +190,14 @@
          </div>
         </div>
       </div>
+      <Modal :modal="modal" @closeModal="closeModal" @closeModalSuccess="closeModalSuccess" :datos="datosModal" />
     </div>
   </template>
   
   <script>
   import { required, numeric } from 'vuelidate/lib/validators';
   import { TRichSelect } from 'vue-tailwind/dist/components';
+  import Modal from '../../components/ModalDelete.vue';
 
   export default {
     data() {
@@ -190,14 +213,40 @@
         sedes: [],
         clients: [],
         search: '',
-        spiner: false
+        spiner: false,
+        rol: localStorage.getItem('rol'),
+        sede:'',
+        editar: false,
+        userId: null,
+        sedeNombre: '',
+        idSede: '',
+        modal: false,
+        datosModal: {},
+        rol: '',
+        puesto: '',
+        puestoNombre: '',
       };
     },
   
     mounted() {
       this.spiner = false;
-      this.getSedes(); 
-      this.getClients();
+      
+      this.puesto = JSON.parse(localStorage.getItem('puesto'));
+      this.puestoNombre = this.puesto.nombre.toUpperCase();
+      const userObject = localStorage.getItem("user");
+      this.rol = localStorage.getItem('rol');
+      if (userObject) {
+          const user = JSON.parse(userObject);
+          this.userId = user.id;
+      }
+      if(this.puestoNombre === 'MASTER'){
+        this.getSedes(); 
+        this.getClients();
+      } else {
+        this.getSedesByClient(this.puesto.id);
+        this.getClients(this.puesto.id);
+        this.formData.cliente_id = this.puesto.id
+      }    
     },
 
     created() {
@@ -207,16 +256,14 @@
     methods: {
       handleTabActivated(tabName) {
         if (tabName === 'sedes') {
-          this.getClients();
+          if(this.puestoNombre === 'MASTER'){
+            this.getClients();
+          }      
         }
       },
       registrarSede(){
           this.spiner = true;
-          if(this.formData.estado === true){
-            this.formData.estado = 'ACTIVO';
-          } else {
-            this.formData.estado = 'INACTIVO';
-          }  
+          this.formData.estado = 'ACTIVO';
           this.validarDatos()         
       },
       validarDatos(){
@@ -226,7 +273,11 @@
             this.spiner = false;
             return false;
           }
-          this.register();          
+          if(this.editar) {
+            this.actualizarSede();
+          } else {
+            this.register();
+          }         
       }, 
   
       async register(){  
@@ -249,28 +300,109 @@
         });
       },
   
-      getSedes(){
-        axios.get('/api/getSedes').then((response) => {
-          this.sedes = response.data.filter((item) => item.estado === 'ACTIVO');
-        
-        }).catch((errors) => {
-            console.log(errors.response.data.errors)
-        });
+      async getSedes(id= null){
+        try {
+          const response = await axios.get('/api/getSedes', {
+              params: id ? { id } : {},
+          });
+
+          this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
+        } catch (error) {
+            console.error('Error al obtener las sedes:', error);
+            this.$toast.error('No se pudieron cargar las sedes. Inténtalo de nuevo.');
+        }
+      },
+      
+      async getClients(id = null){
+        try {
+            const response = await axios.get('/api/getClients', {
+                params: id ? { id } : {}
+            });
+            this.clients = response.data.filter((item) => item.estado === 'ACTIVO');
+            this.clients.forEach((item) => {
+              item.text = item.nombre.toUpperCase();
+            });
+        } catch (errors) {
+            console.log(errors.response?.data?.errors || errors);
+        }
       },
 
-      async getClients(){
-         await axios.get('/api/getClients').then((response) => {
-          this.clients = response.data.filter((item) => item.estado === 'ACTIVO');
-          this.clients.forEach((item) => {
-            item.text = item.nombre.toUpperCase();
-          }); 
-            
-         }).catch((errors) => {
-            console.log(errors.response.data.errors)
-         });
+      async getSedesByClient(idClient = null){
+        const id = {'client_id': idClient};
+        const response = await axios.get('/api/getSedesByClient', { params: id });        
+        this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');               
+        this.sedes.forEach((sede) => {
+          sede.text = sede.nombre.toUpperCase();
+        });
       },
       onChange() {
          const client = this.clients.find((d) => d.id === this.formData.cliente_id);
+      },
+      editarSede(idSede, index) {
+        this.editar = true;
+        this.idSede = idSede;        
+        this.formData.direccion = this.sedes[index].direccion;
+        this.formData.nombre = this.sedes[index].nombre;
+        this.formData.telefono = this.sedes[index].telefono;
+        this.formData.cliente_id = this.sedes[index].cliente_id;   
+      },
+      openModal(sede) {
+        this.datosModal = {
+          id: sede.id,
+          url: '/api/deleteSede',
+          title: 'Eliminar registro',
+          message: '¿Está seguro de eliminar la sede: ' + sede.nombre + '?'
+        }
+        this.modal = true;
+      },
+      closeModal(value) {
+        this.modal = value
+      },
+      closeModalSuccess(value) {
+        if(this.sedeNombre === 'MASTER'){
+          this.getSedes();
+        } else {
+          this.getSedes(this.sede.id);
+        } 
+        this.modal = value;
+        this.$toaster.success('Se eliminó correctamente la sede seleccionada');
+      },
+      async actualizarSede () {
+        try {
+          const data = {         
+              nombre: this.formData.nombre,
+              telefono: this.formData.telefono,
+              estado: this.formData.estado,
+              direccion: this.formData.direccion,
+              cliente_id: this.formData.cliente_id,
+              estado: 'ACTIVO'
+          };
+          if(this.rol === 'ADMINISTRADOR') {
+            await axios.put(`/api/updateSede/${this.idSede}`, data);
+          } else {
+            await axios.put(`/api/updateSede/${this.sede.id}`, data);
+          }
+          this.spiner = false;
+          this.submited = false;        
+          this.editar = false;
+          this.formData.telefono = this.formData.nombre = this.formData.direccion = '';
+          this.formData.estado = false;
+          this.formData.cliente_id = null;
+          if(this.puestoNombre === 'MASTER'){
+            this.getSedes(); 
+            this.getClients();
+          } else {
+            this.getSedesByClient(this.puesto.id);
+          } 
+          this.$toaster.success('Registro Actualizado con exito.');
+        } catch (errors) {
+          this.spiner = false;
+          if (errors.response.data.errors && errors.response.data.errors.nit) {
+            this.$toaster.error(errors.response.data.errors.nit[0]);
+          } else {
+            this.$toaster.error('Algo salio mal.');
+          }
+        }
       },
     },
 
@@ -301,6 +433,6 @@
             return sedes;
         }
     },
-    components: { TRichSelect }
+    components: { TRichSelect, Modal }
   }
   </script>

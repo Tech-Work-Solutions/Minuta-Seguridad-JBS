@@ -21,6 +21,7 @@ use App\Http\Controllers\OpcionesFormularioController;
 use App\Http\Controllers\UsersSedeController;
 use App\Http\Controllers\HojaVidaController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -109,6 +110,8 @@ Route::get('getClients', [ClientsController::class, 'getClients']);
 Route::post('registerSede', [SedesController::class, 'registerSede']);
 Route::get('getSedes', [SedesController::class, 'getSedes']);
 Route::get('getSedesByClient', [SedesController::class, 'getSedesByClient']);
+Route::post('deleteSede', [SedesController::class, 'deleteSede']);
+Route::put('updateSede/{id}', [SedesController::class, 'updateSede']);
 
 Route::post('registerOpcionMenu', [OpcionesMenuController::class, 'registerOpcionMenu']);
 Route::get('getOpcionesMenu', [OpcionesMenuController::class, 'getOpcionesMenu']);

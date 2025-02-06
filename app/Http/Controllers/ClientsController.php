@@ -46,7 +46,14 @@ class ClientsController extends Controller
         return response()->json(["msg" => "Registro exitoso", "res" => $client]); 
     }
 
-    public function getClients(Request $request){
-        return Cliente::orderBy('nombre')->get();
+    public function getClients(Request $request)
+    {
+        $query = Cliente::orderBy('nombre');
+
+        if ($request->has('id')) {
+            $query->where('id', $request->id);
+        }
+
+        return $query->get();
     }
 }
