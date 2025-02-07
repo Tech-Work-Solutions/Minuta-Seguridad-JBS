@@ -9,7 +9,7 @@
 	<title>Pdf</title>
 	<style>
 		body {
-			font-family: Arial, sans-serif;
+			font-family: Arial, Helvetica, sans-serif;
 			background-color: #f4f4f4;
 			margin: 0;
 			padding: 1px;
@@ -29,7 +29,7 @@
 			text-align: center;
 			background: #007bff;
 			color: white;
-			padding: 1px;
+			padding: 0.5px;
 			border-radius: 5px;
 			margin-top: 0.2em;
 			margin-bottom: 0.2em;
@@ -45,7 +45,7 @@
 		td {
 			border: 1px solid #ddd;
 			border-radius: 5px;
-			padding: 0.5px;
+			padding: 1.5px;
 			font-size: 10px;
 		}
 
@@ -73,9 +73,13 @@
 			color: #007bff;
 		}
 
-		.div-img{
+		.div-img {
 			width: 100%;
 			text-align: center;
+		}
+
+		.page-break {
+			page-break-after: always;
 		}
 	</style>
 </head>
@@ -182,20 +186,20 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="4">Cedula de ciudadanía</td>
-					<td>{{$informacion_general['tipoCedula'] && $informacion_general['tipoCedula'] == 'Ciudadanía' ? 'X': ''}}</td>
+					<td colspan="4" >Cédula de ciudadanía</td>
+					<td class="txtCenter">{{$informacion_general['tipoCedula'] && $informacion_general['tipoCedula'] == 'Ciudadanía' ? 'X': ''}}</td>
 					<td colspan="5">N° {{$informacion_general['cedula'] ?? ''}}</td>
 					<td colspan="5">(**) Libreta militar Nº {{$informacion_general['libreta'] ?? ''}}</td>
 					<td colspan="4">Primera clase</td>
-					<td>{{($informacion_general['claseLibreta'] ?? '') == 'Primera' ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($informacion_general['claseLibreta'] ?? '') == 'Primera' ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">Extranjería</td>
-					<td>{{$informacion_general['tipoCedula'] && $informacion_general['tipoCedula'] == 'Extranjería' ? 'X': ''}}</td>
+					<td class="txtCenter">{{$informacion_general['tipoCedula'] && $informacion_general['tipoCedula'] == 'Extranjería' ? 'X': ''}}</td>
 					<td colspan="5">Expedida en: {{$informacion_general['expedidaEn'] ?? ''}}</td>
 					<td colspan="5">Distrito Nº {{$informacion_general['distrito'] ?? ''}}</td>
 					<td colspan="4">Segunda clase</td>
-					<td>{{($informacion_general['claseLibreta'] ?? '') == 'Segunda' ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($informacion_general['claseLibreta'] ?? '') == 'Segunda' ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="7">Tarjeta profesional Nº</td>
@@ -205,8 +209,8 @@
 				</tr>
 				<tr>
 					<td colspan="7"> {{$informacion_general['tarjetaProfesional'] ?? ''}}</td>
-					<td colspan="2">Si {{($informacion_general['vehiculo'] ?? '') == 'Si' ? 'X': ''}} </td>
-					<td colspan="2">No {{($informacion_general['vehiculo'] ?? '') == 'No' ? 'X': ''}}</td>
+					<td colspan="2" class="txtCenter">Si {{($informacion_general['vehiculo'] ?? '') == 'Si' ? 'X': ''}} </td>
+					<td colspan="2" class="txtCenter">No {{($informacion_general['vehiculo'] ?? '') == 'No' ? 'X': ''}}</td>
 					<td colspan="5">{{$informacion_general['licencia'] ?? ''}}</td>
 					@php
 						$selectedCategorias = $informacion_general['selectedCategorias'] ?? [];
@@ -231,8 +235,8 @@
 					<td colspan="7">Tipo de Contrato</td>
 				</tr>
 				<tr>
-					<td colspan="2">Si {{($informacion_personal['trabajandoActualmente'] ?? '')  == 'Si' ? 'X' : ''}}</td>
-					<td colspan="2">No {{($informacion_personal['trabajandoActualmente'] ?? '')  == 'no' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">Si {{($informacion_personal['trabajandoActualmente'] ?? '')  == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">No {{($informacion_personal['trabajandoActualmente'] ?? '')  == 'no' ? 'X' : ''}}</td>
 					<td colspan="7">{{$informacion_personal['empresa'] ?? ''}}</td>
 					<td colspan="4">Independiente {{($informacion_personal['estadoLaboral'] ?? '') == 'independiente' ? 'X' : ''}}</td>
 					<td colspan="7">{{$informacion_personal['tipoContrato'] ?? ''}}</td>
@@ -248,27 +252,27 @@
 					<td colspan="5">Nombre {{$informacion_personal['nombreRecomienda'] ?? ''}}</td>
 				</tr>
 				<tr>
-					<td colspan="2">Si {{($informacion_personal['trabajoEnLaEmpresa'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td colspan="2">No {{($informacion_personal['trabajoEnLaEmpresa'] ?? '') == 'no' ? 'X' : ''}}</td>
-					<td colspan="2">Si {{($informacion_personal['solicitoEnLaEmpresa'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td colspan="2">No {{($informacion_personal['solicitoEnLaEmpresa'] ?? '') == 'no' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">Si {{($informacion_personal['trabajoEnLaEmpresa'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">No {{($informacion_personal['trabajoEnLaEmpresa'] ?? '') == 'no' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">Si {{($informacion_personal['solicitoEnLaEmpresa'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">No {{($informacion_personal['solicitoEnLaEmpresa'] ?? '') == 'no' ? 'X' : ''}}</td>
 					<td>D {{$informacion_personal['dia'] ?? ''}}</td>
 					<td>M {{$informacion_personal['mes'] ?? ''}}</td>
 					<td colspan="3">A {{$informacion_personal['anio'] ?? ''}}</td>
-					<td colspan="2">Si {{($informacion_personal['recomendado'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td colspan="2">No {{($informacion_personal['recomendado'] ?? '') == 'no' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">Si {{($informacion_personal['recomendado'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">No {{($informacion_personal['recomendado'] ?? '') == 'no' ? 'X' : ''}}</td>
 					<td colspan="5">Dependencia {{$informacion_personal['dependenciaRecomienda'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4" rowspan="2">¿Tiene parientes
 						que trabajan en
 						esta empresa?</td>
-					<td>Si {{($informacion_personal['tieneParientes'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td class="txtCenter">Si {{($informacion_personal['tieneParientes'] ?? '') == 'Si' ? 'X' : ''}}</td>
 					<td colspan="9">Nombre {{$informacion_personal['nombrePariente'] ?? ''}}</td>
 					<td colspan="8">¿Cómo tuvo conocimiento de la existencia de la vacante?</td>
 				</tr>
 				<tr>
-					<td>No {{($informacion_personal['tieneParientes'] ?? '') == 'no' ? 'X' : ''}}</td>
+					<td class="txtCenter">No {{($informacion_personal['tieneParientes'] ?? '') == 'no' ? 'X' : ''}}</td>
 					<td colspan="9">Dependencia {{$informacion_personal['dependenciaPariente'] ?? ''}}</td>
 					<td colspan="3">motivo: {{$informacion_personal['fuenteVacante'] ?? ''}} </td>
 					<td colspan="5">¿Cuál? {{$informacion_personal['otroMedio'] ?? ''}}</td>
@@ -278,12 +282,12 @@
 					<td colspan="8">¿En qué ciudades o regiones del país ha trabajado?</td>
 					<td colspan="6" rowspan="2">¿Aceptaría trabajar en una ciudad o
 						sitio distinto al inicialmente contratado?</td>
-					<td colspan="2">Si {{($informacion_personal['disponibleParaReubicacion'] ?? '') == "Si" ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">Si {{($informacion_personal['disponibleParaReubicacion'] ?? '') == "Si" ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="6">{{$informacion_personal['residenciaPrincipal'] ?? ''}}</td>
 					<td colspan="8">{{$informacion_personal['zonasDeTrabajo'] ?? ''}}</td>
-					<td colspan="2">No {{($informacion_personal['disponibleParaReubicacion'] ?? '') == "no" ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">No {{($informacion_personal['disponibleParaReubicacion'] ?? '') == "no" ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="2">Vive en casa:</td>
@@ -302,12 +306,12 @@
 				<tr>
 					<td colspan="3" rowspan="2">¿Actualmente tiene algún
 						ingreso adicional?</td>
-					<td>Si {{($informacion_personal['ingresoAdicional'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td class="txtCenter">Si {{($informacion_personal['ingresoAdicional'] ?? '') == 'Si' ? 'X' : ''}}</td>
 					<td colspan="11">Descríbalo e indique su valor mensual</td>
 					<td colspan="7">¿Cuánto suman sus obligaciones económicas mensuales?</td>
 				</tr>
 				<tr>
-					<td>No {{($informacion_personal['ingresoAdicional'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td class="txtCenter">No {{($informacion_personal['ingresoAdicional'] ?? '') == 'No' ? 'X' : ''}}</td>
 					<td colspan="11">{{$informacion_personal['detalleIngresos'] ?? ''}}</td>
 					<td colspan="7">{{$informacion_personal['totalObligaciones'] ?? ''}}</td>
 				</tr>
@@ -335,8 +339,8 @@
 						actividades deportivas, culturales, sociales, etc.?</td>
 				</tr>
 				<tr>
-					<td colspan="2">Si {{($informacion_personal['tuvoReconocimientos'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td colspan="2">No {{($informacion_personal['tuvoReconocimientos'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">Si {{($informacion_personal['tuvoReconocimientos'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">No {{($informacion_personal['tuvoReconocimientos'] ?? '') == 'No' ? 'X' : ''}}</td>
 					<td colspan="2">¿Cuál(es)?</td>
 					<td colspan="16">{{$informacion_personal['reconocimientos'] ?? ''}}</td>
 				</tr>
@@ -344,8 +348,8 @@
 					<td colspan="22">¿Pertenece a algún tipo de asociación comunitaria, deportiva, cultural, etc.?</td>
 				</tr>
 				<tr>
-					<td colspan="2">Si {{($informacion_personal['perteneceAsociaciones'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td colspan="2">No {{($informacion_personal['perteneceAsociaciones'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">Si {{($informacion_personal['perteneceAsociaciones'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td colspan="2" class="txtCenter">No {{($informacion_personal['perteneceAsociaciones'] ?? '') == 'No' ? 'X' : ''}}</td>
 					<td colspan="2">¿Cuál(es)?</td>
 					<td colspan="16">{{$informacion_personal['asociaciones'] ?? ''}}</td>
 				</tr>
@@ -373,7 +377,7 @@
 		</table>
 	</div>
 
-	<hr>
+	<div class="page-break"></div>
 
 	<div class="container">
 		<h3>III. INFORMACION FAMILIAR</h3>
@@ -402,8 +406,7 @@
 					<td colspan="4">{{$informacion_familiar['ciudad'] ?? ''}}</td>
 				</tr>
 				<tr>
-					<td colspan="6" rowspan="2">Nº de personas que dependen
-		económicamente del solicitante: {{$informacion_familiar['numPersonas'] ?? ''}}</td>
+					<td colspan="6" rowspan="2">Nº de personas que dependen económicamente del solicitante: {{$informacion_familiar['numPersonas'] ?? ''}}</td>
 					<td colspan="9">Parentesco</td>
 					<td colspan="5">Edades</td>
 				</tr>
@@ -445,44 +448,44 @@
 		<table>
 			<tbody>
 				<tr>
-					<td colspan="4">ESTUDIOS</td>
-					<td colspan="3">AÑO DE FINALIZACION</td>
-					<td colspan="2">AÑOS CURSADOS</td>
-					<td colspan="5">TITULO OBTENIDO</td>
-					<td colspan="6">NOMBRE DE LA INSTITUCION</td>
-					<td colspan="3">CIUDAD</td>
+					<td colspan="4" class="txtCenter">ESTUDIOS</td>
+					<td colspan="3" class="txtCenter">AÑO DE FINALIZACION</td>
+					<td colspan="2" class="txtCenter">AÑOS CURSADOS</td>
+					<td colspan="5" class="txtCenter">TITULO OBTENIDO</td>
+					<td colspan="6" class="txtCenter">NOMBRE DE LA INSTITUCION</td>
+					<td colspan="3" class="txtCenter">CIUDAD</td>
 				</tr>
 				<tr>
 					<td colspan="4">Primaria</td>
-					<td colspan="3">{{$educacion_aptitudes['primariaAnoFinalizacion'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['primariaAnosCursados'] ?? ''}}</td>
-					<td colspan="5">{{$educacion_aptitudes['primariaTitulo'] ?? ''}}</td>
-					<td colspan="6">{{$educacion_aptitudes['primariaInstitucion'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['primariaCiudad'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['primariaAnoFinalizacion'] ?? ''}}</td>
+					<td colspan="2" class="txtCenter">{{$educacion_aptitudes['primariaAnosCursados'] ?? ''}}</td>
+					<td colspan="5" class="txtCenter">{{$educacion_aptitudes['primariaTitulo'] ?? ''}}</td>
+					<td colspan="6" class="txtCenter">{{$educacion_aptitudes['primariaInstitucion'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['primariaCiudad'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">Bachillerato: {{$educacion_aptitudes['bachilleratoSelect'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['bachilleratoAnoFinalizacion'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['bachilleratoAnosCursados'] ?? ''}}</td>
-					<td colspan="5">{{$educacion_aptitudes['bachilleratoTitulo'] ?? ''}}</td>
-					<td colspan="6">{{$educacion_aptitudes['bachilleratoInstitucion'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['bachilleratoCiudad'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['bachilleratoAnoFinalizacion'] ?? ''}}</td>
+					<td colspan="2" class="txtCenter">{{$educacion_aptitudes['bachilleratoAnosCursados'] ?? ''}}</td>
+					<td colspan="5" class="txtCenter">{{$educacion_aptitudes['bachilleratoTitulo'] ?? ''}}</td>
+					<td colspan="6" class="txtCenter">{{$educacion_aptitudes['bachilleratoInstitucion'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['bachilleratoCiudad'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">Educación Superior: {{$educacion_aptitudes['educacionSuperiorSelect'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['educacionSuperiorAnoFinalizacion'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['educacionSuperiorAnosCursados'] ?? ''}}</td>
-					<td colspan="5">{{$educacion_aptitudes['educacionSuperiorTitulo'] ?? ''}}</td>
-					<td colspan="6">{{$educacion_aptitudes['educacionSuperiorInstitucion'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['educacionSuperiorCiudad'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['educacionSuperiorAnoFinalizacion'] ?? ''}}</td>
+					<td colspan="2" class="txtCenter">{{$educacion_aptitudes['educacionSuperiorAnosCursados'] ?? ''}}</td>
+					<td colspan="5" class="txtCenter">{{$educacion_aptitudes['educacionSuperiorTitulo'] ?? ''}}</td>
+					<td colspan="6" class="txtCenter">{{$educacion_aptitudes['educacionSuperiorInstitucion'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['educacionSuperiorCiudad'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">Postgrados</td>
-					<td colspan="3">{{$educacion_aptitudes['postgradosAnoFinalizacion'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['postgradosAnosCursados'] ?? ''}}</td>
-					<td colspan="5">{{$educacion_aptitudes['postgradosTitulo'] ?? ''}}</td>
-					<td colspan="6">{{$educacion_aptitudes['postgradosInstitucion'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['postgradosCiudad'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['postgradosAnoFinalizacion'] ?? ''}}</td>
+					<td colspan="2" class="txtCenter">{{$educacion_aptitudes['postgradosAnosCursados'] ?? ''}}</td>
+					<td colspan="5" class="txtCenter">{{$educacion_aptitudes['postgradosTitulo'] ?? ''}}</td>
+					<td colspan="6" class="txtCenter">{{$educacion_aptitudes['postgradosInstitucion'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['postgradosCiudad'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4" rowspan="2">Otros: cursos, diplomados, seminarios</td>
@@ -521,37 +524,37 @@
 				<tr>
 					<td colspan="5">Sistemas {{($educacion_aptitudes['sistemas'] ?? '') == 'Si' ? 'Si: X No' : 'Si: No: X'}}</td>
 					<td colspan="6">1. {{$educacion_aptitudes['programa1'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['nivelP1'] ?? ''}}</td>
+					<td colspan="2" class="txtCenter">{{$educacion_aptitudes['nivelP1'] ?? ''}}</td>
 					<td colspan="7">3. {{$educacion_aptitudes['programa3'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['nivelP3'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['nivelP3'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="5">¿Programa(s) que maneja?</td>
-					<td colspan="6">2. {{$educacion_aptitudes['programa2'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['nivelP2'] ?? ''}}</td>
+					<td colspan="6" >2. {{$educacion_aptitudes['programa2'] ?? ''}}</td>
+					<td colspan="2" class="txtCenter">{{$educacion_aptitudes['nivelP2'] ?? ''}}</td>
 					<td colspan="7">4. {{$educacion_aptitudes['programa4'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['nivelP4'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['nivelP4'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="5">Idiomas</td>
-					<td colspan="11"></td>
+					<td colspan="10"></td>
 					<td colspan="2">Lectura</td>
-					<td colspan="2">Escritura</td>
+					<td colspan="3">Escritura</td>
 					<td colspan="3">Hablado</td>
 				</tr>
 				<tr>
 					<td colspan="5">{{($educacion_aptitudes['idiomas'] ?? '') == 'Si' ? 'Si: X No' : 'Si: No: X'}}</td>
-					<td colspan="11">1. {{$educacion_aptitudes['idioma1'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['lecturaI1'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['escrituraI1'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['habladoI1'] ?? ''}}</td>
+					<td colspan="10">1. {{$educacion_aptitudes['idioma1'] ?? ''}}</td>
+					<td colspan="2" class="txtCenter">{{$educacion_aptitudes['lecturaI1'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['escrituraI1'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['habladoI1'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="5">¿Qué idiomas(s) conoce?</td>
-					<td colspan="11">2. {{$educacion_aptitudes['idioma2'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['lecturaI2'] ?? ''}}</td>
-					<td colspan="2">{{$educacion_aptitudes['escrituraI2'] ?? ''}}</td>
-					<td colspan="3">{{$educacion_aptitudes['habladoI2'] ?? ''}}</td>
+					<td colspan="10">2. {{$educacion_aptitudes['idioma2'] ?? ''}}</td>
+					<td colspan="2" class="txtCenter">{{$educacion_aptitudes['lecturaI2'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['escrituraI2'] ?? ''}}</td>
+					<td colspan="3" class="txtCenter">{{$educacion_aptitudes['habladoI2'] ?? ''}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -559,7 +562,7 @@
 	
 	<div class="container">
 		<h3>V. TRAYECTORIA POR EMPRESAS</h3>
-		<table>
+		<table style="font-size: 8.7px !important">
 			<tbody>
 				<tr>
 					<th colspan="15">EMPRESAS POR ACTIVIDADES ECONOMICAS (*)</th>
@@ -567,160 +570,160 @@
 				</tr>
 				<tr>
 					<td colspan="4">AGRICULTURA</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['agricultura'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['agricultura'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4" class="pl">Metalurgia</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['metalurgia'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['metalurgia'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">FINANCIERO</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['financiero'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['financiero'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Administración</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['administracion'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['administracion'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="3">Personal</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['personal'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['personal'] ?? '') ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">GANADERIA / AVICULTURA</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['ganaderia'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['ganaderia'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4" class="pl">Maquinaria</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['maquinaria'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['maquinaria'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">INMOBILIARIO</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['inmobiliario'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['inmobiliario'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Auditoría</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['auditoria'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['auditoria'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="3">Sistemas</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['sistemas'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['sistemas'] ?? '') ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">MINERIA</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['mineria'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['mineria'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4" class="pl">Automotores</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['automotores'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['automotores'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">INFORMATICO</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['informatico'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['informatico'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Bodega</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['bodega'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['bodega'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="3">Tesorería</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['tesoreria'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['tesoreria'] ?? '') ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">HIDROCARBUROS</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['hidrocarburos'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['hidrocarburos'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4" class="pl">Muebles</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['muebles'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['muebles'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">SALUD</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['salud'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['salud'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Compras</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['compras'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['compras'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="3">OTRAS (¿Cuáles?)</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['otrasAreas'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['otrasAreas'] ?? '') ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4">INDUSTRIA</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['industria'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['industria'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4" class="pl">Reciclaje</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['reciclaje'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['reciclaje'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">EDUCACION</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['educacion'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['educacion'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Contabilidad</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['contabilidad'] ?? '') ? 'X' : ''}}</td>
-					<td colspan="4">{{$trayectoria_empresas['areasEmpresa']['areasOpcionales'] ?? ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['contabilidad'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4" class="txtCenter">{{$trayectoria_empresas['areasEmpresa']['areasOpcionales'] ?? ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Alimentos y Bebidas</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['alimentos'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['alimentos'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">OTROS (¿Cuáles?)</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['otrasEmpresas'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['otrasEmpresas'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">SEGUROS</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['seguros'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['seguros'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Costos</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['costos'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['costos'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Tabaco</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['tabaco'] ?? '') ? 'X' : ''}}</td>
-					<td colspan="4">{{$trayectoria_empresas['actividadesEconomicas']['empresasOpcionales'] ?? ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['tabaco'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="4" class="txtCenter">{{$trayectoria_empresas['actividadesEconomicas']['empresasOpcionales'] ?? ''}}</td>
 					<td></td>
 					<td colspan="4">TURISMO / RECREACION</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['turismo'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['turismo'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Crédito y Cobranzas</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['credito'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['credito'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Textiles y Confecciones</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['textiles'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['textiles'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 					<td></td>
 					<td colspan="4">OTROS SERVICIOS</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['otrosServicios'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['otrosServicios'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Diseño</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['diseño'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['diseño'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>					
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Cuero y Calzado</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['cuero'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['cuero'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">ELECTRICIDAD / GAS / AGUA</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['electricidad'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['electricidad'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Asesorías Profesionales</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['asesorias'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['asesorias'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Finanzas</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['finanzas'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['finanzas'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Papel y Cartón</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['papel'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['papel'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">CONSTRUCCION</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['construccion'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['construccion'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Servicios Temporales</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['servicios'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['servicios'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Gerencia General</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['gerencia'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['gerencia'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Editorial y Artes Gráficas</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['editorial'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['editorial'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">COMERCIO</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['comercio'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['comercio'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Seguridad Vigilancia</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['seguridad'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['seguridad'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Impuestos</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['impuestos'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['impuestos'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Químico y Farmacéutico</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['quimico'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['quimico'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">HOTELES Y RESTAURANTES</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['hoteles'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['hoteles'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">OTROS SECTORES</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['otrosSectores'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['otrosSectores'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">Mercadeo</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['mercadeo'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['mercadeo'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Caucho y Plástico</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['caucho'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['caucho'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">TRANSPORTE Y ALMACENAMIENTO</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['transporte'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['transporte'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">{{$trayectoria_empresas['actividadesEconomicas']['sectoresOpcionales'] ?? ''}}</td>
 					<td></td>
 					<td colspan="4">Producción</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['produccion'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['produccion'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td colspan="4" class="pl">Vidrio, Cerámica y Cemento</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['vidrio'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['vidrio'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4">COMUNICACIONES</td>
-					<td>{{($trayectoria_empresas['actividadesEconomicas']['comunicaciones'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['actividadesEconomicas']['comunicaciones'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 					<td></td>
 					<td colspan="4">Publicidad</td>
-					<td>{{($trayectoria_empresas['areasEmpresa']['publicidad'] ?? '') ? 'X' : ''}}</td>
+					<td class="txtCenter">{{($trayectoria_empresas['areasEmpresa']['publicidad'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
@@ -730,7 +733,7 @@
 		</table>
 	</div>
 
-	<hr>
+	<div class="page-break"></div>
 	
 	<div class="container">
 		<h3>VI. EXPERIENCIA LABORAL</h3>
@@ -823,14 +826,14 @@
 				</tr>
 				<tr>
 					<td colspan="5">¿Entidad promotora de salud (EPS)?</td>
-					<td>Si {{($experiencia_laboral['entidadPromotora'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td>No {{($experiencia_laboral['entidadPromotora'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td class="txtCenter">Si {{($experiencia_laboral['entidadPromotora'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td class="txtCenter">No {{($experiencia_laboral['entidadPromotora'] ?? '') == 'No' ? 'X' : ''}}</td>
 					<td colspan="5">¿Fondo de pensiones?</td>
-					<td>Si {{($experiencia_laboral['fondoPensiones'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td>No {{($experiencia_laboral['fondoPensiones'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td class="txtCenter">Si {{($experiencia_laboral['fondoPensiones'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td class="txtCenter">No {{($experiencia_laboral['fondoPensiones'] ?? '') == 'No' ? 'X' : ''}}</td>
 					<td colspan="4">¿Fondo de cesantías?</td>
-					<td>Si {{($experiencia_laboral['fondoCesantias'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td>No {{($experiencia_laboral['fondoCesantias'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td class="txtCenter">Si {{($experiencia_laboral['fondoCesantias'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td class="txtCenter">No {{($experiencia_laboral['fondoCesantias'] ?? '') == 'No' ? 'X' : ''}}</td>
 				</tr>
 				<tr>
 					<td colspan="7">¿Cuál? {{$experiencia_laboral['cualEntidad'] ?? ''}}</td>
@@ -846,7 +849,7 @@
 			</tbody>
 		</table>
 	</div>
-	<hr>
+	<div class="page-break"></div>
 
 	<div class="container">
 		<h3>VII. REFERENCIAS PERSONALES</h3>
@@ -912,7 +915,7 @@
 			<tbody>
 				<tr>
 					<td colspan="8" rowspan="2">Autorizo pedir información de mi Hoja de Vida sin ninguna restricción.</td>
-					<td colspan="2" rowspan="2">{{($referencias_personales['autorizacion'] ?? '') ? 'X' : ''}}</td>
+					<td colspan="2" rowspan="2" class="txtCenter">{{($referencias_personales['autorizacion'] ?? '') ? 'X' : ''}}</td>
 					<td colspan="11">¡Importante!</td>
 				</tr>
 				<tr>
@@ -921,15 +924,11 @@
 				<tr>
 					<th colspan="6">Nota importante</th>
 					<th colspan="6">Certificación</th>
-					<th colspan="9">Firma del solicitante {{$firma}} </th>
+					<th colspan="9">Firma del solicitante</th>
 				</tr>
 				<tr>
-					<td colspan="6" rowspan="4">Favor no llamar por teléfono, ni concurrir a
-		preguntar por el resultado de esta solicitud.
-		Nosotros le avisaremos, gracias.</td>
-					<td colspan="6" rowspan="4">Para todos los efectos legales, certifico que todas las
-		respuestas e informaciones anotadas por mi, en el
-		presente formato son veraces.</td>
+					<td colspan="6" rowspan="4">Favor no llamar por teléfono, ni concurrir a preguntar por el resultado de esta solicitud. Nosotros le avisaremos, gracias.</td>
+					<td colspan="6" rowspan="4">Para todos los efectos legales, certifico que todas las respuestas e informaciones anotadas por mi, en el presente formato son veraces.</td>
 					<td colspan="9" rowspan="3">
 					
 						@if ($firma != "" || $firma != null)
@@ -972,21 +971,21 @@
 				@foreach($administracion_proceso_seleccion['asistencias'] ?? [] as $index => $asistencia)
 					<tr>
 						<td colspan="2">{{ $index + 1 }}.- {{$asistencia['nombres'] ?? ''}}</td>
-						<td >{{$asistencia['dia'] ?? ''}}</td>
-						<td>{{$asistencia['hora'] ?? ''}}</td>
+						<td class="txtCenter">{{$asistencia['dia'] ?? ''}}</td>
+						<td class="txtCenter">{{$asistencia['hora'] ?? ''}}</td>
 						<td colspan="1" class="txtCenter">{{($asistencia['asistio'] ?? '') == "Si" ? 'X' : ''}}</td>
 						<td colspan="1" class="txtCenter">{{($asistencia['asistio'] ?? '') == "No" ? 'X' : ''}}</td>
-						<td colspan="14">{{$asistencia['horaLlegada'] ?? ''}}</td>
+						<td colspan="14" class="txtCenter">{{$asistencia['horaLlegada'] ?? ''}}</td>
 					</tr>
 				@endforeach
 				<tr>
 					<th colspan="20">ALGUNOS ASPECTOS IMPORTANTES PARA EL CARGO, R - Regular, B - Bien, MB - Muy Bien</th>
 				</tr>
 				<tr>
-					<td >Aspectos</td>
+					<td>Aspectos</td>
 					<td>Primer Entrevistador</td>
 					<td>Segundo Entrevistador</td>
-					<td >Aspectos</td>
+					<td>Aspectos</td>
 					<td>Primer Entrevistador</td>
 					<td>Segundo Entrevistador</td>
 					<td colspan="14">Otros aspectos</td>
@@ -1027,8 +1026,8 @@
 				</tr>
 				<tr>
 					<td colspan="9" rowspan="2">Candidato seleccionado definitivamente</td>
-					<td rowspan="2">Si: {{($administracion_proceso_seleccion['candidatoSeleccionado'] ?? '') == 'Si' ? 'X' :''}}</td>
-					<td rowspan="2">No: {{($administracion_proceso_seleccion['candidatoSeleccionado'] ?? '') == 'No' ? 'X' :''}}</td>
+					<td rowspan="2" class="txtCenter">Si: {{($administracion_proceso_seleccion['candidatoSeleccionado'] ?? '') == 'Si' ? 'X' :''}}</td>
+					<td rowspan="2" class="txtCenter">No: {{($administracion_proceso_seleccion['candidatoSeleccionado'] ?? '') == 'No' ? 'X' :''}}</td>
 					<td colspan="5">Contrátese a partir del</td>
 					<td colspan="5">Sueldo</td>
 				</tr>
@@ -1038,8 +1037,8 @@
 				</tr>
 				<tr>
 					<td colspan="9" rowspan="2">Candidato elegible próximamente</td>
-					<td rowspan="2">Si: {{($administracion_proceso_seleccion['candidatoProximo'] ?? '') == 'Si' ? 'X' : ''}}</td>
-					<td rowspan="2">No: {{($administracion_proceso_seleccion['candidatoProximo'] ?? '') == 'No' ? 'X' : ''}}</td>
+					<td rowspan="2" class="txtCenter">Si: {{($administracion_proceso_seleccion['candidatoProximo'] ?? '') == 'Si' ? 'X' : ''}}</td>
+					<td rowspan="2" class="txtCenter">No: {{($administracion_proceso_seleccion['candidatoProximo'] ?? '') == 'No' ? 'X' : ''}}</td>
 					<td colspan="5">Cargo</td>
 					<td colspan="5">Tipo de contrato</td>
 				</tr>
