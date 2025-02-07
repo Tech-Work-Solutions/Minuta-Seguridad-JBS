@@ -846,7 +846,6 @@
 			</tbody>
 		</table>
 	</div>
-	
 	<hr>
 
 	<div class="container">
@@ -922,7 +921,7 @@
 				<tr>
 					<th colspan="6">Nota importante</th>
 					<th colspan="6">Certificación</th>
-					<th colspan="9">Firma del solicitante</th>
+					<th colspan="9">Firma del solicitante {{$firma}} </th>
 				</tr>
 				<tr>
 					<td colspan="6" rowspan="4">Favor no llamar por teléfono, ni concurrir a
@@ -931,7 +930,15 @@
 					<td colspan="6" rowspan="4">Para todos los efectos legales, certifico que todas las
 		respuestas e informaciones anotadas por mi, en el
 		presente formato son veraces.</td>
-					<td colspan="9" rowspan="3"></td>
+					<td colspan="9" rowspan="3">
+					
+						@if ($firma != "" || $firma != null)
+							<div class="div-img" height="100px">
+								<img src="{{ asset($firma) }}" alt="firma_imagen"  style="width: 200px;">
+							</div>
+						@endif
+					
+					</td>
 				</tr>
 				<tr></tr>
 				<tr></tr>
@@ -1049,7 +1056,13 @@
 				</tr>
 				<tr>
 					<td colspan="12" rowspan="2"></td>
-					<td colspan="9" rowspan="2">aui va la firma</td>
+					<td colspan="9" rowspan="2">
+						@if ($firmaAutorizador != "" || $firmaAutorizador != null)
+							<div class="div-img" height="100px">
+								<img src="{{ asset($firmaAutorizador) }}" alt="firma_autorizador_imagen"  style="width: 200px;">
+							</div>
+						@endif
+					</td>
 				</tr>
 				<tr>
 					
