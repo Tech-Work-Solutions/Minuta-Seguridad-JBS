@@ -19,7 +19,7 @@
                     placeholder="Seleccione una opción"
                     @change="onChange"
                     :disabled="rol !== 'ADMINISTRADOR' && !editar"
-                    class="z-50"
+                    class="z-10"
                     >
                     </t-rich-select>
                 </div>
@@ -214,7 +214,6 @@
         clients: [],
         search: '',
         spiner: false,
-        rol: localStorage.getItem('rol'),
         sede:'',
         editar: false,
         userId: null,
@@ -228,25 +227,29 @@
       };
     },
   
-    mounted() {
+    async mounted() {
       this.spiner = false;
-      
-      this.puesto = JSON.parse(localStorage.getItem('puesto'));
-      this.puestoNombre = this.puesto.nombre.toUpperCase();
-      const userObject = localStorage.getItem("user");
-      this.rol = localStorage.getItem('rol');
-      if (userObject) {
-          const user = JSON.parse(userObject);
-          this.userId = user.id;
-      }
-      if(this.puestoNombre === 'MASTER'){
-        this.getSedes(); 
-        this.getClients();
-      } else {
-        this.getSedesByClient(this.puesto.id);
-        this.getClients(this.puesto.id);
-        this.formData.cliente_id = this.puesto.id
-      }    
+      try {
+        this.puesto = JSON.parse(localStorage.getItem('puesto'));
+        this.puestoNombre = this.puesto.nombre.toUpperCase();
+        const userObject = localStorage.getItem("user");
+        this.rol = localStorage.getItem('rol');
+        if (userObject) {
+            const user = JSON.parse(userObject);
+            this.userId = user.id;
+        }
+        if(this.puestoNombre === 'MASTER'){
+          await this.getSedes(); 
+          await this.getClients();
+        } else {
+          await this.getSedesByClient(this.puesto.id);
+          await this.getClients(this.puesto.id);
+          this.formData.cliente_id = this.puesto.id
+        }
+      } catch (error) {
+        console.error('Error en mounted:', error);
+        this.$toaster.error('Ocurrió un error al cargar la información.');
+      } 
     },
 
     created() {
@@ -280,27 +283,33 @@
           }         
       }, 
   
-      async register(){  
-        await axios.post('/api/registerSede', this.formData).then((response) => { 
+      async register() {
+        try {
+          await axios.post('/api/registerSede', this.formData);
           this.spiner = false;
           this.submited = false;
           this.formData.nombre = this.formData.direccion = this.formData.telefono = '';
           this.formData.estado = true;
           this.clients= [],
           this.$toaster.success('Registro creado con exito.');
-          this.getSedes();
-          this.getClients();
-        }).catch((errors) => {
-          this.spiner = false;
-          if (errors.response.data.errors && errors.response.data.errors.nombre){
-            this.$toaster.error(errors.response.data.errors.nombre[0]);
-          }else{
-            this.$toaster.error('Algo salio mal.');
+          if(this.puestoNombre === 'MASTER'){
+            await this.getSedes();
+            await this.getClients();
+          } else {
+            await this.getSedesByClient(this.puesto.id);
           }
-        });
+        }
+        catch(errors) {
+          this.spiner = false;
+          if (errors.response?.data?.errors?.nombre) {
+            this.$toaster.error(errors.response.data.errors.nombre[0]);
+          } else {
+            this.$toaster.error('Algo salió mal.');
+          }
+        };
       },
   
-      async getSedes(id= null){
+      async getSedes(id= null) {
         try {
           const response = await axios.get('/api/getSedes', {
               params: id ? { id } : {},
@@ -358,11 +367,12 @@
       closeModal(value) {
         this.modal = value
       },
-      closeModalSuccess(value) {
+      async closeModalSuccess(value) {
         if(this.sedeNombre === 'MASTER'){
-          this.getSedes();
+          await this.getSedes();
+          await this.getClients();
         } else {
-          this.getSedes(this.sede.id);
+          await this.getSedesByClient(this.puesto.id);
         } 
         this.modal = value;
         this.$toaster.success('Se eliminó correctamente la sede seleccionada');
@@ -389,10 +399,10 @@
           this.formData.estado = false;
           this.formData.cliente_id = null;
           if(this.puestoNombre === 'MASTER'){
-            this.getSedes(); 
-            this.getClients();
+            await this.getSedes();
+            await this.getClients();
           } else {
-            this.getSedesByClient(this.puesto.id);
+            await this.getSedesByClient(this.puesto.id);
           } 
           this.$toaster.success('Registro Actualizado con exito.');
         } catch (errors) {
