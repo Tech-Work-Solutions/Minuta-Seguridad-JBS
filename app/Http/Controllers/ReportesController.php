@@ -343,6 +343,11 @@ class ReportesController extends Controller
     public function pdf_hojaDeVida(Request $request) {
         $user_id = $request->query('user_id');
         $record = Hoja_de_vida::where('user_id', $user_id)->get();
+
+        if ($record->isEmpty()) {
+            return response()->json(['error' => 'Hoja de vida vacia'], 404);
+        }
+
         $foto = '';
         $firma = '';
         $firmaAutorizador = '';
@@ -372,7 +377,6 @@ class ReportesController extends Controller
 
         $pdf = PDF::loadView('pdfs.hojadevida', $dataReport)->setPaper('letter', 'portrait');
         return $pdf->download('HojaDeVida.pdf');
-        //return response()->json(["msg" => "Registro exitoso", "data" => $record]);
     }
 
 
