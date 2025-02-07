@@ -138,8 +138,8 @@
                             <option value="">Seleccione...</option>
                             <option value="Indefinido">Indefinido</option>
                             <option value="Fijo">Fijo</option>
-                            <option value="directo">Contrato directo con la empresa</option>
-                            <option value="agencia">Contrato por medio de agencia</option>
+                            <option value="Directo">Contrato directo con la empresa</option>
+                            <option value="Agencia">Contrato por medio de agencia</option>
                             <option value="Otro">Otro</option>
                         </select>
                         <p class="text-red-500 text-sm"
@@ -176,9 +176,9 @@
                         <select v-model="section.horarioTrabajo"
                             class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none">
                             <option value="">Seleccione...</option>
-                            <option value="completo">Tiempo completo</option>
-                            <option value="medioTiempo">½ Tiempo</option>
-                            <option value="horas">Por horas</option>
+                            <option value="Completo">Tiempo completo</option>
+                            <option value="Medio Tiempo">½ Tiempo</option>
+                            <option value="Horas">Por horas</option>
                         </select>
                         <p class="text-red-500 text-sm"
                             v-if="submited && !$v.formData.secciones.$each[index].horarioTrabajo.required">

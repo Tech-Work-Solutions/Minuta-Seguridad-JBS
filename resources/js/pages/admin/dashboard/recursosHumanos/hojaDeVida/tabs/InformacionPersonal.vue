@@ -581,7 +581,6 @@ export default {
         return {
             formData: {
                 casaPropia: "",
-                fuenteVacante: "",
                 trabajandoActualmente: "",
                 estadoLaboral: "",
                 empresa: "",
@@ -747,7 +746,7 @@ export default {
                     tieneParientes: this.formData.tieneParientes,
                     nombrePariente: this.formData.nombrePariente,
                     dependenciaPariente: this.formData.dependenciaPariente,
-                    fuenteVacante: this.formData.fuenteVacante,
+                    otroMedio: this.formData.otroMedio,
                     residenciaPrincipal: this.formData.residenciaPrincipal,
                     zonasDeTrabajo: this.formData.zonasDeTrabajo,
                     disponibleParaReubicacion: this.formData.disponibleParaReubicacion,

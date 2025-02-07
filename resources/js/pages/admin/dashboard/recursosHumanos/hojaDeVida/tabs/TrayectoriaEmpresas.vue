@@ -332,7 +332,7 @@ export default {
         hasSubchecksEmpty(formData) {
             const { industria, otrosServicios, ...rest } = formData.actividadesEconomicas;
             const subActividades = [
-                'alimentos', 'tabaco', 'textiles', 'cuerocalzado',
+                'alimentos', 'tabaco', 'textiles', 'cuero',
                 'papel', 'editorial', 'quimico', 'caucho',
                 'vidrio', 'metalurgia', 'maquinaria', 'automotores',
                 'muebles', 'reciclaje'

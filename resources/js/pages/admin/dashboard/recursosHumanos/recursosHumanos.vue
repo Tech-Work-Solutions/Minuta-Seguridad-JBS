@@ -83,6 +83,11 @@
                                     <i class="fas fa-trash font-bold text-white"></i>
                                 </div>
 
+                                <div @click="generarPdf(user.id)" title="Generar HV"
+                                    class="text-center inline-flex cursor-pointer items-center justify-center w-10 h-10 shadow-lg rounded-full bg-green-500 hover:bg-green-600 ease-linear transition-all duration-150">
+                                    <i class="fas fa-building font-bold text-white"></i>
+                                </div>
+
                             </div>
                         </td>
                     </tr>
@@ -129,7 +134,30 @@ export default {
             }
             this.modal = true;
         },
-
+        generarPdf(id) {
+            fetch(`/api/pdf_hojaDeVida?user_id=${id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error('Hoja de vida no encontrada.');
+                        }
+                        throw new Error('Error al generar el PDF.');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'HojaDeVida.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(error => {
+                    this.$toaster.error(error.message);
+                });
+        },
         closeModal(value) {
             this.modal = value
         },
