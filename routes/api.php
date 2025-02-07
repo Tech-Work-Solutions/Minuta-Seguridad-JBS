@@ -22,6 +22,7 @@ use App\Http\Controllers\UsersSedeController;
 use App\Http\Controllers\HojaVidaController;
 use App\Http\Controllers\CalendarioController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -113,6 +114,8 @@ Route::post('/deleteClient', [ClientsController::class, 'deleteClient']);
 Route::post('registerSede', [SedesController::class, 'registerSede']);
 Route::get('getSedes', [SedesController::class, 'getSedes']);
 Route::get('getSedesByClient', [SedesController::class, 'getSedesByClient']);
+Route::post('deleteSede', [SedesController::class, 'deleteSede']);
+Route::put('updateSede/{id}', [SedesController::class, 'updateSede']);
 
 Route::post('registerOpcionMenu', [OpcionesMenuController::class, 'registerOpcionMenu']);
 Route::get('getOpcionesMenu', [OpcionesMenuController::class, 'getOpcionesMenu']);
