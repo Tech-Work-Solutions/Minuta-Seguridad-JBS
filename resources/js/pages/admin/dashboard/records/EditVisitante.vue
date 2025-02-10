@@ -171,7 +171,7 @@
                            Observaciones:
                         </label>
                         <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                           <textarea rows="3" class="w-full p-2 border border-1 border-gray-300 rounded-md"
+                           <textarea rows="3" class="w-full p-2 border border-1 border-gray-300 rounded-md bg-white"
                               v-model="formData.observaciones"></textarea>
                         </div>
                      </div>

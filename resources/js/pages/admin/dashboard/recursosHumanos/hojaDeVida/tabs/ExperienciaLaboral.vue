@@ -8,28 +8,36 @@
                 class="mb-8 p-6 border border-gray-300 rounded-lg bg-gray-50">
                 <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
                     <div class="sm:col-span-6">
-                        <label class="block text-sm font-medium text-gray-600">Nombre de la última o actual
-                            empresa</label>
-                        <input v-model="section.nombreEmpresa" type="text"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
+                        <label class="block text-sm font-medium text-gray-600">Nombre de la última o actual empresa</label>
+                        <input 
+                            v-model="section.nombreEmpresa" 
+                            type="text" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
                     </div>
 
                     <div class="sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-600">Dirección</label>
-                        <input v-model="section.direccion" type="text" placeholder="Dirección"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].direccion.required">
+                        <input 
+                            v-model="section.direccion" 
+                            type="text" 
+                            placeholder="Dirección"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].direccion.required">
                             Ingrese la dirección
                         </p>
                     </div>
 
                     <div class="sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-600">Teléfono(s)</label>
-                        <input v-model="section.telefono" type="number" placeholder="Teléfono"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].telefono.required">
+                        <input 
+                            v-model="section.telefono" 
+                            type="number" 
+                            placeholder="Teléfono"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].telefono.required">
                             Ingrese el teléfono.
                         </p>
                     </div>
@@ -38,72 +46,98 @@
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Cargo</label>
-                        <input v-model="section.cargo" type="text" placeholder="Cargo"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].cargo.required">
+                        <input 
+                            v-model="section.cargo" 
+                            type="text" 
+                            placeholder="Cargo"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cargo.required">
                             Ingrese el cargo
                         </p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Nombre de su jefe inmediato</label>
-                        <input v-model="section.jefeInmediato" type="text" placeholder="Jefe Inmediato"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].jefeInmediato.required">
+                        <input 
+                            v-model="section.jefeInmediato" 
+                            type="text" 
+                            placeholder="Jefe Inmediato"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].jefeInmediato.required">
                             Ingrese su jefe inmediato
                         </p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Fecha de ingreso</label>
-                        <input v-model="section.fechaIngreso" type="date" placeholder="Fecha Ingreso"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].fechaIngreso.required">
+                        <input 
+                            v-model="section.fechaIngreso" 
+                            type="date" 
+                            placeholder="Fecha Ingreso"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].fechaIngreso.required">
                             Ingrese la fecha de ingreso
                         </p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Fecha de retiro</label>
-                        <input v-model="section.fechaRetiro" type="date" placeholder="Fecha de Retiro"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
+                        <input 
+                            v-model="section.fechaRetiro" 
+                            type="date" 
+                            placeholder="Fecha de Retiro"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Total tiempo servido</label>
-                        <input v-model="section.tiempoServido" type="text" placeholder="Tiempo Servido"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
+                        <input 
+                            v-model="section.tiempoServido" 
+                            type="text" 
+                            placeholder="Tiempo Servido"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Sueldo inicial</label>
-                        <input v-model="section.sueldoInicial" type="number" placeholder="Sueldo Inicial"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].sueldoInicial.required">
+                        <input 
+                            v-model="section.sueldoInicial" 
+                            type="number" 
+                            placeholder="Sueldo Inicial"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].sueldoInicial.required">
                             Ingrese el sueldo inicial
                         </p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Sueldo final o actual</label>
-                        <input v-model="section.sueldoFinal" type="number" placeholder="Sueldo final"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].sueldoFinal.required">
+                        <input 
+                            v-model="section.sueldoFinal" 
+                            type="number" 
+                            placeholder="Sueldo final"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].sueldoFinal.required">
                             Ingrese el sueldo final o actual
                         </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Cargo(s) desempeñado(s) por usted</label>
-                        <input v-model="section.cargoDesempeñado" type="text" placeholder="Cargo(s) desempeñado(s)"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].cargoDesempeñado.required">
+                        <input 
+                            v-model="section.cargoDesempeñado" 
+                            type="text" 
+                            placeholder="Cargo(s) desempeñado(s)"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cargoDesempeñado.required">
                             Ingrese el cargo desempeñado
                         </p>
                     </div>
@@ -111,10 +145,13 @@
                 <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 mt-6">
                     <div class="sm:col-span-12">
                         <label class="block text-sm font-medium text-gray-600">Funciones realizadas</label>
-                        <input v-model="section.funcionesRealizadas" type="text" placeholder="Funciones realizadas"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].funcionesRealizadas.required">
+                        <input 
+                            v-model="section.funcionesRealizadas" 
+                            type="text" 
+                            placeholder="Funciones realizadas"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].funcionesRealizadas.required">
                             Ingrese las funciones realizadas
                         </p>
                     </div>
@@ -122,10 +159,13 @@
                 <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 mt-6">
                     <div class="sm:col-span-12">
                         <label class="block text-sm font-medium text-gray-600">Logros obtenidos</label>
-                        <input v-model="section.logrosObtenidos" type="text" placeholder="Logros obtenidos"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].logrosObtenidos.required">
+                        <input 
+                            v-model="section.logrosObtenidos" 
+                            type="text" 
+                            placeholder="Logros obtenidos"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].logrosObtenidos.required">
                             Ingrese los logros obtenidos.
                         </p>
                     </div>
@@ -150,22 +190,28 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-600">¿Cuanto tiempo?</label>
-                        <input v-model="section.cuantoTiempo" type="text" placeholder="Cuanto tiempo"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
-                            :disabled="section.tipoContrato !== 'Fijo'" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].cuantoTiempo.required">
+                        <input 
+                            v-model="section.cuantoTiempo" 
+                            type="text" 
+                            placeholder="Cuanto tiempo"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                            :disabled="section.tipoContrato !== 'Fijo'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cuantoTiempo.required">
                             Ingrese el tiempo.
                         </p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-600">¿Cuál?</label>
-                        <input v-model="section.cual" type="text" placeholder="Cuál"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
-                            :disabled="section.tipoContrato !== 'Otro'" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.secciones.$each[index].cual.required">
+                        <input 
+                            v-model="section.cual" 
+                            type="text" 
+                            placeholder="Cuál"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                            :disabled="section.tipoContrato !== 'Otro'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cual.required">
                             Ingrese el tipo de contrato.
                         </p>
                     </div>
@@ -203,16 +249,23 @@
                 <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 mt-6">
                     <div class="sm:col-span-12">
                         <label class="block text-sm font-medium text-gray-600">Motivo del retiro</label>
-                        <input v-model="section.motivoRetiro" type="text" placeholder="Motivo del retiro"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
+                        <input 
+                            v-model="section.motivoRetiro" 
+                            type="text" 
+                            placeholder="Motivo del retiro"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 mt-6">
                     <div class="sm:col-span-12">
-                        <label class="block text-sm font-medium text-gray-600">Verificación (Espacio exclusivo para el
-                            entrevistador)</label>
-                        <input v-model="section.verificacion" type="text" placeholder="Verificación"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring" />
+                        <label class="block text-sm font-medium text-gray-600">Verificación (Espacio exclusivo para el entrevistador)</label>
+                        <input 
+                            v-model="section.verificacion" 
+                            type="text" 
+                            placeholder="Verificación"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                        />
                     </div>
                 </div>
             </div>
@@ -243,9 +296,13 @@
                         <label class="block text-sm font-medium text-gray-600">
                             ¿Cuál?
                         </label>
-                        <input v-model="formData.cualEntidad" type="text" placeholder="Cual"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
-                            :disabled="formData.entidadPromotora !== 'Si'" />
+                        <input 
+                            v-model="formData.cualEntidad" 
+                            type="text" 
+                            placeholder="Cual"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                            :disabled="formData.entidadPromotora !== 'Si'"
+                        />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualEntidad.required">
                             Ingrese la entidad promotora
                         </p>
@@ -255,9 +312,13 @@
                         <label class="block text-sm font-medium text-gray-600">
                             Fecha de afiliación
                         </label>
-                        <input v-model="formData.fechaAfiliacion" type="date" placeholder="Fecha de afiliación"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
-                            :disabled="formData.entidadPromotora !== 'Si'" />
+                        <input 
+                            v-model="formData.fechaAfiliacion" 
+                            type="date" 
+                            placeholder="Fecha de afiliación"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                            :disabled="formData.entidadPromotora !== 'Si'"
+                        />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacion.required">
                             Ingrese la fecha de afiliación
                         </p>
@@ -304,9 +365,13 @@
                         <label class="block text-sm font-medium text-gray-600">
                             ¿Cuál?
                         </label>
-                        <input v-model="formData.cualFondo" type="text" placeholder="Cual"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
-                            :disabled="formData.fondoPensiones !== 'Si'" />
+                        <input 
+                            v-model="formData.cualFondo" 
+                            type="text" 
+                            placeholder="Cual"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                            :disabled="formData.fondoPensiones !== 'Si'"
+                        />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualFondo.required">
                             Ingrese el fondo de pensiones.
                         </p>
@@ -316,9 +381,13 @@
                         <label class="block text-sm font-medium text-gray-600">
                             Fecha de afiliación
                         </label>
-                        <input v-model="formData.fechaAfiliacionFondo" type="date" placeholder="Fecha de afiliación"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
-                            :disabled="formData.fondoPensiones !== 'Si'" />
+                        <input 
+                            v-model="formData.fechaAfiliacionFondo" 
+                            type="date" 
+                            placeholder="Fecha de afiliación"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                           :disabled="formData.fondoPensiones !== 'Si'"
+                        />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacionFondo.required">
                             Ingrese la fecha de afiliación al fondo
                         </p>
@@ -346,9 +415,13 @@
                         <label class="block text-sm font-medium text-gray-600">
                             ¿Cuál?
                         </label>
-                        <input v-model="formData.cualFondoCesantias" type="text" placeholder="Cual"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
-                            :disabled="formData.fondoCesantias !== 'Si'" />
+                        <input 
+                            v-model="formData.cualFondoCesantias" 
+                            type="text" 
+                            placeholder="Cual"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                            :disabled="formData.fondoCesantias !== 'Si'"
+                        />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualFondoCesantias.required">
                             Ingrese el fondo de cesantías.
                         </p>
@@ -358,11 +431,14 @@
                         <label class="block text-sm font-medium text-gray-600">
                             Fecha de afiliación
                         </label>
-                        <input v-model="formData.fechaAfiliacionCesantias" type="date" placeholder="Fecha de afiliación"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
-                            :disabled="formData.fondoCesantias !== 'Si'" />
-                        <p class="text-red-500 text-sm"
-                            v-if="submited && !$v.formData.fechaAfiliacionCesantias.required">
+                        <input 
+                            v-model="formData.fechaAfiliacionCesantias" 
+                            type="date" 
+                            placeholder="Fecha de afiliación"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
+                            :disabled="formData.fondoCesantias !== 'Si'"
+                        />
+                        <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacionCesantias.required">
                             Ingrese la fecha de afiliación al fondo de cesantías.
                         </p>
                     </div>
@@ -688,3 +764,10 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+
+button, input, select, textarea {
+    border-style: double;
+}
+</style>

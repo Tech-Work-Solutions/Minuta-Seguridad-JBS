@@ -856,4 +856,7 @@ export default {
       padding: 0.75rem;
     }
   }
+  button, input, select, textarea {
+    border-style: double;
+  }
 </style>

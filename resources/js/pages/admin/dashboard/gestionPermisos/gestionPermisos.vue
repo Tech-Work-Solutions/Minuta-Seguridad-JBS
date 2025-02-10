@@ -642,7 +642,7 @@
               name: this.newEvent.name,
               start,
               end,
-              color: this.esGuarda ? '#FFC107' : getEstadoColor(this.newEvent.estado),
+              color: this.esGuarda ? '#FFC107' : this.getEstadoColor(this.newEvent.estado),
               estado: this.esGuarda ? 'PENDIENTE' : this.newEvent.estado
             };
 
