@@ -526,3 +526,10 @@ export default {
 
 };
 </script>
+
+<style scoped>
+
+button, input, select, textarea {
+    border-style: double;
+}
+</style>

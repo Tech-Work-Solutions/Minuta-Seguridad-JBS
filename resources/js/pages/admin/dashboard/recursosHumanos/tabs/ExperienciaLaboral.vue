@@ -10,7 +10,7 @@
                         <input 
                             v-model="section.nombreEmpresa" 
                             type="text" 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                     </div>
 
@@ -20,7 +20,7 @@
                             v-model="section.direccion" 
                             type="text" 
                             placeholder="Dirección"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].direccion.required">
                             Ingrese la dirección
@@ -33,7 +33,7 @@
                             v-model="section.telefono" 
                             type="number" 
                             placeholder="Teléfono"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].telefono.required">
                             Ingrese el teléfono.
@@ -48,7 +48,7 @@
                             v-model="section.cargo" 
                             type="text" 
                             placeholder="Cargo"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cargo.required">
                             Ingrese el cargo
@@ -61,7 +61,7 @@
                             v-model="section.jefeInmediato" 
                             type="text" 
                             placeholder="Jefe Inmediato"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].jefeInmediato.required">
                             Ingrese su jefe inmediato
@@ -74,7 +74,7 @@
                             v-model="section.fechaIngreso" 
                             type="date" 
                             placeholder="Fecha Ingreso"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].fechaIngreso.required">
                             Ingrese la fecha de ingreso
@@ -87,7 +87,7 @@
                             v-model="section.fechaRetiro" 
                             type="date" 
                             placeholder="Fecha de Retiro"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                             v-model="section.tiempoServido" 
                             type="text" 
                             placeholder="Tiempo Servido"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                     </div>
 
@@ -108,7 +108,7 @@
                             v-model="section.sueldoInicial" 
                             type="number" 
                             placeholder="Sueldo Inicial"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].sueldoInicial.required">
                             Ingrese el sueldo inicial
@@ -121,7 +121,7 @@
                             v-model="section.sueldoFinal" 
                             type="number" 
                             placeholder="Sueldo final"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].sueldoFinal.required">
                             Ingrese el sueldo final o actual
@@ -133,7 +133,7 @@
                             v-model="section.cargoDesempeñado" 
                             type="text" 
                             placeholder="Cargo(s) desempeñado(s)"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cargoDesempeñado.required">
                             Ingrese el cargo desempeñado
@@ -147,7 +147,7 @@
                             v-model="section.funcionesRealizadas" 
                             type="text" 
                             placeholder="Funciones realizadas"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].funcionesRealizadas.required">
                             Ingrese las funciones realizadas
@@ -161,7 +161,7 @@
                             v-model="section.logrosObtenidos" 
                             type="text" 
                             placeholder="Logros obtenidos"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].logrosObtenidos.required">
                             Ingrese los logros obtenidos.
@@ -190,7 +190,7 @@
                             v-model="section.cuantoTiempo" 
                             type="text" 
                             placeholder="Cuanto tiempo"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                             :disabled="section.tipoContrato !== 'Fijo'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cuantoTiempo.required">
@@ -204,7 +204,7 @@
                             v-model="section.cual" 
                             type="text" 
                             placeholder="Cuál"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                             :disabled="section.tipoContrato !== 'Otro'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.secciones.$each[index].cual.required">
@@ -245,7 +245,7 @@
                             v-model="section.motivoRetiro" 
                             type="text" 
                             placeholder="Motivo del retiro"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                     </div>
                 </div>
@@ -256,7 +256,7 @@
                             v-model="section.verificacion" 
                             type="text" 
                             placeholder="Verificación"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                         />
                     </div>
                 </div>
@@ -292,7 +292,7 @@
                             v-model="formData.cualEntidad" 
                             type="text" 
                             placeholder="Cual"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                             :disabled="formData.entidadPromotora !== 'Si'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualEntidad.required">
@@ -308,7 +308,7 @@
                             v-model="formData.fechaAfiliacion" 
                             type="date" 
                             placeholder="Fecha de afiliación"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                             :disabled="formData.entidadPromotora !== 'Si'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacion.required">
@@ -359,7 +359,7 @@
                             v-model="formData.cualFondo" 
                             type="text" 
                             placeholder="Cual"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                             :disabled="formData.fondoPensiones !== 'Si'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualFondo.required">
@@ -375,7 +375,7 @@
                             v-model="formData.fechaAfiliacionFondo" 
                             type="date" 
                             placeholder="Fecha de afiliación"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                            :disabled="formData.fondoPensiones !== 'Si'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacionFondo.required">
@@ -409,7 +409,7 @@
                             v-model="formData.cualFondoCesantias" 
                             type="text" 
                             placeholder="Cual"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                             :disabled="formData.fondoCesantias !== 'Si'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.cualFondoCesantias.required">
@@ -425,7 +425,7 @@
                             v-model="formData.fechaAfiliacionCesantias" 
                             type="date" 
                             placeholder="Fecha de afiliación"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring bg-white"
                             :disabled="formData.fondoCesantias !== 'Si'"
                         />
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.fechaAfiliacionCesantias.required">
@@ -742,3 +742,10 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+
+button, input, select, textarea {
+    border-style: double;
+}
+</style>
