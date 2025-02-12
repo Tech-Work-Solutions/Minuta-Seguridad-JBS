@@ -346,10 +346,12 @@
           estados: [],
           sedeId: null,
           puestoId: null,
+          sede: null
         };
       },
       async mounted() {
           this.spiner = false;
+          this.sede = JSON.parse(localStorage.getItem('sede'));
           const rol = localStorage.getItem('rol');
           if (rol === 'GUARDA DE SEGURIDAD' || rol === 'ADMINISTRATIVO') {
               this.gestionarPermiso = false;
@@ -361,8 +363,7 @@
           }
           if(rol === 'GUARDA DE SEGURIDAD') {
             this.esGuarda= true;
-            const sede = localStorage.getItem('sede');
-            this.sedeId = JSON.parse(sede).id;           
+            this.sedeId = this.sede.id;           
             await this.loadData(this.userId);
           }else {
             await this.loadData();
@@ -503,16 +504,16 @@
         },
   
         async getUsers() {
-            try {
-                const responseUsers = await axios.get('/api/getUsers');
-                this.users = responseUsers.data;
-
-                this.usersFiltros = [...responseUsers.data];
-                this.usersFiltros.forEach(item => item.text = item.name.toUpperCase());
-                this.usersFiltros.unshift({ id: 'TODOS', text: 'TODOS' });
-            } catch (errors) {
-                console.log(errors.response.data.errors)
-            }
+          try {
+              const url = `/api/getUsers${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' && this.sede.nombre.toUpperCase() !== 'SEDE TALENTO HUMANO' ? `?sede_id=${this.sede.id}` : ''}`;
+              const responseUsers = await axios.get(url);
+              this.users = responseUsers.data;
+              this.usersFiltros = [...responseUsers.data];
+              this.usersFiltros.forEach(item => item.text = item.name.toUpperCase());
+              this.usersFiltros.unshift({ id: 'TODOS', text: 'TODOS' });
+          } catch (errors) {
+              console.log(errors.response.data.errors)
+          }
         },
         async getSedesByUser(userId) {        
             try {
@@ -665,6 +666,7 @@
             if (user_id && user_id !== "TODOS") params.user_id = user_id;
             if (fecha_inicio) params.fecha_inicio = fecha_inicio;
             if (fecha_fin) params.fecha_fin = fecha_fin;
+            if(this.sede.nombre.toUpperCase() !== 'SEDE MASTER' && this.sede.nombre.toUpperCase() !== 'SEDE TALENTO HUMANO') params.sede_id = this.sede.id;
   
             const response = await axios.get(url, { params });
             const turnos = response.data.filter((item) => item.tipo === 'PERMISO');
