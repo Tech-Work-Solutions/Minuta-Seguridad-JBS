@@ -326,12 +326,14 @@
         colorMenu: false,
         submited: false,
         verTodo: true,
-        verFiltros: true
+        verFiltros: true,
+        sede: null
       };
     },
     async mounted() {
         this.spiner = false;
         const rol = localStorage.getItem('rol');
+        this.sede = JSON.parse(localStorage.getItem('sede'));
         if (rol === 'GUARDA DE SEGURIDAD' || rol === 'ADMINISTRATIVO') {
             this.verTodo = false;
         }
@@ -463,7 +465,8 @@
 
       async getUsers() {
           try {
-              const responseUsers = await axios.get('/api/getUsers');
+              const url = `/api/getUsers${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' && this.sede.nombre.toUpperCase() !== 'SEDE TALENTO HUMANO' ? `?sede_id=${this.sede.id}` : ''}`;
+              const responseUsers = await axios.get(url);
               this.users = responseUsers.data;
               this.usersFiltros = [...responseUsers.data];
               this.usersFiltros.forEach(item => item.text = item.name.toUpperCase());
@@ -611,6 +614,7 @@
           if (user_id && user_id !== "TODOS") params.user_id = user_id;
           if (fecha_inicio) params.fecha_inicio = fecha_inicio;
           if (fecha_fin) params.fecha_fin = fecha_fin;
+          if(this.sede.nombre.toUpperCase() !== 'SEDE MASTER' && this.sede.nombre.toUpperCase() !== 'SEDE TALENTO HUMANO') params.sede_id = this.sede.id; 
 
           const response = await axios.get(url, { params });
           const turnos = response.data.filter((item) => item.tipo === 'TURNO');
