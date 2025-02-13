@@ -1,5 +1,5 @@
-<template>
-  
+  <template>
+    
     <div class="p-6 bg-gray-100">
 
         <div class="flex flex-wrap items-center">
@@ -62,7 +62,7 @@
             </div>
             </div>
         </form>
-  
+
         <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
             <v-app>
                 <v-row class="fill-height">
@@ -131,8 +131,14 @@
                                 <v-card-text>
                                 <v-text-field
                                     v-model="newEvent.name"
-                                    label="Descripción de la solicitud"
-                                    :error-messages="!$v.newEvent.name.$pending && !$v.newEvent.name.$model && $v.newEvent.name.$dirty ? ['La descripción es obligatoria'] : []"
+                                    label="Titulo solicitud"
+                                    :error-messages="!$v.newEvent.name.$pending && !$v.newEvent.name.$model && $v.newEvent.name.$dirty ? ['El titulo es obligatorio'] : []"
+                                >    
+                                </v-text-field>
+
+                                <v-text-field
+                                    v-model="newEvent.descripcion"
+                                    label="Motivo de la solicitud"
                                 >    
                                 </v-text-field>
                                 
@@ -261,6 +267,7 @@
                                 <v-card-text>
                                   <div v-html="`Usuario que solicita: ${getUserName(selectedEvent.user_id)}`" v-if="!esGuarda"></div>
                                   <div v-html="`Estado: ${selectedEvent.estado}`"></div>
+                                  <div v-html="`Motivo: ${selectedEvent.descripcion}`"></div>
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-btn text color="secondary" @click="selectedOpen = false">
@@ -310,6 +317,7 @@
             user_id: null,
             sede_id: null,
             estado: null,
+            descripcion: ''
           },
           formData: {
             user_id: 'TODOS',
@@ -403,7 +411,7 @@
             const user = this.users.find(user => user.id === userId);
             return user ? user.name : 'Desconocido';
         },
-  
+
         async handleSubmit() {
           try {
             if (!this.dataLoaded) {
@@ -422,9 +430,10 @@
               estado: !this.esGuarda ? evento.estado : 'PENDIENTE',
               tipo: 'PERMISO',
               color: evento.color,
-              descripcion: evento.name
+              titulo: evento.name,
+              descripcion: evento.descripcion
             }));
-  
+
             const eventosAActualizar = this.updatedEvents.map(evento => ({
               id: evento.id,
               user_id: this.esGuarda ? this.userId : evento.user_id,
@@ -436,7 +445,8 @@
               estado: !this.esGuarda ? evento.estado : 'PENDIENTE',
               tipo: 'PERMISO',
               color: evento.color,
-              descripcion: evento.name
+              descripcion: evento.descripcion,
+              titulo: evento.name,
             }));
             const eventosAEliminar = this.deletedEvents.map(evento => evento.id);
             if (eventosAInsertar.length > 0) {
@@ -448,7 +458,7 @@
                 console.warn('Errores al insertar:', responseInsert.data.errores);
               }
             }
-  
+
             if (eventosAActualizar.length > 0) {
               const responseUpdate = await axios.post('/api/updateCalendario', {
                 calendarios: eventosAActualizar,
@@ -458,7 +468,7 @@
                 console.warn('Errores al actualizar:', responseUpdate.data.errores);
               }
             }
-  
+
             if (eventosAEliminar.length > 0) {
               const responseDelete = await axios.delete('/api/deleteCalendario', {
                 data: {
@@ -474,7 +484,7 @@
             this.updatedEvents = [];
             this.deletedEvents = [];
             this.dataLoaded = true;
-  
+
             if (
               eventosAInsertar.length === 0 &&
               eventosAActualizar.length === 0 &&
@@ -485,7 +495,7 @@
               return;
             }
             this.$toaster.success('Datos guardados correctamente');
-  
+
           } catch (error) {
             this.spiner = false;
             console.error('Ocurrio un error al guardar los datos:', error.response?.data || error.message);
@@ -493,7 +503,7 @@
             
           }
         },
-  
+
         async validarDatos() {
           this.submited = true;
           if (this.$v.formData.$invalid) {
@@ -502,7 +512,7 @@
           }
           await this.loadData(this.formData.user_id, this.formData.fecha_inicial, this.formData.fecha_final);
         },
-  
+
         async getUsers() {
           try {
               const url = `/api/getUsers${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' && this.sede.nombre.toUpperCase() !== 'SEDE TALENTO HUMANO' ? `?sede_id=${this.sede.id}` : ''}`;
@@ -532,11 +542,11 @@
                 this.$toaster.error('Hubo un error al obtener sedes.');
             }
         },
-  
+
         async handleUserSelection(userId) {
           await this.getSedesByUser(userId);
         },      
-  
+
         viewDay({ date }) {
           const selectedDate = new Date(date + 'T00:00:00');
           const today = new Date();
@@ -566,9 +576,10 @@
             this.$toaster.error('La fecha de inicio debe ser mayor a la fecha de fin.');
             return;
           }
-  
+
           const newEvent = {
             name: this.newEvent.name,
+            descripcion: this.newEvent.descripcion,
             start,
             end,
             color: this.esGuarda ? '#FFC107' : this.getEstadoColor(this.newEvent.estado),
@@ -598,9 +609,9 @@
           this.dialog = false;
           this.isEditing = false;
           this.$v.$reset();
-          this.newEvent = { name: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '', user_id: null, sede_id: null, estado: null,};
+          this.newEvent = { name: '', descripcion: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '', user_id: null, sede_id: null, estado: null,};
         },
-  
+
         deleteEvent() {
           const index = this.events.findIndex(event => event.id === this.selectedEvent.id);
           if (index !== -1) {
@@ -611,7 +622,7 @@
               this.selectedOpen = false;
           }
         },
-  
+
         async editEvent() {
             this.$v.$reset();
             this.newEvent = {
@@ -628,7 +639,7 @@
             this.isEditing = true;
             this.dialog = true;
         },
-  
+
         updateEvent() {        
           const index = this.events.findIndex(event => event.start === this.selectedEvent.start);
           const start = this.formatDateTime(this.newEvent.startDate, this.newEvent.startTime);
@@ -641,6 +652,7 @@
             const updatedEvent = {
               ...this.events[index],
               name: this.newEvent.name,
+              descripcion: this.newEvent.descripcion,
               start,
               end,
               color: this.esGuarda ? '#FFC107' : this.getEstadoColor(this.newEvent.estado),
@@ -662,18 +674,17 @@
             this.spiner = true;
             let url = `/api/getCalendarios`;
             let params = {};
-  
+
             if (user_id && user_id !== "TODOS") params.user_id = user_id;
             if (fecha_inicio) params.fecha_inicio = fecha_inicio;
             if (fecha_fin) params.fecha_fin = fecha_fin;
             if(this.sede.nombre.toUpperCase() !== 'SEDE MASTER' && this.sede.nombre.toUpperCase() !== 'SEDE TALENTO HUMANO') params.sede_id = this.sede.id;
-  
             const response = await axios.get(url, { params });
-            const turnos = response.data.filter((item) => item.tipo === 'PERMISO');
-  
-            if (turnos.length > 0) {
-              this.events = turnos.map(permiso => ({
-                name: permiso.descripcion,
+            const permisos = response.data.filter((item) => item.tipo === 'PERMISO');
+            if (permisos.length > 0) {
+              this.events = permisos.map(permiso => ({
+                name: permiso.titulo,
+                descripcion: permiso.descripcion,
                 start: `${permiso.fecha_inicio}T${permiso.hora_inicio}`,
                 end: `${permiso.fecha_fin}T${permiso.hora_fin}`,
                 color: permiso.color,
@@ -700,12 +711,11 @@
             console.error("Hubo un problema al cargar los datos.");
           }
         },
-  
         formatDateTime (date, time) {
               return `${date} ${time}`;
         },
         openDialog() {
-          this.newEvent = { name: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '',user_id: null, sede_id: null, estado: null,  };
+          this.newEvent = { name: '', descripcion: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '',user_id: null, sede_id: null, estado: null,  };
           this.dialog = true;
           this.isEditing = false;
         },
@@ -717,7 +727,6 @@
         setToday() {
           this.focus = '';
         },
-  
         prev() {
           this.$refs.calendar.prev();
         },
@@ -732,17 +741,14 @@
             this.selectedElement = nativeEvent.target
             requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
           }
-  
           if (this.selectedOpen) {
             this.selectedOpen = false
             requestAnimationFrame(() => requestAnimationFrame(() => open()))
           } else {
             open() 
           }
-  
           nativeEvent.stopPropagation()
         },      
-  
         formatDateWithoutTime(date) {
           const d = new Date(date);
           return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
