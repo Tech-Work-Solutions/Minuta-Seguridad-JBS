@@ -90,7 +90,7 @@
                 </th>
                 <th
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                  Guarda
+                  Usuario
                 </th>
                 <th
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
@@ -228,7 +228,7 @@ export default {
 
   methods: {
     async getUsersGuardas() {
-      const url = `/api/getUsersGuardas${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `?sede_id=${this.sede.id}` : ''}`;
+      const url = `/api/getUsers${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `?sede_id=${this.sede.id}` : ''}`;
       try {
         const guardas = await axios.get(url);
         this.guardas = guardas.data;

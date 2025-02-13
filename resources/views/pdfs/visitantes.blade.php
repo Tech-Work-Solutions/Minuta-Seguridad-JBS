@@ -78,7 +78,7 @@
         <thead>
           <tr>
             <th>Fecha y hora</th>
-            <th>Guarda</th>
+            <th>Usuario</th>
             <th>Tipo</th>
             <th>Visitante/empleado</th>
             <th>Documento</th>
