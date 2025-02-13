@@ -114,6 +114,7 @@ class CalendarioController extends Controller
                     'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
                     'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
                     'color' => ['required', 'string'],
+                    'titulo' => ['required', 'string'],
                     'descripcion' => ['nullable', 'string'],
                 ])->validate();
 
@@ -159,6 +160,7 @@ class CalendarioController extends Controller
                         'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
                         'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
                         'color' => ['nullable', 'string'],
+                        'titulo' => ['required', 'string'],
                         'descripcion' => ['nullable', 'string'],
                     ])->validate();
 
