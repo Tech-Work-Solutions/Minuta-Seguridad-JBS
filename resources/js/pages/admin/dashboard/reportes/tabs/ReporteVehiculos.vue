@@ -95,7 +95,7 @@
             <div class="w-full lg:w-3/12 px-4" v-if="showGuarda">
               <div class="relative w-full mb-3">
                 <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="grid-password">
-                  Guarda:
+                  Usuario:
                 </label>
                 <t-rich-select v-model="formData.value_id" :options="guardas" placeholder="Seleccione una opción">
                 </t-rich-select>
@@ -147,7 +147,7 @@
                 </th>
                 <th
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                  Guarda
+                  Usuario
                 </th>
                 <th
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
@@ -302,7 +302,7 @@ export default {
       rol: localStorage.getItem('rol'),
       tipos: [
         { id: 'TODOS', text: 'TODOS' },
-        { id: 'GUARDA', text: 'GUARDA' },
+        { id: 'USUARIO', text: 'USUARIO' },
         { id: 'VEHICULO', text: 'VEHICULO' },
         { id: 'CONDUCTOR', text: 'CONDUCTOR' },
         { id: 'PROCEDENCIA', text: 'PROCEDENCIA' },
@@ -347,7 +347,7 @@ export default {
       });
     },
     async getUsersGuardas() {
-      const url = `/api/getUsersGuardas${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `?sede_id=${this.sede.id}` : ''}`;
+      const url = `/api/getUsers${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `?sede_id=${this.sede.id}` : ''}`;
       try {
         const guardas = await axios.get(url);
         this.guardas = guardas.data;
@@ -375,7 +375,7 @@ export default {
       if (this.formData.tipo === 'VOLQUETA') {
         this.showVolqueta = true;
       }
-      if (this.formData.tipo === 'GUARDA') {
+      if (this.formData.tipo === 'USUARIO') {
         this.showGuarda = true;
       }
     },
