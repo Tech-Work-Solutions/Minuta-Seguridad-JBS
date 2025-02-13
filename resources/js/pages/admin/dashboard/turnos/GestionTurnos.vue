@@ -245,7 +245,8 @@
                     </v-btn>
                   </v-toolbar>
                   <v-card-text>
-                    <span v-html="selectedEvent.details"></span>
+                    <div v-html="`Persona asignada: ${getUserName(selectedEvent.user_id)}`"></div>
+                    <div v-html="`Sede: ${getNameSede(selectedEvent.sede_id)}`"></div>
                   </v-card-text>
                   <v-card-actions>
                     <v-btn text color="secondary" @click="selectedOpen = false">
@@ -293,7 +294,8 @@
           endTime: null,
           color: '',
           user_id: null,
-          sede_id: null
+          sede_id: null,
+          descripcion: '',
         },
         formData: {
           user_id: 'TODOS',
@@ -327,7 +329,7 @@
         submited: false,
         verTodo: true,
         verFiltros: true,
-        sede: null
+        sedes: []
       };
     },
     async mounted() {
@@ -348,6 +350,7 @@
         }else {
           await this.loadData();
           await this.getUsers();
+          await this.getSedes();
         }        
     },
     methods: {
@@ -382,7 +385,8 @@
             estado: 'APROBADO',
             tipo: 'TURNO',
             color: evento.color,
-            descripcion: evento.name
+            titulo: evento.name,
+            descripcion: evento.descripcion
           }));
 
           const eventosAActualizar = this.updatedEvents.map(evento => ({
@@ -396,7 +400,8 @@
             estado: 'APROBADO',
             tipo: 'TURNO',
             color: evento.color,
-            descripcion: evento.name
+            descripcion: evento.descripcion,
+            titulo: evento.name,
           }));
           const eventosAEliminar = this.deletedEvents.map(evento => evento.id);
           if (eventosAInsertar.length > 0) {
@@ -495,7 +500,31 @@
 
       async handleUserSelection(userId) {
         await this.getSedesByUser(userId);
-      },      
+      },
+
+      getUserName(userId) {
+          const user = this.users.find(user => user.id === userId);
+          return user ? user.name : 'Desconocido';
+      },
+
+      getNameSede(sedeId) {
+        const sede = this.sedes.find(sede => {
+          return sede.id === sedeId
+        })
+          return sede ? sede.nombre : 'Desconocido';
+      },
+
+      async getSedes(id= null) { 
+        try {
+          const response = await axios.get('/api/getSedes', {
+              params: id ? { id } : {},
+          });
+
+          this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');
+        } catch (error) {
+            console.error('Error al obtener la sede:', error);
+        }
+      },
 
       viewDay({ date }) {
         const selectedDate = new Date(date + 'T00:00:00');
@@ -529,6 +558,7 @@
 
         const newEvent = {
           name: this.newEvent.name,
+          descripcion: this.newEvent.descripcion,
           start,
           end,
           color: this.getRandomColor(),
@@ -553,7 +583,7 @@
         this.dialog = false;
         this.isEditing = false;
         this.$v.$reset();
-        this.newEvent = { name: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '', user_id: null, sede_id: null };
+        this.newEvent = { name: '', descripcion: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '', user_id: null, sede_id: null };
       },
 
       deleteEvent() {
@@ -592,6 +622,7 @@
           const updatedEvent = {
             ...this.events[index],
             name: this.newEvent.name,
+            descripcion: this.newEvent.descripcion,
             start,
             end,
             color: this.getRandomColor(),
@@ -621,7 +652,8 @@
 
           if (turnos.length > 0) {
             this.events = turnos.map(turno => ({
-              name: turno.descripcion,
+              name: turno.titulo,
+              descripcion: turno.descripcion,
               start: `${turno.fecha_inicio}T${turno.hora_inicio}`,
               end: `${turno.fecha_fin}T${turno.hora_fin}`,
               color: turno.color,
@@ -652,7 +684,7 @@
             return `${date} ${time}`;
       },
       openDialog() {
-        this.newEvent = { name: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '',user_id: null, sede_id: null  };
+        this.newEvent = { name: '', descripcion: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '',user_id: null, sede_id: null  };
         this.dialog = true;
         this.isEditing = false;
       },
