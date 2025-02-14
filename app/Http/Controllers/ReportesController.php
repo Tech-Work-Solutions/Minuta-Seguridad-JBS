@@ -60,7 +60,7 @@ class ReportesController extends Controller
             if($request->tipo === 'VEHICULO') { $column = 'vehicle_id'; }
             else if($request->tipo === 'CONDUCTOR') { $column = 'driver_id'; }
             else if($request->tipo === 'PROCEDENCIA') { $column = 'origin_id'; }
-            else if($request->tipo === 'GUARDA') { $column = 'user_id'; }
+            else if($request->tipo === 'USUARIO') { $column = 'user_id'; }
             else { $column = 'volqueta_id'; }
             $query->where($column, $request->value_id);
         }
@@ -190,7 +190,7 @@ class ReportesController extends Controller
             if($tipo === 'VEHICULO') { $column = 'vehicle_id'; }
             else if($tipo === 'CONDUCTOR') { $column = 'driver_id'; }
             else if($tipo === 'PROCEDENCIA') { $column = 'origin_id'; }
-            else if($tipo === 'GUARDA') { $column = 'user_id'; }
+            else if($tipo === 'USUARIO') { $column = 'user_id'; }
             else { $column = 'volqueta_id'; }
             $query->where($column, $value_id);
         }
