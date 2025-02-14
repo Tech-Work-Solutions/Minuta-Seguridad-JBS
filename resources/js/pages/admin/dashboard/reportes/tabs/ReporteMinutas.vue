@@ -8,7 +8,7 @@
             <div class="w-full lg:w-3/12">
               <div class="relative w-full mb-3">
                 <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="grid-password">
-                  Buscar por guarda de seguridad:
+                  Buscar por Usuario:
                 </label>
                 <t-rich-select v-model="formData.user_id" :options="guardas" placeholder="Seleccione una opción">
                 </t-rich-select>
