@@ -17,13 +17,14 @@ class Calendario extends Model
         'tipo',
         'color',
         'sede_id',
-        'descripcion',
+        'titulo',
+        'descripcion',        
     ];
 
     public function user(){
         return $this->belongsTo('App\Models\User', 'user_id');
     }
-    
+
     public function sedes(){
         return $this->belongsTo('App\Models\Sede', 'sede_id');
     }

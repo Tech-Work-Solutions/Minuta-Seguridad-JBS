@@ -288,10 +288,10 @@
                            <p class="font-bold text-gray-500">Sede: <span class="font-normal">{{ item.sedeNombre }}</span></p>
                         </div>
                         <button 
-                           class="bg-gray-300 text-white hover:bg-gray-400 font-bold p-3 rounded-full flex items-center justify-center disabled:opacity-50" 
+                           class="bg-gray-300 text-white hover:bg-gray-400 font-bold p-3 rounded-full flex items-center justify-center disabled:opacity-50 flex-none" 
                            @click="eliminarPuestoYSedes(item.puestoId, item.sedeId)"
                         >
-                        <i class="fas fa-times"></i>
+                           <i class="fas fa-times"></i>
                         </button>
                      </div>
                   </div>
@@ -544,3 +544,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.child-flex >*, .flex {
+    flex: 0 0 auto;
+}
+</style>

@@ -13,6 +13,7 @@ export const ICONOS_MAP = {
     reportes: "fa-chart-bar",
     configuraciones: "fa-cogs",
     usuarios: "fa-users-cog",
+    turnos: "fa-calendar-check",
 };
 
 export const OPCIONES_MENU_ADMIN = [
@@ -22,6 +23,7 @@ export const OPCIONES_MENU_ADMIN = [
     { label: "Reportes", route: "/reportes", icon: "fa-chart-bar" },
     { label: "Configuraciones", route: "/configuraciones", icon: "fa-cogs" },
     { label: "Usuarios", route: "/usuarios", icon: "fa-users-cog" },
+    { label: "Turnos", route: "/turnos/", icon: "fa-calendar-check" },
     { label: "Hoja De Vida", route: "/hojadevida/", icon: "fa-paperclip" },
     { label: "Gestionar Hoja de vida", route: "/gestionhojadevida/", icon: "fa-paperclip" },
 ];

@@ -14,7 +14,6 @@ class CalendarioController extends Controller
      */
     public function getCalendarios(Request $request)
     {
-        
         try {
             $request->validate([
                 'user_id' => ['nullable', 'integer', 'exists:users,id'],
@@ -38,7 +37,6 @@ class CalendarioController extends Controller
 
             $fecha_inicio = $request->query('fecha_inicio');
             $fecha_fin = $request->query('fecha_fin');
-            
             $fechaInicioWithTime = $fecha_inicio . " 00:00:00";
             $fechaFinWithTime = $fecha_fin . " 23:59:59";
 
@@ -88,7 +86,7 @@ class CalendarioController extends Controller
                 'error' => 'Error de validación',
                 'messages' => $e->errors(),
             ], 422);
-    
+
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocurrió un error inesperado',
@@ -115,12 +113,13 @@ class CalendarioController extends Controller
                     'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
                     'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
                     'color' => ['required', 'string'],
+                    'titulo' => ['required', 'string'],
                     'descripcion' => ['nullable', 'string'],
                 ])->validate();
 
                 $insertados[] = Calendario::create($validatedData);
             } catch (\Illuminate\Validation\ValidationException $e) {
-                // Registrar el error y el índice del calendario fallido
+
                 $errores[] = [
                     'index' => $index,
                     'error' => $e->errors()
@@ -149,7 +148,7 @@ class CalendarioController extends Controller
 
             foreach ($calendarios as $index => $data) {
                 try {
-                
+
                     $validatedData = \Validator::make($data, [
                         'id' => ['required', 'integer', 'exists:calendarios,id'],
                         'user_id' => ['required', 'integer', 'exists:users,id'],
@@ -161,6 +160,7 @@ class CalendarioController extends Controller
                         'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
                         'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
                         'color' => ['nullable', 'string'],
+                        'titulo' => ['required', 'string'],
                         'descripcion' => ['nullable', 'string'],
                     ])->validate();
 
@@ -170,7 +170,7 @@ class CalendarioController extends Controller
 
                     $actualizados[] = $calendario;
                 } catch (\Illuminate\Validation\ValidationException $e) {
-                
+
                     $errores[] = [
                         'index' => $index,
                         'error' => $e->errors()
@@ -215,7 +215,7 @@ class CalendarioController extends Controller
                 $noEncontrados[] = $id;
             }
         }
-    
+
         return response()->json([
             'msg' => 'Proceso finalizado',
             'eliminados' => $eliminados,

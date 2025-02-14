@@ -17,6 +17,7 @@ import EditRecordVehicle from './pages/admin/dashboard/records/EditVehicle.vue'
 import EditRecordVisitante from './pages/admin/dashboard/records/EditVisitante.vue'
 import ConfigPage from './pages/ConfigPage.vue'
 import Recurso404 from './pages/Recurso404.vue'
+import Turnos from './pages/admin/dashboard/turnos/GestionTurnos.vue'
 import Hojadevida from './pages/admin/dashboard/recursosHumanos/hojaDeVida/Index.vue'
 import RecursosHumanos from './pages/admin/dashboard/recursosHumanos/recursosHumanos.vue'
 
@@ -146,6 +147,15 @@ const routes = [
               components: {
                 default: Dashboard,
                 MainView: Settings
+              }
+            },
+            {
+              path: "/turnos",
+              name: "Turnos",
+              meta: { requiresAuth :true },
+              components: {
+                default: Dashboard,
+                MainView: Turnos
               }
             },
             {
