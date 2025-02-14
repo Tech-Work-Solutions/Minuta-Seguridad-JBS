@@ -95,7 +95,8 @@
                   >
                     Estado:
                   </label>                                      
-                  <toggle-button 
+                  <toggle-button
+                    :key="formData.estadoSwitch" 
                     v-model="formData.estadoSwitch" 
                     :labels="false" 
                     color="rgba(59, 130, 246, var(--tw-bg-opacity))"
@@ -383,7 +384,6 @@
         this.formData.cliente_id = this.sedes[index].cliente_id;
         this.formData.estadoSwitch = this.sedes[index].estado === 'ACTIVO' ? true : false;
         this.formData.estado = this.sedes[index].estado; 
-        console.log("🚀 ~ editarSede ~ this.formData:", this.formData)
       },
       openModal(sede) {
         this.datosModal = {
@@ -416,7 +416,7 @@
               estado: this.formData.estado,
               direccion: this.formData.direccion,
               cliente_id: this.formData.cliente_id,
-              estado: this.formData.estadoSwitch === true ? 'ACTIVO' : 'INACTIVO',
+              estado: this.formData.estadoSwitch ? 'ACTIVO' : 'INACTIVO',
           };
           if(this.rol === 'ADMINISTRADOR') {
             await axios.put(`/api/updateSede/${this.idSede}`, data);

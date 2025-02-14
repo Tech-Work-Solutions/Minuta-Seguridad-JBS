@@ -87,9 +87,9 @@
                 >
                   Estado:
                 </label>                                      
-                <toggle-button 
+                <toggle-button
+                  :key="formData.estado" 
                   v-model="formData.estado" 
-                  :labels="false" 
                   color="rgba(59, 130, 246, var(--tw-bg-opacity))"
                   :disabled="puestoNombre !== 'MASTER' && !editar"
                 />                               
@@ -286,7 +286,7 @@ export default {
       this.formData.nit = this.clients[index].nit;
       this.formData.nombre = this.clients[index].nombre;
       this.formData.email = this.clients[index].email;
-      this.formData.estado = this.clients[index].estado === 'ACTIVO'? true : false;   
+      this.formData.estado = this.clients[index].estado === 'ACTIVO'? true : false;
     },
     openModal(puesto) {
       this.datosModal = {

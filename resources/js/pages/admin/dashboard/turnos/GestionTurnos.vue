@@ -608,7 +608,7 @@
             this.selectedOpen = false;
         }
         this.modal = value;
-        this.$toaster.success('Se elimino correctamente el turno seleccionado');
+        this.$toaster.success('Se eliminó correctamente el turno seleccionado');
       },
       openModal(user) {
           this.datos = {

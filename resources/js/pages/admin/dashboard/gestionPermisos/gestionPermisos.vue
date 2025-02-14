@@ -634,7 +634,7 @@
               this.selectedOpen = false;
           }
           this.modal = value;
-          this.$toaster.success('Se elimino correctamente el permiso seleccionado');
+          this.$toaster.success('Se eliminó correctamente el permiso seleccionado');
         },
         openModal(user) {
             this.datos = {
