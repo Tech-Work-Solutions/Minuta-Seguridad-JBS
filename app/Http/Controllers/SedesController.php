@@ -26,8 +26,17 @@ class SedesController extends Controller
         return response()->json(["msg" => "Registro exitoso", "res" => $sede]); 
     }
 
-    public function getSedes(Request $request){
-        return Sede::orderBy('nombre')->get();
+    public function getSedes(Request $request)
+    {
+        $query = Sede::orderBy('nombre');
+
+        if ($request->has('id')) {
+            $query->where('id', $request->id);
+        }
+
+        $sedes = $query->get();
+
+        return response()->json(['sedes' => $sedes]);
     }
 
     public function getSedesByClient(Request $request){
@@ -40,5 +49,42 @@ class SedesController extends Controller
                     ->get();
     
         return response()->json(['sedes' => $sedes]);
+    }
+
+    public function deleteSede(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer|exists:sedes,id',
+        ]);
+        $sede = Sede::findOrFail($request->id);
+
+        if (!$sede) {
+            return response()->json(['error' => 'Sede no encontrada'], 404);
+        }
+
+        $sede->delete();
+        return response()->json(['msg' => 'Sede eliminada correctamente']);
+    }
+
+    public function updateSede(Request $request, $id)
+    {
+        $request->validate([
+            'nombre'     => ['required'],            
+            'cliente_id' => ['required'],
+            'estado'     => ['required','in:ACTIVO,INACTIVO,ELIMINADO'],
+        ]);
+        $sede = Sede::find($id);
+        if (!$sede) {
+            return response()->json(['error' => 'Sede no encontrada'], 404);
+        }
+        $sede->update([            
+            'nombre'    => $request->nombre,
+            'direccion'     => $request->direccion,
+            'telefono'    => $request->telefono,
+            'cliente_id'    => $request->cliente_id,
+            'estado'    => $request->estado
+        ]);
+
+        return response()->json(['msg' => 'Sede actualizada correctamente', 'sede' => $sede]);
     }
 }

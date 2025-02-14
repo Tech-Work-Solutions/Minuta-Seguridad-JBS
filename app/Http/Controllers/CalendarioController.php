@@ -111,6 +111,7 @@ class CalendarioController extends Controller
                     'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
                     'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
                     'color' => ['required', 'string'],
+                    'titulo' => ['required', 'string'],
                     'descripcion' => ['nullable', 'string'],
                 ])->validate();
 
@@ -145,6 +146,7 @@ class CalendarioController extends Controller
 
             foreach ($calendarios as $index => $data) {
                 try {
+
                     $validatedData = \Validator::make($data, [
                         'id' => ['required', 'integer', 'exists:calendarios,id'],
                         'user_id' => ['required', 'integer', 'exists:users,id'],
@@ -156,6 +158,7 @@ class CalendarioController extends Controller
                         'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
                         'tipo' => ['nullable', 'string', 'in:TURNO,PERMISO'],
                         'color' => ['nullable', 'string'],
+                        'titulo' => ['required', 'string'],
                         'descripcion' => ['nullable', 'string'],
                     ])->validate();
 
@@ -165,6 +168,7 @@ class CalendarioController extends Controller
 
                     $actualizados[] = $calendario;
                 } catch (\Illuminate\Validation\ValidationException $e) {
+
                     $errores[] = [
                         'index' => $index,
                         'error' => $e->errors()
@@ -209,6 +213,7 @@ class CalendarioController extends Controller
                 $noEncontrados[] = $id;
             }
         }
+
         return response()->json([
             'msg' => 'Proceso finalizado',
             'eliminados' => $eliminados,

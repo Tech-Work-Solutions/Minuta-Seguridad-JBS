@@ -14,6 +14,7 @@ export const ICONOS_MAP = {
     configuraciones: "fa-cogs",
     usuarios: "fa-users-cog",
     permisos: "fa-calendar-plus",
+    turnos: "fa-calendar-check",
 };
 
 export const OPCIONES_MENU_ADMIN = [
@@ -23,8 +24,8 @@ export const OPCIONES_MENU_ADMIN = [
     { label: "Reportes", route: "/reportes", icon: "fa-chart-bar" },
     { label: "Configuraciones", route: "/configuraciones", icon: "fa-cogs" },
     { label: "Usuarios", route: "/usuarios", icon: "fa-users-cog" },
-    { label: "Hoja de vida", route: "/hojadevida", icon: "fa-paperclip" },
-    { label: "Permisos", route: "/permisos", icon: "fa-calendar-plus" },
+    { label: "Turnos", route: "/turnos/", icon: "fa-calendar-check" },
+    { label: "Hoja De Vida", route: "/hojadevida/", icon: "fa-paperclip" },
     { label: "Gestionar Hoja de vida", route: "/gestionhojadevida/", icon: "fa-paperclip" },
 ];
 

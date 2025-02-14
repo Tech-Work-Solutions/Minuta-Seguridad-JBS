@@ -17,7 +17,8 @@ class Calendario extends Model
         'tipo',
         'color',
         'sede_id',
-        'descripcion',
+        'titulo',
+        'descripcion',        
     ];
 
     public function user(){
