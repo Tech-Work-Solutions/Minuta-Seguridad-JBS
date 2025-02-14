@@ -391,9 +391,15 @@ export default {
     },
 
     getOpcionesMenu() {
+      const puesto = JSON.parse(localStorage.getItem("puesto"));
       axios.get('/api/getOpcionesMenu').then((response) => {
-        this.menuOptions = response.data;
-
+        if (puesto && puesto.nombre !== "master") {
+          this.menuOptions = response.data.filter(
+            (item) => item.nombre !== "Hoja De Vida" && item.nombre !== "Gestionar Hoja de vida"
+          );
+        } else {
+          this.menuOptions = response.data;
+        }
       }).catch((errors) => {
         console.log(errors.response.data.errors)
       });

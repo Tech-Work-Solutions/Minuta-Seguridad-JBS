@@ -2,7 +2,8 @@
     <div v-if="show">
         <div class="flex flex-wrap items-center">
             <h1 class="text-xl text-gray-500 pl-5 mr-5 font-bold">
-                <i class="fas fa-paperclip"></i> Hoja de vida
+                <i class="fas fa-paperclip"></i> Hoja de vida: {{ currentUser.name }} -
+                {{ currentUser.numero_documento }}
             </h1>
         </div>
         <br>
@@ -62,18 +63,21 @@ export default {
                 { label: 'Administración Proceso de Selección', icon: 'fas fa-pen-fancy', component: 'AdministracionProcesoSeleccion', data: {}, key: 'administracion_proceso_seleccion' },
             ],
             userId: null,
-            hasHv: false
+            hasHv: false,
+            currentUser: {},
+            userObject: localStorage.getItem("user"),
         };
     },
     async mounted() {
+        const userIdByParam = this.$route.params.id;
         const rol = localStorage.getItem('rol');
         if (rol === 'GUARDA DE SEGURIDAD') {
             this.$router.push('/dashboard');
         }
-        const userObject = localStorage.getItem("user");
-        if (userObject) {
-            const user = JSON.parse(userObject);
-            this.userId = user.id;
+
+        if (this.userObject) {
+            const user = JSON.parse(this.userObject);
+            this.userId = Number(userIdByParam) || user.id;
         }
         await this.loadData();
         this.show = true;
@@ -89,6 +93,12 @@ export default {
         },
         async loadData() {
             try {
+                const responseUser = await axios.get('/api/getUser/' + this.userId);
+                if (responseUser && Object.keys(responseUser.data).length > 0) {
+                    this.currentUser = responseUser.data;
+                } else {
+                    this.currentUser = JSON.parse(this.userObject);
+                }
                 const response = await axios.get(`/api/getHv`, {
                     params: {
                         user_id: this.userId,

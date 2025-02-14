@@ -129,7 +129,8 @@
 
 <script>
 import { TRichSelect } from 'vue-tailwind/dist/components';
-import { ACTIVIDADES_ECONOMICAS, AREAS_EMPRESA } from '../../../../../constants';
+import { ACTIVIDADES_ECONOMICAS, AREAS_EMPRESA } from '../../../../../../constants';
+import { EventBus } from '../../../../../../utils/util.js';
 
 export default {
     props: {
@@ -258,7 +259,14 @@ export default {
             }
         },
     },
-
+    created() {
+        EventBus.$on('alreadyHasHv', (value) => {
+            this.isUpdating = value || this.hasHv;
+        });
+    },
+    beforeDestroy() {
+        EventBus.$off('alreadyHasHv');
+    },
     async mounted() {
         this.spiner = false;
         await this.loadData();
@@ -287,6 +295,7 @@ export default {
                 } else {
                     await axios.post("/api/registerHv", formData);
                     this.isUpdating = true;
+                    this.sendEvent();
                     this.spiner = false;
                     this.submited = false;
                     this.$toaster.success("Datos registrados con éxito.");
@@ -297,6 +306,9 @@ export default {
                 console.error(error);
                 this.$toaster.error("Hubo un problema al guardar los datos.");
             }
+        },
+        sendEvent() {
+            EventBus.$emit('alreadyHasHv', true);
         },
         async loadData() {
             if (this.trayectoria_empresas && Object.keys(this.trayectoria_empresas).length > 0 || this.hasHv) {
@@ -320,7 +332,7 @@ export default {
         hasSubchecksEmpty(formData) {
             const { industria, otrosServicios, ...rest } = formData.actividadesEconomicas;
             const subActividades = [
-                'alimentos', 'tabaco', 'textiles', 'cuerocalzado',
+                'alimentos', 'tabaco', 'textiles', 'cuero',
                 'papel', 'editorial', 'quimico', 'caucho',
                 'vidrio', 'metalurgia', 'maquinaria', 'automotores',
                 'muebles', 'reciclaje'

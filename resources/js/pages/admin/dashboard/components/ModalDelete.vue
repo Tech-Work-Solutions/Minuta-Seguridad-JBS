@@ -78,12 +78,20 @@ export default {
 
       async eliminar() {
          try {
-            const response = await axios.post(this.datos.url, { id: this.datos.id });
+            if (this.datos.requestType === 'delete') {
+               const response = await axios.delete(this.datos.url);
+            } else {
+               const response = await axios.post(this.datos.url, { id: this.datos.id });
+            }
             this.$emit('closeModalSuccess', false)
          } catch (errors) {
-            const errorMessage = errors.response?.data?.msg || 'Algo salió mal. Vuelva a intentarlo';
-            this.$toaster.error(errorMessage);
-            console.log(errors.response?.data?.msg || errors);
+            if (errors.response.status === 404) {
+               this.$toaster.error('El usuario no tiene hoja de vida activa');
+               this.$emit('closeModal', false);
+            } else {
+               this.$toaster.error('Algo salió mal. Vuelva a intentarlo');
+               console.log(errors.response.data.errors);
+            }
          }
       }
    }

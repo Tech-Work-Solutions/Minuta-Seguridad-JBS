@@ -20,6 +20,7 @@ use App\Http\Controllers\OpcionesMenuController;
 use App\Http\Controllers\OpcionesFormularioController;
 use App\Http\Controllers\UsersSedeController;
 use App\Http\Controllers\HojaVidaController;
+use App\Http\Controllers\CalendarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +103,7 @@ Route::get('pdf_recordVisitante', [ReportesController::class, 'pdf_recordVisitan
 Route::get('getImagenesReporte', [ReportesController::class, 'getImagenesReporte']);
 Route::post('updateImagenesReporte', [ReportesController::class, 'updateImagenesReporte']);
 Route::delete('deleteImagenesReporte', [ReportesController::class, 'deleteImagenesReporte']);
+Route::get('pdf_hojaDeVida', [ReportesController::class, 'pdf_hojaDeVida']);
 
 Route::post('registerClients', [ClientsController::class, 'registerClients']);
 Route::get('getClients', [ClientsController::class, 'getClients']);
@@ -133,5 +135,10 @@ Route::get('getHv', [HojaVidaController::class, 'getHv']);
 Route::post('registerHv', [HojaVidaController::class,'registerHv']);
 Route::post('updateHv', [HojaVidaController::class, 'updateHv']);
 Route::delete('deleteHv/{user_id}', [HojaVidaController::class, 'deleteHv']);
+
+Route::get('getCalendarios', [CalendarioController::class, 'getCalendarios']);
+Route::post('registerCalendario', [CalendarioController::class, 'registerCalendario']);
+Route::post('updateCalendario', [CalendarioController::class, 'updateCalendario']);
+Route::delete('deleteCalendario', [CalendarioController::class, 'deleteCalendario']);
 
 /** Route::post('sendEmailUsuario', [AuthController::class, 'sendEmailUsuario']); */

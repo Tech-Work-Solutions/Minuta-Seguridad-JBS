@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 export const getGeolocation = () => {
     return new Promise((resolve, reject) => {
         if ('geolocation' in navigator) {
@@ -43,3 +45,5 @@ export const hasPermission = (permisosFormulario, permissionName) => {
     }
     return permisosFormulario.some(permiso => permiso.nombre === permissionName);
 };
+
+export const EventBus = new Vue();

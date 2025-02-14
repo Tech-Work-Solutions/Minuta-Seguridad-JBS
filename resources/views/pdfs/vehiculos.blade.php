@@ -77,7 +77,7 @@
         <thead>
           <tr>
             <th>Fecha y hora</th>
-            <th>Guarda</th>
+            <th>Usuario</th>
             <th>Vehículo</th>
             <th>Conductor</th>
             <th>Procedencia</th>
