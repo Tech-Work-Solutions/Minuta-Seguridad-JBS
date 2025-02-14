@@ -79,7 +79,7 @@
                                 </router-link>
 
                                 <div @click="openModal(user)" title="Limpiar hoja de vida"
-                                    class="text-center inline-flex cursor-pointer items-center justify-center w-10 h-10 shadow-lg rounded-full bg-red-500 hover:bg-red-600 ease-linear transition-all duration-150">
+                                    class="text-center mr-2 inline-flex cursor-pointer items-center justify-center w-10 h-10 shadow-lg rounded-full bg-red-500 hover:bg-red-600 ease-linear transition-all duration-150">
                                     <i class="fas fa-trash font-bold text-white"></i>
                                 </div>
 
