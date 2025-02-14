@@ -323,7 +323,7 @@ export default {
       },
 
       async getUbicaciones() {
-         const url = `/api/getUbicaciones${this.sede?.id ? `?sede_id=${this.sede.id}` : ''}`;
+         const url = `/api/getUbicaciones${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `?sede_id=${this.sede.id}` : ''}`;
          try {
             const response = await axios.get(url);
             this.ubicaciones = response.data
