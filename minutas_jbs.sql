@@ -293,11 +293,11 @@ INSERT INTO `opciones_menu` (`id`, `nombre`, `estado`, `created_at`, `updated_at
 (3, 'Visitantes', 'ACTIVO', '2024-12-05 17:33:34', NULL),
 (4, 'Reportes', 'ACTIVO', '2024-12-05 17:33:34', NULL),
 (5, 'Configuraciones', 'ACTIVO', '2024-12-05 17:33:34', NULL),
-(6, 'Usuarios', 'ACTIVO', '2024-12-05 17:33:34', NULL);
-(7, 'Turnos', 'ACTIVO', '2022-01-29 17:33:34', NULL);
-(8, 'Permisos', 'ACTIVO', '2024-02-03 13:33:34', NULL);(7, 'Hoja De Vida', 'ACTIVO', '2025-01-19 17:33:34', NULL),
-(9, 'Gestionar Hoja de vida', 'ACTIVO', '2025-01-19 17:33:34', NULL);
-(10, 'Hoja De Vida', 'ACTIVO', '2025-01-19 17:33:34', NULL),
+(6, 'Usuarios', 'ACTIVO', '2024-12-05 17:33:34', NULL),
+(7, 'Turnos', 'ACTIVO', '2022-01-29 17:33:34', NULL),
+(8, 'Permisos', 'ACTIVO', '2024-02-03 13:33:34', NULL),
+(9, 'Gestionar Hoja de vida', 'ACTIVO', '2025-01-19 17:33:34', NULL),
+(10, 'Hoja De Vida', 'ACTIVO', '2025-01-19 17:33:34', NULL);
 
 -- --------------------------------------------------------
 

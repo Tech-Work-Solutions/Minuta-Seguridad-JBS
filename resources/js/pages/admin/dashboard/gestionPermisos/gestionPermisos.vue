@@ -289,6 +289,7 @@
                 </button>
             </div>
         </form>
+        <Modal :modal="modal" @closeModal="closeModal" @closeModalSuccess="closeModalSuccess" :datos="datos" />
     </div>
   </template>
     
@@ -297,6 +298,8 @@
     import { required } from 'vuelidate/lib/validators';
     import { TRichSelect } from 'vue-tailwind/dist/components';
     import { ESTADOS_PERMISO } from '../../../../../../resources/js/constants.js';
+    import Modal from '../components/ModalDelete.vue';
+
     export default {
       data() {
         return {
@@ -354,7 +357,9 @@
           estados: [],
           sedeId: null,
           puestoId: null,
-          sede: null
+          sede: null,
+          modal: false,
+          datos: {},
         };
       },
       async mounted() {
@@ -613,6 +618,13 @@
         },
 
         deleteEvent() {
+          const event = this.events.find(event => event.id === this.selectedEvent.id);        
+          this.openModal(event);          
+        },
+        closeModal(value) {
+            this.modal = value
+        },
+        closeModalSuccess(value) {
           const index = this.events.findIndex(event => event.id === this.selectedEvent.id);
           if (index !== -1) {
               const [deletedEvent] = this.events.splice(index, 1);
@@ -621,6 +633,16 @@
               }
               this.selectedOpen = false;
           }
+          this.modal = value;
+          this.$toaster.success('Se elimino correctamente el permiso seleccionado');
+        },
+        openModal(user) {
+            this.datos = {
+                requestType: 'info',              
+                title: 'Eliminar permiso',
+                message: '¿Está seguro de elminar el permiso: ' + user.name + '?'
+            }
+            this.modal = true;
         },
 
         async editEvent() {
@@ -780,13 +802,13 @@
           }
         };
       },
-      components: { TRichSelect }
+      components: { TRichSelect, Modal }
     };
   </script>
     
   <style scoped>
   .fill-height {
     min-height: 100vh;
-  }
+  }  
   </style>
     

@@ -268,6 +268,7 @@
           </button>
       </div>
     </form>
+    <Modal :modal="modal" @closeModal="closeModal" @closeModalSuccess="closeModalSuccess" :datos="datos" />
   </div>
 </template>
   
@@ -275,6 +276,7 @@
   import '@mdi/font/css/materialdesignicons.css';
   import { required } from 'vuelidate/lib/validators';
   import { TRichSelect } from 'vue-tailwind/dist/components';
+  import Modal from '../components/ModalDelete.vue';
 
   export default {
     data() {
@@ -329,7 +331,9 @@
         submited: false,
         verTodo: true,
         verFiltros: true,
-        sedes: []
+        sedes: [],
+        modal: false,
+        datos: {},
       };
     },
     async mounted() {
@@ -586,15 +590,33 @@
         this.newEvent = { name: '', descripcion: '', startDate: null, endDate: null, startTime: null, endTime: null, color: '', user_id: null, sede_id: null };
       },
 
-      deleteEvent() {
+      deleteEvent() {        
+        const event = this.events.find(event => event.id === this.selectedEvent.id);        
+        this.openModal(event);       
+      },
+      closeModal(value) {
+          this.modal = value
+      },
+      closeModalSuccess(value) {
         const index = this.events.findIndex(event => event.id === this.selectedEvent.id);
         if (index !== -1) {
             const [deletedEvent] = this.events.splice(index, 1);
+            
             if (this.originalEvents.find(event => event.id === deletedEvent.id)) {
                 this.deletedEvents.push(deletedEvent);
             }
             this.selectedOpen = false;
         }
+        this.modal = value;
+        this.$toaster.success('Se elimino correctamente el turno seleccionado');
+      },
+      openModal(user) {
+          this.datos = {
+              requestType: 'info',              
+              title: 'Eliminar turno',
+              message: '¿Está seguro de elminar el turno: ' + user.name + '?'
+          }
+          this.modal = true;
       },
 
       async editEvent() {
@@ -746,7 +768,7 @@
         }
       };
     },
-    components: { TRichSelect }
+    components: { TRichSelect, Modal }
   };
 </script>
   

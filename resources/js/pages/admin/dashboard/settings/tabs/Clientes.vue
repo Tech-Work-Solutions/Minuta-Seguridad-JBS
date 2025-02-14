@@ -79,6 +79,22 @@
                 Debe seleccionar al menos una opción multimedia
               </p> 
             </div>
+            <div class="w-full mt-5" v-if="puestoNombre === 'MASTER'">
+              <div class="relative w-full mb-5 flex items-center">
+                <label
+                  class="block text-gray-600 text-sm font-semibold mr-2"
+                  htmlFor="grid-password"
+                >
+                  Estado:
+                </label>                                      
+                <toggle-button 
+                  v-model="formData.estado" 
+                  :labels="false" 
+                  color="rgba(59, 130, 246, var(--tw-bg-opacity))"
+                  :disabled="puestoNombre !== 'MASTER' && !editar"
+                />                               
+              </div>
+            </div>
           </div>
           <div class="flex mb-4 mt-5" v-if="puestoNombre === 'MASTER' && !editar">
             <button
@@ -247,8 +263,17 @@ export default {
         nombre: option.nombre
       })).sort((a, b) => a.id - b.id);
       this.formData.permisos_formulario = this.selectedFormOptions;
-      this.formData.permisos_menu = this.selectedMenuOptions;        
-      this.formData.estado = 'ACTIVO';
+      this.formData.permisos_menu = this.selectedMenuOptions;
+      if (this.puestoNombre !== 'MASTER') {
+        this.formData.estado = 'ACTIVO';
+      } else {
+        if (this.formData.estado === true) {
+          this.formData.estado = 'ACTIVO';
+        } else if(this.formData.estado === false) {
+          this.formData.estado = 'INACTIVO';
+        }
+      }
+      
       this.validarDatos()
     },
     editarPuesto(idPuesto, index) {
@@ -260,7 +285,8 @@ export default {
       this.formData.permisos_menu = this.selectedMenuOptions;
       this.formData.nit = this.clients[index].nit;
       this.formData.nombre = this.clients[index].nombre;
-      this.formData.email = this.clients[index].email;   
+      this.formData.email = this.clients[index].email;
+      this.formData.estado = this.clients[index].estado === 'ACTIVO'? true : false;   
     },
     openModal(puesto) {
       this.datosModal = {
@@ -292,7 +318,7 @@ export default {
             estado: this.formData.estado,
             permisos_formulario: this.formData.permisos_formulario,
             permisos_menu: this.formData.permisos_menu,
-            estado: 'ACTIVO'
+            estado: this.formData.estado,
         };
         if(this.puestoNombre === 'MASTER') {
           await axios.put(`/api/updateClient/${this.idPuesto}`, data);
@@ -303,7 +329,7 @@ export default {
         this.submited = false;        
         this.editar = false;
         this.formData.nit = this.formData.nombre = this.formData.email = '';
-        this.formData.estado = false;
+        this.formData.estado = true;
         this.formData.permisos_formulario = '';
         this.formData.permisos_menu = '';
         this.selectedMenuOptions = [];
@@ -357,13 +383,14 @@ export default {
           this.submited = false;
           this.formData.nit = this.formData.nombre = this.formData.email = '';
           this.formData.estado = true,
-            this.formData.permisos_formulario = '',
-            this.formData.permisos_menu = '',
+          this.formData.permisos_formulario = '',
+          this.formData.permisos_menu = '',
 
-            this.menuOptions = [],
-            this.formOptions = [],
-            this.selectedMenuOptions = [],
-            this.selectedFormOptions = [];
+          this.menuOptions = [],
+          this.formOptions = [],
+          this.selectedMenuOptions = [],
+          this.selectedFormOptions = [];
+          this.formData.estado = true;
 
           this.$toaster.success('Registro creado con exito.');
           this.getClients();
@@ -434,3 +461,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.child-flex >*, .flex {
+    flex: 0 0 auto;
+}
+</style>
