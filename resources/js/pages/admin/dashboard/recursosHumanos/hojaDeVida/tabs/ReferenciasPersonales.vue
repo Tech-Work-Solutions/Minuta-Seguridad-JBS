@@ -155,6 +155,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
+import { EventBus } from '../../../../../../utils/util.js';
 
 export default {
     props: {
@@ -199,7 +200,14 @@ export default {
             spiner: false,
         };
     },
-
+    created() {
+        EventBus.$on('alreadyHasHv', (value) => {
+            this.isUpdating = value || this.hasHv;
+        });
+    },
+    beforeDestroy() {
+        EventBus.$off('alreadyHasHv');
+    },
     async mounted() {
         this.spiner = false;
         await this.loadData();
@@ -234,6 +242,7 @@ export default {
                 } else {
                     await axios.post("/api/registerHv", formData);
                     this.isUpdating = true;
+                    this.sendEvent();
                     this.spiner = false;
                     this.submited = false;
                     this.$toaster.success("Datos registrados con éxito.");
@@ -250,6 +259,9 @@ export default {
                 this.formData.firma = file;
                 this.formData.firmaPreview = URL.createObjectURL(file);
             }
+        },
+        sendEvent() {
+            EventBus.$emit('alreadyHasHv', true);
         },
         loadData() {
             if (this.referencias_personales && Object.keys(this.referencias_personales).length > 0 || this.hasHv) {

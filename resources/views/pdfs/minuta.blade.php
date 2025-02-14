@@ -76,7 +76,7 @@
         <thead>
           <tr>
             <th>Fecha y hora</th>
-            <th>Guarda</th>
+            <th>Usuario</th>
             <th>Asunto</th>
             <th>Ubicación</th>
             <th>Anotaciones</th>

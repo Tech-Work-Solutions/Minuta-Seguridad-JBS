@@ -157,6 +157,13 @@ export default {
           if (nombre === "permisos") {
             this.opcionesMenu.push({ label: "Permisos", route: '/permisos', icon: ICONOS_MAP[nombre], id: permiso.id });
           }
+          if (nombre === "hoja de vida") {
+            this.opcionesMenu.push({ label: permiso.nombre, route: '/hojadevida', icon: "fa-paperclip", id: permiso.id });
+          }
+
+          if (nombre === "gestionar hoja de vida") {
+            this.opcionesMenu.push({ label: permiso.nombre, route: '/gestionhojadevida', icon: "fa-paperclip", id: permiso.id });
+          }
         }
         else if (this.rol === ROLES.ADMINISTRADOR) {
           this.opcionesMenu.push({ label: permiso.nombre, route: '/' + nombre, icon: ICONOS_MAP[nombre], id: permiso.id });

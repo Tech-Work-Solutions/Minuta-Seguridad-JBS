@@ -17,8 +17,9 @@ import EditRecordVehicle from './pages/admin/dashboard/records/EditVehicle.vue'
 import EditRecordVisitante from './pages/admin/dashboard/records/EditVisitante.vue'
 import ConfigPage from './pages/ConfigPage.vue'
 import Recurso404 from './pages/Recurso404.vue'
-import Hojadevida from './pages/admin/dashboard/recursosHumanos/Index.vue'
 import Permisos from './pages/admin/dashboard/gestionPermisos/gestionPermisos.vue'
+import Hojadevida from './pages/admin/dashboard/recursosHumanos/hojaDeVida/Index.vue'
+import RecursosHumanos from './pages/admin/dashboard/recursosHumanos/recursosHumanos.vue'
 
 Vue.use(VueRouter)
  
@@ -149,8 +150,17 @@ const routes = [
               }
             },
             {
-              path: "/hojadevida",
-              name: "Hoja de vida",
+              path: "/gestionhojadevida",
+              name: "Gestionar Hoja de vida",
+              meta: { requiresAuth :true },
+              components: {
+                default: Dashboard,
+                MainView: RecursosHumanos
+              }
+            },
+            {
+              path: "/hojadevida/:id?",
+              name: "Hoja De Vida",
               meta: { requiresAuth :true },
               components: {
                 default: Dashboard,

@@ -282,8 +282,9 @@
 import { email, required } from 'vuelidate/lib/validators';
 import Multiselect from 'vue-multiselect';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
-import '../../../../../../css/app.css';
-import { CATEGORIAS_LICENCIA } from '../../../../../constants';
+import '../../../../../../../css/app.css';
+import { CATEGORIAS_LICENCIA } from '../../../../../../constants';
+import { EventBus } from '../../../../../../utils/util.js';
 
 
 export default {
@@ -356,7 +357,14 @@ export default {
             }
         },
     },
-
+    created() {
+        EventBus.$on('alreadyHasHv', (value) => {
+            this.isUpdating = value || this.hasHv;
+        });
+    },
+    beforeDestroy() {
+        EventBus.$off('alreadyHasHv');
+    },
     async mounted() {
         this.spiner = false;
         this.setFechaSistema();
@@ -428,6 +436,7 @@ export default {
                 } else {
                     await axios.post("/api/registerHv", formData);
                     this.isUpdating = true;
+                    this.sendEvent();
                     this.spiner = false;
                     this.submited = false;
                     this.$toaster.success("Datos registrados con éxito.");
@@ -439,39 +448,53 @@ export default {
                 this.$toaster.error("Hubo un problema al guardar los datos.");
             }
         },
-
+        sendEvent() {
+            EventBus.$emit('alreadyHasHv', true);
+        },
         async loadData() {
-            if (this.informacion_general && Object.keys(this.informacion_general).length > 0 || this.hasHv) {
-                this.isUpdating = true;
-                Object.assign(this.formData, this.informacion_general);
-            }
-            if (this.foto) {
-                this.formData.foto = this.foto;
-                this.formData.fotoPreview = this.foto;
-            }
-
-            const userObject = localStorage.getItem("user");
-            if (userObject) {
-                const user = JSON.parse(userObject);
-                if (!this.formData.cedula) {
-                    this.formData.cedula = user.numero_documento;
+            try {
+                if (this.informacion_general && Object.keys(this.informacion_general).length > 0 || this.hasHv) {
+                    this.isUpdating = true;
+                    Object.assign(this.formData, this.informacion_general);
+                }
+                if (this.foto) {
+                    this.formData.foto = this.foto;
+                    this.formData.fotoPreview = this.foto;
                 }
 
-                if (!this.formData.direccion) {
-                    this.formData.direccion = user.direccion;
+                const response = await axios.get('/api/getUser/' + this.userId);
+                let userObject = null;
+                if (response && Object.keys(response.data).length > 0) {
+                    userObject = response.data
+                } else {
+                    userObject = JSON.parse(localStorage.getItem("user"));
                 }
 
-                if (!this.formData.nombre) {
-                    this.formData.nombre = user.name;
-                }
+                if (userObject) {
+                    const user = userObject;
+                    if (!this.formData.cedula) {
+                        this.formData.cedula = user.numero_documento;
+                    }
 
-                if (!this.formData.correo) {
-                    this.formData.correo = user.email;
-                }
+                    if (!this.formData.direccion) {
+                        this.formData.direccion = user.direccion;
+                    }
 
-                if (!this.formData.telefono) {
-                    this.formData.telefono = user.telefono_uno;
+                    if (!this.formData.nombre) {
+                        this.formData.nombre = user.name;
+                    }
+
+                    if (!this.formData.correo) {
+                        this.formData.correo = user.email;
+                    }
+
+                    if (!this.formData.telefono) {
+                        this.formData.telefono = user.telefono_uno;
+                    }
                 }
+            } catch (error) {
+                console.error(error);
+                this.$toaster.error("Hubo un problema al cargar los datos.");
             }
         },
         validarDatos() {

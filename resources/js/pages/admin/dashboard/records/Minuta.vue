@@ -72,7 +72,8 @@
                <div class="flex flex-col w-full">
                   <div class="flex flex-col lg:flex-row lg:flex-wrap w-full justify-center">
 
-                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4" v-if="verificarPermiso('Adjuntar foto')">
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                        v-if="verificarPermiso('Adjuntar foto')">
                         <label
                            class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                            <em class="fas fa-cloud-upload-alt fa-3x"></em>
@@ -87,7 +88,8 @@
                         </div>
                      </div>
 
-                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4" v-if="verificarPermiso('Grabar audio')">
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                        v-if="verificarPermiso('Grabar audio')">
                         <label
                            class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                            <em class="fas fa-music fa-3x"></em>
@@ -103,7 +105,8 @@
                         </div>
                      </div>
 
-                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4" v-if="verificarPermiso('Grabar video')">
+                     <div class="flex flex-col items-center w-full lg:w-60 mt-5 lg:mt-0 lg:ml-4"
+                        v-if="verificarPermiso('Grabar video')">
                         <label
                            class="w-full h-36 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-blue-500 hover:text-white text-blue-500 ease-linear transition-all duration-150">
                            <em class="fas fa-video fa-3x"></em>
@@ -142,7 +145,7 @@
                      </th>
                      <th
                         class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                        Guarda
+                        Usuario
                      </th>
                      <th
                         class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
@@ -263,7 +266,7 @@ export default {
          audioPreview: null,
          videoPreview: null,
          sede: {},
-         permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario')|| '[]'),
+         permisosFormulario: JSON.parse(localStorage.getItem('permisosFormulario') || '[]'),
       };
    },
 
@@ -279,7 +282,7 @@ export default {
       this.show = true;
       this.getSubjects();
       await this.getUbicaciones();
-      this.getRecordsMinutaByUser();
+      await this.getRecordsMinutaByUser();
    },
 
    methods: {
@@ -311,7 +314,8 @@ export default {
       },
 
       async getRecordsMinutaByUser() {
-         await axios.post('/api/getRecordsMinutaByUser', { user_id: this.id_user }).then((response) => {
+         const url = `/api/getRecordsMinutaByUser${this.sede.nombre.toUpperCase() !== 'SEDE MASTER' ? `?sede_id=${this.sede.id}` : ''}`;
+         await axios.post(url, { user_id: this.id_user }).then((response) => {
             this.datos = response.data
          }).catch((errors) => {
             console.log(errors.response.data.errors)
@@ -319,7 +323,7 @@ export default {
       },
 
       async getUbicaciones() {
-         const url = `/api/getUbicaciones${this.sede?.id ? `/?sede_id=${this.sede.id}` : ''}`;
+         const url = `/api/getUbicaciones${this.sede?.id ? `?sede_id=${this.sede.id}` : ''}`;
          try {
             const response = await axios.get(url);
             this.ubicaciones = response.data
