@@ -108,6 +108,9 @@ Route::get('pdf_hojaDeVida', [ReportesController::class, 'pdf_hojaDeVida']);
 
 Route::post('registerClients', [ClientsController::class, 'registerClients']);
 Route::get('getClients', [ClientsController::class, 'getClients']);
+Route::put('updateClient/{id}', [ClientsController::class, 'updateClient']);
+Route::post('/deleteClient', [ClientsController::class, 'deleteClient']);
+
 
 Route::post('registerSede', [SedesController::class, 'registerSede']);
 Route::get('getSedes', [SedesController::class, 'getSedes']);

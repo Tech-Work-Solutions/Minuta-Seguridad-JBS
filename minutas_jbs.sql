@@ -65,8 +65,6 @@ CREATE TABLE `clientes` (
   `updated_at` timestamp NULL DEFAULT current_timestamp(),
   `permisos_menu` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'Contiene las opciones del menú ' CHECK (json_valid(`permisos_menu`)),
   `permisos_formulario` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'Contiene las opciones multimedia' CHECK (json_valid(`permisos_formulario`)),
-  `img_header` varchar(255) DEFAULT NULL COMMENT 'img para la sección de encabezado del reporte.',
-  `img_footer` varchar(255) DEFAULT NULL COMMENT 'Img para el pie de página.',
   `estado` enum('ACTIVO','INACTIVO','ELIMINADO','MASTER') NOT NULL DEFAULT 'ACTIVO'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
