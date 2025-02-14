@@ -80,6 +80,9 @@ export default {
          try {
             if (this.datos.requestType === 'delete') {
                const response = await axios.delete(this.datos.url);
+            } else if (this.datos.requestType === 'info') {
+               this.$emit('closeModalSuccess', false)
+               return;
             } else {
                const response = await axios.post(this.datos.url, { id: this.datos.id });
             }
@@ -98,3 +101,8 @@ export default {
    }
 }
 </script>
+<style scoped>
+.child-flex >*, .flex {
+    flex: 0 0 auto;
+}
+</style>

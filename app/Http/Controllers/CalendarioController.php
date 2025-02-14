@@ -14,13 +14,12 @@ class CalendarioController extends Controller
      */
     public function getCalendarios(Request $request)
     {
-
         try {
             $request->validate([
                 'user_id' => ['nullable', 'integer', 'exists:users,id'],
                 'sede_id' => ['nullable', 'integer', 'exists:sedes,id'],
                 'hora_inicio' => ['nullable', 'date_format:H:i'],
-                'hora_fin' => ['nullable', 'date_format:H:i'],
+                'hora_fin' => ['nullable', 'date_format:H:i', 'after:hora_inicio'],
                 'fecha_inicio' => ['nullable', 'date'],
                 'fecha_fin' => ['nullable', 'date', 'after_or_equal:fecha_inicio'],
                 'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
@@ -38,7 +37,6 @@ class CalendarioController extends Controller
 
             $fecha_inicio = $request->query('fecha_inicio');
             $fecha_fin = $request->query('fecha_fin');
-
             $fechaInicioWithTime = $fecha_inicio . " 00:00:00";
             $fechaFinWithTime = $fecha_fin . " 23:59:59";
 
@@ -57,11 +55,11 @@ class CalendarioController extends Controller
             if ($user_id) {
                 $query->where('user_id', $user_id);
             }
-
+            
             if ($tipo) {
                 $query->where('tipo', $tipo);
             }
-
+            
             if ($estado) {
                 $query->where('estado', $estado);
             }
@@ -87,7 +85,6 @@ class CalendarioController extends Controller
                 'error' => 'Error de validación',
                 'messages' => $e->errors(),
             ], 422);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocurrió un error inesperado',
@@ -108,7 +105,7 @@ class CalendarioController extends Controller
                     'user_id' => ['required', 'integer', 'exists:users,id'],
                     'sede_id' => ['required', 'integer', 'exists:sedes,id'],
                     'hora_inicio' => ['required', 'date_format:H:i'],
-                    'hora_fin' => ['required', 'date_format:H:i'],
+                    'hora_fin' => ['required', 'date_format:H:i', 'after:hora_inicio'],
                     'fecha_inicio' => ['required', 'date'],
                     'fecha_fin' => ['required', 'date', 'after_or_equal:fecha_inicio'],
                     'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
@@ -154,7 +151,7 @@ class CalendarioController extends Controller
                         'user_id' => ['required', 'integer', 'exists:users,id'],
                         'sede_id' => ['required', 'integer', 'exists:sedes,id'],
                         'hora_inicio' => ['nullable', 'date_format:H:i'],
-                        'hora_fin' => ['nullable', 'date_format:H:i'],
+                        'hora_fin' => ['nullable', 'date_format:H:i', 'after:hora_inicio'],
                         'fecha_inicio' => ['nullable', 'date'],
                         'fecha_fin' => ['nullable', 'date', 'after_or_equal:fecha_inicio'],
                         'estado' => ['nullable', 'string', 'in:APROBADO,PENDIENTE,RECHAZADO'],
@@ -201,11 +198,11 @@ class CalendarioController extends Controller
             'calendarioIds' => ['required', 'array'],
             'calendarioIds.*' => ['integer', 'exists:calendarios,id']
         ]);
-
+    
         $ids = $request->calendarioIds;
         $eliminados = [];
         $noEncontrados = [];
-
+    
         foreach ($ids as $id) {
             $record = Calendario::find($id);
             if ($record) {

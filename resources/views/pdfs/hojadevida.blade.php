@@ -187,7 +187,7 @@
 			<tbody>
 				<tr>
 					<td colspan="4" >Cédula de ciudadanía</td>
-					<td class="txtCenter">{{$informacion_general['tipoCedula'] && $informacion_general['tipoCedula'] == 'Ciudadanía' ? 'X': ''}}</td>
+					<td class="txtCenter">{{($informacion_general['tipoCedula'] ?? '') == 'Ciudadanía' ? 'X': ''}}</td>
 					<td colspan="5">N° {{$informacion_general['cedula'] ?? ''}}</td>
 					<td colspan="5">(**) Libreta militar Nº {{$informacion_general['libreta'] ?? ''}}</td>
 					<td colspan="4">Primera clase</td>
@@ -195,7 +195,7 @@
 				</tr>
 				<tr>
 					<td colspan="4">Extranjería</td>
-					<td class="txtCenter">{{$informacion_general['tipoCedula'] && $informacion_general['tipoCedula'] == 'Extranjería' ? 'X': ''}}</td>
+					<td class="txtCenter">{{($informacion_general['tipoCedula'] ?? '') == 'Extranjería' ? 'X': ''}}</td>
 					<td colspan="5">Expedida en: {{$informacion_general['expedidaEn'] ?? ''}}</td>
 					<td colspan="5">Distrito Nº {{$informacion_general['distrito'] ?? ''}}</td>
 					<td colspan="4">Segunda clase</td>
