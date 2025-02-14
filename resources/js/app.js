@@ -10,6 +10,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import Vuelidate from 'vuelidate';
 import ToggleButton from 'vue-js-toggle-button';
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
 
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';

@@ -13,6 +13,7 @@ export const ICONOS_MAP = {
     reportes: "fa-chart-bar",
     configuraciones: "fa-cogs",
     usuarios: "fa-users-cog",
+    permisos: "fa-calendar-plus",
     turnos: "fa-calendar-check",
 };
 
@@ -23,9 +24,10 @@ export const OPCIONES_MENU_ADMIN = [
     { label: "Reportes", route: "/reportes", icon: "fa-chart-bar" },
     { label: "Configuraciones", route: "/configuraciones", icon: "fa-cogs" },
     { label: "Usuarios", route: "/usuarios", icon: "fa-users-cog" },
-    { label: "Turnos", route: "/turnos/", icon: "fa-calendar-check" },
-    { label: "Hoja De Vida", route: "/hojadevida/", icon: "fa-paperclip" },
-    { label: "Gestionar Hoja de vida", route: "/gestionhojadevida/", icon: "fa-paperclip" },
+    { label: "Permisos", route: "/permisos", icon: "fa-calendar-plus" },
+    { label: "Turnos", route: "/turnos", icon: "fa-calendar-check" },
+    { label: "Hoja De Vida", route: "/hojadevida", icon: "fa-paperclip" },
+    { label: "Gestionar Hoja de vida", route: "/gestionhojadevida", icon: "fa-paperclip" },
 ];
 
 export const CATEGORIAS_LICENCIA = [{id:1,nombre:"A1"}, {id:2,nombre:"A2"}, {id:3,nombre:"B1"}, {id:4,nombre:"B2"}, {id:5,nombre:"B3"}, {id:6,nombre:"C1"}, {id:7,nombre:"C2"}, {id:8,nombre:"C3"}];
@@ -164,3 +166,6 @@ export const SECTIONS = [
         verificacion: '',
     }
 ]
+
+export const ESTADOS_PERMISO = [{ id: 'APROBADO', name: 'APROBADO' }, { id: 'PENDIENTE', name: 'PENDIENTE' }, { id: 'RECHAZADO', name: 'RECHAZADO' }];
+

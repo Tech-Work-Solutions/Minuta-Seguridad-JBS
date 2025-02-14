@@ -59,7 +59,7 @@
                            Anotaciones:
                         </label>
                         <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                           <textarea rows="3" class="w-full p-2 border border-1 border-gray-300 rounded-md"
+                           <textarea rows="3" class="w-full p-2 border border-1 border-gray-300 rounded-md bg-white"
                               v-model="formData.anotaciones"></textarea>
                         </div>
                         <p class="text-red-500 text-sm" v-if="submited && !$v.formData.anotaciones.required">Ingrese las

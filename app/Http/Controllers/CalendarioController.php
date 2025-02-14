@@ -69,7 +69,6 @@ class CalendarioController extends Controller
                     $subQuery->where('sede_id', $sede_id);
                 });
             }
-
             $calendarios = $query->orderBy('user_id')
             ->get()
             ->map(function ($item) {
@@ -86,7 +85,6 @@ class CalendarioController extends Controller
                 'error' => 'Error de validación',
                 'messages' => $e->errors(),
             ], 422);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocurrió un error inesperado',

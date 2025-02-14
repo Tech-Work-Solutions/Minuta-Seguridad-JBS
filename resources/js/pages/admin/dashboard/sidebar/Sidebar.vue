@@ -147,12 +147,18 @@ export default {
           if (OPCIONES_MENU_GUARDA.includes(nombre)) {
             this.opcionesMenu.push({ label: permiso.nombre, route: '/' + nombre, icon: ICONOS_MAP[nombre], id: permiso.id });
           }
+          if (nombre === "permisos") {
+            this.opcionesMenu.push({ label: "Permisos", route: '/permisos', icon: ICONOS_MAP[nombre], id: permiso.id });
+          }
           if (nombre === "turnos") {
             this.opcionesMenu.push({ label: "Turnos", route: '/turnos', icon: ICONOS_MAP[nombre], id: permiso.id });
           }
         } else if (this.rol === ROLES.ADMINISTRATIVO) {
           if (nombre === "reportes") {
             this.opcionesMenu.push({ label: permiso.nombre, route: '/' + nombre, icon: ICONOS_MAP[nombre], id: permiso.id });
+          }
+          if (nombre === "permisos") {
+            this.opcionesMenu.push({ label: "Permisos", route: '/permisos', icon: ICONOS_MAP[nombre], id: permiso.id });
           }
           if (nombre === "turnos") {
             this.opcionesMenu.push({ label: "Turnos", route: '/turnos', icon: ICONOS_MAP[nombre], id: permiso.id });
