@@ -9,6 +9,7 @@ use App\Models\Record_person;
 use App\Models\Record_vehicle;
 use App\Models\User;
 use App\Services\FileService;
+use App\Models\Hoja_de_vida;
 
 class ReportesController extends Controller
 {
@@ -338,5 +339,45 @@ class ReportesController extends Controller
         
         return response()->json(["msg" => "Imagenes actualizadas"]);
     }
+
+    public function pdf_hojaDeVida(Request $request) {
+        $user_id = $request->query('user_id');
+        $record = Hoja_de_vida::where('user_id', $user_id)->get();
+
+        if ($record->isEmpty()) {
+            return response()->json(['error' => 'Hoja de vida vacia'], 404);
+        }
+
+        $foto = '';
+        $firma = '';
+        $firmaAutorizador = '';
+        foreach ($record as $rec) {
+            $rec->informacion_general = json_decode($rec->informacion_general, true) ?? [];
+            $rec->informacion_personal = json_decode($rec->informacion_personal, true) ?? [];
+            $rec->informacion_familiar = json_decode($rec->informacion_familiar, true) ?? [];
+            $rec->educacion_aptitudes = json_decode($rec->educacion_aptitudes, true) ?? [];
+            $rec->trayectoria_empresas = json_decode($rec->trayectoria_empresas, true) ?? [];
+            $rec->experiencia_laboral = json_decode($rec->experiencia_laboral, true) ?? [];
+            $rec->referencias_personales = json_decode($rec->referencias_personales, true) ?? [];
+            $rec->administracion_proceso_seleccion = json_decode($rec->administracion_proceso_seleccion, true) ?? [];
+        }
+        $fileService = new FileService();
+        $extensionesImagenes = config('constantes.extensiones_imagenes');
+        $foto = $fileService->getArchivo('/hvs/fotos/'.$user_id, $extensionesImagenes);
+        $firma = $fileService->getArchivo('/hvs/firmas/'.$user_id, $extensionesImagenes);
+        $firmaAutorizador = $fileService->getArchivo('/hvs/firmasAutorizacion/'.$user_id, $extensionesImagenes);
+
+        $dataReport = [
+            'foto' => $foto,
+            'firma' => $firma,
+            'firmaAutorizador' => $firmaAutorizador,
+            'userId' => $user_id,
+            'record' => $record
+        ];
+
+        $pdf = PDF::loadView('pdfs.hojadevida', $dataReport)->setPaper('letter', 'portrait');
+        return $pdf->download('HojaDeVida.pdf');
+    }
+
 
 }
