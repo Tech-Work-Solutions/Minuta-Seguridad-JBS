@@ -83,20 +83,18 @@
                                     <i class="fas fa-trash font-bold text-white"></i>
                                 </div>
 
-                                <<<<<<< HEAD <div @click="generarPdf(user.id)" title="Generar HV"
+                                <div @click="generarPdf(user.id)" title="Generar HV"
                                     class="text-center inline-flex cursor-pointer items-center justify-center w-10 h-10 shadow-lg rounded-full bg-green-500 hover:bg-green-600 ease-linear transition-all duration-150">
                                     <i class="fas fa-building font-bold text-white"></i>
-                            </div>
+                                </div>
 
-                            =======
-                            >>>>>>> main
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        </td>
-        </tr>
-        </tbody>
-        </table>
-    </div>
-    <Modal :modal="modal" @closeModal="closeModal" @closeModalSuccess="closeModalSuccess" :datos="datos" />
+        <Modal :modal="modal" @closeModal="closeModal" @closeModalSuccess="closeModalSuccess" :datos="datos" />
     </div>
 </template>
 
