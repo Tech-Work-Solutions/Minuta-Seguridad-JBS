@@ -140,11 +140,18 @@ class RecordsController extends Controller
 
     public function getRecordsMinutaByUser(Request $request) {
         $fechaActual = date('Y-m-d');
-        $records = Record_minuta::where('created_at', '>=', $fechaActual.' 00:00:00')
-                                ->where('created_at', '<=', $fechaActual.' 23:59:59')
-                                ->where('user_id', $request->user_id)
-                                ->orderBy('id', 'DESC')
-                                ->get(); 
+        $sede_id = $request->query('sede_id');
+        $query = Record_minuta::query();
+
+        $query->where('created_at', '>=', $fechaActual.' 00:00:00')
+            ->where('created_at', '<=', $fechaActual.' 23:59:59')
+            ->where('user_id', $request->user_id);
+        
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $records = $query->orderBy('id', 'DESC')->get();
         foreach($records as $record){
             $record->usuario->name;
             $record->asunto->nombre;
@@ -155,11 +162,19 @@ class RecordsController extends Controller
 
     public function getRecordsVehiculosByUser(Request $request) {
         $fechaActual = date('Y-m-d');
-        $records = Record_vehicle::where('created_at', '>=', $fechaActual.' 00:00:00')
-                                    ->where('created_at', '<=', $fechaActual.' 23:59:59')
-                                    ->where('user_id', $request->user_id)
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
+        $sede_id = $request->sede_id;
+        $query = Record_vehicle::query();
+
+        $query->where('created_at', '>=', $fechaActual.' 00:00:00')
+        ->where('created_at', '<=', $fechaActual.' 23:59:59')
+        ->where('user_id', $request->user_id);
+    
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $records = $query->orderBy('id', 'DESC')->get();
+
         foreach($records  as $record){
             $record->driver->nombre;
             $record->vehicle->placa;
@@ -172,11 +187,19 @@ class RecordsController extends Controller
 
     public function getRecordsVisitantesByUser(Request $request) {
         $fechaActual = date('Y-m-d');
-        $records = Record_person::where('created_at', '>=', $fechaActual.' 00:00:00')
-                                    ->where('created_at', '<=', $fechaActual.' 23:59:59')
-                                    ->where('user_id', $request->user_id)
-                                    ->orderBy('id', 'DESC')
-                                    ->get();  
+        $sede_id = $request->sede_id;
+        $query = Record_person::query();
+
+        $query->where('created_at', '>=', $fechaActual.' 00:00:00')
+        ->where('created_at', '<=', $fechaActual.' 23:59:59')
+        ->where('user_id', $request->user_id);
+    
+        if ($sede_id) {
+            $query->where('sede_id', $sede_id);
+        }
+
+        $records = $query->orderBy('id', 'DESC')->get();
+                                    
         foreach($records as $record){
             $record->person;
             $record->user;
@@ -186,7 +209,6 @@ class RecordsController extends Controller
         }
         return $records;
     }
-
 
     public function getRecordMinuta($id){
         return Record_minuta::findOrFail($id);
