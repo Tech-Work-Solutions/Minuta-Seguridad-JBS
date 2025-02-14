@@ -44,7 +44,7 @@ export const ACTIVIDADES_ECONOMICAS = [
     { label: 'Alimentos y Bebidas', key: 'alimentos', tipo: 'sub',},
     { label: 'Tabaco', key: 'tabaco', tipo: 'sub',},
     { label: 'Textiles y Confecciones', key: 'textiles', tipo: 'sub',},
-    { label: 'Cuero y Calzado', key: 'cuerocalzado', tipo: 'sub',},
+    { label: 'Cuero y Calzado', key: 'cuero', tipo: 'sub',},
     { label: 'Papel y Cartón', key: 'papel', tipo: 'sub',},
     { label: 'Editorial y Artes Gráficas', key: 'editorial', tipo: 'sub',},
     { label: 'Químico y Farmacéutico', key: 'quimico', tipo: 'sub',},
