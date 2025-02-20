@@ -8,7 +8,7 @@
             <div class="w-full lg:w-3/12">
               <div class="relative w-full mb-3">
                 <label class="block text-gray-600 text-sm font-semibold mb-2" htmlFor="grid-password">
-                  Buscar por guarda de seguridad:
+                  Buscar por Usuario:
                 </label>
                 <t-rich-select v-model="formData.user_id" :options="guardas" placeholder="Seleccione una opción">
                 </t-rich-select>
@@ -102,7 +102,7 @@
                 </th>
                 <th
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
-                  Latitud/Longitud
+                  Latitud,Longitud
                 </th>
                 <th
                   class="px-4 text-blue-600 border-blue-600 border border-solid py-3 text-sm border-l-0 border-r-0 whitespace-nowrap font-semibold ">
@@ -146,7 +146,7 @@
                 </td>
                 <td
                   class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
-                  {{ `${item.latitud || '-'}/${item.longitud || '-'} ` }}
+                  {{ `${item.latitud || '-'},${item.longitud || '-'} ` }}
                 </td>
                 <td
                   class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
