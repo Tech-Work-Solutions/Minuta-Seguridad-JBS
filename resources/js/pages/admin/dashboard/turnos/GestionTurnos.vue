@@ -614,7 +614,7 @@
           this.datos = {
               requestType: 'info',              
               title: 'Eliminar turno',
-              message: '¿Está seguro de elminar el turno: ' + user.name + '?'
+              message: '¿Está seguro de eliminar el turno: ' + user.name + '?'
           }
           this.modal = true;
       },

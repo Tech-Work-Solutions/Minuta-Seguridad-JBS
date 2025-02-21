@@ -640,7 +640,7 @@
             this.datos = {
                 requestType: 'info',              
                 title: 'Eliminar permiso',
-                message: '¿Está seguro de elminar el permiso: ' + user.name + '?'
+                message: '¿Está seguro de eliminar el permiso: ' + user.name + '?'
             }
             this.modal = true;
         },
