@@ -86,7 +86,24 @@
                         class="px-3 py-3 placeholder-gray-300 uppercase text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10"/>
                   </div>
                 </div>
-              </div>              
+              </div> 
+              <div class="w-full mt-5">
+                <div class="relative w-full mb-5 flex items-center">
+                  <label
+                    class="block text-gray-600 text-sm font-semibold mr-2"
+                    htmlFor="grid-password"
+                  >
+                    Estado:
+                  </label>                                      
+                  <toggle-button
+                    :key="formData.estadoSwitch" 
+                    v-model="formData.estadoSwitch" 
+                    :labels="false" 
+                    color="rgba(59, 130, 246, var(--tw-bg-opacity))"
+                    :disabled="puestoNombre !== 'MASTER' && !editar"
+                  />                               
+                </div>
+              </div>             
             </div>
             <div class="flex mb-4" v-if="rol === 'ADMINISTRADOR' && !editar">
               <button 
@@ -208,7 +225,8 @@
           cliente_id: '',
           direccion: '',
           telefono: '',
-          estado: true,          
+          estado: 'ACTIVO',
+          estadoSwitch: true
         },
         sedes: [],
         clients: [],
@@ -266,7 +284,16 @@
       },
       registrarSede(){
           this.spiner = true;
-          this.formData.estado = 'ACTIVO';
+          if (this.puestoNombre !== 'MASTER') {
+            this.formData.estadoSwitch = true;
+            this.formData.estado = 'ACTIVO';
+          } else {
+            if (this.formData.estadoSwitch === true) {
+              this.formData.estado = 'ACTIVO';
+            } else if(this.formData.estadoSwitch === false) {
+              this.formData.estado = 'INACTIVO';
+            }
+          }
           this.validarDatos()         
       },
       validarDatos(){
@@ -289,7 +316,8 @@
           this.spiner = false;
           this.submited = false;
           this.formData.nombre = this.formData.direccion = this.formData.telefono = '';
-          this.formData.estado = true;
+          this.formData.estadoSwitch = true;
+          this.formData.estado = 'ACTIVO';
           this.clients= [],
           this.$toaster.success('Registro creado con exito.');
           if(this.puestoNombre === 'MASTER'){
@@ -339,7 +367,7 @@
       async getSedesByClient(idClient = null){
         const id = {'client_id': idClient};
         const response = await axios.get('/api/getSedesByClient', { params: id });        
-        this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');               
+        this.sedes = response.data.sedes.filter((item) => item.estado === 'ACTIVO');             
         this.sedes.forEach((sede) => {
           sede.text = sede.nombre.toUpperCase();
         });
@@ -353,7 +381,9 @@
         this.formData.direccion = this.sedes[index].direccion;
         this.formData.nombre = this.sedes[index].nombre;
         this.formData.telefono = this.sedes[index].telefono;
-        this.formData.cliente_id = this.sedes[index].cliente_id;   
+        this.formData.cliente_id = this.sedes[index].cliente_id;
+        this.formData.estadoSwitch = this.sedes[index].estado === 'ACTIVO' ? true : false;
+        this.formData.estado = this.sedes[index].estado; 
       },
       openModal(sede) {
         this.datosModal = {
@@ -368,13 +398,14 @@
         this.modal = value
       },
       async closeModalSuccess(value) {
-        if(this.sedeNombre === 'MASTER'){
+        if(this.puestoNombre === 'MASTER'){
           await this.getSedes();
           await this.getClients();
         } else {
           await this.getSedesByClient(this.puesto.id);
         } 
         this.modal = value;
+        this.formData.cliente_id = null;
         this.$toaster.success('Se eliminó correctamente la sede seleccionada');
       },
       async actualizarSede () {
@@ -385,7 +416,7 @@
               estado: this.formData.estado,
               direccion: this.formData.direccion,
               cliente_id: this.formData.cliente_id,
-              estado: 'ACTIVO'
+              estado: this.formData.estadoSwitch ? 'ACTIVO' : 'INACTIVO',
           };
           if(this.rol === 'ADMINISTRADOR') {
             await axios.put(`/api/updateSede/${this.idSede}`, data);
@@ -396,7 +427,8 @@
           this.submited = false;        
           this.editar = false;
           this.formData.telefono = this.formData.nombre = this.formData.direccion = '';
-          this.formData.estado = false;
+          this.formData.estado = 'ACTIVO';
+          this.formData.estadoSwitch = true;
           this.formData.cliente_id = null;
           if(this.puestoNombre === 'MASTER'){
             await this.getSedes();
@@ -446,3 +478,9 @@
     components: { TRichSelect, Modal }
   }
   </script>
+
+<style scoped>
+.child-flex >*, .flex {
+    flex: 0 0 auto;
+}
+</style>

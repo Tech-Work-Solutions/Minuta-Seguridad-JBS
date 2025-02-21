@@ -13,9 +13,6 @@ import ToggleButton from 'vue-js-toggle-button';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 
-import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.min.css';
-
 Vue.use(Vuelidate);
 Vue.use(VueTailwind, {});
 Vue.use(ToggleButton);
@@ -28,7 +25,6 @@ Vue.use(Toaster, { timeout: 5000 });
 Vue.component('my-app', require('./App.vue').default);
 
 Vue.config.productionTip = false;
-Vue.use(ToggleButton)
 
 const app = new Vue({ 
     el: '#app',
