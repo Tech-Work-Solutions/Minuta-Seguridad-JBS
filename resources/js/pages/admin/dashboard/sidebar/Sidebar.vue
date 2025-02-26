@@ -164,7 +164,12 @@ export default {
           }
         }
         else if (this.rol === ROLES.ADMINISTRADOR) {
-          this.opcionesMenu.push({ label: permiso.nombre, route: '/' + nombre, icon: ICONOS_MAP[nombre], id: permiso.id });
+          this.opcionesMenu.push({ 
+            label: permiso.nombre,
+            route: '/' + (nombre === "gestionar hoja de vida" ? "gestionhojadevida" : (nombre === "hoja de vida" ? "hojadevida" : nombre)), 
+            icon: nombre === "gestionar hoja de vida" || nombre === "hoja de vida" ? "fa-paperclip" : ICONOS_MAP[nombre], 
+            id: permiso.id 
+          });
         }
       });
       this.opcionesMenu = this.opcionesMenu.sort((a, b) => a.id - b.id);
