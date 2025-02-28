@@ -192,7 +192,7 @@
                     <div class="flex flex-wrap justify-center"  v-if="rol === 'ADMINISTRADOR'">
                       <button 
                         class="bg-blue-500 hover:bg-blue-600 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center disabled:opacity-50"
-                        @click="editarSede(sede.id, index)">
+                        @click="editarSede(sede.id)">
                         <i class="fas fa-pen"></i>
                       </button>
                       <div @click="openModal(sede)" title="Eliminar registro"
@@ -375,15 +375,16 @@
       onChange() {
          const client = this.clients.find((d) => d.id === this.formData.cliente_id);
       },
-      editarSede(idSede, index) {
+      editarSede(idSede) {
         this.editar = true;
-        this.idSede = idSede;        
-        this.formData.direccion = this.sedes[index].direccion;
-        this.formData.nombre = this.sedes[index].nombre;
-        this.formData.telefono = this.sedes[index].telefono;
-        this.formData.cliente_id = this.sedes[index].cliente_id;
-        this.formData.estadoSwitch = this.sedes[index].estado === 'ACTIVO' ? true : false;
-        this.formData.estado = this.sedes[index].estado; 
+        this.idSede = idSede;
+        const sede = this.sedes.find (sede => sede.id === idSede);       
+        this.formData.direccion = sede.direccion;
+        this.formData.nombre = sede.nombre;
+        this.formData.telefono = sede.telefono;
+        this.formData.cliente_id = sede.cliente_id;
+        this.formData.estadoSwitch = sede.estado === 'ACTIVO' ? true : false;
+        this.formData.estado = sede.estado; 
       },
       openModal(sede) {
         this.datosModal = {

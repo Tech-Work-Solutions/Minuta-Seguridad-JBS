@@ -88,8 +88,8 @@
                   Estado:
                 </label>                                      
                 <toggle-button
-                  :key="formData.estado" 
-                  v-model="formData.estado" 
+                  :key="formData.estadoSwitch" 
+                  v-model="formData.estadoSwitch" 
                   color="rgba(59, 130, 246, var(--tw-bg-opacity))"
                   :disabled="puestoNombre !== 'MASTER' && !editar"
                 />                               
@@ -172,7 +172,7 @@
                   <div class="flex flex-wrap justify-center">
                     <button 
                       class="bg-blue-500 hover:bg-blue-600 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center disabled:opacity-50"
-                      @click="editarPuesto(client.id, index)">
+                      @click="editarPuesto(client.id)">
                       <i class="fas fa-pen"></i>
                     </button>
                     <div @click="openModal(client)" title="Eliminar registro" v-if="puestoNombre === 'MASTER'"
@@ -208,7 +208,8 @@ export default {
         nit: '',
         nombre: '',
         email: '',
-        estado: true,
+        estado: 'ACTIVO',
+        estadoSwitch: true,
         permisos_formulario: '',
         permisos_menu: '',
         img_header: null,
@@ -265,28 +266,31 @@ export default {
       this.formData.permisos_formulario = this.selectedFormOptions;
       this.formData.permisos_menu = this.selectedMenuOptions;
       if (this.puestoNombre !== 'MASTER') {
+        this.formData.estadoSwitch = true;
         this.formData.estado = 'ACTIVO';
       } else {
-        if (this.formData.estado === true) {
+        if (this.formData.estadoSwitch === true) {
           this.formData.estado = 'ACTIVO';
-        } else if(this.formData.estado === false) {
+        } else if(this.formData.estadoSwitch === false) {
           this.formData.estado = 'INACTIVO';
         }
       }
       
       this.validarDatos()
     },
-    editarPuesto(idPuesto, index) {
+    editarPuesto(idPuesto) {
       this.editar = true;
       this.idPuesto = idPuesto;
-      this.selectedFormOptions = JSON.parse(this.clients[index].permisos_formulario);
-      this.selectedMenuOptions = JSON.parse(this.clients[index].permisos_menu);
+      const puesto = this.clients.find (client => client.id === idPuesto);
+      this.selectedFormOptions = JSON.parse(puesto.permisos_formulario);
+      this.selectedMenuOptions = JSON.parse(puesto.permisos_menu);
       this.formData.permisos_formulario = this.selectedFormOptions;
       this.formData.permisos_menu = this.selectedMenuOptions;
-      this.formData.nit = this.clients[index].nit;
-      this.formData.nombre = this.clients[index].nombre;
-      this.formData.email = this.clients[index].email;
-      this.formData.estado = this.clients[index].estado === 'ACTIVO'? true : false;
+      this.formData.nit = puesto.nit;
+      this.formData.nombre = puesto.nombre;
+      this.formData.email = puesto.email;
+      this.formData.estadoSwitch = puesto.estado === 'ACTIVO'? true : false;
+      this.formData.estado = puesto.estado;
     },
     openModal(puesto) {
       this.datosModal = {
@@ -318,7 +322,7 @@ export default {
             estado: this.formData.estado,
             permisos_formulario: this.formData.permisos_formulario,
             permisos_menu: this.formData.permisos_menu,
-            estado: this.formData.estado,
+            estado: this.formData.estadoSwitch ? 'ACTIVO' : 'INACTIVO',
         };
         if(this.puestoNombre === 'MASTER') {
           await axios.put(`/api/updateClient/${this.idPuesto}`, data);
@@ -329,7 +333,8 @@ export default {
         this.submited = false;        
         this.editar = false;
         this.formData.nit = this.formData.nombre = this.formData.email = '';
-        this.formData.estado = true;
+        this.formData.estado = 'ACTIVO';
+        this.formData.estadoSwitch = true;
         this.formData.permisos_formulario = '';
         this.formData.permisos_menu = '';
         this.selectedMenuOptions = [];
@@ -382,7 +387,8 @@ export default {
           this.spiner = false;
           this.submited = false;
           this.formData.nit = this.formData.nombre = this.formData.email = '';
-          this.formData.estado = true,
+          this.formData.estado = 'ACTIVO',
+          this.formData.estadoSwitch = true;
           this.formData.permisos_formulario = '',
           this.formData.permisos_menu = '',
 
@@ -390,7 +396,6 @@ export default {
           this.formOptions = [],
           this.selectedMenuOptions = [],
           this.selectedFormOptions = [];
-          this.formData.estado = true;
 
           this.$toaster.success('Registro creado con exito.');
           this.getClients();
