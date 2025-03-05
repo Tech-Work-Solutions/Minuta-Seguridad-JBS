@@ -334,6 +334,8 @@
         sedes: [],
         modal: false,
         datos: {},
+        user: {},
+        sede: {},
       };
     },
     async mounted() {
@@ -345,8 +347,8 @@
         }
         const userObject = localStorage.getItem("user");
         if (userObject) {
-            const user = JSON.parse(userObject);
-            this.userId = user.id;
+            this.user = JSON.parse(userObject);
+            this.userId = this.user.id;
         }
         if(rol === 'GUARDA DE SEGURIDAD') {
           this.verFiltros= false;
@@ -507,15 +509,26 @@
       },
 
       getUserName(userId) {
-          const user = this.users.find(user => user.id === userId);
+        if(this.sede?.nombre?.toUpperCase() === 'SEDE MASTER' && this.sede?.nombre?.toUpperCase() === 'SEDE TALENTO HUMANO'){
+          const userIf = this.users.find(user => user.id === userId);
+          return userIf ? userIf.name : 'Desconocido';
+        } else {
+          const user = this.user
           return user ? user.name : 'Desconocido';
+        }
+          
       },
 
       getNameSede(sedeId) {
-        const sede = this.sedes.find(sede => {
-          return sede.id === sedeId
-        })
+        if(this.sede?.nombre?.toUpperCase() === 'SEDE MASTER' && this.sede?.nombre?.toUpperCase() === 'SEDE TALENTO HUMANO'){
+          const sede = this.sedes.find(sede => {
+            return sede.id === sedeId
+          })
+            return sede ? sede.nombre : 'Desconocido';
+        } else {
+          const sede = this.sede;
           return sede ? sede.nombre : 'Desconocido';
+        }
       },
 
       async getSedes(id= null) { 
