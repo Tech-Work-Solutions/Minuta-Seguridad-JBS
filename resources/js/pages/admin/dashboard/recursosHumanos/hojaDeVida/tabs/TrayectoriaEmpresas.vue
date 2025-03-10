@@ -112,7 +112,7 @@
                     </div>
                 </div>
 
-                <div class="flex mb-4 mt-5">
+                <div class="flex mb-4 mt-5" v-if="canEditHv">
                     <button
                         class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit">
@@ -145,7 +145,11 @@ export default {
         hasHv: {
             type: Boolean,
             default: false,
-        }
+        },
+        canEditHv: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -402,8 +406,10 @@ export default {
 </script>
 
 <style scoped>
-
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
     border-style: double;
 }
 </style>

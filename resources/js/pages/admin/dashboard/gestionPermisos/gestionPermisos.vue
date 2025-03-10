@@ -176,7 +176,7 @@
                                     ></v-text-field>
                                     </template>
             
-                                    <v-date-picker v-model="newEvent.startDate" @input="setDate" :min="today" />
+                                    <v-date-picker v-model="newEvent.startDate" @input="setDate" />
                                 </v-menu>
             
                                 <v-menu v-model="dateMenuEnd" :close-on-content-click="false" transition="slide-x-reverse-transition" min-width="auto">
@@ -191,7 +191,7 @@
                                     ></v-text-field>
                                     </template>
             
-                                    <v-date-picker v-model="newEvent.endDate" @input="setEndDate" :min="today" />
+                                    <v-date-picker v-model="newEvent.endDate" @input="setEndDate" />
                                 </v-menu>
             
                                 <v-menu v-model="timeMenuStart" :close-on-content-click="false" transition="slide-x-reverse-transition" min-width="auto">

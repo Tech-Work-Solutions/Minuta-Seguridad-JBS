@@ -387,7 +387,8 @@
                 </p>
             </div>
 
-            <div :class="{ 'mt-4': formData.soportesPreview, 'mt-2': !formData.soportesPreview }" class="flex mb-4">
+            <div :class="{ 'mt-4': formData.soportesPreview, 'mt-2': !formData.soportesPreview }" class="flex mb-4"
+                v-if="canEditHv">
                 <button
                     class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="submit">
@@ -424,7 +425,10 @@ export default {
             type: Boolean,
             default: false,
         },
-
+        canEditHv: {
+            type: Boolean,
+            default: false,
+        },
     },
 
     data() {
@@ -690,8 +694,10 @@ export default {
 </script>
 
 <style scoped>
-
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
     border-style: double;
 }
 </style>
