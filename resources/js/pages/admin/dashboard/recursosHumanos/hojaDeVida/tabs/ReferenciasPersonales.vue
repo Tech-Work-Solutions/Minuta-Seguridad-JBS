@@ -143,7 +143,7 @@
 
             <button
                 class="bg-blue-500 text-white hover:bg-blue-700 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="submit">
+                type="submit" v-if="canEditHv">
                 <p v-if="!spiner && !isUpdating">Guardar</p>
                 <p v-else-if="!spiner && isUpdating">Actualizar</p>
                 <p v-else-if="spiner && !isUpdating"><em class="fas fa-spinner fa-pulse"></em> Guardando...</p>
@@ -172,6 +172,10 @@ export default {
             default: 0,
         },
         hasHv: {
+            type: Boolean,
+            default: false,
+        },
+        canEditHv: {
             type: Boolean,
             default: false,
         },
@@ -317,8 +321,10 @@ export default {
 </script>
 
 <style scoped>
-
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
     border-style: double;
 }
 </style>

@@ -26,7 +26,8 @@
                         <div class="tab-content tab-space">
                             <div v-for="(tab, index) in tabs" :key="index"
                                 :class="{ 'hidden': openTab !== index + 1, 'block': openTab === index + 1 }">
-                                <component :is="tab.component" v-bind="tab.data" :userId="userId" :hasHv="hasHv" />
+                                <component :is="tab.component" v-bind="tab.data" :userId="userId" :hasHv="hasHv"
+                                    :canEditHv="canEditHv" />
                             </div>
                         </div>
                     </div>
@@ -64,6 +65,7 @@ export default {
             ],
             userId: null,
             hasHv: false,
+            canEditHv: true,
             currentUser: {},
             userObject: localStorage.getItem("user"),
         };
@@ -73,6 +75,11 @@ export default {
         const rol = localStorage.getItem('rol');
         if (rol === 'GUARDA DE SEGURIDAD') {
             this.$router.push('/dashboard');
+        }
+
+        if (rol === 'ADMINISTRATIVO') {
+            this.canEditHv = false;
+            console.log('canEditHv', this.canEditHv);
         }
 
         if (this.userObject) {
