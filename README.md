@@ -169,6 +169,7 @@ Verificar que este la siguiente configuración
         AllowOverride All
         Require all granted
     </Directory>
+[doc de ayuda](https://gist.github.com/Skeiceee/8953d4d290cef432a7437142157ba7ee)
 
 4. reiniciar apache
 
