@@ -11,7 +11,8 @@ use App\Services\FileService;
 
 class RecordsController extends Controller
 {
-    public function registerMinuta(Request $request) {
+    public function registerMinuta(Request $request)
+    {
         $request->validate([
             'subject_id'   => ['required'],
             'ubicacion_id' => ['required'],
@@ -42,17 +43,17 @@ class RecordsController extends Controller
             'latitud'       => $request->latitud,
             'longitud'      => $request->longitud,
         ]);
-        return response()->json(["msg" => "Registro exitoso"]); 
+        return response()->json(["msg" => "Registro exitoso"]);
     }
 
-    public function recordVehicle(Request $request) {
+    public function recordVehicle(Request $request)
+    {
         $request->validate([
             'vehicle_id'        => ['required'],
             'user_id'           => ['required'],
             'origin_id'         => ['required'],
             'driver_id'         => ['required'],
             'volqueta_id'       => ['required'],
-            'entrada_salida'    => ['required'],
             'sede_id'           => ['required'],
         ]);
 
@@ -77,10 +78,11 @@ class RecordsController extends Controller
             'video'             => $video,
             'sede_id'           => $request->sede_id,
         ]);
-        return response()->json(["msg" => "Registro exitoso"]); 
+        return response()->json(["msg" => "Registro exitoso"]);
     }
 
-    public function recordVisitante(Request $request) {
+    public function recordVisitante(Request $request)
+    {
         $request->validate([
             'numero_documento'  => ['required', 'numeric'],
             'tipo_documento_id' => ['required'],
@@ -95,7 +97,7 @@ class RecordsController extends Controller
         ]);
 
         $person = Person::where('numero_documento', $request->numero_documento)->first();
-        if(!$person) {
+        if (!$person) {
             $newPerson = Person::create([
                 'nombres'           => $request->nombres,
                 'apellidos'         => $request->apellidos,
@@ -111,7 +113,8 @@ class RecordsController extends Controller
         }
     }
 
-    public function registrarVisitante($request, $id_persona) {
+    public function registrarVisitante($request, $id_persona)
+    {
         $imagen = '';
         $audio = '';
         $video = '';
@@ -121,11 +124,11 @@ class RecordsController extends Controller
         $video = $fileService->guardarArchivo($request->file('video'), '/videos/visitantes/');
 
         Record_person::create([
-            'destino'           => $request->destino ? $request->destino : '', 
-            'entrada_salida'    => $request->entrada_salida, 
-            'observaciones'     => $request->observaciones ? $request->observaciones : '', 
-            'foto'              => $imagen, 
-            'person_id'         => $id_persona, 
+            'destino'           => $request->destino ? $request->destino : '',
+            'entrada_salida'    => $request->entrada_salida,
+            'observaciones'     => $request->observaciones ? $request->observaciones : '',
+            'foto'              => $imagen,
+            'person_id'         => $id_persona,
             'user_id'           => $request->user_id,
             'audio'             => $audio,
             'video'             => $video,
@@ -134,25 +137,27 @@ class RecordsController extends Controller
         return response()->json(["msg" => "Registro exitoso"]);
     }
 
-    public function getPerson(Request $request) {
+    public function getPerson(Request $request)
+    {
         return Person::where('numero_documento', $request->numero_documento)->first();
     }
 
-    public function getRecordsMinutaByUser(Request $request) {
+    public function getRecordsMinutaByUser(Request $request)
+    {
         $fechaActual = date('Y-m-d');
         $sede_id = $request->query('sede_id');
         $query = Record_minuta::query();
 
-        $query->where('created_at', '>=', $fechaActual.' 00:00:00')
-            ->where('created_at', '<=', $fechaActual.' 23:59:59')
+        $query->where('created_at', '>=', $fechaActual . ' 00:00:00')
+            ->where('created_at', '<=', $fechaActual . ' 23:59:59')
             ->where('user_id', $request->user_id);
-        
+
         if ($sede_id) {
             $query->where('sede_id', $sede_id);
         }
 
         $records = $query->orderBy('id', 'DESC')->get();
-        foreach($records as $record){
+        foreach ($records as $record) {
             $record->usuario->name;
             $record->asunto->nombre;
             $record->ubicacion;
@@ -160,22 +165,23 @@ class RecordsController extends Controller
         return $records;
     }
 
-    public function getRecordsVehiculosByUser(Request $request) {
+    public function getRecordsVehiculosByUser(Request $request)
+    {
         $fechaActual = date('Y-m-d');
         $sede_id = $request->sede_id;
         $query = Record_vehicle::query();
 
-        $query->where('created_at', '>=', $fechaActual.' 00:00:00')
-        ->where('created_at', '<=', $fechaActual.' 23:59:59')
-        ->where('user_id', $request->user_id);
-    
+        $query->where('created_at', '>=', $fechaActual . ' 00:00:00')
+            ->where('created_at', '<=', $fechaActual . ' 23:59:59')
+            ->where('user_id', $request->user_id);
+
         if ($sede_id) {
             $query->where('sede_id', $sede_id);
         }
 
         $records = $query->orderBy('id', 'DESC')->get();
 
-        foreach($records  as $record){
+        foreach ($records  as $record) {
             $record->driver->nombre;
             $record->vehicle->placa;
             $record->origin->nombre;
@@ -185,22 +191,23 @@ class RecordsController extends Controller
         return $records;
     }
 
-    public function getRecordsVisitantesByUser(Request $request) {
+    public function getRecordsVisitantesByUser(Request $request)
+    {
         $fechaActual = date('Y-m-d');
         $sede_id = $request->sede_id;
         $query = Record_person::query();
 
-        $query->where('created_at', '>=', $fechaActual.' 00:00:00')
-        ->where('created_at', '<=', $fechaActual.' 23:59:59')
-        ->where('user_id', $request->user_id);
-    
+        $query->where('created_at', '>=', $fechaActual . ' 00:00:00')
+            ->where('created_at', '<=', $fechaActual . ' 23:59:59')
+            ->where('user_id', $request->user_id);
+
         if ($sede_id) {
             $query->where('sede_id', $sede_id);
         }
 
         $records = $query->orderBy('id', 'DESC')->get();
-                                    
-        foreach($records as $record){
+
+        foreach ($records as $record) {
             $record->person;
             $record->user;
             $record->person->arl;
@@ -210,24 +217,28 @@ class RecordsController extends Controller
         return $records;
     }
 
-    public function getRecordMinuta($id){
+    public function getRecordMinuta($id)
+    {
         return Record_minuta::findOrFail($id);
     }
 
-    public function getRecordVehicle($id){
+    public function getRecordVehicle($id)
+    {
         $record = Record_vehicle::findOrFail($id);
         $record->driver;
         return $record;
     }
 
-    public function getRecordVisitante($id){
+    public function getRecordVisitante($id)
+    {
         $record = Record_person::findOrFail($id);
         $record->person;
         $record->user;
         return $record;
     }
 
-    public function updateRecordMinuta(Request $request) {
+    public function updateRecordMinuta(Request $request)
+    {
         $imagen = '';
         $audio = '';
         $video = '';
@@ -240,11 +251,11 @@ class RecordsController extends Controller
         if ($request->file('file')) {
             $fileService->eliminarArchivo($request->imagen);
         }
-    
+
         if ($request->file('audio')) {
             $fileService->eliminarArchivo($request->audioOrigin);
         }
-        
+
         if ($request->file('video')) {
             $fileService->eliminarArchivo($request->videoOrigin);
         }
@@ -253,11 +264,11 @@ class RecordsController extends Controller
         if ($imagen !== '') {
             $record->foto      = $imagen;
         }
-        
+
         if ($audio !== '') {
             $record->audio      = $audio;
         }
-        
+
         if ($video !== '') {
             $record->video      = $video;
         }
@@ -268,11 +279,12 @@ class RecordsController extends Controller
         return response()->json(["msg" => "Registro exitoso"]);
     }
 
-    public function updateRecordVehicle(Request $request) {
+    public function updateRecordVehicle(Request $request)
+    {
         $imagen = '';
         $audio = '';
         $video = '';
-        $record = Record_vehicle::findOrFail($request->id);  
+        $record = Record_vehicle::findOrFail($request->id);
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/vehiculos/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/vehiculos/');
@@ -281,7 +293,7 @@ class RecordsController extends Controller
         if ($request->file('file')) {
             $fileService->eliminarArchivo($request->imagen);
         }
-    
+
         if ($request->file('audio')) {
             $fileService->eliminarArchivo($request->audioOrigin);
         }
@@ -312,11 +324,12 @@ class RecordsController extends Controller
         return response()->json(["msg" => "Registro exitoso"]);
     }
 
-    public function updateRecordVisitante(Request $request) {
+    public function updateRecordVisitante(Request $request)
+    {
         $imagen = '';
         $audio = '';
         $video = '';
-        $record = Record_person::findOrFail($request->id);  
+        $record = Record_person::findOrFail($request->id);
         $fileService = new FileService();
         $imagen = $fileService->guardarArchivo($request->file('file'), '/img/visitantes/');
         $audio = $fileService->guardarArchivo($request->file('audio'), '/audios/visitantes/');
@@ -325,7 +338,7 @@ class RecordsController extends Controller
         if ($request->file('file')) {
             $fileService->eliminarArchivo($request->imagen);
         }
-    
+
         if ($request->file('audio')) {
             $fileService->eliminarArchivo($request->audioOrigin);
         }
@@ -335,7 +348,7 @@ class RecordsController extends Controller
         }
 
         $person = Person::where('numero_documento', $request->numero_documento)->first();
-        if(!$person) {
+        if (!$person) {
             $newPerson = Person::create([
                 'nombres'           => $request->nombres,
                 'apellidos'         => $request->apellidos,
@@ -349,10 +362,10 @@ class RecordsController extends Controller
         } else {
             $this->updateVisitante($request, $person->id, $record, $imagen, $audio, $video);
         }
-        
     }
 
-    public function updateVisitante($request, $person_id, $record, $imagen, $audio, $video) {
+    public function updateVisitante($request, $person_id, $record, $imagen, $audio, $video)
+    {
         $record->destino        = $request->destino;
         $record->entrada_salida = $request->entrada_salida;
         $record->observaciones  = $request->observaciones ? $request->observaciones : '';
@@ -375,34 +388,36 @@ class RecordsController extends Controller
         return response()->json(["msg" => "Registro exitoso"]);
     }
 
-    public function deleteRecordMinuta(Request $request) {
+    public function deleteRecordMinuta(Request $request)
+    {
         $record = Record_minuta::findOrFail($request->id);
         $fileService = new FileService();
 
         if ($record->foto) {
             $fileService->eliminarArchivo($record->foto);
         }
-    
+
         if ($record->audio) {
             $fileService->eliminarArchivo($record->audio);
         }
-        
+
         if ($record->video) {
             $fileService->eliminarArchivo($record->video);
         }
 
-        $record->delete(); 
+        $record->delete();
         return response()->json(['msg' => 'Registro eliminado']);
     }
 
-    public function deleteRecordVehicle(Request $request) {
+    public function deleteRecordVehicle(Request $request)
+    {
         $record = Record_vehicle::findOrFail($request->id);
         $fileService = new FileService();
 
         if ($record->foto) {
             $fileService->eliminarArchivo($record->foto);
         }
-    
+
         if ($record->audio) {
             $fileService->eliminarArchivo($record->audio);
         }
@@ -411,18 +426,19 @@ class RecordsController extends Controller
             $fileService->eliminarArchivo($record->video);
         }
 
-        $record->delete(); 
+        $record->delete();
         return response()->json(['msg' => 'Registro eliminado']);
     }
 
-    public function deleteRecordVisitante(Request $request) {
+    public function deleteRecordVisitante(Request $request)
+    {
         $record = Record_person::findOrFail($request->id);
         $fileService = new FileService();
 
         if ($record->foto) {
             $fileService->eliminarArchivo($record->foto);
         }
-    
+
         if ($record->audio) {
             $fileService->eliminarArchivo($record->audio);
         }
@@ -431,8 +447,7 @@ class RecordsController extends Controller
             $fileService->eliminarArchivo($record->video);
         }
 
-        $record->delete(); 
+        $record->delete();
         return response()->json(['msg' => 'Registro eliminado']);
     }
-
 }
