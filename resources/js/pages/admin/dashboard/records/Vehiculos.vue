@@ -1,7 +1,7 @@
 <template>
    <div v-if="show">
       <div class="flex flex-wrap items-center">
-         <h1 class="text-xl text-gray-500 pl-5 mr-5 font-bold"><em class="fas fa-car"></em> Registro de Vehículos</h1>
+         <h1 class="text-xl text-gray-500 pl-5 mr-5 font-bold"><em class="fas fa-car"></em> Registro de Carros</h1>
       </div>
       <div class="flex flex-col min-w-0 w-full shadow-lg rounded-lg bg-gray-100 border-1">
          <div class="flex-auto px-4 lg:px-10 py-5 pt-0">
@@ -102,8 +102,6 @@
                            </label>
                         </div>
                      </div>
-                     <p class="text-red-500 text-sm" v-if="submited && !$v.formData.entrada_salida.required">Seleccione
-                        una opción</p>
                   </div>
 
                   <div class="w-full px-4">
@@ -264,7 +262,7 @@
                      </td>
                      <td
                         class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
-                        {{ item.entrada_salida === 'E' ? 'ENTRADA' : 'SALIDA' }}
+                        {{ validarEntradaSalida(item.entrada_salida) }}
                      </td>
                      <td
                         class="text-gray-700 border-t-0 border-gray-300 border border-solid px-4 border-l-0 border-r-0 text-sm p-2">
@@ -358,7 +356,12 @@ export default {
       verificarPermiso(permissionName) {
          return hasPermission(this.permisosFormulario, permissionName);
       },
-
+      validarEntradaSalida(texto) {
+         if (texto) {
+            return texto === 'E' ? 'Entrada' : 'Salida';
+         }
+         return '';
+      },
       async getVehicles() {
          await axios.get('/api/getVehiculos').then((response) => {
             this.vehicles = response.data;
@@ -522,8 +525,7 @@ export default {
          vehicle_id: { required },
          driver_id: { required },
          volqueta_id: { required },
-         origin_id: { required },
-         entrada_salida: { required }
+         origin_id: { required }
       }
    },
 
